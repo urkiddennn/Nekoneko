@@ -10,7 +10,7 @@ interface ContactSectionProps {
 
 const ContactSection: React.FC<ContactSectionProps> = ({ email, github, linkedin, footer_text }) => {
     return (
-        <div className="py-20 px-10 bg-gray-900 text-white text-center">
+        <div className="text-center">
             <h2 className="text-4xl font-black mb-10">Get In Touch</h2>
             <div className="flex justify-center gap-8 mb-12">
                 <a href={`mailto:${email}`} className="p-4 bg-white/5 rounded-2xl hover:bg-indigo-600 transition-all hover:-translate-y-2">

@@ -17,6 +17,13 @@ export const SCHEMAS = [
             { name: 'theme.primary', type: 'hex', desc: 'Primary brand color.' },
             { name: 'theme.darkMode', type: 'boolean', desc: 'Toggle dark mode.' },
             { name: 'seo.title', type: 'string', desc: 'Page title for browser tab.' },
+        ],
+        common_styles: [
+            { name: 'padding', type: 'tailwind', desc: 'Spacing around section (e.g., "py-24").' },
+            { name: 'margin', type: 'tailwind', desc: 'Spacing outside section (e.g., "my-12").' },
+            { name: 'backgroundColor', type: 'tailwind', desc: 'Section background (e.g., "bg-slate-50").' },
+            { name: 'maxWidth', type: 'tailwind', desc: 'Horizontal constraint (e.g., "max-w-4xl").' },
+            { name: 'textAlign', type: '"left" | "center" | "right"', desc: 'Text alignment for the section container.' },
         ]
     },
     {
@@ -29,6 +36,10 @@ export const SCHEMAS = [
             "props": {
                 "links": [{ "label": "Dev", "url": "#" }],
                 "showResumeButton": true
+            },
+            "styles": {
+                "backgroundColor": "bg-white/80",
+                "padding": "py-6"
             }
         },
         props: [
@@ -49,11 +60,12 @@ export const SCHEMAS = [
                 "avatarUrl": "https://api.dicebear.com/7.x/shapes/svg",
                 "alignment": "center",
                 "layout": "split",
-                "bg": { "type": "color", "value": "#07090e" },
-                "style": {
-                    "titleColor": "#6366f1",
-                    "titleSize": "text-8xl"
-                }
+                "style": { "titleColor": "#6366f1", "titleSize": "text-8xl" }
+            },
+            "styles": {
+                "padding": "py-32",
+                "maxWidth": "max-w-full",
+                "backgroundColor": "bg-slate-950"
             }
         },
         props: [
@@ -62,9 +74,6 @@ export const SCHEMAS = [
             { name: 'avatarUrl', type: 'url', desc: 'URL for the profile/avatar image.' },
             { name: 'alignment', type: '"left" | "center"', desc: 'Text alignment.' },
             { name: 'layout', type: '"stack" | "split"', desc: 'Layout style.' },
-            { name: 'style.titleColor', type: 'hex', desc: 'Custom title color.' },
-            { name: 'style.subtitleColor', type: 'hex', desc: 'Custom subtitle color.' },
-            { name: 'style.titleSize', type: 'string', desc: 'Tailwind class (e.g. text-7xl).' },
         ]
     },
     {
@@ -81,6 +90,11 @@ export const SCHEMAS = [
                     { "title": "Safe", "description": "No manual HTML." }
                 ],
                 "columns": 2
+            },
+            "styles": {
+                "padding": "py-24",
+                "backgroundColor": "bg-gray-50",
+                "textAlign": "center"
             }
         },
         props: [
@@ -100,16 +114,17 @@ export const SCHEMAS = [
                 "title": "Technical Arsenal",
                 "barColor": "#6366f1",
                 "skills": [
-                    { "name": "React", "level": 90, "color": "#61dafb" },
-                    { "name": "TypeScript", "level": 85, "color": "#3178c6" },
-                    { "name": "Tailwind", "level": 95 }
+                    { "name": "React", "level": 90, "color": "#61dafb" }
                 ]
+            },
+            "styles": {
+                "padding": "py-20",
+                "maxWidth": "max-w-5xl"
             }
         },
         props: [
             { name: 'title', type: 'string', desc: 'Section header.' },
-            { name: 'barColor', type: 'hex', desc: 'Default color for all skill bars.' },
-            { name: 'skills', type: 'array', desc: 'List of skills {name, level, color}. Level is 0-100.' },
+            { name: 'skills', type: 'array', desc: 'List of skills {name, level, color}.' },
         ]
     },
     {
@@ -121,39 +136,13 @@ export const SCHEMAS = [
             "type": "experience",
             "props": {
                 "title": "Work Experience",
-                "jobs": [
-                    {
-                        "role": "Senior Developer",
-                        "company": "Tech Corp",
-                        "period": "2020 - Present",
-                        "description": "Leading frontend architecture."
-                    }
-                ]
-            }
+                "jobs": [{ "role": "Senior Dev", "company": "Tech", "period": "2020-2024", "description": "Focused on React architecture." }]
+            },
+            "styles": { "padding": "py-24", "backgroundColor": "bg-slate-50" }
         },
         props: [
             { name: 'title', type: 'string', desc: 'Section header.' },
-            { name: 'jobs', type: 'array', desc: 'List of job objects.' },
-        ]
-    },
-    {
-        type: 'pricing',
-        description: 'Compare plans/tiers side-by-side.',
-        details: 'Pricing table to compare different subscription tiers.',
-        example: {
-            "id": "price-1",
-            "type": "pricing",
-            "props": {
-                "title": "Flexible Pricing",
-                "tiers": [
-                    { "name": "Free", "price": "$0", "features": ["1 Site", "JSON Export"] },
-                    { "name": "Pro", "price": "$12", "features": ["Unlimited Sites"], "isPopular": true }
-                ]
-            }
-        },
-        props: [
-            { name: 'title', type: 'string', desc: 'Section header.' },
-            { name: 'tiers', type: 'array', desc: 'List of pricing tiers.' },
+            { name: 'jobs', type: 'array', desc: 'List of {role, company, period, description} objects.' },
         ]
     },
     {
@@ -179,13 +168,14 @@ export const SCHEMAS = [
                         "props": { "title": "Right Option", "buttonText": "Go Right" }
                     }
                 ]
-            }
+            },
+            "styles": { "maxWidth": "max-w-7xl", "padding": "py-10" }
         },
         props: [
             { name: 'direction', type: '"row" | "col"', desc: 'Flex direction.' },
             { name: 'items', type: 'array', desc: 'Array of child component objects.' },
-            { name: 'gap', type: 'string', desc: 'Tailwind gap class (e.g., "4", "8").' },
-            { name: 'padding', type: 'string', desc: 'Tailwind padding class (e.g., "4").' },
+            { name: 'gap', type: 'string', desc: 'Inner gap (Tailwind scale 1-12).' },
+            { name: 'padding', type: 'string', desc: 'Inner padding (Tailwind scale 1-12).' },
         ]
     },
     {
@@ -195,13 +185,11 @@ export const SCHEMAS = [
         example: {
             "id": "cta-1",
             "type": "cta",
-            "props": {
-                "title": "Ready to build?",
-                "buttonText": "Start Exporting"
-            }
+            "props": { "title": "Ready?", "buttonText": "Start" },
+            "styles": { "padding": "py-32", "textAlign": "center", "backgroundColor": "bg-indigo-600" }
         },
         props: [
-            { name: 'title', type: 'string', desc: 'Direct message/Primary text.' },
+            { name: 'title', type: 'string', desc: 'Direct message.' },
             { name: 'buttonText', type: 'string', desc: 'Text for the button.' },
         ]
     },
@@ -212,16 +200,13 @@ export const SCHEMAS = [
         example: {
             "id": "img-1",
             "type": "image",
-            "props": {
-                "src": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853",
-                "alt": "Cyberpunk styling",
-                "caption": "Neon lights in the rain."
-            }
+            "props": { "src": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853", "alt": "Abstract", "caption": "Design inspiration." },
+            "styles": { "padding": "py-20", "maxWidth": "max-w-4xl" }
         },
         props: [
-            { name: 'src', type: 'url', desc: 'Wrapper image URL.' },
-            { name: 'alt', type: 'string', desc: 'Accessibility text description.' },
-            { name: 'caption', type: 'string', desc: 'Optional text displayed below image.' },
+            { name: 'src', type: 'url', desc: 'Image URL.' },
+            { name: 'alt', type: 'string', desc: 'Accessibility text.' },
+            { name: 'caption', type: 'string', desc: 'Optional text below image.' },
         ]
     }
 ];

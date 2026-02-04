@@ -19,8 +19,8 @@ const Experience: React.FC<ExperienceProps> = ({ title, jobs }) => {
     const primaryColor = siteConfig.site_settings.theme.primary;
 
     return (
-        <section className="py-24 px-6 bg-slate-50 border-t border-slate-200">
-            <div className="max-w-7xl mx-auto">
+        <section>
+            <div>
                 <div className="flex flex-col md:flex-row gap-16">
                     <div className="md:w-1/3">
                         <div className="sticky top-12">

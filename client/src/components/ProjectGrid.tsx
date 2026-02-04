@@ -17,7 +17,7 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items }) => {
     const gridClass = columns === 2 ? 'grid-cols-2' : 'grid-cols-3';
 
     return (
-        <div className="py-20 px-10 bg-white">
+        <div>
             <h2 className="text-3xl font-black mb-12 text-gray-900 border-l-8 border-indigo-600 pl-6">{title}</h2>
             <div className={`grid ${gridClass} gap-8`}>
                 {items.map((item, idx) => (

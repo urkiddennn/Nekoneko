@@ -64,3 +64,9 @@ export const saveProjectConfig = mutation({
         });
     },
 });
+export const deleteProject = mutation({
+    args: { id: v.id("projects") },
+    handler: async (ctx, args) => {
+        await ctx.db.delete(args.id);
+    },
+});

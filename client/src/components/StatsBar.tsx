@@ -11,7 +11,7 @@ interface StatsBarProps {
 
 const StatsBar: React.FC<StatsBarProps> = ({ items }) => {
     return (
-        <div className="flex justify-around items-center py-10 bg-gray-50 border-y border-gray-100 italic">
+        <div className="flex justify-around items-center italic">
             {items.map((item, idx) => (
                 <div key={idx} className="text-center group">
                     <div className="text-4xl font-black text-indigo-600 group-hover:scale-110 transition-transform">{item.value}</div>

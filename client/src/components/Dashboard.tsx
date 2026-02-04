@@ -15,10 +15,13 @@ const Dashboard: React.FC = () => {
 
     const projects = useQuery(api.config.listProjects, { userId: user._id });
     const createProject = useMutation(api.config.createProject);
+    const deleteProject = useMutation(api.config.deleteProject);
 
     const [isCreating, setIsCreating] = useState(false);
     const [newName, setNewName] = useState('');
     const [newSlug, setNewSlug] = useState('');
+    const [projectToDelete, setProjectToDelete] = useState<any>(null);
+    const [projectToEdit, setProjectToEdit] = useState<any>(null);
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,6 +32,17 @@ const Dashboard: React.FC = () => {
                 slug: newSlug.toLowerCase().replace(/[^a-z0-9]/g, '-'),
             });
             navigate(`/editor/${id}`);
+        } catch (err: any) {
+            alert(err.message);
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!projectToDelete) return;
+        try {
+            await deleteProject({ id: projectToDelete._id });
+            setProjectToDelete(null);
+            setProjectToEdit(null); // Close the edit actions menu too
         } catch (err: any) {
             alert(err.message);
         }
@@ -78,14 +92,14 @@ const Dashboard: React.FC = () => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {projects.map((project: any) => (
-                            <div key={project._id} className="group border border-gray-200 rounded p-6 hover:border-gray-900 transition-all flex flex-col justify-between h-48">
+                            <div key={project._id} className="group border border-gray-200 rounded p-6 hover:border-gray-900 transition-all flex flex-col justify-between h-48 relative">
                                 <div>
                                     <h3 className="font-bold text-lg mb-1">{project.name}</h3>
                                     <p className="text-xs text-gray-400 font-mono">/{project.slug}</p>
                                 </div>
-                                <div className="flex gap-3">
+                                <div className="flex gap-3 relative">
                                     <button
-                                        onClick={() => navigate(`/editor/${project._id}`)}
+                                        onClick={() => setProjectToEdit(projectToEdit?._id === project._id ? null : project)}
                                         className="flex-1 border border-gray-200 py-1.5 rounded text-xs font-bold hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5"
                                     >
                                         <Settings size={14} />
@@ -98,12 +112,51 @@ const Dashboard: React.FC = () => {
                                         <Globe size={14} />
                                         Live
                                     </button>
+
+                                    {/* Action Dropdown */}
+                                    {projectToEdit?._id === project._id && (
+                                        <>
+                                            <div className="fixed inset-0 z-20" onClick={() => setProjectToEdit(null)}></div>
+                                            <div className="absolute bottom-full right-0 mb-2 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-30 py-1 animate-in slide-in-from-bottom-2 duration-200">
+                                                <button
+                                                    onClick={() => navigate(`/editor/${project._id}`)}
+                                                    className="w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-bold flex items-center gap-2"
+                                                >
+                                                    <Settings size={14} className="text-gray-400" />
+                                                    Edit Content
+                                                </button>
+                                                <button
+                                                    onClick={() => setProjectToDelete(project)}
+                                                    className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 text-xs font-bold flex items-center gap-2 border-t border-gray-50"
+                                                >
+                                                    <Plus size={14} className="rotate-45" />
+                                                    Delete Project
+                                                </button>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
             </main>
+
+            {/* Delete Confirmation Modal */}
+            {projectToDelete && (
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div className="bg-white w-full max-w-sm p-8 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200">
+                        <h2 className="text-xl font-bold mb-2">Delete Project?</h2>
+                        <p className="text-gray-500 text-sm mb-8">
+                            Are you sure you want to delete <span className="font-bold text-gray-900">"{projectToDelete.name}"</span>?
+                        </p>
+                        <div className="flex gap-3">
+                            <button onClick={() => setProjectToDelete(null)} className="flex-1 py-2 text-gray-500 font-bold hover:text-gray-900 border border-transparent">Keep It</button>
+                            <button onClick={handleDelete} className="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200">Delete Forever</button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Create Modal */}
             {isCreating && (

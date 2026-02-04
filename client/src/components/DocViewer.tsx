@@ -36,33 +36,24 @@ const DocViewer: React.FC<DocViewerProps> = ({ className = '', schemas = SCHEMAS
     }
 
     const copyToClipboard = async (text: string, id: string) => {
-        // Try modern Clipboard API first
-        if (navigator.clipboard && window.isSecureContext) {
-            try {
+        try {
+            // Modern API
+            if (navigator.clipboard && window.isSecureContext) {
                 await navigator.clipboard.writeText(text);
                 setCopiedId(id);
                 setTimeout(() => setCopiedId(null), 2000);
                 return;
-            } catch (err) {
-                console.warn("Modern clipboard API failed, trying fallback:", err);
             }
-        }
 
-        // Fallback for non-secure contexts or failed API
-        try {
+            // Fallback
             const textArea = document.createElement("textarea");
             textArea.value = text;
-
-            // Ensure the textarea is not visible but is part of the DOM
             textArea.style.position = "fixed";
             textArea.style.left = "-9999px";
             textArea.style.top = "0";
-            textArea.style.opacity = "0";
-            textArea.setAttribute('readonly', ''); // Prevent keyboard from popping up on mobile
-
             document.body.appendChild(textArea);
+            textArea.focus();
             textArea.select();
-            textArea.setSelectionRange(0, 99999); // For mobile devices
 
             const successful = document.execCommand("copy");
             document.body.removeChild(textArea);
@@ -71,10 +62,11 @@ const DocViewer: React.FC<DocViewerProps> = ({ className = '', schemas = SCHEMAS
                 setCopiedId(id);
                 setTimeout(() => setCopiedId(null), 2000);
             } else {
-                console.error("ExecCommand copy failed");
+                throw new Error("execCommand failed");
             }
-        } catch (fallbackErr) {
-            console.error("All copy methods failed:", fallbackErr);
+        } catch (err) {
+            console.error("Failed to copy text:", err);
+            // Optionally alert the user or show a different icon
         }
     };
 

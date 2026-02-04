@@ -111,6 +111,13 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
             id: `${type}-${Date.now()}`,
             type,
             props: getDefaultProps(type),
+            styles: {
+                padding: "py-16",
+                margin: "my-0",
+                maxWidth: "max-w-7xl",
+                backgroundColor: "bg-transparent",
+                textAlign: "left"
+            }
         };
         setSiteConfig((prev) => ({
             ...prev,

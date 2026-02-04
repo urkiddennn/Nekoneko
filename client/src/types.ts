@@ -18,10 +18,20 @@ export const SiteSettingsSchema = z.object({
     seo: SEOSchema,
 });
 
+export const StyleSchema = z.object({
+    padding: z.string().optional(),
+    margin: z.string().optional(),
+    backgroundColor: z.string().optional(),
+    maxWidth: z.string().optional(),
+    borderRadius: z.string().optional(),
+    textAlign: z.enum(['left', 'center', 'right']).optional(),
+});
+
 export const SectionSchema = z.object({
     id: z.string(),
     type: z.string(),
     props: z.record(z.string(), z.any()),
+    styles: StyleSchema.optional(),
 });
 
 export const SiteConfigSchema = z.object({

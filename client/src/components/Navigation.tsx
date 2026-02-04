@@ -12,7 +12,7 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({ links, showResumeButton }) => {
     return (
-        <nav className="flex items-center justify-between px-8 py-4 bg-white/10 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <nav className="flex items-center justify-between py-4">
             <div className="text-xl font-bold text-gray-800">Portfolio</div>
             <div className="flex items-center gap-6">
                 {links.map((link, idx) => (

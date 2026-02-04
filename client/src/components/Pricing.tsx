@@ -14,7 +14,7 @@ interface PricingProps {
 
 const Pricing: React.FC<PricingProps> = ({ title, tiers }) => {
     return (
-        <div className="py-24 px-12 bg-slate-50">
+        <div>
             <h2 className="text-4xl font-black mb-16 text-center tracking-tighter uppercase italic">{title}</h2>
             <div className="grid grid-cols-3 gap-8">
                 {tiers.map((tier, idx) => (

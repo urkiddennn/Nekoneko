@@ -15,7 +15,7 @@ interface FeaturesProps {
 const Features: React.FC<FeaturesProps> = ({ title, items, columns = 3 }) => {
     const gridClass = columns === 2 ? 'grid-cols-2' : 'grid-cols-3';
     return (
-        <div className="py-24 px-12 bg-white">
+        <div>
             <h2 className="text-4xl font-black mb-16 text-center tracking-tighter uppercase italic">{title}</h2>
             <div className={`grid ${gridClass} gap-12`}>
                 {items.map((item, idx) => (

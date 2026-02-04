@@ -36,9 +36,27 @@ export const renderSection = (section: any, index: number) => {
     const Component = componentRegistry[section.type];
     const extraProps = section.type === 'layout' ? { renderItem: renderSection } : {};
 
+    const styles = section.styles || {};
+    const containerClasses = [
+        "relative group/section",
+        section.type === 'layout' ? '' : 'w-full',
+        styles.backgroundColor || "",
+        styles.padding || "py-16",
+        styles.margin || "my-0",
+        styles.textAlign ? `text-${styles.textAlign}` : ""
+    ].filter(Boolean).join(" ");
+
+    const innerClasses = [
+        "mx-auto px-4",
+        styles.maxWidth || "max-w-7xl",
+        styles.borderRadius || ""
+    ].filter(Boolean).join(" ");
+
     return Component ? (
-        <div key={section.id || index} className={`relative group/section ${section.type === 'layout' ? '' : 'w-full'}`}>
-            <Component {...section.props} {...extraProps} />
+        <div key={section.id || index} className={containerClasses}>
+            <div className={innerClasses}>
+                <Component {...section.props} {...extraProps} />
+            </div>
             <div className="absolute inset-x-0 bottom-0 h-1 bg-indigo-500/0 group-hover/section:bg-indigo-500/10 transition-all duration-300 pointer-events-none"></div>
         </div>
     ) : (

@@ -7,9 +7,9 @@ interface ImageComponentProps {
     className?: string;
 }
 
-const ImageComponent: React.FC<ImageComponentProps> = ({ src, alt = 'Image', caption, className = '' }) => {
+const ImageComponent: React.FC<ImageComponentProps> = ({ src, alt = 'Image', caption }) => {
     return (
-        <div className={`w-full flex flex-col items-center ${className}`}>
+        <div className="flex flex-col items-center">
             <img
                 src={src}
                 alt={alt}

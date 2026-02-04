@@ -19,8 +19,8 @@ const Skills: React.FC<SkillsProps> = ({ title, skills, barColor }) => {
     const primaryColor = barColor || siteConfig.site_settings.theme.primary;
 
     return (
-        <section className="py-20 px-6 bg-white">
-            <div className="max-w-7xl mx-auto">
+        <section>
+            <div>
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-black text-slate-900 tracking-tight uppercase italic mb-4">{title}</h2>
                     <div className="w-24 h-1.5 bg-slate-200 mx-auto rounded-full overflow-hidden">
