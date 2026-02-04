@@ -9,10 +9,18 @@ import Site from './components/Site';
 function App() {
   const getIsSubdomain = () => {
     const hostname = window.location.hostname;
+    if (hostname.startsWith('www.')) return false;
+
+    // Check for localhost or lvh.me
     if (hostname.includes('localhost') || hostname.includes('lvh.me')) {
-      return hostname.split('.').length > 1;
+      const parts = hostname.split('.');
+      return parts.length > 1;
     }
-    return hostname.split('.').length >= 3;
+
+    // Check for custom domain (e.g., slug.nekoneko.space)
+    // Parts: ["slug", "nekoneko", "space"] -> length 3
+    const parts = hostname.split('.');
+    return parts.length >= 3;
   };
 
   const isSubdomain = getIsSubdomain();
@@ -37,7 +45,6 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/editor/:projectId" element={<SiteProvider><Editor /></SiteProvider>} />
-          {/* Keep slug path for backward compatibility or direct testing */}
           <Route path="/:slug" element={<SiteProvider><Site /></SiteProvider>} />
           <Route path="/" element={<Dashboard />} />
         </Routes>
@@ -46,4 +53,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
