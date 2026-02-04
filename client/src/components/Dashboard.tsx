@@ -116,7 +116,11 @@ const Dashboard: React.FC = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => window.open(`/${project.slug}`, "_blank")}
+                    onClick={() => {
+                      const protocol = window.location.protocol;
+                      const host = window.location.host;
+                      window.open(`${protocol}//${project.slug}.${host}`, "_blank");
+                    }}
                     className="flex-1 bg-gray-50 py-1.5 rounded text-xs font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-1.5"
                   >
                     <Globe size={14} />
