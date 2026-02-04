@@ -1,0 +1,184 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { SiteConfig, Section, SiteSettings } from '../types';
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { useParams } from "react-router-dom";
+
+interface SiteContextType {
+    siteConfig: SiteConfig;
+    setSiteConfig: React.Dispatch<React.SetStateAction<SiteConfig>>;
+    updateSectionProperty: (sectionId: string, key: string, value: any) => void;
+    updateSiteSettings: (path: string, value: any) => void;
+    addSection: (type: string) => void;
+    reorderSections: (oldIndex: number, newIndex: number) => void;
+    saveConfig: () => Promise<void>;
+    loading: boolean;
+    projectSlug?: string;
+}
+
+const SiteContext = createContext<SiteContextType | undefined>(undefined);
+
+const defaultSettings: SiteSettings = {
+    name: "Alex Dev",
+    favicon: "https://example.com/favicon.ico",
+    theme: {
+        primary: "#6366f1",
+        font: "Inter",
+        darkMode: true
+    },
+    seo: {
+        title: "Alex | Fullstack Developer Portfolio",
+        description: "Building high-performance web apps."
+    }
+};
+
+export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { projectId, slug } = useParams();
+
+    // Fetch either by explicit ID (editor) or by public slug (viewer)
+    const projectData = useQuery(
+        projectId ? api.config.getProject : api.config.getProjectBySlug,
+        projectId ? { id: projectId as any } : (slug ? { slug } : "skip" as any)
+    );
+
+    const saveToConvex = useMutation(api.config.saveProjectConfig);
+
+    const [siteConfig, setSiteConfig] = useState<SiteConfig>({
+        site_settings: defaultSettings,
+        sections: [],
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (projectData) {
+            setSiteConfig({
+                site_settings: projectData.site_settings,
+                sections: projectData.sections,
+            });
+            setLoading(false);
+        } else if (projectData === null) {
+            setLoading(false);
+        }
+    }, [projectData]);
+
+    const updateSectionProperty = (sectionId: string, key: string, value: any) => {
+        setSiteConfig((prev) => ({
+            ...prev,
+            sections: prev.sections.map((section) =>
+                section.id === sectionId
+                    ? { ...section, props: { ...section.props, [key]: value } }
+                    : section
+            ),
+        }));
+    };
+
+    const updateSiteSettings = (path: string, value: any) => {
+        setSiteConfig((prev) => {
+            const keys = path.split('.');
+            const newSettings = JSON.parse(JSON.stringify(prev.site_settings));
+            let current = newSettings;
+            for (let i = 0; i < keys.length - 1; i++) {
+                current = current[keys[i]];
+            }
+            current[keys[keys.length - 1]] = value;
+            return { ...prev, site_settings: newSettings };
+        });
+    };
+
+    const addSection = (type: string) => {
+        const newSection: Section = {
+            id: `${type}-${Date.now()}`,
+            type,
+            props: getDefaultProps(type),
+        };
+        setSiteConfig((prev) => ({
+            ...prev,
+            sections: [...prev.sections, newSection],
+        }));
+    };
+
+    const reorderSections = (oldIndex: number, newIndex: number) => {
+        setSiteConfig((prev) => {
+            const newSections = [...prev.sections];
+            const [movedItem] = newSections.splice(oldIndex, 1);
+            newSections.splice(newIndex, 0, movedItem);
+            return { ...prev, sections: newSections };
+        });
+    };
+
+    const saveConfig = async () => {
+        if (!projectId) return;
+        try {
+            await saveToConvex({
+                projectId: projectId as any,
+                site_settings: siteConfig.site_settings,
+                sections: siteConfig.sections,
+            });
+            console.log('Successfully saved project');
+        } catch (error) {
+            console.error('Error saving project:', error);
+            throw error;
+        }
+    };
+
+    return (
+        <SiteContext.Provider
+            value={{
+                siteConfig,
+                setSiteConfig,
+                updateSectionProperty,
+                updateSiteSettings,
+                addSection,
+                reorderSections,
+                saveConfig,
+                loading,
+                projectSlug: projectData?.slug
+            }}
+        >
+            {children}
+        </SiteContext.Provider>
+    );
+};
+
+const getDefaultProps = (type: string) => {
+    switch (type) {
+        case 'navigation':
+            return {
+                links: [
+                    { label: "About", url: "#about" },
+                    { label: "Projects", url: "#projects" },
+                    { label: "Contact", url: "#contact" }
+                ],
+                showResumeButton: true
+            };
+        case 'hero':
+            return {
+                heading: "Hi, I'm Alex.",
+                subheading: "I build scalable web applications with Node.js and React.",
+                avatarUrl: "https://api.dicebear.com/7.x/shapes/svg",
+                alignment: "center",
+                bg: {
+                    type: "gradient",
+                    value: "from-indigo-500 to-purple-600"
+                }
+            };
+        case 'skills':
+            return {
+                title: "My Skills",
+                skills: [
+                    { name: "React", level: 90 },
+                    { name: "TypeScript", level: 85 }
+                ]
+            };
+        default:
+            return {};
+    }
+};
+
+export const useSite = () => {
+    const context = useContext(SiteContext);
+    if (!context) {
+        throw new Error('useSite must be used within a SiteProvider');
+    }
+    return context;
+};
