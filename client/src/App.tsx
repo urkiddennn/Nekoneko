@@ -1,13 +1,30 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { SiteProvider } from './context/SiteContext';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Dashboard from './components/Dashboard';
-import Editor from './components/Editor';
-import Site from './components/Site';
-import Docs from './components/Docs';
-import Analytics from './components/Analytics';
-import Landing from './components/Landing';
+
+// Lazy load components
+const Login = lazy(() => import('./components/Login'));
+const Signup = lazy(() => import('./components/Signup'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const Editor = lazy(() => import('./components/Editor'));
+const Site = lazy(() => import('./components/Site'));
+const Docs = lazy(() => import('./components/Docs'));
+const Analytics = lazy(() => import('./components/Analytics'));
+const Landing = lazy(() => import('./components/Landing'));
+
+// Minimal Loading Fallback
+const LoadingFallback = () => (
+  <div className="flex h-screen items-center justify-center bg-white font-sans overflow-hidden">
+    <div className="flex flex-col items-center gap-10 text-gray-900">
+      <div className="relative">
+        <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none">
+          nekoneko
+        </div>
+      </div>
+      <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
+    </div>
+  </div>
+);
 
 function App() {
   const getIsSubdomain = () => {
@@ -21,7 +38,6 @@ function App() {
     }
 
     // Check for custom domain (e.g., slug.nekoneko.space)
-    // Parts: ["slug", "nekoneko", "space"] -> length 3
     const parts = hostname.split('.');
     return parts.length >= 3;
   };
@@ -31,29 +47,33 @@ function App() {
   if (isSubdomain) {
     return (
       <Router>
-        <div className="antialiased">
-          <Routes>
-            <Route path="*" element={<SiteProvider><Site /></SiteProvider>} />
-          </Routes>
-        </div>
+        <Suspense fallback={<LoadingFallback />}>
+          <div className="antialiased">
+            <Routes>
+              <Route path="*" element={<SiteProvider><Site /></SiteProvider>} />
+            </Routes>
+          </div>
+        </Suspense>
       </Router>
     );
   }
 
   return (
     <Router>
-      <div className="antialiased">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/docs" element={<Docs />} />
-          <Route path="/analytics/:projectId" element={<Analytics />} />
-          <Route path="/editor/:projectId" element={<SiteProvider><Editor /></SiteProvider>} />
-          <Route path="/:slug" element={<SiteProvider><Site /></SiteProvider>} />
-          <Route path="/" element={<Landing />} />
-        </Routes>
-      </div>
+      <Suspense fallback={<LoadingFallback />}>
+        <div className="antialiased">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/docs" element={<Docs />} />
+            <Route path="/analytics/:projectId" element={<Analytics />} />
+            <Route path="/editor/:projectId" element={<SiteProvider><Editor /></SiteProvider>} />
+            <Route path="/:slug" element={<SiteProvider><Site /></SiteProvider>} />
+            <Route path="/" element={<Landing />} />
+          </Routes>
+        </div>
+      </Suspense>
     </Router>
   );
 }
