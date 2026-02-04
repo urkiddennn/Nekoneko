@@ -27,6 +27,10 @@ const defaultSettings: SiteSettings = {
     font: "Inter",
     darkMode: true,
   },
+  layout: {
+    padding: "py-0",
+    margin: "my-0",
+  },
   seo: {
     title: "Alex | Fullstack Developer Portfolio",
     description: "Building high-performance web apps.",

@@ -80,9 +80,9 @@ const Analytics: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="h-48 w-full flex items-end gap-2 pt-8">
+                    <div className="h-48 w-full flex gap-2 pt-8">
                         {stats.dailyViews.map((v, i) => (
-                            <div key={i} className="flex-1 flex flex-col items-center gap-3 group">
+                            <div key={i} className="flex-1 h-full flex flex-col items-center gap-3 group">
                                 <div className="relative w-full flex flex-col items-center flex-1 justify-end">
                                     <div
                                         className="w-full bg-indigo-500/10 border border-indigo-500/20 rounded-t-lg group-hover:bg-indigo-600 group-hover:border-indigo-600 transition-all duration-300 relative"

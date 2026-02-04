@@ -11,10 +11,16 @@ export const SEOSchema = z.object({
     description: z.string(),
 });
 
+export const LayoutSettingsSchema = z.object({
+    padding: z.string().optional(),
+    margin: z.string().optional(),
+});
+
 export const SiteSettingsSchema = z.object({
     name: z.string(),
     favicon: z.string(),
     theme: ThemeSchema,
+    layout: LayoutSettingsSchema.optional(),
     seo: SEOSchema,
 });
 

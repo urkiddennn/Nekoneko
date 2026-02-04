@@ -5,15 +5,43 @@ interface SkillsBulletsProps {
     title: string;
     skills: string[];
     bulletColor?: string;
+    textColor?: string;
+    borderColor?: string;
+    backgroundColor?: string;
 }
 
 const SkillsBullets: React.FC<SkillsBulletsProps> = ({
     title,
     skills = [],
     bulletColor,
+    textColor,
+    borderColor,
+    backgroundColor,
 }) => {
     const { siteConfig } = useSite();
     const primaryColor = bulletColor || siteConfig.site_settings.theme.primary;
+    const txtColor = textColor || "text-slate-700";
+    const brdColor = borderColor || "border-slate-100";
+    const bgColor = backgroundColor || "bg-white";
+
+    // Helper to determine if a color string is hex or tailwind class
+    const isHex = (color: string) => color.startsWith('#') || color.startsWith('rgb');
+
+    const getStyle = () => {
+        const style: React.CSSProperties = {};
+        if (isHex(brdColor)) style.borderColor = brdColor;
+        if (isHex(bgColor)) style.backgroundColor = bgColor;
+        if (isHex(txtColor)) style.color = txtColor;
+        return style;
+    };
+
+    const getClasses = () => {
+        let classes = "px-6 py-3 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 group cursor-default border-2 ";
+        if (!isHex(brdColor)) classes += brdColor + " ";
+        if (!isHex(bgColor)) classes += bgColor + " ";
+        if (!isHex(txtColor)) classes += txtColor + " ";
+        return classes;
+    };
 
     return (
         <section>
@@ -33,14 +61,11 @@ const SkillsBullets: React.FC<SkillsBulletsProps> = ({
                 {skills.map((skill, index) => (
                     <div
                         key={index}
-                        className="px-6 py-3 rounded-2xl bg-white border-2 border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-100 transition-all duration-300 group cursor-default"
+                        className={getClasses()}
+                        style={getStyle()}
                     >
                         <div className="flex items-center gap-3">
-                            <div
-                                className="w-2.5 h-2.5 rounded-full animate-pulse"
-                                style={{ backgroundColor: primaryColor }}
-                            ></div>
-                            <span className="text-lg font-bold text-slate-700 uppercase tracking-wider group-hover:text-slate-900">
+                            <span className="text-lg font-bold uppercase tracking-wider">
                                 {skill}
                             </span>
                         </div>

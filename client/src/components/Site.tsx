@@ -26,13 +26,15 @@ const Site: React.FC = () => {
     }
 
     const font = siteConfig.site_settings.theme?.font || 'Inter';
+    const padding = siteConfig.site_settings.layout?.padding || 'py-0';
+    const margin = siteConfig.site_settings.layout?.margin || 'my-0';
 
     return (
         <div
-            className="min-h-screen bg-white antialiased flex flex-col justify-between"
+            className={`min-h-screen bg-white antialiased flex flex-col justify-between ${padding} ${margin}`}
             style={{ fontFamily: font }}
         >
-            <main>
+            <main className="w-full">
                 <SectionRenderer sections={siteConfig.sections} />
             </main>
 

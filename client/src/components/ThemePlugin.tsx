@@ -219,6 +219,45 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
                         </div>
                     </div>
                 </section>
+
+                {/* Layout Settings */}
+                <section className="space-y-6 pt-4 border-t border-slate-50">
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <Layout size={12} /> Global Layout
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">V-Padding</label>
+                            <select
+                                value={siteConfig.site_settings.layout?.padding || "py-0"}
+                                onChange={(e) => updateSiteSettings("layout.padding", e.target.value)}
+                                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl py-2 px-3 text-xs font-bold focus:outline-none focus:border-slate-900 cursor-pointer"
+                            >
+                                <option value="py-0">None (0)</option>
+                                <option value="py-4">Small (4)</option>
+                                <option value="py-8">Medium (8)</option>
+                                <option value="py-12">Large (12)</option>
+                                <option value="py-16">X-Large (16)</option>
+                                <option value="py-24">2X-Large (24)</option>
+                            </select>
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">V-Margin</label>
+                            <select
+                                value={siteConfig.site_settings.layout?.margin || "my-0"}
+                                onChange={(e) => updateSiteSettings("layout.margin", e.target.value)}
+                                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl py-2 px-3 text-xs font-bold focus:outline-none focus:border-slate-900 cursor-pointer"
+                            >
+                                <option value="my-0">None (0)</option>
+                                <option value="my-4">Small (4)</option>
+                                <option value="my-8">Medium (8)</option>
+                                <option value="my-12">Large (12)</option>
+                                <option value="my-16">X-Large (16)</option>
+                                <option value="my-24">2X-Large (24)</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
     );

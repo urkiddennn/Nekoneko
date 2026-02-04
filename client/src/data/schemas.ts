@@ -1,6 +1,7 @@
 export const SCHEMAS = [
   {
     type: "site_settings",
+    category: "Core",
     description: "Global site identity and styling.",
     details:
       "Configuration for the overall site appearance, including the brand name, favicon, primary color theme, and SEO metadata.",
@@ -34,11 +35,6 @@ export const SCHEMAS = [
         desc: 'Spacing around section (e.g., "py-24").',
       },
       {
-        name: "margin",
-        type: "tailwind",
-        desc: 'Spacing outside section (e.g., "my-12").',
-      },
-      {
         name: "backgroundColor",
         type: "tailwind",
         desc: 'Section background (e.g., "bg-slate-50").',
@@ -48,15 +44,11 @@ export const SCHEMAS = [
         type: "tailwind",
         desc: 'Horizontal constraint (e.g., "max-w-4xl").',
       },
-      {
-        name: "textAlign",
-        type: '"left" | "center" | "right"',
-        desc: "Text alignment for the section container.",
-      },
     ],
   },
   {
     type: "navigation",
+    category: "Core",
     description: "Universal header component.",
     details:
       "Top navigation bar that persists across pages. Supports a list of links and an optional CTA button.",
@@ -68,9 +60,9 @@ export const SCHEMAS = [
         showResumeButton: true,
       },
       styles: {
-        textColorClass: "text-white",
-        backgroundColorClass: "bg-white",
-        borderColorClass: "border-indigo-600",
+        textColor: "text-white",
+        backgroundColor: "bg-white",
+        borderColor: "border-indigo-600",
       },
     },
     props: [
@@ -80,28 +72,31 @@ export const SCHEMAS = [
         type: "boolean",
         desc: 'Shows a "Resume" or primary CTA button.',
       },
+    ],
+    common_styles: [
       {
         name: "textColor",
         type: "tailwind",
         desc: "Text color for the navigation links.",
       },
       {
-        name: "borderColor",
-        type: "tailwind",
-        desc: "Border color for the navigation container.",
-      },
-      {
         name: "backgroundColor",
         type: "tailwind",
-        desc: "Background color for the navigation container.",
+        desc: "Background color for the container.",
+      },
+      {
+        name: "borderColor",
+        type: "tailwind",
+        desc: "Border color for the container.",
       },
     ],
   },
   {
     type: "hero",
+    category: "Content",
     description: "Impactful section with image/heading.",
     details:
-      "Large introductory section usually placed at the top of the page. specifices a main heading, subheading, and an optional avatar image.",
+      "Large introductory section usually placed at the top of the page. specifies a main heading, subheading, and an optional avatar image.",
     example: {
       id: "hero-1",
       type: "hero",
@@ -136,10 +131,31 @@ export const SCHEMAS = [
     ],
   },
   {
+    type: "stats_bar",
+    category: "Content",
+    description: "Numerical metrics and stats.",
+    details: "A horizontal strip for highlighting key achievements or metrics with big text.",
+    example: {
+      id: "stats-1",
+      type: "stats_bar",
+      props: {
+        items: [
+          { label: "Projects", value: "50+" },
+          { label: "Clients", value: "200" }
+        ]
+      },
+      styles: { padding: "py-12" }
+    },
+    props: [
+      { name: "items", type: "array", desc: "List of {label, value} objects." }
+    ]
+  },
+  {
     type: "features",
+    category: "Content",
     description: "Grid of unique selling points.",
     details:
-      "Displays a grid of feature cards, each with a title and description. Useful for highlighting key product benefits.",
+      "Displays a grid of feature cards. Supports recursive rendering of other components within each card.",
     example: {
       id: "feat-1",
       type: "features",
@@ -162,18 +178,19 @@ export const SCHEMAS = [
       {
         name: "items",
         type: "array",
-        desc: "List of feature objects {title, description}.",
+        desc: "List of feature objects or component definitions.",
       },
       {
         name: "columns",
         type: "number",
-        desc: "Number of columns in the grid (e.g., 2, 3).",
+        desc: "Number of columns (default: 3).",
       },
     ],
   },
   {
     type: "skills",
-    description: "Skills section.",
+    category: "Content",
+    description: "Skills with progress bars.",
     details:
       "Visual representation of technical skills with progress bars/levels.",
     example: {
@@ -196,12 +213,12 @@ export const SCHEMAS = [
       {
         name: "showProgressBar",
         type: "boolean",
-        desc: "Toggles the visibility of skill level bars.",
+        desc: "Toggle level bars.",
       },
       {
         name: "showPercentage",
         type: "boolean",
-        desc: "Displays the numeric percentage next to skill names.",
+        desc: "Show numeric percentage.",
       },
       {
         name: "skills",
@@ -212,6 +229,7 @@ export const SCHEMAS = [
   },
   {
     type: "experience",
+    category: "Content",
     description: "Professional timeline.",
     details: "Timeline view of work history or education.",
     example: {
@@ -235,15 +253,16 @@ export const SCHEMAS = [
       {
         name: "jobs",
         type: "array",
-        desc: "List of {role, company, period, description} objects.",
+        desc: "List of {role, company, period, description}.",
       },
     ],
   },
   {
     type: "layout",
-    description: "Nested container for horizontal/vertical layouts.",
+    category: "Layout",
+    description: "Structural nested container.",
     details:
-      "A structural component that allows nesting other components in rows or columns. Essential for complex page layouts.",
+      "A structural component that allows nesting other components in rows or columns.",
     example: {
       id: "layout-1",
       type: "layout",
@@ -273,17 +292,18 @@ export const SCHEMAS = [
         type: "array",
         desc: "Array of child component objects.",
       },
-      { name: "gap", type: "string", desc: "Inner gap (Tailwind scale 1-12)." },
+      { name: "gap", type: "string", desc: "Inner gap (1-12)." },
       {
         name: "padding",
         type: "string",
-        desc: "Inner padding (Tailwind scale 1-12).",
+        desc: "Inner padding (1-12).",
       },
     ],
   },
   {
     type: "cta",
-    description: "Call to action button focus.",
+    category: "Content",
+    description: "Call to action focus.",
     details: "Simple section focused on a single call to action.",
     example: {
       id: "cta-1",
@@ -302,6 +322,7 @@ export const SCHEMAS = [
   },
   {
     type: "image",
+    category: "Content",
     description: "Responsive image with caption.",
     details:
       "Renders a single responsive image with optional caption and alt text.",
@@ -323,9 +344,10 @@ export const SCHEMAS = [
   },
   {
     type: "skills_bullets",
+    category: "Content",
     description: "Skills list with bullets.",
     details:
-      "A simplified version of the skills section that displays skills as a collection of bulleted pills.",
+      "A simplified version of the skills section using pills/bullet points.",
     example: {
       id: "skills-bullets-1",
       type: "skills_bullets",
@@ -344,59 +366,120 @@ export const SCHEMAS = [
       {
         name: "bulletColor",
         type: "hex",
-        desc: "Color for the bullet point indicator.",
+        desc: "Active/Icon color.",
+      },
+      {
+        name: "textColor",
+        type: "tailwind|hex",
+        desc: "Text color (e.g., text-white or #fff).",
+      },
+      {
+        name: "borderColor",
+        type: "tailwind|hex",
+        desc: "Border color (e.g., border-white or #fff).",
+      },
+      {
+        name: "backgroundColor",
+        type: "tailwind|hex",
+        desc: "Background (e.g., bg-black or #000).",
       },
       {
         name: "skills",
         type: "array",
-        desc: "List of skill names (strings).",
+        desc: "List of skill names.",
       },
     ],
   },
   {
     type: "contact_info",
+    category: "Connect",
     description: "Social and contact icon links.",
-    details: "Display a clean row of icon buttons for email, social media, and other contact methods.",
+    details: "Display a clean row of icon buttons for email and social media.",
     example: {
       id: "contact-1",
       type: "contact_info",
       props: {
         title: "Let's connect",
-        description: "Available for freelance work and collaborations.",
+        description: "Available for freelance work.",
         links: [
           { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
-          { label: "X", url: "https://x.com", icon: "Twitter" },
           { label: "GitHub", url: "https://github.com", icon: "Github" }
         ],
         alignment: "center"
       }
     },
     props: [
-      { name: "title", type: "string", desc: "Main heading text." },
+      { name: "title", type: "string", desc: "Heading text." },
       { name: "description", type: "string", desc: "Secondary text." },
-      { name: "links", type: "array", desc: "Array of {label, url, icon} objects. Icon names match Lucide icons." },
-      { name: "alignment", type: '"left" | "center" | "right"', desc: "Horizontal alignment." }
+      { name: "links", type: "array", desc: "List of {label, url, icon}." },
+      { name: "alignment", type: '"left" | "center" | "right"', desc: "Alignment." }
     ]
   },
   {
     type: "project_details",
+    category: "Connect",
     description: "Detailed project showcase card.",
-    details: "A comprehensive project card highlighting description, tech stack, and action links.",
+    details: "A comprehensive project card highlighting description and tech stack.",
     example: {
       id: "project-1",
       type: "project_details",
       props: {
         title: "Nekoneko Platform",
-        description: "A professional minimal site builder built with modern tech.",
+        description: "A professional minimal site builder.",
         stacks: ["React", "TypeScript", "Convex"],
         link: "https://nekoneko.space"
       }
     },
     props: [
       { name: "title", type: "string", desc: "Project title." },
-      { name: "description", type: "string", desc: "Detailed project description." },
-      { name: "stacks", type: "array", desc: "List of tech stack strings." },
-      { name: "link", type: "url", desc: "External visit link." }
+      { name: "description", type: "string", desc: "Description text." },
+      { name: "stacks", type: "array", desc: "Tech stack strings." },
+      { name: "link", type: "url", desc: "External link." }
+    ]
+  },
+  {
+    type: "pricing",
+    category: "Content",
+    description: "Multi-tier pricing tables.",
+    details: "Display subscription plans or service tiers with features and pricing.",
+    example: {
+      id: "pricing-1",
+      type: "pricing",
+      props: {
+        title: "Simple Pricing",
+        plans: [
+          { name: "Free", price: "$0", features: ["1 Project", "Basic Themes"] },
+          { name: "Pro", price: "$19", features: ["Unlimited Projects", "Custom CSS"], isPopular: true }
+        ]
+      },
+      styles: { padding: "py-24" }
+    },
+    props: [
+      { name: "title", type: "string", desc: "Section header." },
+      { name: "plans", type: "array", desc: "Array of {name, price, features, isPopular}." }
+    ]
+  },
+  {
+    type: "project_grid",
+    category: "Content",
+    description: "Visual portfolio grid.",
+    details: "Showcase projects with large preview images and category tags.",
+    example: {
+      id: "pgrid-1",
+      type: "project_grid",
+      props: {
+        title: "Selected Works",
+        columns: 2,
+        items: [
+          { title: "Neko App", image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c", tags: ["Web", "Design"], link: "#" }
+        ]
+      },
+      styles: { padding: "py-24" }
+    },
+    props: [
+      { name: "title", type: "string", desc: "Section header." },
+      { name: "columns", type: "number", desc: "Column count (2-3)." },
+      { name: "items", type: "array", desc: "Array of {title, image, tags, link}." }
     ]
   },
 ];
