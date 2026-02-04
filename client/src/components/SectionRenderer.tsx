@@ -12,6 +12,8 @@ import CTA from "./CTA";
 import Layout from "./Layout";
 import ImageComponent from "./ImageComponent";
 import SkillsBullets from "./SkillsBullets";
+import ContactInfo from "./ContactInfo";
+import ProjectDetails from "./ProjectDetails";
 
 const componentRegistry: Record<string, React.FC<any>> = {
   navigation: Navigation,
@@ -27,6 +29,8 @@ const componentRegistry: Record<string, React.FC<any>> = {
   layout: Layout,
   image: ImageComponent,
   skills_bullets: SkillsBullets,
+  contact_info: ContactInfo,
+  project_details: ProjectDetails,
 };
 
 interface SectionRendererProps {
@@ -37,7 +41,7 @@ interface SectionRendererProps {
 export const renderSection = (section: any, index: number) => {
   const Component = componentRegistry[section.type];
   const extraProps =
-    section.type === "layout" ? { renderItem: renderSection } : {};
+    section.type === "layout" || section.type === "features" ? { renderItem: renderSection } : {};
 
   const styles = section.styles || {};
   const containerClasses = [
@@ -64,7 +68,6 @@ export const renderSection = (section: any, index: number) => {
       <div className={innerClasses}>
         <Component {...section.props} {...extraProps} styles={styles} />
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-1 bg-indigo-500/0 group-hover/section:bg-indigo-500/10 transition-all duration-300 pointer-events-none"></div>
     </div>
   ) : (
     <div

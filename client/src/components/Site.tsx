@@ -16,21 +16,10 @@ const Site: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex h-screen items-center justify-center bg-white font-sans overflow-hidden">
-                <div className="flex flex-col items-center gap-10">
-                    <div className="relative">
-                        <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none">
-                            nekoneko
-                        </div>
-                        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-900 rounded-full animate-in slide-in-from-left-full duration-1000 iteration-infinite" />
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
-                        <div className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">
-                            INITIALIZING_SPACE
-                        </div>
-                    </div>
+            <div className="min-h-screen bg-white flex flex-col items-center justify-end pb-12">
+                <div className="flex items-center gap-2 opacity-20">
+                    <span className="text-[10px] font-black tracking-[0.3em] uppercase">Powered by</span>
+                    <span className="text-sm font-black tracking-tighter">nekoneko</span>
                 </div>
             </div>
         );
@@ -40,10 +29,19 @@ const Site: React.FC = () => {
 
     return (
         <div
-            className="min-h-screen bg-white antialiased"
+            className="min-h-screen bg-white antialiased flex flex-col justify-between"
             style={{ fontFamily: font }}
         >
-            <SectionRenderer sections={siteConfig.sections} />
+            <main>
+                <SectionRenderer sections={siteConfig.sections} />
+            </main>
+
+            <footer className="py-12 flex justify-center bg-white">
+                <div className="flex items-center gap-2 opacity-20 hover:opacity-100 transition-opacity cursor-default">
+                    <span className="text-[10px] font-black tracking-[0.3em] uppercase">Powered by</span>
+                    <span className="text-sm font-black tracking-tighter">nekoneko</span>
+                </div>
+            </footer>
         </div>
     );
 };

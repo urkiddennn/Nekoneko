@@ -353,4 +353,50 @@ export const SCHEMAS = [
       },
     ],
   },
+  {
+    type: "contact_info",
+    description: "Social and contact icon links.",
+    details: "Display a clean row of icon buttons for email, social media, and other contact methods.",
+    example: {
+      id: "contact-1",
+      type: "contact_info",
+      props: {
+        title: "Let's connect",
+        description: "Available for freelance work and collaborations.",
+        links: [
+          { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
+          { label: "X", url: "https://x.com", icon: "Twitter" },
+          { label: "GitHub", url: "https://github.com", icon: "Github" }
+        ],
+        alignment: "center"
+      }
+    },
+    props: [
+      { name: "title", type: "string", desc: "Main heading text." },
+      { name: "description", type: "string", desc: "Secondary text." },
+      { name: "links", type: "array", desc: "Array of {label, url, icon} objects. Icon names match Lucide icons." },
+      { name: "alignment", type: '"left" | "center" | "right"', desc: "Horizontal alignment." }
+    ]
+  },
+  {
+    type: "project_details",
+    description: "Detailed project showcase card.",
+    details: "A comprehensive project card highlighting description, tech stack, and action links.",
+    example: {
+      id: "project-1",
+      type: "project_details",
+      props: {
+        title: "Nekoneko Platform",
+        description: "A professional minimal site builder built with modern tech.",
+        stacks: ["React", "TypeScript", "Convex"],
+        link: "https://nekoneko.space"
+      }
+    },
+    props: [
+      { name: "title", type: "string", desc: "Project title." },
+      { name: "description", type: "string", desc: "Detailed project description." },
+      { name: "stacks", type: "array", desc: "List of tech stack strings." },
+      { name: "link", type: "url", desc: "External visit link." }
+    ]
+  },
 ];
