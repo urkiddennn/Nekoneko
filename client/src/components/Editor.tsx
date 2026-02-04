@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useSite } from '../context/SiteContext';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Files, BookOpen, X, Sparkles, Puzzle, Palette, Search, Globe, LogOut } from 'lucide-react';
+import { Files, BookOpen, X, Sparkles, Puzzle, Search, Globe } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import SectionRenderer from './SectionRenderer';
 
@@ -10,7 +10,7 @@ import { json } from '@codemirror/lang-json';
 import { EditorView } from '@codemirror/view';
 import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
 
-import { vscodeDark, githubLight, dracula, tokyoNight, nord } from '@uiw/codemirror-themes-all';
+import { vscodeDark, githubLight, dracula, tokyoNight } from '@uiw/codemirror-themes-all';
 import DocViewer from './DocViewer';
 import { SCHEMAS } from '../data/schemas';
 
@@ -32,7 +32,6 @@ function myCompletions(context: CompletionContext) {
 
 const Editor: React.FC = () => {
     const { siteConfig, setSiteConfig, saveConfig, loading, projectSlug } = useSite();
-    const { projectId } = useParams();
     const navigate = useNavigate();
 
     const [jsonInput, setJsonInput] = useState('');
