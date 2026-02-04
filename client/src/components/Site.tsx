@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useMutation } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import { useSite } from '../context/SiteContext';
 import SectionRenderer from './SectionRenderer';
 
 const Site: React.FC = () => {
-    const { siteConfig, loading } = useSite();
+    const { siteConfig, loading, projectId } = useSite();
+    const recordView = useMutation(api.analytics.recordView);
+
+    useEffect(() => {
+        if (!loading && projectId) {
+            recordView({ projectId: projectId as any });
+        }
+    }, [loading, projectId]);
 
     if (loading) {
         return (
@@ -16,8 +25,13 @@ const Site: React.FC = () => {
         );
     }
 
+    const font = siteConfig.site_settings.theme?.font || 'Inter';
+
     return (
-        <div className="min-h-screen bg-white font-sans antialiased">
+        <div
+            className="min-h-screen bg-white antialiased"
+            style={{ fontFamily: font }}
+        >
             <SectionRenderer sections={siteConfig.sections} />
         </div>
     );

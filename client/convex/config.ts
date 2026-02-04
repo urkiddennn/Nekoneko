@@ -33,6 +33,8 @@ export const createProject = mutation({
         userId: v.id("users"),
         name: v.string(),
         slug: v.string(),
+        site_settings: v.optional(v.any()),
+        sections: v.optional(v.array(v.any())),
     },
     handler: async (ctx, args) => {
         const existing = await ctx.db
@@ -45,8 +47,8 @@ export const createProject = mutation({
             userId: args.userId,
             name: args.name,
             slug: args.slug,
-            site_settings: { name: args.name, theme: { primary: "#6366f1" } },
-            sections: [],
+            site_settings: args.site_settings ?? { name: args.name, theme: { primary: "#6366f1" } },
+            sections: args.sections ?? [],
         });
     },
 });

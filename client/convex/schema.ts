@@ -15,4 +15,10 @@ export default defineSchema({
         site_settings: v.any(),
         sections: v.array(v.any()),
     }).index("by_slug", ["slug"]).index("by_user", ["userId"]),
+
+    analytics: defineTable({
+        projectId: v.id("projects"),
+        type: v.string(),
+        timestamp: v.number(),
+    }).index("by_project", ["projectId"]),
 });

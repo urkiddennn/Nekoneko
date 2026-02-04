@@ -5,6 +5,9 @@ import Signup from './components/Signup';
 import Dashboard from './components/Dashboard';
 import Editor from './components/Editor';
 import Site from './components/Site';
+import Docs from './components/Docs';
+import Analytics from './components/Analytics';
+import Landing from './components/Landing';
 
 function App() {
   const getIsSubdomain = () => {
@@ -44,9 +47,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/docs" element={<Docs />} />
+          <Route path="/analytics/:projectId" element={<Analytics />} />
           <Route path="/editor/:projectId" element={<SiteProvider><Editor /></SiteProvider>} />
           <Route path="/:slug" element={<SiteProvider><Site /></SiteProvider>} />
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Landing />} />
         </Routes>
       </div>
     </Router>

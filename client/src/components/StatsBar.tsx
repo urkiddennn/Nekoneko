@@ -6,13 +6,15 @@ interface StatItem {
 }
 
 interface StatsBarProps {
-    items: StatItem[];
+    items?: StatItem[];
+    stats?: StatItem[]; // Backward compatibility
 }
 
-const StatsBar: React.FC<StatsBarProps> = ({ items }) => {
+const StatsBar: React.FC<StatsBarProps> = ({ items, stats }) => {
+    const displayItems = items || stats || [];
     return (
         <div className="flex justify-around items-center italic">
-            {items.map((item, idx) => (
+            {displayItems.map((item, idx) => (
                 <div key={idx} className="text-center group">
                     <div className="text-4xl font-black text-indigo-600 group-hover:scale-110 transition-transform">{item.value}</div>
                     <div className="text-xs uppercase font-bold text-gray-400 tracking-widest mt-1">{item.label}</div>
