@@ -34,11 +34,31 @@ const defaultSettings: SiteSettings = {
 
 export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { projectId, slug } = useParams();
+    const getSlugFromHostname = () => {
+        const hostname = window.location.hostname;
+        // Handle localhost development
+        if (hostname.includes('localhost') || hostname.includes('lvh.me')) {
+            const parts = hostname.split('.');
+            if (parts.length > 1) return parts[0]; // test.localhost -> test
+            return null;
+        }
+        // Handle production (e.g., slug.nekoneko.vercel.app or slug.yourdomain.com)
+        const parts = hostname.split('.');
+        if (parts.length >= 3) {
+            // Check if it's the main domain (e.g., nekoneko.vercel.app or yourdomain.com)
+            // This is a simplified check; usually, you'd check against a known base domain
+            return parts[0];
+        }
+        return null;
+    };
 
-    // Fetch either by explicit ID (editor) or by public slug (viewer)
+    const hostnameSlug = getSlugFromHostname();
+    const effectiveSlug = hostnameSlug || slug;
+
+    // Fetch either by explicit ID (editor) or by hostname/URL slug (viewer)
     const projectData = useQuery(
         projectId ? api.config.getProject : api.config.getProjectBySlug,
-        projectId ? { id: projectId as any } : (slug ? { slug } : "skip" as any)
+        projectId ? { id: projectId as any } : (effectiveSlug ? { slug: effectiveSlug } : "skip" as any)
     );
 
     const saveToConvex = useMutation(api.config.saveProjectConfig);

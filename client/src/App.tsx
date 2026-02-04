@@ -7,6 +7,28 @@ import Editor from './components/Editor';
 import Site from './components/Site';
 
 function App() {
+  const getIsSubdomain = () => {
+    const hostname = window.location.hostname;
+    if (hostname.includes('localhost') || hostname.includes('lvh.me')) {
+      return hostname.split('.').length > 1;
+    }
+    return hostname.split('.').length >= 3;
+  };
+
+  const isSubdomain = getIsSubdomain();
+
+  if (isSubdomain) {
+    return (
+      <Router>
+        <div className="antialiased">
+          <Routes>
+            <Route path="*" element={<SiteProvider><Site /></SiteProvider>} />
+          </Routes>
+        </div>
+      </Router>
+    );
+  }
+
   return (
     <Router>
       <div className="antialiased">
@@ -15,12 +37,13 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/editor/:projectId" element={<SiteProvider><Editor /></SiteProvider>} />
+          {/* Keep slug path for backward compatibility or direct testing */}
           <Route path="/:slug" element={<SiteProvider><Site /></SiteProvider>} />
           <Route path="/" element={<Dashboard />} />
         </Routes>
       </div>
     </Router>
-  )
+  );
 }
 
 export default App

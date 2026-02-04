@@ -131,7 +131,12 @@ const Editor: React.FC = () => {
                 <div className="flex gap-2">
                     {!isDeploying && projectSlug && (
                         <button
-                            onClick={() => window.open(`/${projectSlug || ''}`, '_blank')}
+                            onClick={() => {
+                                const protocol = window.location.protocol;
+                                const host = window.location.host; // e.g., localhost:5173 or nekoneko.vercel.app
+                                const newUrl = `${protocol}//${projectSlug}.${host}`;
+                                window.open(newUrl, '_blank');
+                            }}
                             className="px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 animate-in fade-in duration-500"
                         >
                             <Globe size={14} />
