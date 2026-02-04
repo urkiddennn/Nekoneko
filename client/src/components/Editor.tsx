@@ -87,14 +87,27 @@ const Editor: React.FC = () => {
         }
     };
 
-    if (loading) return (
-        <div className="flex h-screen items-center justify-center bg-white text-gray-900 font-sans">
-            <div className="flex flex-col items-center gap-6">
-                <div className="w-12 h-12 border-4 border-t-gray-900 border-gray-100 rounded-full animate-spin"></div>
-                <div className="text-sm font-bold uppercase tracking-widest text-gray-400">Loading Project...</div>
+    if (loading) {
+        return (
+            <div className="flex h-screen items-center justify-center bg-white font-sans overflow-hidden">
+                <div className="flex flex-col items-center gap-10">
+                    <div className="relative">
+                        <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none">
+                            nekoneko
+                        </div>
+                        <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-900 rounded-full animate-in slide-in-from-left-full duration-1000 iteration-infinite" />
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                        <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
+                        <div className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">
+                            LOADING_WORKSPACE
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 
     return (
         <div className="flex flex-col h-screen bg-white text-gray-900 font-sans overflow-hidden">
