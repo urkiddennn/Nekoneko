@@ -48,9 +48,23 @@ interface ThemePluginProps {
     setShowPlugins: (show: boolean) => void;
 }
 
+const SpacingInput = ({ label, value, onChange }: { label: string, value: string | undefined, onChange: (val: string) => void }) => (
+    <div className="flex flex-col gap-1">
+        <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider text-center">{label}</label>
+        <input
+            type="text"
+            value={value || ""}
+            onChange={(e) => onChange(e.target.value)}
+            className="w-full bg-slate-50 border border-slate-200 rounded-lg py-1.5 text-center text-xs font-bold focus:outline-none focus:border-slate-900 transition-colors"
+            placeholder="-"
+        />
+    </div>
+);
+
 const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeChange, setShowPlugins }) => {
     const { siteConfig, setSiteConfig, updateSiteSettings } = useSite();
     const theme = siteConfig.site_settings.theme || { primary: "#6366f1", font: "Inter", darkMode: true };
+    const layout = siteConfig.site_settings.layout || {};
 
     const handleApplyPreset = (preset: typeof PRESETS[0]) => {
         setSiteConfig((prev) => ({
@@ -65,25 +79,25 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
     return (
         <div className="flex flex-col h-full bg-white">
             {/* Header */}
-            <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
+            <div className="p-3 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
                 <h2 className="font-bold text-gray-900 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em]">Appearance</h2>
                 <button
                     type="button"
                     onClick={() => setShowPlugins(false)}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
+                    className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
                 >
-                    <X size={16} />
+                    <X size={14} />
                 </button>
             </div>
 
             {/* All Settings - Scrollable */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-10 custom-scrollbar pb-20">
+            <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar pb-20">
                 {/* Theme Presets */}
-                <section className="space-y-5">
+                <section className="space-y-3">
                     <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                        <Sparkles size={12} /> Theme Presets
+                        <Sparkles size={10} /> Presets
                     </h3>
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-2">
                         {PRESETS.map((preset) => {
                             const Icon = preset.icon;
                             const isActive = theme.primary === preset.theme.primary && theme.font === preset.theme.font;
@@ -95,30 +109,66 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
                                         e.preventDefault();
                                         handleApplyPreset(preset);
                                     }}
-                                    className={`flex flex-col items-center gap-3 p-4 rounded-xl border-2 transition-all group cursor-pointer select-none ${isActive
+                                    className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all group cursor-pointer select-none ${isActive
                                         ? "border-slate-900 bg-slate-50 shadow-sm"
                                         : "border-slate-100 hover:border-slate-200 hover:bg-slate-50/30"
                                         }`}
                                 >
                                     <div
-                                        className="w-10 h-10 rounded-full flex items-center justify-center text-white shadow-inner"
+                                        className="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-inner"
                                         style={{ backgroundColor: preset.theme.primary }}
                                     >
-                                        <Icon size={20} />
+                                        <Icon size={16} />
                                     </div>
-                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{preset.name}</span>
+                                    <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest">{preset.name}</span>
                                 </button>
                             );
                         })}
                     </div>
                 </section>
 
-                {/* Accent Color */}
-                <section className="space-y-4 pt-4 border-t border-slate-50">
+                {/* Theme Options */}
+                <section className="space-y-3 pt-3 border-t border-slate-50">
                     <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                        <Palette size={12} /> accent color
+                        <Sparkles size={10} /> Mode
                     </h3>
-                    <div className="grid grid-cols-5 gap-2.5">
+                    <div className="space-y-2">
+                        <button
+                            type="button"
+                            onMouseDown={(e) => {
+                                e.preventDefault();
+                                updateSiteSettings("theme.darkMode", !theme.darkMode);
+                            }}
+                            className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.darkMode ? "border-slate-900 bg-slate-50" : "border-slate-100 hover:border-slate-200"}`}
+                        >
+                            <span className="text-[11px] font-bold text-slate-700">Dark Mode</span>
+                            <div className={`w-8 h-4 rounded-full transition-colors relative ${theme.darkMode ? 'bg-slate-900' : 'bg-slate-200'}`}>
+                                <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${theme.darkMode ? 'left-4.5' : 'left-0.5'}`} />
+                            </div>
+                        </button>
+
+                        <button
+                            type="button"
+                            onMouseDown={(e) => {
+                                e.preventDefault();
+                                updateSiteSettings("theme.showThemeToggle", !theme.showThemeToggle);
+                            }}
+                            className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.showThemeToggle ? "border-slate-900 bg-slate-50" : "border-slate-100 hover:border-slate-200"}`}
+                        >
+                            <span className="text-[11px] font-bold text-slate-700">Floating Toggle</span>
+                            <div className={`w-8 h-4 rounded-full transition-colors relative ${theme.showThemeToggle ? 'bg-slate-900' : 'bg-slate-200'}`}>
+                                <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${theme.showThemeToggle ? 'left-4.5' : 'left-0.5'}`} />
+                            </div>
+                        </button>
+                    </div>
+                </section>
+
+                {/* Accent Color */}
+                <section className="space-y-3 pt-3 border-t border-slate-50">
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <Palette size={10} /> Accent
+                    </h3>
+                    <div className="grid grid-cols-6 gap-2">
                         {COLORS.map((color) => (
                             <button
                                 key={color}
@@ -127,22 +177,22 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
                                     e.preventDefault();
                                     updateSiteSettings("theme.primary", color);
                                 }}
-                                className={`aspect-square rounded-full border-2 transition-all flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 select-none ${theme.primary === color ? "border-slate-900 scale-110 shadow-md" : "border-slate-100"
+                                className={`aspect-square rounded-full border transition-all flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 select-none ${theme.primary === color ? "border-slate-900 scale-110 shadow-md" : "border-slate-100"
                                     }`}
                                 style={{ backgroundColor: color }}
                             >
-                                {theme.primary === color && <Check size={14} className="text-white drop-shadow-sm" />}
+                                {theme.primary === color && <Check size={12} className="text-white drop-shadow-sm" />}
                             </button>
                         ))}
                     </div>
                 </section>
 
                 {/* Editor Appearance */}
-                <section className="space-y-4 pt-4 border-t border-slate-50">
+                <section className="space-y-3 pt-3 border-t border-slate-50">
                     <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                        <Monitor size={12} /> editor appearance
+                        <Monitor size={10} /> Editor
                     </h3>
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                         {[
                             { name: 'VS Code Dark', id: 'vscodeDark', theme: vscodeDark },
                             { name: 'GitHub Light', id: 'githubLight', theme: githubLight },
@@ -156,7 +206,7 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
                                     e.preventDefault();
                                     handleThemeChange(t.id, t.theme);
                                 }}
-                                className={`w-full flex items-center justify-between p-3 text-left text-xs font-bold rounded-xl transition-all cursor-pointer select-none ${activeThemeId === t.id
+                                className={`w-full flex items-center justify-between p-2 text-left text-[11px] font-bold rounded-lg transition-all cursor-pointer select-none ${activeThemeId === t.id
                                     ? 'bg-slate-900 text-white shadow-md'
                                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900 border border-transparent hover:border-slate-100'
                                     }`}
@@ -165,16 +215,16 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
                                     <div className={`w-1.5 h-1.5 rounded-full ${activeThemeId === t.id ? 'bg-white' : 'bg-slate-300'}`} />
                                     {t.name}
                                 </span>
-                                {activeThemeId === t.id && <Check size={12} />}
+                                {activeThemeId === t.id && <Check size={10} />}
                             </button>
                         ))}
                     </div>
                 </section>
 
                 {/* Typography */}
-                <section className="space-y-5 pt-4 border-t border-slate-50">
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Typography</h3>
-                    <div className="space-y-2.5">
+                <section className="space-y-3 pt-3 border-t border-slate-50">
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Font</h3>
+                    <div className="space-y-2">
                         {FONTS.map((font) => (
                             <button
                                 key={font}
@@ -183,78 +233,58 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
                                     e.preventDefault();
                                     updateSiteSettings("theme.font", font);
                                 }}
-                                className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all cursor-pointer select-none ${theme.font === font ? "border-slate-900 bg-slate-50 shadow-sm" : "border-slate-100 hover:border-slate-300 hover:bg-slate-50/20"
+                                className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.font === font ? "border-slate-900 bg-slate-50 shadow-sm" : "border-slate-100 hover:border-slate-300 hover:bg-slate-50/20"
                                     }`}
                             >
-                                <span className="text-base font-bold" style={{ fontFamily: font }}>{font}</span>
-                                {theme.font === font && <Check size={16} className="text-slate-900" />}
+                                <span className="text-sm font-bold" style={{ fontFamily: font }}>{font}</span>
+                                {theme.font === font && <Check size={14} className="text-slate-900" />}
                             </button>
                         ))}
                     </div>
                 </section>
 
-                {/* Site Identity */}
-                <section className="space-y-6 pt-4 border-t border-slate-50">
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Site Identity</h3>
-                    <div className="space-y-5">
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">Brand Name</label>
-                            <input
-                                type="text"
-                                value={siteConfig.site_settings.name}
-                                onChange={(e) => updateSiteSettings("name", e.target.value)}
-                                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl py-3 px-4 text-sm focus:outline-none focus:border-slate-900 font-bold transition-colors"
-                                placeholder="Enter site name..."
-                            />
+                {/* Layout Settings - Granular */}
+                <section className="space-y-4 pt-3 border-t border-slate-50">
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <Layout size={10} /> Global Layout
+                    </h3>
+
+                    {/* Padding Controls */}
+                    <div className="space-y-2">
+                        <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest pl-1">Padding</div>
+                        <div className="grid grid-cols-4 gap-2">
+                            <SpacingInput label="Top" value={layout.paddingTop} onChange={(v) => updateSiteSettings("layout.paddingTop", v)} />
+                            <SpacingInput label="Right" value={layout.paddingRight} onChange={(v) => updateSiteSettings("layout.paddingRight", v)} />
+                            <SpacingInput label="Bot" value={layout.paddingBottom} onChange={(v) => updateSiteSettings("layout.paddingBottom", v)} />
+                            <SpacingInput label="Left" value={layout.paddingLeft} onChange={(v) => updateSiteSettings("layout.paddingLeft", v)} />
                         </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">Favicon URL</label>
-                            <input
-                                type="text"
-                                value={siteConfig.site_settings.favicon}
-                                onChange={(e) => updateSiteSettings("favicon", e.target.value)}
-                                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl py-3 px-4 text-[11px] focus:outline-none focus:border-slate-900 font-mono transition-colors"
-                                placeholder="https://..."
-                            />
+                    </div>
+
+                    {/* Margin Controls */}
+                    <div className="space-y-2">
+                        <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest pl-1">Margin</div>
+                        <div className="grid grid-cols-4 gap-2">
+                            <SpacingInput label="Top" value={layout.marginTop} onChange={(v) => updateSiteSettings("layout.marginTop", v)} />
+                            <SpacingInput label="Right" value={layout.marginRight} onChange={(v) => updateSiteSettings("layout.marginRight", v)} />
+                            <SpacingInput label="Bot" value={layout.marginBottom} onChange={(v) => updateSiteSettings("layout.marginBottom", v)} />
+                            <SpacingInput label="Left" value={layout.marginLeft} onChange={(v) => updateSiteSettings("layout.marginLeft", v)} />
                         </div>
                     </div>
                 </section>
 
-                {/* Layout Settings */}
-                <section className="space-y-6 pt-4 border-t border-slate-50">
-                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
-                        <Layout size={12} /> Global Layout
-                    </h3>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">V-Padding</label>
-                            <select
-                                value={siteConfig.site_settings.layout?.padding || "py-0"}
-                                onChange={(e) => updateSiteSettings("layout.padding", e.target.value)}
-                                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl py-2 px-3 text-xs font-bold focus:outline-none focus:border-slate-900 cursor-pointer"
-                            >
-                                <option value="py-0">None (0)</option>
-                                <option value="py-4">Small (4)</option>
-                                <option value="py-8">Medium (8)</option>
-                                <option value="py-12">Large (12)</option>
-                                <option value="py-16">X-Large (16)</option>
-                                <option value="py-24">2X-Large (24)</option>
-                            </select>
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">V-Margin</label>
-                            <select
-                                value={siteConfig.site_settings.layout?.margin || "my-0"}
-                                onChange={(e) => updateSiteSettings("layout.margin", e.target.value)}
-                                className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl py-2 px-3 text-xs font-bold focus:outline-none focus:border-slate-900 cursor-pointer"
-                            >
-                                <option value="my-0">None (0)</option>
-                                <option value="my-4">Small (4)</option>
-                                <option value="my-8">Medium (8)</option>
-                                <option value="my-12">Large (12)</option>
-                                <option value="my-16">X-Large (16)</option>
-                                <option value="my-24">2X-Large (24)</option>
-                            </select>
+                {/* Site Identity */}
+                <section className="space-y-3 pt-3 border-t border-slate-50">
+                    <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Data</h3>
+                    <div className="space-y-3">
+                        <div className="space-y-1">
+                            <label className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">Name</label>
+                            <input
+                                type="text"
+                                value={siteConfig.site_settings.name}
+                                onChange={(e) => updateSiteSettings("name", e.target.value)}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-slate-900 font-bold transition-colors"
+                                placeholder="Site Name"
+                            />
                         </div>
                     </div>
                 </section>

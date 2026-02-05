@@ -84,8 +84,8 @@ const Docs: React.FC = () => {
                                         key={item.type}
                                         onClick={() => setActiveType(item.type)}
                                         className={`w-full text-left px-3 py-2 rounded-xl text-sm font-bold transition-all flex items-center justify-between group ${activeType === item.type
-                                                ? 'bg-white text-gray-900 shadow-sm border border-gray-100 ring-1 ring-black/5'
-                                                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                                            ? 'bg-white text-gray-900 shadow-sm border border-gray-100 ring-1 ring-black/5'
+                                            : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
                                             }`}
                                     >
                                         {item.type}
@@ -103,7 +103,7 @@ const Docs: React.FC = () => {
             {/* Content Area */}
             <div className="flex-1 overflow-y-auto bg-white relative custom-scrollbar">
                 <div className="max-w-4xl mx-auto px-12 py-16">
-                    <DocViewer schema={activeSchema} />
+                    <DocViewer key={activeSchema.type} schema={activeSchema} />
                 </div>
             </div>
         </div>

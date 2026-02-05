@@ -9,6 +9,17 @@ export interface Template {
 
 export const TEMPLATES: Template[] = [
     {
+        id: 'empty',
+        name: 'Empty',
+        description: 'Start with a completely blank canvas.',
+        style: 'Minimal',
+        site_settings: {
+            name: 'New Project',
+            theme: { primary: '#000000', font: 'Inter', darkMode: false }
+        },
+        sections: []
+    },
+    {
         id: 'modern-resume',
         name: 'Modern Resume',
         description: 'A professional and clean layout for your career journey.',

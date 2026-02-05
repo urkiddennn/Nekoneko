@@ -26,6 +26,7 @@ const defaultSettings: SiteSettings = {
     primary: "#6366f1",
     font: "Inter",
     darkMode: true,
+    showThemeToggle: true,
   },
   layout: {
     padding: "py-0",
@@ -155,16 +156,18 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const addSection = (type: string) => {
+    const defaultStyles = getDefaultStyles(type);
     const newSection: Section = {
       id: `${type}-${Date.now()}`,
       type,
       props: getDefaultProps(type),
       styles: {
-        padding: "py-16",
+        padding: "py-5",
         margin: "my-0",
-        maxWidth: "max-w-7xl",
+        maxWidth: "max-w-8xl",
         backgroundColor: "bg-transparent",
         textAlign: "left",
+        ...defaultStyles,
       },
     };
     setSiteConfig((prev) => ({
@@ -217,6 +220,20 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
+const getDefaultStyles = (type: string) => {
+  switch (type) {
+    case "navigation":
+      return {
+        textColor: "text-slate-950",
+        backgroundColor: "bg-transparent",
+        buttonBackgroundColor: "bg-indigo-600",
+        borderColor: "border-indigo-600",
+      };
+    default:
+      return {};
+  }
+};
+
 const getDefaultProps = (type: string) => {
   switch (type) {
     case "navigation":
@@ -227,11 +244,6 @@ const getDefaultProps = (type: string) => {
           { label: "Contact", url: "#contact" },
         ],
         showResumeButton: true,
-        style: {
-          textColor: "text-white",
-          backgroundColor: "bg-white/80",
-          borderColor: "border-indigo-600",
-        },
       };
     case "hero":
       return {

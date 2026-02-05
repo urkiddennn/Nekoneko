@@ -10,8 +10,9 @@ interface Schema {
     category: string;
     description: string;
     details?: string;
-    example: any;
-    props: Array<{ name: string; type: string; desc: string }>;
+    example?: any;
+    props?: Array<{ name: string; type: string; desc: string }>;
+    variants?: Array<{ name: string; description: string; example: any }>;
     common_styles?: Array<{ name: string; type: string; desc: string }>;
 }
 
@@ -23,6 +24,19 @@ interface DocViewerProps {
 const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'preview' | 'json'>('preview');
+    const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+
+    // Reset variant when schema changes
+    React.useEffect(() => {
+        setSelectedVariantIndex(0);
+    }, [schema]);
+
+    const currentVariant = schema.variants && schema.variants[selectedVariantIndex]
+        ? schema.variants[selectedVariantIndex]
+        : null;
+
+    const currentExample = currentVariant ? currentVariant.example : schema.example;
+    const currentDescription = currentVariant ? currentVariant.description : schema.description;
 
     const copyToClipboard = async (text: string, id: string) => {
         try {
@@ -63,10 +77,10 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
                     </div>
                 </div>
                 <p className="text-xl text-gray-500 font-medium max-w-2xl leading-relaxed">
-                    {schema.description}
+                    {currentDescription}
                 </p>
                 {schema.details && (
-                    <div className="p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100/50 flex items-start gap-3">
+                    <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100/50 flex items-start gap-3">
                         <Terminal size={18} className="text-indigo-600 mt-1 shrink-0" />
                         <p className="text-sm text-indigo-900/70 font-medium leading-relaxed italic">
                             {schema.details}
@@ -74,6 +88,24 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
                     </div>
                 )}
             </div>
+
+            {/* Variant Selector */}
+            {schema.variants && (
+                <div className="flex gap-2">
+                    {schema.variants.map((variant, idx) => (
+                        <button
+                            key={variant.name}
+                            onClick={() => setSelectedVariantIndex(idx)}
+                            className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${selectedVariantIndex === idx
+                                ? 'bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-200'
+                                : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:text-gray-700'
+                                }`}
+                        >
+                            {variant.name}
+                        </button>
+                    ))}
+                </div>
+            )}
 
             {/* Config & Example with Tabs */}
             <div className="space-y-4">
@@ -107,27 +139,27 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
                 </div>
 
                 {activeTab === 'preview' ? (
-                    <div className="relative bg-gray-50/50 rounded-[40px] border border-gray-100 overflow-hidden ring-1 ring-black/5 min-h-[300px] flex items-center justify-center p-12">
+                    <div className="relative bg-gray-50/50 rounded-xl border border-gray-100 overflow-hidden ring-1 ring-black/5 min-h-[300px] flex items-center justify-center p-12">
                         {/* Diagonal pattern background to mimic reference */}
                         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
 
-                        <div className="w-full max-w-4xl relative z-10 bg-white p-8 rounded-[32px] shadow-2xl shadow-indigo-500/10 border border-white ring-1 ring-black/5">
-                            <SectionRenderer sections={[schema.example]} />
+                        <div className="w-full max-w-4xl relative z-10 bg-white p-8 rounded-lg shadow-2xl shadow-indigo-500/10 border border-white ring-1 ring-black/5">
+                            <SectionRenderer sections={[currentExample]} />
                         </div>
                     </div>
                 ) : (
-                    <div className="group relative bg-gray-950 rounded-[40px] overflow-hidden border border-gray-800 shadow-2xl ring-1 ring-black/20 animate-in fade-in zoom-in-95 duration-300">
+                    <div className="group relative bg-gray-950 rounded-xl overflow-hidden border border-gray-800 shadow-2xl ring-1 ring-black/20 animate-in fade-in zoom-in-95 duration-300">
                         <div className="absolute top-6 right-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
                             <button
-                                onClick={() => copyToClipboard(JSON.stringify(schema.example, null, 2), schema.type)}
-                                className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all active:scale-95 backdrop-blur-md"
+                                onClick={() => copyToClipboard(JSON.stringify(currentExample, null, 2), schema.type)}
+                                className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all active:scale-95 backdrop-blur-md"
                                 title="Copy Example"
                             >
                                 {copiedId === schema.type ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
                             </button>
                         </div>
                         <CodeMirror
-                            value={JSON.stringify(schema.example, null, 2)}
+                            value={JSON.stringify(currentExample, null, 2)}
                             theme="dark"
                             extensions={[
                                 json(),
@@ -147,7 +179,7 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
             {/* Properties Table */}
             <div className="space-y-6">
                 <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">Structure & Props</h2>
-                <div className="overflow-hidden bg-white border border-gray-100 rounded-[32px] shadow-sm">
+                <div className="overflow-hidden bg-white border border-gray-100 rounded-xl shadow-sm">
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-gray-50/50 border-b border-gray-100">
@@ -157,7 +189,7 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {schema.props.map((prop) => (
+                            {schema.props && schema.props.map((prop) => (
                                 <tr key={prop.name} className="group hover:bg-gray-50/30 transition-colors">
                                     <td className="px-8 py-5 font-mono text-xs font-black text-indigo-600">
                                         "{prop.name}"
@@ -179,7 +211,7 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
             {(schema.common_styles && schema.common_styles.length > 0) && (
                 <div className="space-y-6">
                     <h1 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">Visual Modifiers</h1>
-                    <div className="overflow-hidden bg-white border border-gray-100 rounded-[32px] shadow-sm">
+                    <div className="overflow-hidden bg-white border border-gray-100 rounded-xl shadow-sm">
                         <table className="w-full text-left border-collapse">
                             <tbody className="divide-y divide-gray-50">
                                 {schema.common_styles.map((style) => (

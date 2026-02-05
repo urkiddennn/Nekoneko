@@ -1,5 +1,5 @@
 import React from "react";
-import { useSite } from "../context/SiteContext";
+import { useSite } from '../../context/SiteContext';
 
 interface Skill {
   name: string;
@@ -30,10 +30,10 @@ const Skills: React.FC<SkillsProps> = ({
     <section>
       <div>
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-black text-slate-900 tracking-tight uppercase italic mb-4">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-950 dark:text-white tracking-tight uppercase italic mb-4">
             {title}
           </h2>
-          <div className="w-24 h-1.5 bg-slate-200 mx-auto rounded-full overflow-hidden">
+          <div className="w-24 h-1.5 bg-slate-200 dark:bg-slate-800 mx-auto rounded-full overflow-hidden">
             <div
               className="h-full rounded-full w-1/2 mx-auto"
               style={{ backgroundColor: primaryColor }}
@@ -47,7 +47,7 @@ const Skills: React.FC<SkillsProps> = ({
             return (
               <div key={index} className="group">
                 <div className="flex justify-between items-end mb-2">
-                  <span className="text-lg font-bold text-slate-700 uppercase tracking-wider">
+                  <span className="text-lg font-bold text-slate-950 dark:text-white uppercase tracking-wider">
                     {skill.name}
                   </span>
                   {showPercentage && (
@@ -60,7 +60,7 @@ const Skills: React.FC<SkillsProps> = ({
                   )}
                 </div>
                 {showProgressBar && (
-                  <div className="h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200 shadow-inner">
+                  <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800 shadow-inner">
                     <div
                       className="h-full rounded-full transition-all duration-1000 ease-out group-hover:scale-x-105 origin-left"
                       style={{

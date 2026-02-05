@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useSite } from '../context/SiteContext';
 import { useNavigate } from 'react-router-dom';
-import { Files, BookOpen, Globe, Sparkles, Smartphone, Tablet, Monitor } from 'lucide-react';
+import { Files, BookOpen, Globe, Sparkles, Smartphone, Tablet, Monitor, LayoutDashboard } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import SectionRenderer from './SectionRenderer';
+import IframePreview from './IframePreview';
 
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
-import { EditorView } from '@codemirror/view';
+import { EditorView, highlightActiveLine, highlightActiveLineGutter } from '@codemirror/view';
 import { autocompletion, CompletionContext } from '@codemirror/autocomplete';
 
 import { vscodeDark } from '@uiw/codemirror-themes-all';
 import ThemePlugin from './ThemePlugin';
+import ThemeToggle from './library/ThemeToggle';
 
 function myCompletions(context: CompletionContext) {
     let word = context.matchBefore(/\w*/)
@@ -112,14 +114,14 @@ const Editor: React.FC = () => {
     return (
         <div className="flex flex-col h-screen bg-white text-gray-900 font-sans overflow-hidden">
             {/* Header */}
-            <div className="h-14 border-b border-gray-200 flex items-center justify-between px-6 bg-white shrink-0 z-40">
+            <div className="h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-white shrink-0 z-40">
                 <div className="flex items-center gap-4">
                     <button
                         onClick={() => navigate('/dashboard')}
                         className="text-gray-400 hover:text-gray-900 transition-colors p-1"
                         title="Back to Dashboard"
                     >
-                        <Files size={18} />
+                        <LayoutDashboard size={18} />
                     </button>
                     <div className="font-black tracking-tighter text-lg select-none">nekoneko</div>
                 </div>
@@ -198,7 +200,7 @@ const Editor: React.FC = () => {
                                             height="100%"
                                             basicSetup={{ lineNumbers: true, foldGutter: true, autocompletion: true }}
                                             theme={editorTheme}
-                                            extensions={[json(), autocompletion({ override: [myCompletions] }), EditorView.lineWrapping]}
+                                            extensions={[json(), autocompletion({ override: [myCompletions] }), EditorView.lineWrapping, highlightActiveLine(), highlightActiveLineGutter()]}
                                             onChange={handleJsonChange}
                                             className="text-sm font-mono h-full"
                                         />
@@ -215,8 +217,8 @@ const Editor: React.FC = () => {
 
                         <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
 
-                        <Panel>
-                            <div className="h-full bg-gray-50 overflow-y-auto p-8 relative">
+                        <Panel defaultSize={60} minSize={25}  >
+                            <div className="h-full bg-gray-50 overflow-y-auto relative no-scrollbar cursor-default">
                                 {/* Viewport Controls */}
                                 <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-white border border-gray-200 rounded-lg shadow-sm p-1">
                                     <button
@@ -256,17 +258,35 @@ const Editor: React.FC = () => {
                                         <span className="text-xs font-bold text-gray-600 ml-1">{viewportWidth}px</span>
                                     )}
                                 </div>
-                                <div className="flex justify-center">
-                                    <div
-                                        className="bg-white min-h-full border border-gray-200 shadow-sm overflow-hidden transition-all duration-300"
+                                <div className="flex justify-center h-full">
+                                    <IframePreview
+                                        title="Site Preview"
+                                        darkMode={siteConfig.site_settings?.theme?.darkMode}
+                                        className={`${siteConfig.site_settings?.theme?.darkMode ? 'bg-slate-950' : 'bg-white'} shadow-sm transition-all duration-300 mx-auto `}
                                         style={{
-                                            fontFamily: siteConfig.site_settings?.theme?.font || 'Inter',
                                             width: viewportWidth === 'full' ? '100%' : `${viewportWidth}px`,
-                                            maxWidth: '100%'
+                                            maxWidth: '100%',
+                                            height: '100%'
+                                        }}
+                                        contentStyle={{
+                                            fontFamily: siteConfig.site_settings?.theme?.font || 'Inter',
+                                            paddingTop: siteConfig.site_settings?.layout?.paddingTop ? (/^\d+$/.test(siteConfig.site_settings.layout.paddingTop) ? `${siteConfig.site_settings.layout.paddingTop}px` : siteConfig.site_settings.layout.paddingTop) : undefined,
+                                            paddingRight: siteConfig.site_settings?.layout?.paddingRight ? (/^\d+$/.test(siteConfig.site_settings.layout.paddingRight) ? `${siteConfig.site_settings.layout.paddingRight}px` : siteConfig.site_settings.layout.paddingRight) : undefined,
+                                            paddingBottom: siteConfig.site_settings?.layout?.paddingBottom ? (/^\d+$/.test(siteConfig.site_settings.layout.paddingBottom) ? `${siteConfig.site_settings.layout.paddingBottom}px` : siteConfig.site_settings.layout.paddingBottom) : undefined,
+                                            paddingLeft: siteConfig.site_settings?.layout?.paddingLeft ? (/^\d+$/.test(siteConfig.site_settings.layout.paddingLeft) ? `${siteConfig.site_settings.layout.paddingLeft}px` : siteConfig.site_settings.layout.paddingLeft) : undefined,
+                                            marginTop: siteConfig.site_settings?.layout?.marginTop ? (/^\d+$/.test(siteConfig.site_settings.layout.marginTop) ? `${siteConfig.site_settings.layout.marginTop}px` : siteConfig.site_settings.layout.marginTop) : undefined,
+                                            marginRight: siteConfig.site_settings?.layout?.marginRight ? (/^\d+$/.test(siteConfig.site_settings.layout.marginRight) ? `${siteConfig.site_settings.layout.marginRight}px` : siteConfig.site_settings.layout.marginRight) : undefined,
+                                            marginBottom: siteConfig.site_settings?.layout?.marginBottom ? (/^\d+$/.test(siteConfig.site_settings.layout.marginBottom) ? `${siteConfig.site_settings.layout.marginBottom}px` : siteConfig.site_settings.layout.marginBottom) : undefined,
+                                            marginLeft: siteConfig.site_settings?.layout?.marginLeft ? (/^\d+$/.test(siteConfig.site_settings.layout.marginLeft) ? `${siteConfig.site_settings.layout.marginLeft}px` : siteConfig.site_settings.layout.marginLeft) : undefined,
                                         }}
                                     >
-                                        <SectionRenderer sections={siteConfig.sections} />
-                                    </div>
+                                        <div className="min-h-full">
+                                            <SectionRenderer sections={siteConfig.sections} />
+                                            {siteConfig.site_settings?.theme?.showThemeToggle && (
+                                                <ThemeToggle variant="floating" />
+                                            )}
+                                        </div>
+                                    </IframePreview>
                                 </div>
                             </div>
                         </Panel>

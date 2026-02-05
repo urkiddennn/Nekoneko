@@ -4,6 +4,7 @@ export const ThemeSchema = z.object({
     primary: z.string(),
     font: z.string(),
     darkMode: z.boolean(),
+    showThemeToggle: z.boolean().optional(),
 });
 
 export const SEOSchema = z.object({
@@ -13,7 +14,15 @@ export const SEOSchema = z.object({
 
 export const LayoutSettingsSchema = z.object({
     padding: z.string().optional(),
+    paddingTop: z.string().optional(),
+    paddingBottom: z.string().optional(),
+    paddingLeft: z.string().optional(),
+    paddingRight: z.string().optional(),
     margin: z.string().optional(),
+    marginTop: z.string().optional(),
+    marginBottom: z.string().optional(),
+    marginLeft: z.string().optional(),
+    marginRight: z.string().optional(),
 });
 
 export const SiteSettingsSchema = z.object({

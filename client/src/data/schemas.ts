@@ -52,26 +52,73 @@ export const SCHEMAS = [
     description: "Universal header component.",
     details:
       "Top navigation bar that persists across pages. Supports a list of links and an optional CTA button.",
-    example: {
-      id: "nav-1",
-      type: "navigation",
-      props: {
-        links: [{ label: "Dev", url: "#" }],
-        showResumeButton: true,
-      },
-      styles: {
-        textColor: "text-white",
-        backgroundColor: "bg-white",
-        borderColor: "border-indigo-600",
-      },
-    },
-    props: [
-      { name: "links", type: "array", desc: "Array of {label, url} objects." },
+    variants: [
       {
-        name: "showResumeButton",
-        type: "boolean",
-        desc: 'Shows a "Resume" or primary CTA button.',
+        name: "Default",
+        description: "Standard navigation with clear borders and structure.",
+        example: {
+          id: "nav-1",
+          type: "navigation",
+          props: {
+            links: [{ label: "Dev", url: "#" }],
+            showResumeButton: true,
+          },
+          styles: {
+            textColor: "text-slate-950",
+            backgroundColor: "bg-white",
+            buttonBackgroundColor: "bg-indigo-600",
+            borderColor: "border-indigo-600",
+          },
+        }
       },
+      {
+        name: "Minimal",
+        description: "Clean, borderless look for modern designs.",
+        example: {
+          id: "nav-min-1",
+          type: "navigation_minimal",
+          props: {
+            links: [{ label: "Work", url: "#work" }, { label: "Studio", url: "#studio" }],
+            showResumeButton: true,
+          },
+          styles: {
+            textColor: "text-slate-950",
+            backgroundColor: "bg-transparent",
+            buttonBackgroundColor: "bg-zinc-900",
+          },
+        }
+      },
+      {
+        name: "Brutalist",
+        description: "High-contrast with thick borders and hard shadows.",
+        example: {
+          id: "nav-brutalist",
+          type: "navigation",
+          props: {
+            links: [{ label: "Projects", url: "#" }, { label: "Contact", url: "#" }],
+            showResumeButton: true,
+            variant: "brutalist"
+          }
+        }
+      },
+      {
+        name: "Outline Minimal",
+        description: "Zero border-radius with thin monochromatic borders.",
+        example: {
+          id: "nav-outline",
+          type: "navigation",
+          props: {
+            links: [{ label: "Portfolio", url: "#" }, { label: "Studio", url: "#" }],
+            showResumeButton: true,
+            variant: "outline_minimal"
+          }
+        }
+      }
+    ],
+    props: [
+      { name: "links", type: "array", desc: "List of {label, url}." },
+      { name: "showResumeButton", type: "boolean", desc: "Toggle resume button." },
+      { name: "variant", type: '"default" | "minimal" | "brutalist" | "outline_minimal"', desc: "Visual style." },
     ],
     common_styles: [
       {
@@ -105,7 +152,7 @@ export const SCHEMAS = [
         subheading: "Built with JSON",
         avatarUrl: "https://api.dicebear.com/7.x/shapes/svg",
         alignment: "center",
-        layout: "split",
+        variant: "split",
         style: { titleColor: "#6366f1", titleSize: "text-8xl" },
       },
       styles: {
@@ -121,14 +168,102 @@ export const SCHEMAS = [
         type: "string",
         desc: "Secondary descriptive text.",
       },
-      {
-        name: "avatarUrl",
-        type: "url",
-        desc: "URL for the profile/avatar image.",
-      },
+      { name: "avatarUrl", type: "url", desc: "URL for the profile/avatar image." },
       { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
-      { name: "layout", type: '"stack" | "split"', desc: "Layout style." },
+      { name: "variant", type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal"', desc: "Layout style." },
+      { name: "backgroundImageUrl", type: "url", desc: "Background image URL (for invest layout)." },
+      { name: "topBadgeItems", type: "array", desc: "List of {label, value, logo, trend} (ticker items)." },
+      { name: "ctaButtons", type: "array", desc: "List of {label, url, variant} buttons." },
     ],
+    variants: [
+      {
+        name: "Default (Stack)",
+        description: "Image above text.",
+        example: {
+          id: "hero-stack",
+          type: "hero",
+          props: {
+            heading: "Modern Identity",
+            subheading: "Crafting digital experiences.",
+            avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg",
+            variant: "stack"
+          }
+        }
+      },
+      {
+        name: "Split",
+        description: "Side-by-side layout.",
+        example: {
+          id: "hero-split",
+          type: "hero",
+          props: {
+            heading: "The Future",
+            subheading: "Built with passion.",
+            avatarUrl: "https://api.dicebear.com/7.x/shapes/svg",
+            variant: "split"
+          }
+        }
+      },
+      {
+        name: "Invest",
+        description: "High-impact layout with background and ticker.",
+        example: {
+          id: "hero-invest",
+          type: "hero",
+          props: {
+            heading: "INVEST SMARTER,\nGROW FASTER",
+            subheading: "Diversify your portfolio with confidence.",
+            backgroundImageUrl: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+            variant: "invest",
+            topBadgeItems: [
+              { label: "Meta", value: "488.48", logo: "https://www.facebook.com/favicon.ico", trend: "up" },
+              { label: "Nvidia", value: "118.48", logo: "https://www.nvidia.com/favicon.ico", trend: "up" },
+              { label: "Amazon", value: "184.48", logo: "https://www.amazon.com/favicon.ico", trend: "down" }
+            ],
+            ctaButtons: [
+              { label: "Start trading", url: "#", variant: "primary" },
+              { label: "Explore markets", url: "#", variant: "outline" }
+            ]
+          }
+        }
+      },
+      {
+        name: "Brutalist",
+        description: "Large-scale layout with thick borders and offset shadows.",
+        example: {
+          id: "hero-brutalist",
+          type: "hero",
+          props: {
+            heading: "BRUTALIST\nDESIGN",
+            subheading: "Bold, raw, and uncompromising digital experiences.",
+            avatarUrl: "https://api.dicebear.com/7.x/shapes/svg",
+            variant: "brutalist",
+            ctaButtons: [
+              { label: "View Work", url: "#", variant: "primary" },
+              { label: "Library", url: "#", variant: "outline" }
+            ]
+          }
+        }
+      },
+      {
+        name: "Outline Minimal",
+        description: "High-contrast monochromatic layout with square edges.",
+        example: {
+          id: "hero-outline",
+          type: "hero",
+          props: {
+            heading: "MODERN\nARCHITECTURE",
+            subheading: "PRECISION AND CLARITY IN EVERY PIXEL.",
+            avatarUrl: "https://api.dicebear.com/7.x/bottts/svg",
+            variant: "outline_minimal",
+            ctaButtons: [
+              { label: "View Portfolio", url: "#", variant: "primary" },
+              { label: "Contact", url: "#", variant: "outline" }
+            ]
+          }
+        }
+      }
+    ]
   },
   {
     type: "stats_bar",
@@ -147,7 +282,7 @@ export const SCHEMAS = [
       styles: { padding: "py-12" }
     },
     props: [
-      { name: "items", type: "array", desc: "List of {label, value} objects." }
+      { name: "items", type: "array", desc: "List of {label, value, icon} objects." }
     ]
   },
   {
@@ -185,7 +320,26 @@ export const SCHEMAS = [
         type: "number",
         desc: "Number of columns (default: 3).",
       },
+      { name: "variant", type: '"default" | "brutalist" | "outline_minimal"', desc: "Visual style." },
     ],
+    variants: [
+      {
+        name: "Brutalist",
+        description: "Feature cards with thick borders and hover effects.",
+        example: {
+          id: "feat-brutalist",
+          type: "features",
+          props: {
+            title: "Core Features",
+            variant: "brutalist",
+            items: [
+              { title: "Performance", description: "Blazing fast interaction." },
+              { title: "Security", description: "Bulletproof architecture." }
+            ]
+          }
+        }
+      }
+    ]
   },
   {
     type: "skills",
@@ -243,6 +397,7 @@ export const SCHEMAS = [
             company: "Tech",
             period: "2020-2024",
             description: "Focused on React architecture.",
+            icon: "Briefcase",
           },
         ],
       },
@@ -250,12 +405,56 @@ export const SCHEMAS = [
     },
     props: [
       { name: "title", type: "string", desc: "Section header." },
-      {
-        name: "jobs",
-        type: "array",
-        desc: "List of {role, company, period, description}.",
-      },
+      { name: "jobs", type: "array", desc: "List of {role, company, period, description, icon}." },
+      { name: "variant", type: '"timeline" | "cards" | "brutalist" | "outline_minimal"', desc: "Visual style." },
     ],
+    variants: [
+      {
+        name: "Brutalist Post",
+        description: "Interactive card style with bottom action bar.",
+        example: {
+          id: "exp-brutalist",
+          type: "experience",
+          props: {
+            title: "Project Log",
+            variant: "brutalist",
+            jobs: [
+              { role: "Frontend Dev", company: "Neko", period: "2024", description: "Building the next-gen editor.", icon: "Layout" }
+            ]
+          }
+        }
+      },
+      {
+        name: "Floating Cards",
+        description: "Large cards with a sticky sidebar.",
+        example: {
+          id: "exp-cards",
+          type: "experience",
+          props: {
+            title: "Career Path",
+            variant: "cards",
+            jobs: [
+              { role: "Product Designer", company: "Linear", period: "2022 — Present", description: "Designing the future of project management.", icon: "Figma" }
+            ]
+          }
+        }
+      },
+      {
+        name: "Clean Timeline",
+        description: "Minimal vertical timeline design.",
+        example: {
+          id: "exp-timeline",
+          type: "experience",
+          props: {
+            title: "Professional Timeline",
+            variant: "timeline",
+            jobs: [
+              { role: "Software Engineer", company: "Vercel", period: "2020 — 2022", description: "Scaling the edge network.", icon: "Zap" }
+            ]
+          }
+        }
+      }
+    ]
   },
   {
     type: "layout",
@@ -388,31 +587,84 @@ export const SCHEMAS = [
         type: "array",
         desc: "List of skill names.",
       },
+      { name: "variant", type: '"default" | "brutalist" | "outline_minimal"', desc: "Visual style." },
     ],
+    variants: [
+      {
+        name: "Brutalist Pills",
+        description: "Thick bordered skill tags.",
+        example: {
+          id: "skills-pills-brutalist",
+          type: "skills_bullets",
+          props: {
+            title: "Tech Stack",
+            variant: "brutalist",
+            skills: ["React", "TypeScript", "Tailwind"]
+          }
+        }
+      },
+      {
+        name: "Outline Minimal",
+        description: "Square monochromatic tags.",
+        example: {
+          id: "skills-outline",
+          type: "skills_bullets",
+          props: {
+            title: "Core Stack",
+            variant: "outline_minimal",
+            skills: ["SYSTEM", "CORE", "API"]
+          }
+        }
+      }
+    ]
   },
   {
     type: "contact_info",
     category: "Connect",
     description: "Social and contact icon links.",
-    details: "Display a clean row of icon buttons for email and social media.",
-    example: {
-      id: "contact-1",
-      type: "contact_info",
-      props: {
-        title: "Let's connect",
-        description: "Available for freelance work.",
-        links: [
-          { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
-          { label: "GitHub", url: "https://github.com", icon: "Github" }
-        ],
-        alignment: "center"
+    details: "Display a clean row of icon buttons or a high-contrast card for contact information.",
+    variants: [
+      {
+        name: "Default Icons",
+        description: "Standard row of icon buttons.",
+        example: {
+          id: "contact-default",
+          type: "contact_info",
+          props: {
+            title: "Let's connect",
+            description: "Available for freelance work.",
+            links: [
+              { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
+              { label: "GitHub", url: "https://github.com", icon: "Github" }
+            ],
+            alignment: "center",
+            variant: "default"
+          }
+        }
+      },
+      {
+        name: "High-Contrast Card",
+        description: "Bold red card with monospace typography.",
+        example: {
+          id: "contact-card",
+          type: "contact_info",
+          props: {
+            title: "CONTACT_INFO",
+            links: [
+              { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
+              { label: "Phone", url: "tel:09669305550", icon: "Phone" }
+            ],
+            variant: "card"
+          }
+        }
       }
-    },
+    ],
     props: [
       { name: "title", type: "string", desc: "Heading text." },
       { name: "description", type: "string", desc: "Secondary text." },
       { name: "links", type: "array", desc: "List of {label, url, icon}." },
-      { name: "alignment", type: '"left" | "center" | "right"', desc: "Alignment." }
+      { name: "alignment", type: '"left" | "center" | "right"', desc: "Alignment." },
+      { name: "variant", type: '"default" | "card"', desc: "Visual style." }
     ]
   },
   {
@@ -456,7 +708,42 @@ export const SCHEMAS = [
     },
     props: [
       { name: "title", type: "string", desc: "Section header." },
-      { name: "plans", type: "array", desc: "Array of {name, price, features, isPopular}." }
+      { name: "plans", type: "array", desc: "Array of {name, price, features, isPopular}." },
+      { name: "variant", type: '"grid" | "list" | "brutalist" | "outline_minimal"', desc: "Layout style." }
+    ],
+    variants: [
+      {
+        name: "Comparison Grid",
+        description: "Boxed vertical tiers side-by-side.",
+        example: {
+          id: "pricing-grid",
+          type: "pricing",
+          props: {
+            title: "Pricing Plans",
+            variant: "grid",
+            plans: [
+              { name: "Basic", price: "$0", features: ["1 Site", "Standard Themes"] },
+              { name: "Pro", price: "$29", features: ["Unlimited Sites", "Custom CSS"], isPopular: true }
+            ]
+          }
+        }
+      },
+      {
+        name: "Minimal List",
+        description: "Horizontal rows for comparison.",
+        example: {
+          id: "pricing-list",
+          type: "pricing",
+          props: {
+            title: "Flexible Options",
+            variant: "list",
+            plans: [
+              { name: "Developer", price: "$10/mo", features: ["API Access", "Webhooks"] },
+              { name: "Enterprise", price: "Custom", features: ["SLA", "Dedicated Support"] }
+            ]
+          }
+        }
+      }
     ]
   },
   {
@@ -482,4 +769,134 @@ export const SCHEMAS = [
       { name: "items", type: "array", desc: "Array of {title, image, tags, link}." }
     ]
   },
+  {
+    type: "education",
+    category: "Content",
+    description: "Academic history timeline.",
+    details: "A vertical timeline representing schools and degrees.",
+    example: {
+      id: "edu-1",
+      type: "education",
+      props: {
+        title: "Education",
+        items: [
+          { school: "Universidad De Manila", degree: "Bachelor of Science in Information Technology", period: "2018 — 2022" },
+          { school: "Arellano University", degree: "Senior High School", period: "2016 — 2018" }
+        ]
+      }
+    },
+    props: [
+      { name: "title", type: "string", desc: "Section header." },
+      { name: "items", type: "array", desc: "List of {school, degree, period, icon}." },
+      { name: "variant", type: '"timeline" | "brutalist" | "outline_minimal"', desc: "Visual style." }
+    ],
+    variants: [
+      {
+        name: "Brutalist List",
+        description: "Large book-style list cards.",
+        example: {
+          id: "edu-brutalist",
+          type: "education",
+          props: {
+            title: "Learning Path",
+            variant: "brutalist",
+            items: [
+              { school: "Design Academy", degree: "Visual Arts", period: "2020-2022" }
+            ]
+          }
+        }
+      },
+      {
+        name: "Outline Minimal",
+        description: "Sharp list with architectural markers.",
+        example: {
+          id: "edu-outline-min",
+          type: "education",
+          props: {
+            title: "Academic Log",
+            variant: "outline_minimal",
+            items: [
+              { school: "University", degree: "Computer Science", period: "2018-2022" }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    type: "theme_toggle",
+    category: "Utility",
+    description: "Switch between dark and light mode.",
+    details: "A button that allows visitors to toggle the site's dark mode.",
+    example: {
+      id: "toggle-1",
+      type: "theme_toggle",
+      props: {
+        variant: "inline"
+      }
+    },
+    props: [
+      { name: "variant", type: '"inline" | "floating"', desc: "Visual style." }
+    ]
+  },
+  {
+    type: "search_bar",
+    category: "Utility",
+    description: "Neo-Brutalist search with results.",
+    props: [
+      { name: "placeholder", type: "string", desc: "Input placeholder." },
+      { name: "category", type: "string", desc: "Search category tag." },
+      { name: "results", type: "array", desc: "List of {title, stats}." }
+    ],
+    example: {
+      id: "search-1",
+      type: "search_bar",
+      props: {
+        category: "Mathematics",
+        results: [
+          { title: "Calculus, Volume 2 - Gilbert Strang", stats: { answers: 12, rating: 4.8, likes: 24 } }
+        ]
+      }
+    }
+  },
+  {
+    type: "selection_list",
+    category: "Utility",
+    description: "Selectable list of cards.",
+    props: [
+      { name: "title", type: "string", desc: "List title." },
+      { name: "items", type: "array", desc: "List of {id, label, icon, description}." },
+      { name: "selectedId", type: "string", desc: "ID of selected item." }
+    ],
+    example: {
+      id: "sel-1",
+      type: "selection_list",
+      props: {
+        title: "Subject Category",
+        items: [
+          { id: "1", label: "High School", icon: "🎨" },
+          { id: "2", label: "College", icon: "🎓" }
+        ],
+        selectedId: "2"
+      }
+    }
+  },
+  {
+    type: "step_progress",
+    category: "Utility",
+    description: "Flow stepper with CTA block.",
+    props: [
+      { name: "title", type: "string", desc: "Top indicator text." },
+      { name: "subTitle", type: "string", desc: "Main title text." },
+      { name: "currentStep", type: "number", desc: "Active step index." }
+    ],
+    example: {
+      id: "steps-1",
+      type: "step_progress",
+      props: {
+        currentStep: 2,
+        subTitle: "Join Now"
+      }
+    }
+  }
 ];

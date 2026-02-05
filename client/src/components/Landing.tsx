@@ -87,16 +87,6 @@ const Landing: React.FC = () => {
                 </div>
             </main>
 
-            {/*
-             - [x] Expand Landing Page Content
-                - [x] Add Template Showcase section
-                - [x] Add "How it Works" section
-                - [x] Add FAQ / Final CTA section
-            - [x] Redesign Auth Pages (Login & Signup)
-    - [x] Apply minimal UI to `Login.tsx`
-    - [x] Apply minimal UI to `Signup.tsx`
-    - [x] Verify consistent auth flow
-            */}
             {/* How it Works */}
             <section className="py-24 bg-gray-50/50 border-y border-gray-100">
                 <div className="max-w-6xl mx-auto px-8">

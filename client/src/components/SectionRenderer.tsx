@@ -1,22 +1,28 @@
 import React from "react";
-import Navigation from "./Navigation";
-import Hero from "./Hero";
-import StatsBar from "./StatsBar";
-import ProjectGrid from "./ProjectGrid";
-import ContactSection from "./ContactSection";
-import Features from "./Features";
-import Pricing from "./Pricing";
-import Skills from "./Skills";
-import Experience from "./Experience";
-import CTA from "./CTA";
-import Layout from "./Layout";
-import ImageComponent from "./ImageComponent";
-import SkillsBullets from "./SkillsBullets";
-import ContactInfo from "./ContactInfo";
-import ProjectDetails from "./ProjectDetails";
+import Navigation from "./library/Navigation";
+import Hero from "./library/Hero";
+import StatsBar from "./library/StatsBar";
+import ProjectGrid from "./library/ProjectGrid";
+import ContactSection from "./library/ContactSection";
+import Features from "./library/Features";
+import Pricing from "./library/Pricing";
+import Skills from "./library/Skills";
+import Experience from "./library/Experience";
+import CTA from "./library/CTA";
+import Layout from "./library/Layout";
+import ImageComponent from "./library/ImageComponent";
+import SkillsBullets from "./library/SkillsBullets";
+import ContactInfo from "./library/ContactInfo";
+import ProjectDetails from "./library/ProjectDetails";
+import Education from './library/Education';
+import ThemeToggle from "./library/ThemeToggle";
+import SearchBar from "./library/SearchBar";
+import SelectionList from "./library/SelectionList";
+import StepProgress from "./library/StepProgress";
 
 const componentRegistry: Record<string, React.FC<any>> = {
   navigation: Navigation,
+  navigation_minimal: Navigation,
   hero: Hero,
   stats_bar: StatsBar,
   project_grid: ProjectGrid,
@@ -31,6 +37,12 @@ const componentRegistry: Record<string, React.FC<any>> = {
   skills_bullets: SkillsBullets,
   contact_info: ContactInfo,
   project_details: ProjectDetails,
+  education: Education,
+  contact_card: ContactInfo,
+  theme_toggle: ThemeToggle,
+  search_bar: SearchBar,
+  selection_list: SelectionList,
+  step_progress: StepProgress,
 };
 
 interface SectionRendererProps {
@@ -41,7 +53,9 @@ interface SectionRendererProps {
 export const renderSection = (section: any, index: number) => {
   const Component = componentRegistry[section.type];
   const extraProps =
-    section.type === "layout" || section.type === "features" ? { renderItem: renderSection } : {};
+    section.type === "layout" || section.type === "features"
+      ? { renderItem: renderSection }
+      : {};
 
   const styles = section.styles || {};
   const containerClasses = [
@@ -86,7 +100,7 @@ export const renderSection = (section: any, index: number) => {
 
 const SectionRenderer: React.FC<SectionRendererProps> = ({ sections }) => {
   return (
-    <div className="bg-white min-h-full mx-auto w-full">
+    <div className="bg-transparent text-slate-950 dark:text-white min-h-full mx-auto w-full">
       {sections.map((section, idx) => renderSection(section, idx))}
     </div>
   );
