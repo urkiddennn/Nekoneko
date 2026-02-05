@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sun, Moon } from 'lucide-react';
-import { useSite } from '../../context/SiteContext';
+import { useSite } from '../../context/useSite';
 
 interface ThemeToggleProps {
     variant?: 'floating' | 'inline' | 'minimal';

@@ -1,5 +1,5 @@
 import React from "react";
-import { useSite } from '../../context/SiteContext';
+import { useSite } from '../../context/useSite';
 
 interface Skill {
   name: string;

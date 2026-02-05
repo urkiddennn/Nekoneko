@@ -1,5 +1,5 @@
 import React from "react";
-import { useSite } from "../context/SiteContext";
+import { useSite } from "../context/useSite";
 import { Check, Palette, Shield, Globe, Layout, Sparkles, Monitor, X } from "lucide-react";
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { githubLight } from '@uiw/codemirror-theme-github';

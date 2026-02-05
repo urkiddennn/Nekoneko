@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
-import { useSite } from "../context/SiteContext";
+import { useSite } from "../context/useSite";
 import SectionRenderer from "./SectionRenderer";
 import ThemeToggle from "./library/ThemeToggle";
 

@@ -1,43 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SiteConfig, Section, SiteSettings } from "../types";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useParams } from "react-router-dom";
 import { getToken } from "../utils/authUtils";
-
-interface SiteContextType {
-  siteConfig: SiteConfig;
-  setSiteConfig: React.Dispatch<React.SetStateAction<SiteConfig>>;
-  updateSectionProperty: (sectionId: string, key: string, value: any) => void;
-  updateSiteSettings: (path: string, value: any) => void;
-  addSection: (type: string) => void;
-  reorderSections: (oldIndex: number, newIndex: number) => void;
-  saveConfig: () => Promise<void>;
-  loading: boolean;
-  projectSlug?: string;
-  projectId?: string;
-}
-
-const SiteContext = createContext<SiteContextType | undefined>(undefined);
-
-const defaultSettings: SiteSettings = {
-  name: "Alex Dev",
-  favicon: "https://example.com/favicon.ico",
-  theme: {
-    primary: "#6366f1",
-    font: "Inter",
-    darkMode: true,
-    showThemeToggle: true,
-  },
-  layout: {
-    padding: "py-0",
-    margin: "my-0",
-  },
-  seo: {
-    title: "Alex | Fullstack Developer Portfolio",
-    description: "Building high-performance web apps.",
-  },
-};
+import { SiteContext, defaultSettings } from "./useSite";
 
 export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -115,7 +82,28 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (projectData) {
+      const mergedSettings: SiteSettings = {
+        ...defaultSettings,
+        ...projectData.site_settings,
+        theme: {
+          ...defaultSettings.theme,
+          ...(projectData.site_settings.theme || {}),
+        },
+        seo: {
+          ...defaultSettings.seo,
+          ...(projectData.site_settings.seo || {}),
+        },
+        layout: {
+          ...defaultSettings.layout,
+          ...(projectData.site_settings.layout || {}),
+        },
+      };
 
+      setSiteConfig({
+        site_settings: mergedSettings,
+        sections: projectData.sections,
+      });
+      setLoading(false);
     } else if (projectData === null) {
       setLoading(false);
     }
@@ -273,12 +261,4 @@ const getDefaultProps = (type: string) => {
     default:
       return {};
   }
-};
-
-export const useSite = () => {
-  const context = useContext(SiteContext);
-  if (!context) {
-    throw new Error("useSite must be used within a SiteProvider");
-  }
-  return context;
 };

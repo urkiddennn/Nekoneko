@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSite } from '../context/SiteContext';
+import { useSite } from '../context/useSite';
 import { useNavigate } from 'react-router-dom';
 import { Files, BookOpen, Globe, Sparkles, Smartphone, Tablet, Monitor, LayoutDashboard } from 'lucide-react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
