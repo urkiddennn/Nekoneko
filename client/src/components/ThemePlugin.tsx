@@ -225,21 +225,24 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({ activeThemeId, handleThemeCha
                 <section className="space-y-3 pt-3 border-t border-slate-50">
                     <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Font</h3>
                     <div className="space-y-2">
-                        {FONTS.map((font) => (
-                            <button
-                                key={font}
-                                type="button"
-                                onMouseDown={(e) => {
-                                    e.preventDefault();
-                                    updateSiteSettings("theme.font", font);
-                                }}
-                                className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.font === font ? "border-slate-900 bg-slate-50 shadow-sm" : "border-slate-100 hover:border-slate-300 hover:bg-slate-50/20"
-                                    }`}
+                        <div className="relative">
+                            <select
+                                value={theme.font}
+                                onChange={(e) => updateSiteSettings("theme.font", e.target.value)}
+                                className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-colors cursor-pointer"
+                                style={{ fontFamily: theme.font }}
                             >
-                                <span className="text-sm font-bold" style={{ fontFamily: font }}>{font}</span>
-                                {theme.font === font && <Check size={14} className="text-slate-900" />}
-                            </button>
-                        ))}
+                                {FONTS.map((font) => (
+                                    <option key={font} value={font} style={{ fontFamily: font }}>
+                                        {font}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-500">
+                                <Check size={14} className="opacity-0" /> {/* Spacer */}
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
                     </div>
                 </section>
 

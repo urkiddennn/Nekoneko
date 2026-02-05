@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Box, Zap, Share2, MousePointer2 } from 'lucide-react';
+import { getUser } from '../utils/authUtils';
 
 const Landing: React.FC = () => {
     const navigate = useNavigate();
-    const user = JSON.parse(localStorage.getItem("neko_user") || "null");
+    const user = getUser();
 
     const handleGetStarted = () => {
         if (user) {

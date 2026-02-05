@@ -30,7 +30,7 @@ const Site: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-slate-950 flex flex-col items-center justify-end pb-12 transition-colors">
+      <div className="min-h-screen bg-white dark:bg-slate-950 flex flex-col items-center justify-end pb-5 transition-colors">
         <div className="flex items-center gap-2 opacity-20 dark:text-white">
           <span className="text-[10px] font-black tracking-[0.3em] uppercase">
             Powered by
@@ -70,7 +70,7 @@ const Site: React.FC = () => {
 
       {showToggle && <ThemeToggle variant="floating" />}
 
-      <footer className="py-12 flex justify-center bg-transparent">
+      <footer className="py-5 flex justify-center bg-transparent">
         <div className="flex items-center gap-2 opacity-20 hover:opacity-100 transition-opacity cursor-default">
           <span className="text-[10px] font-black tracking-[0.3em] uppercase">
             Powered by

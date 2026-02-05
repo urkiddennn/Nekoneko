@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useMutation } from 'convex/react';
+import { useAction } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, User, Mail, Lock } from 'lucide-react';
+import { setAuthData } from '../utils/authUtils';
 
 const Signup: React.FC = () => {
     const [name, setName] = useState('');
@@ -10,16 +11,50 @@ const Signup: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [passwordStrength, setPasswordStrength] = useState(0);
     const navigate = useNavigate();
-    const signupMutation = useMutation(api.auth.signup);
+    const signupAction = useAction(api.auth.signup);
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const calculatePasswordStrength = (pwd: string) => {
+        let strength = 0;
+        if (pwd.length >= 8) strength++;
+        if (/[A-Z]/.test(pwd)) strength++;
+        if (/[a-z]/.test(pwd)) strength++;
+        if (/[0-9]/.test(pwd)) strength++;
+        if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)) strength++;
+        return strength;
+    };
+
+    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newPassword = e.target.value;
+        setPassword(newPassword);
+        setPasswordStrength(calculatePasswordStrength(newPassword));
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+
+        // Client-side validation
+        if (!validateEmail(email)) {
+            setError('Please enter a valid email address');
+            return;
+        }
+
+        if (passwordStrength < 5) {
+            setError('Password does not meet strength requirements');
+            return;
+        }
+
         setIsLoading(true);
         try {
-            const userId = await signupMutation({ email, password, name });
-            localStorage.setItem('neko_user', JSON.stringify({ _id: userId, email, name }));
+            const { token, user } = await signupAction({ email, password, name });
+            setAuthData({ token, user });
             navigate('/dashboard');
         } catch (err: any) {
             setError(err.message || 'Error creating account');
@@ -125,12 +160,44 @@ const Signup: React.FC = () => {
                                 <input
                                     type="password"
                                     value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                     className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
                                     placeholder="••••••••"
                                     required
                                 />
                             </div>
+                            {password && (
+                                <div className="mt-2 space-y-1">
+                                    <div className="flex gap-1">
+                                        {[1, 2, 3, 4, 5].map((level) => (
+                                            <div
+                                                key={level}
+                                                className={`h-1 flex-1 rounded-full transition-all ${passwordStrength >= level
+                                                    ? passwordStrength <= 2
+                                                        ? 'bg-red-500'
+                                                        : passwordStrength <= 3
+                                                            ? 'bg-yellow-500'
+                                                            : 'bg-green-500'
+                                                    : 'bg-gray-200'
+                                                    }`}
+                                            />
+                                        ))}
+                                    </div>
+                                    <p className="text-[10px] font-bold text-gray-400">
+                                        {passwordStrength === 0 && 'Enter a password'}
+                                        {passwordStrength === 1 && 'Very weak'}
+                                        {passwordStrength === 2 && 'Weak'}
+                                        {passwordStrength === 3 && 'Fair'}
+                                        {passwordStrength === 4 && 'Good'}
+                                        {passwordStrength === 5 && 'Strong ✓'}
+                                    </p>
+                                    {passwordStrength < 5 && (
+                                        <p className="text-[10px] text-gray-400">
+                                            Needs: 8+ chars, uppercase, lowercase, number, special char
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {error && (

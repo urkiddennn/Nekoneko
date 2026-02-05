@@ -12,6 +12,8 @@ import type * as analytics from "../analytics.js";
 import type * as auth from "../auth.js";
 import type * as config from "../config.js";
 import type * as rateLimiter from "../rateLimiter.js";
+import type * as utils from "../utils.js";
+import type * as validation from "../validation.js";
 
 import type {
   ApiFromModules,
@@ -24,6 +26,8 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   config: typeof config;
   rateLimiter: typeof rateLimiter;
+  utils: typeof utils;
+  validation: typeof validation;
 }>;
 
 /**

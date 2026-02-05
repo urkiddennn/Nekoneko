@@ -79,42 +79,86 @@ const Navigation: React.FC<NavigationProps> = ({
       }
       : {};
 
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
   return (
     <nav
-      className={`flex flex-col md:flex-row items-center justify-between py-4 gap-4 md:gap-0 ${navTextColorClass} ${baseColorClass} 
+      className={`relative ${navTextColorClass} ${baseColorClass} 
         ${isBrutalist ? "border-[3px] border-slate-950 dark:border-white rounded-2xl px-8 shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-slate-900"
           : isOutlineMinimal ? "border border-slate-950 dark:border-white rounded-none px-6 bg-white dark:bg-slate-950"
             : ""}`}
       style={navTextStyle}
     >
-      <div className="text-xl font-bold">
-        Portfolio
-      </div>
-      <div className="flex items-center gap-6">
-        {links.map((link, idx) => (
-          <a
-            key={idx}
-            href={link.url}
-            className="text-sm font-medium transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit"
-          >
-            {link.label}
-          </a>
-        ))}
-        {showResumeButton && (
-          <button
-            className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black' : 'rounded-lg'}`}
-            style={{
-              ...buttonBackgroundColorStyle,
-              ...buttonBorderStyle,
-              cursor: "pointer",
-              pointerEvents: "auto",
+      <div className="flex items-center justify-between py-4">
+        <div className="text-xl font-bold">
+          Portfolio
+        </div>
 
-            }}
-          >
-            Resume
-          </button>
-        )}
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden p-2 -mr-2 text-inherit"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          )}
+        </button>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-6">
+          {links.map((link, idx) => (
+            <a
+              key={idx}
+              href={link.url}
+              className="text-sm font-medium transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit"
+            >
+              {link.label}
+            </a>
+          ))}
+          {showResumeButton && (
+            <button
+              className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black' : 'rounded-lg'}`}
+              style={{
+                ...buttonBackgroundColorStyle,
+                ...buttonBorderStyle,
+                cursor: "pointer",
+              }}
+            >
+              Resume
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Mobile Navigation Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden pb-6 pt-2 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200">
+          {links.map((link, idx) => (
+            <a
+              key={idx}
+              href={link.url}
+              className="block py-2 text-base font-medium transition-colors hover:text-indigo-600 text-inherit"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
+          {showResumeButton && (
+            <button
+              className={`w-full py-3 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter' : 'rounded-lg'}`}
+              style={{
+                ...buttonBackgroundColorStyle,
+                ...buttonBorderStyle,
+                cursor: "pointer",
+              }}
+            >
+              Resume
+            </button>
+          )}
+        </div>
+      )}
     </nav>
   );
 };

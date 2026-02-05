@@ -9,8 +9,12 @@ export const SCHEMAS = [
       site_settings: {
         name: "Neko Brand",
         favicon: "https://example.com/favicon.ico",
-        theme: { primary: "#6366f1", font: "Inter", darkMode: true },
+        theme: { primary: "#6366f1", font: "Inter", darkMode: true, showThemeToggle: true },
         seo: { title: "Home", description: "Welcome" },
+        layout: {
+          paddingTop: "24",
+          paddingBottom: "24"
+        }
       },
       sections: [],
     },
@@ -22,6 +26,9 @@ export const SCHEMAS = [
       },
       { name: "theme.primary", type: "hex", desc: "Primary brand color." },
       { name: "theme.darkMode", type: "boolean", desc: "Toggle dark mode." },
+      { name: "theme.showThemeToggle", type: "boolean", desc: "Show floating theme toggle." },
+      { name: "theme.font", type: "string", desc: "Global font family." },
+      { name: "layout.padding", type: "tailwind", desc: "Global layout padding." },
       {
         name: "seo.title",
         type: "string",
@@ -139,11 +146,56 @@ export const SCHEMAS = [
     ],
   },
   {
+    type: "theme_toggle",
+    category: "Core",
+    description: "Dark mode switch.",
+    details: "A component to toggle between light and dark modes.",
+    example: {
+      id: "toggle-1",
+      type: "theme_toggle",
+      props: {
+        variant: "floating"
+      }
+    },
+    props: [
+      { name: "variant", type: '"floating" | "inline" | "minimal"', desc: "Visual style." }
+    ],
+    variants: [
+      {
+        name: "Floating",
+        description: "Fixed position bottom-right toggle.",
+        example: {
+          id: "toggle-float",
+          type: "theme_toggle",
+          props: { variant: "floating" }
+        }
+      },
+      {
+        name: "Inline",
+        description: "Centered inline toggle for headers/footers.",
+        example: {
+          id: "toggle-inline",
+          type: "theme_toggle",
+          props: { variant: "inline" }
+        }
+      },
+      {
+        name: "Minimal",
+        description: "Small circular toggle.",
+        example: {
+          id: "toggle-min",
+          type: "theme_toggle",
+          props: { variant: "minimal" }
+        }
+      }
+    ]
+  },
+  {
     type: "hero",
     category: "Content",
     description: "Impactful section with image/heading.",
     details:
-      "Large introductory section usually placed at the top of the page. specifies a main heading, subheading, and an optional avatar image.",
+      "Large introductory section usually placed at the top of the page. specifies a main heading, subheading, and an optional avatar image. Now fully responsive with optimized mobile layouts.",
     example: {
       id: "hero-1",
       type: "hero",
@@ -162,7 +214,7 @@ export const SCHEMAS = [
       },
     },
     props: [
-      { name: "heading", type: "string", desc: "Main headline text." },
+      { name: "heading", type: "string", desc: "Main headline text (supports line breaks)." },
       {
         name: "subheading",
         type: "string",
@@ -172,7 +224,7 @@ export const SCHEMAS = [
       { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
       { name: "variant", type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal"', desc: "Layout style." },
       { name: "backgroundImageUrl", type: "url", desc: "Background image URL (for invest layout)." },
-      { name: "topBadgeItems", type: "array", desc: "List of {label, value, logo, trend} (ticker items)." },
+      { name: "topBadgeItems", type: "array", desc: "List of ticker items {label, value, logo, trend}." },
       { name: "ctaButtons", type: "array", desc: "List of {label, url, variant} buttons." },
     ],
     variants: [
@@ -192,7 +244,7 @@ export const SCHEMAS = [
       },
       {
         name: "Split",
-        description: "Side-by-side layout.",
+        description: "Side-by-side layout (stacks on mobile).",
         example: {
           id: "hero-split",
           type: "hero",
@@ -206,7 +258,7 @@ export const SCHEMAS = [
       },
       {
         name: "Invest",
-        description: "High-impact layout with background and ticker.",
+        description: "High-impact layout with background and ticker widgets.",
         example: {
           id: "hero-invest",
           type: "hero",
@@ -217,8 +269,7 @@ export const SCHEMAS = [
             variant: "invest",
             topBadgeItems: [
               { label: "Meta", value: "488.48", logo: "https://www.facebook.com/favicon.ico", trend: "up" },
-              { label: "Nvidia", value: "118.48", logo: "https://www.nvidia.com/favicon.ico", trend: "up" },
-              { label: "Amazon", value: "184.48", logo: "https://www.amazon.com/favicon.ico", trend: "down" }
+              { label: "Nvidia", value: "118.48", logo: "https://www.nvidia.com/favicon.ico", trend: "up" }
             ],
             ctaButtons: [
               { label: "Start trading", url: "#", variant: "primary" },

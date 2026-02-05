@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useMutation } from 'convex/react';
+import { useAction } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Mail, Lock } from 'lucide-react';
+import { setAuthData } from '../utils/authUtils';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -10,16 +11,28 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const loginMutation = useMutation(api.auth.login);
+    const loginAction = useAction(api.auth.login);
     const [isLoading, setIsLoading] = useState(false);
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
+
+        // Client-side validation
+        if (!validateEmail(email)) {
+            setError('Please enter a valid email address');
+            return;
+        }
+
         setIsLoading(true);
         try {
-            const user = await loginMutation({ email, password });
-            localStorage.setItem('neko_user', JSON.stringify(user));
+            const { token, user } = await loginAction({ email, password });
+            setAuthData({ token, user });
             navigate('/dashboard');
         } catch (err: any) {
             setError(err.message || 'Invalid email or password');

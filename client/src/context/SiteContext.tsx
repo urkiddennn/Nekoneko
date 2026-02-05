@@ -3,6 +3,7 @@ import { SiteConfig, Section, SiteSettings } from "../types";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useParams } from "react-router-dom";
+import { getToken } from "../utils/authUtils";
 
 interface SiteContextType {
   siteConfig: SiteConfig;
@@ -114,11 +115,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (projectData) {
-      setSiteConfig({
-        site_settings: projectData.site_settings,
-        sections: projectData.sections,
-      });
-      setLoading(false);
+
     } else if (projectData === null) {
       setLoading(false);
     }
@@ -187,8 +184,10 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const saveConfig = async () => {
     if (!projectId) return;
+    const token = getToken() || "";
     try {
       await saveToConvex({
+        token,
         projectId: projectId as any,
         site_settings: siteConfig.site_settings,
         sections: siteConfig.sections,

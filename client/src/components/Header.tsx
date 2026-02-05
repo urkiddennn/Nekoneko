@@ -1,14 +1,14 @@
 import React from "react";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { getUser, logout } from "../utils/authUtils";
 
 const Header: React.FC = () => {
-    const user = JSON.parse(localStorage.getItem("neko_user") || "null");
+    const user = getUser();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("neko_user");
-        navigate("/login");
+        logout(navigate);
     };
 
     if (!user) return null;

@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { verifyUser } from "./utils";
 
 export const recordView = mutation({
     args: { projectId: v.id("projects") },
@@ -13,8 +14,14 @@ export const recordView = mutation({
 });
 
 export const getStats = query({
-    args: { projectId: v.id("projects") },
+    args: { token: v.string(), projectId: v.id("projects") },
     handler: async (ctx, args) => {
+        const userId = await verifyUser(args.token);
+        const project = await ctx.db.get(args.projectId);
+
+        if (!project || project.userId !== userId) {
+            throw new Error("Unauthorized");
+        }
         const now = Date.now();
         const oneDayAgo = now - 24 * 60 * 60 * 1000;
         const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;

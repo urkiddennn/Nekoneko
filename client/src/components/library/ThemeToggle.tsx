@@ -3,10 +3,11 @@ import { Sun, Moon } from 'lucide-react';
 import { useSite } from '../../context/SiteContext';
 
 interface ThemeToggleProps {
-    variant?: 'floating' | 'inline';
+    variant?: 'floating' | 'inline' | 'minimal';
+    className?: string; // Add className prop
 }
 
-const ThemeToggle: React.FC<ThemeToggleProps> = ({ variant = 'floating' }) => {
+const ThemeToggle: React.FC<ThemeToggleProps> = ({ variant = 'floating', className = '' }) => {
     const { siteConfig, updateSiteSettings } = useSite();
     const isDark = siteConfig.site_settings.theme.darkMode;
 
@@ -14,9 +15,26 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ variant = 'floating' }) => {
         updateSiteSettings("theme.darkMode", !isDark);
     };
 
+    // Determine positioning: default to 'fixed' unless 'absolute' or 'relative' is passed in className
+    const positionClass = className.includes('absolute') || className.includes('relative')
+        ? ''
+        : 'fixed';
+
     const containerClasses = variant === 'floating'
-        ? "fixed bottom-8 right-8 z-[100]"
-        : "flex items-center justify-center py-4";
+        ? `${positionClass} bottom-8 right-8 z-[100] ${className}`
+        : `flex items-center justify-center py-4 ${className}`;
+
+    if (variant === 'minimal') {
+        return (
+            <button
+                onClick={toggleTheme}
+                className={`${positionClass} bottom-8 right-8 z-[100] w-10 h-10 bg-black dark:bg-white text-white dark:text-black rounded-full flex items-center justify-center shadow-lg transition-transform active:scale-90 ${className}`}
+                title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+                {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+        )
+    }
 
     return (
         <div className={containerClasses}>

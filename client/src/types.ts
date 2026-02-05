@@ -27,7 +27,7 @@ export const LayoutSettingsSchema = z.object({
 
 export const SiteSettingsSchema = z.object({
     name: z.string(),
-    favicon: z.string(),
+    favicon: z.string().optional(),
     theme: ThemeSchema,
     layout: LayoutSettingsSchema.optional(),
     seo: SEOSchema,

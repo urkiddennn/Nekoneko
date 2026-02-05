@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useNavigate } from "react-router-dom";
 import { Plus, Globe, Settings, Check, TrendingUp } from "lucide-react";
 import { TEMPLATES, Template } from "../data/templates";
 import Header from "./Header";
+import { getUser, getToken } from "../utils/authUtils";
 
 const Dashboard: React.FC = () => {
-  const user = JSON.parse(localStorage.getItem("neko_user") || "null");
+  const user = getUser();
+  const token = getToken() || "";
   const navigate = useNavigate();
 
   if (!user) {
@@ -15,9 +17,11 @@ const Dashboard: React.FC = () => {
     return null;
   }
 
-  const projects = useQuery(api.config.listProjects, { userId: user._id });
+  const projects = useQuery(api.config.listProjects, token ? { token } : "skip");
   const createProject = useMutation(api.config.createProject);
   const deleteProject = useMutation(api.config.deleteProject);
+
+
 
   const [isCreating, setIsCreating] = useState(false);
   const [newName, setNewName] = useState("");
@@ -25,12 +29,23 @@ const Dashboard: React.FC = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(TEMPLATES[0]);
   const [projectToDelete, setProjectToDelete] = useState<any>(null);
   const [projectToEdit, setProjectToEdit] = useState<any>(null);
+  const [debouncedSlug, setDebouncedSlug] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSlug(newSlug.toLowerCase().replace(/[^a-z0-9]/g, "-"));
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [newSlug]);
+
+  const isAvailable = useQuery(api.config.checkSlugAvailable, { slug: debouncedSlug });
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isAvailable === false) return;
     try {
       const id = await createProject({
-        userId: user._id,
+        token,
         name: newName,
         slug: newSlug.toLowerCase().replace(/[^a-z0-9]/g, "-"),
         site_settings: selectedTemplate?.site_settings ? { ...selectedTemplate.site_settings, name: newName } : undefined,
@@ -45,7 +60,7 @@ const Dashboard: React.FC = () => {
   const handleDelete = async () => {
     if (!projectToDelete) return;
     try {
-      await deleteProject({ id: projectToDelete._id });
+      await deleteProject({ token, id: projectToDelete._id });
       setProjectToDelete(null);
       setProjectToEdit(null); // Close the edit actions menu too
     } catch (err: any) {
@@ -66,13 +81,16 @@ const Dashboard: React.FC = () => {
               Manage and view your static sites.
             </p>
           </div>
-          <button
-            onClick={() => setIsCreating(true)}
-            className="bg-gray-900 text-white px-4 py-2 rounded font-bold flex items-center gap-2 hover:bg-black transition-all active:scale-95"
-          >
-            <Plus size={18} />
-            New Project
-          </button>
+          <div className="flex gap-3">
+
+            <button
+              onClick={() => setIsCreating(true)}
+              className="bg-gray-900 text-white px-4 py-2 rounded font-bold flex items-center gap-2 hover:bg-black transition-all active:scale-95"
+            >
+              <Plus size={18} />
+              New Project
+            </button>
+          </div>
         </div>
 
         {projects === undefined ? (
@@ -244,11 +262,25 @@ const Dashboard: React.FC = () => {
                           type="text"
                           value={newSlug}
                           onChange={(e) => setNewSlug(e.target.value)}
-                          className="flex-1 px-3 py-2 border border-gray-200 rounded focus:border-gray-900 outline-none font-mono text-xs transition-all"
+                          className={`flex-1 px-3 py-2 border rounded focus:border-gray-900 outline-none font-mono text-xs transition-all ${isAvailable === false ? 'border-red-500 bg-red-50 text-red-900' : 'border-gray-200'}`}
                           placeholder="portfolio-24"
                           required
                         />
                       </div>
+                      {newSlug && (
+                        <div className="mt-1.5 flex items-center gap-1.5">
+                          {isAvailable === undefined ? (
+                            <div className="w-2 h-2 rounded-full bg-gray-200 animate-pulse" />
+                          ) : isAvailable ? (
+                            <div className="w-2 h-2 rounded-full bg-green-500" />
+                          ) : (
+                            <div className="w-2 h-2 rounded-full bg-red-500" />
+                          )}
+                          <span className={`text-[10px] font-bold uppercase tracking-wider ${isAvailable === undefined ? 'text-gray-400' : isAvailable ? 'text-green-600' : 'text-red-600'}`}>
+                            {isAvailable === undefined ? 'Checking availability...' : isAvailable ? 'Available' : 'Already taken'}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -297,7 +329,8 @@ const Dashboard: React.FC = () => {
               </button>
               <button
                 type="submit"
-                className="flex-1 bg-gray-900 text-white py-2 rounded font-bold text-sm hover:bg-black transition-all active:scale-95"
+                disabled={isAvailable === false}
+                className={`flex-1 py-2 rounded font-bold text-sm transition-all active:scale-95 ${isAvailable === false ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' : 'bg-gray-900 text-white hover:bg-black'}`}
               >
                 Create Project
               </button>

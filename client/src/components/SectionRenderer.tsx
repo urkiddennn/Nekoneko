@@ -71,7 +71,7 @@ export const renderSection = (section: any, index: number) => {
 
   const innerClasses = [
     "mx-auto px-4",
-    styles.maxWidth || "max-w-7xl",
+    styles.maxWidth || "max-w-8xl",
     styles.borderRadius || "",
   ]
     .filter(Boolean)

@@ -191,7 +191,7 @@ const Editor: React.FC = () => {
                 {/* Content Area */}
                 <div className="flex-1 flex overflow-hidden relative">
                     <PanelGroup direction="horizontal">
-                        <Panel defaultSize={40} minSize={25}>
+                        <Panel defaultSize={30} minSize={25}>
                             <div className="h-full relative flex flex-col">
                                 <div className="flex-1 relative overflow-hidden">
                                     <div className="absolute inset-0">
@@ -217,7 +217,7 @@ const Editor: React.FC = () => {
 
                         <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
 
-                        <Panel defaultSize={60} minSize={25}  >
+                        <Panel defaultSize={50} minSize={25}  >
                             <div className="h-full bg-gray-50 overflow-y-auto relative no-scrollbar cursor-default">
                                 {/* Viewport Controls */}
                                 <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-white border border-gray-200 rounded-lg shadow-sm p-1">
@@ -280,7 +280,7 @@ const Editor: React.FC = () => {
                                             marginLeft: siteConfig.site_settings?.layout?.marginLeft ? (/^\d+$/.test(siteConfig.site_settings.layout.marginLeft) ? `${siteConfig.site_settings.layout.marginLeft}px` : siteConfig.site_settings.layout.marginLeft) : undefined,
                                         }}
                                     >
-                                        <div className="min-h-full">
+                                        <div className="min-h-full ">
                                             <SectionRenderer sections={siteConfig.sections} />
                                             {siteConfig.site_settings?.theme?.showThemeToggle && (
                                                 <ThemeToggle variant="floating" />
@@ -292,7 +292,7 @@ const Editor: React.FC = () => {
                         </Panel>
 
                         <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
-                        <Panel defaultSize={25} minSize={20} maxSize={40}>
+                        <Panel defaultSize={20} minSize={20} maxSize={40}>
                             <div className="h-full overflow-hidden">
                                 <ThemePlugin
                                     activeThemeId={activeThemeId}
