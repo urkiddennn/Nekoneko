@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Box, Zap, Share2, MousePointer2 } from "lucide-react";
+import { ArrowRight, Box, Zap, Share2, MousePointer2, Cat } from "lucide-react";
 import { getUser } from "../../utils/authUtils";
 import Footer from "../Footer";
 import TemplateShowcase from "../TemplateShowcase";
@@ -140,6 +140,28 @@ const Landing: React.FC = () => {
               description="Track your performance with our minimal built-in analytics dashboard."
             />
           </div>
+        </div>
+      </section>
+
+      {/* Support Nekoneko */}
+      <section className="py-12 bg-gray-50/50 border-y border-gray-100">
+        <div className="max-w-4xl mx-auto items-center flex justify-center flex-col px-8 text-center space-y-5">
+          <Cat size={40} />
+          <h2 className="text-3xl font-black tracking-tight">
+            Support Nekoneko
+          </h2>
+          <p className="text-gray-500 font-medium max-w-md mx-auto">
+            If Nekoneko helped you build your dream site, consider fueling the
+            next update with a coffee!
+          </p>
+          <a
+            onClick={handleGetStarted}
+            href="https://buymeacoffee.com/urkidden/nekoneko-support"
+            className="bg-gray-900 text-white flex justify-center items-center gap-3 px-5 py-2 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
+          >
+            <Cat size={20} />
+            Buy Nekoneko a coffee
+          </a>
         </div>
       </section>
 
