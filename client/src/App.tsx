@@ -1,16 +1,17 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { SiteProvider } from './context/SiteContext';
+import { lazy, Suspense } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { SiteProvider } from "./context/SiteContext";
 
 // Lazy load components
-const Login = lazy(() => import('./components/Login'));
-const Signup = lazy(() => import('./components/Signup'));
-const Dashboard = lazy(() => import('./components/Dashboard'));
-const Editor = lazy(() => import('./components/Editor'));
-const Site = lazy(() => import('./components/Site'));
-const Docs = lazy(() => import('./components/Docs'));
-const Analytics = lazy(() => import('./components/Analytics'));
-const Landing = lazy(() => import('./components/Landing'));
+const Login = lazy(() => import("./components/Login"));
+const Signup = lazy(() => import("./components/Signup"));
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const Editor = lazy(() => import("./components/Editor"));
+const Site = lazy(() => import("./components/Site"));
+const Docs = lazy(() => import("./components/Docs"));
+const Analytics = lazy(() => import("./components/Analytics"));
+const Landing = lazy(() => import("./components/Pages/Landing"));
+const PrivacyPolicy = lazy(() => import("./components/Pages/PrivacyPolicy"));
 
 // Minimal Loading Fallback
 const LoadingFallback = () => (
@@ -29,16 +30,16 @@ const LoadingFallback = () => (
 function App() {
   const getIsSubdomain = () => {
     const hostname = window.location.hostname;
-    if (hostname.startsWith('www.')) return false;
+    if (hostname.startsWith("www.")) return false;
 
     // Check for localhost or lvh.me
-    if (hostname.includes('localhost') || hostname.includes('lvh.me')) {
-      const parts = hostname.split('.');
+    if (hostname.includes("localhost") || hostname.includes("lvh.me")) {
+      const parts = hostname.split(".");
       return parts.length > 1;
     }
 
     // Check for custom domain (e.g., slug.nekoneko.space)
-    const parts = hostname.split('.');
+    const parts = hostname.split(".");
     return parts.length >= 3;
   };
 
@@ -50,7 +51,14 @@ function App() {
         <Suspense fallback={<LoadingFallback />}>
           <div className="antialiased">
             <Routes>
-              <Route path="*" element={<SiteProvider><Site /></SiteProvider>} />
+              <Route
+                path="*"
+                element={
+                  <SiteProvider>
+                    <Site />
+                  </SiteProvider>
+                }
+              />
             </Routes>
           </div>
         </Suspense>
@@ -68,8 +76,23 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/docs" element={<Docs />} />
             <Route path="/analytics/:projectId" element={<Analytics />} />
-            <Route path="/editor/:projectId" element={<SiteProvider><Editor /></SiteProvider>} />
-            <Route path="/:slug" element={<SiteProvider><Site /></SiteProvider>} />
+            <Route
+              path="/editor/:projectId"
+              element={
+                <SiteProvider>
+                  <Editor />
+                </SiteProvider>
+              }
+            />
+            <Route
+              path="/:slug"
+              element={
+                <SiteProvider>
+                  <Site />
+                </SiteProvider>
+              }
+            />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/" element={<Landing />} />
           </Routes>
         </div>
