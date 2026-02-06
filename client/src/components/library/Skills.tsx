@@ -1,11 +1,12 @@
 import React from "react";
-import { useSite } from '../../context/useSite';
+import { useSite } from "../../context/useSite";
 
 interface Skill {
   name: string;
   level: number; // 0-100
   icon?: string;
   color?: string;
+  variant?: "default" | "artistic";
 }
 
 interface SkillsProps {
@@ -14,6 +15,7 @@ interface SkillsProps {
   barColor?: string;
   showProgressBar?: boolean; // New prop to control visibility of the progress bar
   showPercentage?: boolean; // New prop to control visibility of the percentage
+  variant?: "default" | "artistic";
 }
 
 const Skills: React.FC<SkillsProps> = ({
@@ -22,62 +24,100 @@ const Skills: React.FC<SkillsProps> = ({
   barColor,
   showProgressBar = true,
   showPercentage = true,
+  variant = "default",
 }) => {
   const { siteConfig } = useSite();
   const primaryColor = barColor || siteConfig.site_settings.theme.primary;
 
-  return (
-    <section>
-      <div>
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-950 dark:text-white tracking-tight uppercase italic mb-4">
-            {title}
-          </h2>
-          <div className="w-24 h-1.5 bg-slate-200 dark:bg-slate-800 mx-auto rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full w-1/2 mx-auto"
-              style={{ backgroundColor: primaryColor }}
-            ></div>
+  if (variant === "default") {
+    return (
+      <section>
+        <div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-950 dark:text-white tracking-tight uppercase italic mb-4">
+              {title}
+            </h2>
+            <div className="w-24 h-1.5 bg-slate-200 dark:bg-slate-800 mx-auto rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full w-1/2 mx-auto"
+                style={{ backgroundColor: primaryColor }}
+              ></div>
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl mx-auto">
-          {skills.map((skill, index) => {
-            const effectiveColor = skill.color || primaryColor;
-            return (
-              <div key={index} className="group">
-                <div className="flex justify-between items-end mb-2">
-                  <span className="text-lg font-bold text-slate-950 dark:text-white uppercase tracking-wider">
-                    {skill.name}
-                  </span>
-                  {showPercentage && (
-                    <span
-                      className="text-sm font-black text-slate-400 group-hover:text-indigo-600 transition-colors"
-                      style={{ color: effectiveColor }}
-                    >
-                      {skill.level}%
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl mx-auto">
+            {skills.map((skill, index) => {
+              const effectiveColor = skill.color || primaryColor;
+              return (
+                <div key={index} className="group">
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="text-lg font-bold text-slate-950 dark:text-white uppercase tracking-wider">
+                      {skill.name}
                     </span>
+                    {showPercentage && (
+                      <span
+                        className="text-sm font-black text-slate-400 group-hover:text-indigo-600 transition-colors"
+                        style={{ color: effectiveColor }}
+                      >
+                        {skill.level}%
+                      </span>
+                    )}
+                  </div>
+                  {showProgressBar && (
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800 shadow-inner">
+                      <div
+                        className="h-full rounded-full transition-all duration-1000 ease-out group-hover:scale-x-105 origin-left"
+                        style={{
+                          width: `${skill.level}%`,
+                          backgroundColor: effectiveColor,
+                          opacity: 0.9,
+                        }}
+                      ></div>
+                    </div>
                   )}
                 </div>
-                {showProgressBar && (
-                  <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden border border-slate-200 dark:border-slate-800 shadow-inner">
-                    <div
-                      className="h-full rounded-full transition-all duration-1000 ease-out group-hover:scale-x-105 origin-left"
-                      style={{
-                        width: `${skill.level}%`,
-                        backgroundColor: effectiveColor,
-                        opacity: 0.9,
-                      }}
-                    ></div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  }
+  if (variant === "artistic") {
+    return (
+      <section>
+        <div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-950 dark:text-white tracking-tight uppercase italic mb-4">
+              {title}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl mx-auto ">
+            {skills.map((skill, index) => {
+              const effectiveColor = skill.color || primaryColor;
+              return (
+                <div key={index} className="group bg-slate-900">
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="text-lg bg-slate-800 font-bold text-slate-950 dark:text-white uppercase tracking-wider">
+                      {skill.name}
+                    </span>
+                    {showPercentage && (
+                      <span
+                        className="text-sm font-black text-slate-400 group-hover:text-indigo-600 transition-colors"
+                        style={{ color: effectiveColor }}
+                      >
+                        {skill.level}%
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
 };
 
 export default Skills;

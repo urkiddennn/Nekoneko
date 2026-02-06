@@ -9,12 +9,17 @@ export const SCHEMAS = [
       site_settings: {
         name: "Neko Brand",
         favicon: "https://example.com/favicon.ico",
-        theme: { primary: "#6366f1", font: "Inter", darkMode: true, showThemeToggle: true },
+        theme: {
+          primary: "#6366f1",
+          font: "Inter",
+          darkMode: true,
+          showThemeToggle: true,
+        },
         seo: { title: "Home", description: "Welcome" },
         layout: {
           paddingTop: "24",
-          paddingBottom: "24"
-        }
+          paddingBottom: "24",
+        },
       },
       sections: [],
     },
@@ -26,9 +31,17 @@ export const SCHEMAS = [
       },
       { name: "theme.primary", type: "hex", desc: "Primary brand color." },
       { name: "theme.darkMode", type: "boolean", desc: "Toggle dark mode." },
-      { name: "theme.showThemeToggle", type: "boolean", desc: "Show floating theme toggle." },
+      {
+        name: "theme.showThemeToggle",
+        type: "boolean",
+        desc: "Show floating theme toggle.",
+      },
       { name: "theme.font", type: "string", desc: "Global font family." },
-      { name: "layout.padding", type: "tailwind", desc: "Global layout padding." },
+      {
+        name: "layout.padding",
+        type: "tailwind",
+        desc: "Global layout padding.",
+      },
       {
         name: "seo.title",
         type: "string",
@@ -76,7 +89,7 @@ export const SCHEMAS = [
             buttonBackgroundColor: "bg-indigo-600",
             borderColor: "border-indigo-600",
           },
-        }
+        },
       },
       {
         name: "Minimal",
@@ -85,7 +98,10 @@ export const SCHEMAS = [
           id: "nav-min-1",
           type: "navigation_minimal",
           props: {
-            links: [{ label: "Work", url: "#work" }, { label: "Studio", url: "#studio" }],
+            links: [
+              { label: "Work", url: "#work" },
+              { label: "Studio", url: "#studio" },
+            ],
             showResumeButton: true,
           },
           styles: {
@@ -93,7 +109,7 @@ export const SCHEMAS = [
             backgroundColor: "bg-transparent",
             buttonBackgroundColor: "bg-zinc-900",
           },
-        }
+        },
       },
       {
         name: "Brutalist",
@@ -102,11 +118,14 @@ export const SCHEMAS = [
           id: "nav-brutalist",
           type: "navigation",
           props: {
-            links: [{ label: "Projects", url: "#" }, { label: "Contact", url: "#" }],
+            links: [
+              { label: "Projects", url: "#" },
+              { label: "Contact", url: "#" },
+            ],
             showResumeButton: true,
-            variant: "brutalist"
-          }
-        }
+            variant: "brutalist",
+          },
+        },
       },
       {
         name: "Outline Minimal",
@@ -115,17 +134,28 @@ export const SCHEMAS = [
           id: "nav-outline",
           type: "navigation",
           props: {
-            links: [{ label: "Portfolio", url: "#" }, { label: "Studio", url: "#" }],
+            links: [
+              { label: "Portfolio", url: "#" },
+              { label: "Studio", url: "#" },
+            ],
             showResumeButton: true,
-            variant: "outline_minimal"
-          }
-        }
-      }
+            variant: "outline_minimal",
+          },
+        },
+      },
     ],
     props: [
       { name: "links", type: "array", desc: "List of {label, url}." },
-      { name: "showResumeButton", type: "boolean", desc: "Toggle resume button." },
-      { name: "variant", type: '"default" | "minimal" | "brutalist" | "outline_minimal"', desc: "Visual style." },
+      {
+        name: "showResumeButton",
+        type: "boolean",
+        desc: "Toggle resume button.",
+      },
+      {
+        name: "variant",
+        type: '"default" | "minimal" | "brutalist" | "outline_minimal"',
+        desc: "Visual style.",
+      },
     ],
     common_styles: [
       {
@@ -154,11 +184,15 @@ export const SCHEMAS = [
       id: "toggle-1",
       type: "theme_toggle",
       props: {
-        variant: "floating"
-      }
+        variant: "floating",
+      },
     },
     props: [
-      { name: "variant", type: '"floating" | "inline" | "minimal"', desc: "Visual style." }
+      {
+        name: "variant",
+        type: '"floating" | "inline" | "minimal"',
+        desc: "Visual style.",
+      },
     ],
     variants: [
       {
@@ -167,8 +201,8 @@ export const SCHEMAS = [
         example: {
           id: "toggle-float",
           type: "theme_toggle",
-          props: { variant: "floating" }
-        }
+          props: { variant: "floating" },
+        },
       },
       {
         name: "Inline",
@@ -176,8 +210,8 @@ export const SCHEMAS = [
         example: {
           id: "toggle-inline",
           type: "theme_toggle",
-          props: { variant: "inline" }
-        }
+          props: { variant: "inline" },
+        },
       },
       {
         name: "Minimal",
@@ -185,10 +219,10 @@ export const SCHEMAS = [
         example: {
           id: "toggle-min",
           type: "theme_toggle",
-          props: { variant: "minimal" }
-        }
-      }
-    ]
+          props: { variant: "minimal" },
+        },
+      },
+    ],
   },
   {
     type: "hero",
@@ -214,18 +248,42 @@ export const SCHEMAS = [
       },
     },
     props: [
-      { name: "heading", type: "string", desc: "Main headline text (supports line breaks)." },
+      {
+        name: "heading",
+        type: "string",
+        desc: "Main headline text (supports line breaks).",
+      },
       {
         name: "subheading",
         type: "string",
         desc: "Secondary descriptive text.",
       },
-      { name: "avatarUrl", type: "url", desc: "URL for the profile/avatar image." },
+      {
+        name: "avatarUrl",
+        type: "url",
+        desc: "URL for the profile/avatar image.",
+      },
       { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
-      { name: "variant", type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal"', desc: "Layout style." },
-      { name: "backgroundImageUrl", type: "url", desc: "Background image URL (for invest layout)." },
-      { name: "topBadgeItems", type: "array", desc: "List of ticker items {label, value, logo, trend}." },
-      { name: "ctaButtons", type: "array", desc: "List of {label, url, variant} buttons." },
+      {
+        name: "variant",
+        type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal"',
+        desc: "Layout style.",
+      },
+      {
+        name: "backgroundImageUrl",
+        type: "url",
+        desc: "Background image URL (for invest layout).",
+      },
+      {
+        name: "topBadgeItems",
+        type: "array",
+        desc: "List of ticker items {label, value, logo, trend}.",
+      },
+      {
+        name: "ctaButtons",
+        type: "array",
+        desc: "List of {label, url, variant} buttons.",
+      },
     ],
     variants: [
       {
@@ -238,9 +296,9 @@ export const SCHEMAS = [
             heading: "Modern Identity",
             subheading: "Crafting digital experiences.",
             avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg",
-            variant: "stack"
-          }
-        }
+            variant: "stack",
+          },
+        },
       },
       {
         name: "Split",
@@ -252,9 +310,9 @@ export const SCHEMAS = [
             heading: "The Future",
             subheading: "Built with passion.",
             avatarUrl: "https://api.dicebear.com/7.x/shapes/svg",
-            variant: "split"
-          }
-        }
+            variant: "split",
+          },
+        },
       },
       {
         name: "Invest",
@@ -265,22 +323,34 @@ export const SCHEMAS = [
           props: {
             heading: "INVEST SMARTER,\nGROW FASTER",
             subheading: "Diversify your portfolio with confidence.",
-            backgroundImageUrl: "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
+            backgroundImageUrl:
+              "https://images.unsplash.com/photo-1501785888041-af3ef285b470",
             variant: "invest",
             topBadgeItems: [
-              { label: "Meta", value: "488.48", logo: "https://www.facebook.com/favicon.ico", trend: "up" },
-              { label: "Nvidia", value: "118.48", logo: "https://www.nvidia.com/favicon.ico", trend: "up" }
+              {
+                label: "Meta",
+                value: "488.48",
+                logo: "https://www.facebook.com/favicon.ico",
+                trend: "up",
+              },
+              {
+                label: "Nvidia",
+                value: "118.48",
+                logo: "https://www.nvidia.com/favicon.ico",
+                trend: "up",
+              },
             ],
             ctaButtons: [
               { label: "Start trading", url: "#", variant: "primary" },
-              { label: "Explore markets", url: "#", variant: "outline" }
-            ]
-          }
-        }
+              { label: "Explore markets", url: "#", variant: "outline" },
+            ],
+          },
+        },
       },
       {
         name: "Brutalist",
-        description: "Large-scale layout with thick borders and offset shadows.",
+        description:
+          "Large-scale layout with thick borders and offset shadows.",
         example: {
           id: "hero-brutalist",
           type: "hero",
@@ -291,10 +361,10 @@ export const SCHEMAS = [
             variant: "brutalist",
             ctaButtons: [
               { label: "View Work", url: "#", variant: "primary" },
-              { label: "Library", url: "#", variant: "outline" }
-            ]
-          }
-        }
+              { label: "Library", url: "#", variant: "outline" },
+            ],
+          },
+        },
       },
       {
         name: "Outline Minimal",
@@ -309,32 +379,37 @@ export const SCHEMAS = [
             variant: "outline_minimal",
             ctaButtons: [
               { label: "View Portfolio", url: "#", variant: "primary" },
-              { label: "Contact", url: "#", variant: "outline" }
-            ]
-          }
-        }
-      }
-    ]
+              { label: "Contact", url: "#", variant: "outline" },
+            ],
+          },
+        },
+      },
+    ],
   },
   {
     type: "stats_bar",
     category: "Content",
     description: "Numerical metrics and stats.",
-    details: "A horizontal strip for highlighting key achievements or metrics with big text.",
+    details:
+      "A horizontal strip for highlighting key achievements or metrics with big text.",
     example: {
       id: "stats-1",
       type: "stats_bar",
       props: {
         items: [
           { label: "Projects", value: "50+" },
-          { label: "Clients", value: "200" }
-        ]
+          { label: "Clients", value: "200" },
+        ],
       },
-      styles: { padding: "py-12" }
+      styles: { padding: "py-12" },
     },
     props: [
-      { name: "items", type: "array", desc: "List of {label, value, icon} objects." }
-    ]
+      {
+        name: "items",
+        type: "array",
+        desc: "List of {label, value, icon} objects.",
+      },
+    ],
   },
   {
     type: "features",
@@ -371,7 +446,11 @@ export const SCHEMAS = [
         type: "number",
         desc: "Number of columns (default: 3).",
       },
-      { name: "variant", type: '"default" | "brutalist" | "outline_minimal"', desc: "Visual style." },
+      {
+        name: "variant",
+        type: '"default" | "brutalist" | "outline_minimal"',
+        desc: "Visual style.",
+      },
     ],
     variants: [
       {
@@ -384,13 +463,16 @@ export const SCHEMAS = [
             title: "Core Features",
             variant: "brutalist",
             items: [
-              { title: "Performance", description: "Blazing fast interaction." },
-              { title: "Security", description: "Bulletproof architecture." }
-            ]
-          }
-        }
-      }
-    ]
+              {
+                title: "Performance",
+                description: "Blazing fast interaction.",
+              },
+              { title: "Security", description: "Bulletproof architecture." },
+            ],
+          },
+        },
+      },
+    ],
   },
   {
     type: "skills",
@@ -398,21 +480,49 @@ export const SCHEMAS = [
     description: "Skills with progress bars.",
     details:
       "Visual representation of technical skills with progress bars/levels.",
-    example: {
-      id: "skills-1",
-      type: "skills",
-      props: {
-        title: "Technical Arsenal",
-        barColor: "#6366f1",
-        showProgressBar: true,
-        showPercentage: true,
-        skills: [{ name: "React", level: 90, color: "#61dafb" }],
+    variants: [
+      {
+        name: "Default",
+        description: "Default skill bar.",
+        variants: "default",
+        example: {
+          id: "skills-1",
+          type: "skills",
+          props: {
+            title: "Technical Arsenal",
+            barColor: "#6366f1",
+            showProgressBar: true,
+            showPercentage: true,
+            skills: [{ name: "React", level: 90, color: "#61dafb" }],
+          },
+          styles: {
+            padding: "py-20",
+            maxWidth: "max-w-5xl",
+          },
+        },
       },
-      styles: {
-        padding: "py-20",
-        maxWidth: "max-w-5xl",
+      {
+        name: "artistic",
+        description: "Artistic skill bar.",
+        variants: "artistic",
+        example: {
+          id: "skills-1",
+          type: "skills",
+          props: {
+            title: "Artistic arsenal",
+            barColor: "#6366f1",
+            showProgressBar: false,
+            showPercentage: false,
+            skills: [{ name: "Graphic Design", level: 0, color: "#61dafb" }],
+          },
+          styles: {
+            padding: "py-20",
+            maxWidth: "max-w-5xl",
+          },
+        },
       },
-    },
+    ],
+
     props: [
       { name: "title", type: "string", desc: "Section header." },
       {
@@ -456,8 +566,16 @@ export const SCHEMAS = [
     },
     props: [
       { name: "title", type: "string", desc: "Section header." },
-      { name: "jobs", type: "array", desc: "List of {role, company, period, description, icon}." },
-      { name: "variant", type: '"timeline" | "cards" | "brutalist" | "outline_minimal"', desc: "Visual style." },
+      {
+        name: "jobs",
+        type: "array",
+        desc: "List of {role, company, period, description, icon}.",
+      },
+      {
+        name: "variant",
+        type: '"timeline" | "cards" | "brutalist" | "outline_minimal"',
+        desc: "Visual style.",
+      },
     ],
     variants: [
       {
@@ -470,10 +588,16 @@ export const SCHEMAS = [
             title: "Project Log",
             variant: "brutalist",
             jobs: [
-              { role: "Frontend Dev", company: "Neko", period: "2024", description: "Building the next-gen editor.", icon: "Layout" }
-            ]
-          }
-        }
+              {
+                role: "Frontend Dev",
+                company: "Neko",
+                period: "2024",
+                description: "Building the next-gen editor.",
+                icon: "Layout",
+              },
+            ],
+          },
+        },
       },
       {
         name: "Floating Cards",
@@ -485,10 +609,16 @@ export const SCHEMAS = [
             title: "Career Path",
             variant: "cards",
             jobs: [
-              { role: "Product Designer", company: "Linear", period: "2022 — Present", description: "Designing the future of project management.", icon: "Figma" }
-            ]
-          }
-        }
+              {
+                role: "Product Designer",
+                company: "Linear",
+                period: "2022 — Present",
+                description: "Designing the future of project management.",
+                icon: "Figma",
+              },
+            ],
+          },
+        },
       },
       {
         name: "Clean Timeline",
@@ -500,12 +630,18 @@ export const SCHEMAS = [
             title: "Professional Timeline",
             variant: "timeline",
             jobs: [
-              { role: "Software Engineer", company: "Vercel", period: "2020 — 2022", description: "Scaling the edge network.", icon: "Zap" }
-            ]
-          }
-        }
-      }
-    ]
+              {
+                role: "Software Engineer",
+                company: "Vercel",
+                period: "2020 — 2022",
+                description: "Scaling the edge network.",
+                icon: "Zap",
+              },
+            ],
+          },
+        },
+      },
+    ],
   },
   {
     type: "layout",
@@ -638,7 +774,11 @@ export const SCHEMAS = [
         type: "array",
         desc: "List of skill names.",
       },
-      { name: "variant", type: '"default" | "brutalist" | "outline_minimal"', desc: "Visual style." },
+      {
+        name: "variant",
+        type: '"default" | "brutalist" | "outline_minimal"',
+        desc: "Visual style.",
+      },
     ],
     variants: [
       {
@@ -650,9 +790,9 @@ export const SCHEMAS = [
           props: {
             title: "Tech Stack",
             variant: "brutalist",
-            skills: ["React", "TypeScript", "Tailwind"]
-          }
-        }
+            skills: ["React", "TypeScript", "Tailwind"],
+          },
+        },
       },
       {
         name: "Outline Minimal",
@@ -663,17 +803,18 @@ export const SCHEMAS = [
           props: {
             title: "Core Stack",
             variant: "outline_minimal",
-            skills: ["SYSTEM", "CORE", "API"]
-          }
-        }
-      }
-    ]
+            skills: ["SYSTEM", "CORE", "API"],
+          },
+        },
+      },
+    ],
   },
   {
     type: "contact_info",
     category: "Connect",
     description: "Social and contact icon links.",
-    details: "Display a clean row of icon buttons or a high-contrast card for contact information.",
+    details:
+      "Display a clean row of icon buttons or a high-contrast card for contact information.",
     variants: [
       {
         name: "Default Icons",
@@ -686,12 +827,12 @@ export const SCHEMAS = [
             description: "Available for freelance work.",
             links: [
               { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
-              { label: "GitHub", url: "https://github.com", icon: "Github" }
+              { label: "GitHub", url: "https://github.com", icon: "Github" },
             ],
             alignment: "center",
-            variant: "default"
-          }
-        }
+            variant: "default",
+          },
+        },
       },
       {
         name: "High-Contrast Card",
@@ -703,26 +844,31 @@ export const SCHEMAS = [
             title: "CONTACT_INFO",
             links: [
               { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
-              { label: "Phone", url: "tel:09669305550", icon: "Phone" }
+              { label: "Phone", url: "tel:09669305550", icon: "Phone" },
             ],
-            variant: "card"
-          }
-        }
-      }
+            variant: "card",
+          },
+        },
+      },
     ],
     props: [
       { name: "title", type: "string", desc: "Heading text." },
       { name: "description", type: "string", desc: "Secondary text." },
       { name: "links", type: "array", desc: "List of {label, url, icon}." },
-      { name: "alignment", type: '"left" | "center" | "right"', desc: "Alignment." },
-      { name: "variant", type: '"default" | "card"', desc: "Visual style." }
-    ]
+      {
+        name: "alignment",
+        type: '"left" | "center" | "right"',
+        desc: "Alignment.",
+      },
+      { name: "variant", type: '"default" | "card"', desc: "Visual style." },
+    ],
   },
   {
     type: "project_details",
     category: "Connect",
     description: "Detailed project showcase card.",
-    details: "A comprehensive project card highlighting description and tech stack.",
+    details:
+      "A comprehensive project card highlighting description and tech stack.",
     example: {
       id: "project-1",
       type: "project_details",
@@ -730,37 +876,55 @@ export const SCHEMAS = [
         title: "Nekoneko Platform",
         description: "A professional minimal site builder.",
         stacks: ["React", "TypeScript", "Convex"],
-        link: "https://nekoneko.space"
-      }
+        link: "https://nekoneko.space",
+      },
     },
     props: [
       { name: "title", type: "string", desc: "Project title." },
       { name: "description", type: "string", desc: "Description text." },
       { name: "stacks", type: "array", desc: "Tech stack strings." },
-      { name: "link", type: "url", desc: "External link." }
-    ]
+      { name: "link", type: "url", desc: "External link." },
+    ],
   },
   {
     type: "pricing",
     category: "Content",
     description: "Multi-tier pricing tables.",
-    details: "Display subscription plans or service tiers with features and pricing.",
+    details:
+      "Display subscription plans or service tiers with features and pricing.",
     example: {
       id: "pricing-1",
       type: "pricing",
       props: {
         title: "Simple Pricing",
         plans: [
-          { name: "Free", price: "$0", features: ["1 Project", "Basic Themes"] },
-          { name: "Pro", price: "$19", features: ["Unlimited Projects", "Custom CSS"], isPopular: true }
-        ]
+          {
+            name: "Free",
+            price: "$0",
+            features: ["1 Project", "Basic Themes"],
+          },
+          {
+            name: "Pro",
+            price: "$19",
+            features: ["Unlimited Projects", "Custom CSS"],
+            isPopular: true,
+          },
+        ],
       },
-      styles: { padding: "py-24" }
+      styles: { padding: "py-24" },
     },
     props: [
       { name: "title", type: "string", desc: "Section header." },
-      { name: "plans", type: "array", desc: "Array of {name, price, features, isPopular}." },
-      { name: "variant", type: '"grid" | "list" | "brutalist" | "outline_minimal"', desc: "Layout style." }
+      {
+        name: "plans",
+        type: "array",
+        desc: "Array of {name, price, features, isPopular}.",
+      },
+      {
+        name: "variant",
+        type: '"grid" | "list" | "brutalist" | "outline_minimal"',
+        desc: "Layout style.",
+      },
     ],
     variants: [
       {
@@ -773,11 +937,20 @@ export const SCHEMAS = [
             title: "Pricing Plans",
             variant: "grid",
             plans: [
-              { name: "Basic", price: "$0", features: ["1 Site", "Standard Themes"] },
-              { name: "Pro", price: "$29", features: ["Unlimited Sites", "Custom CSS"], isPopular: true }
-            ]
-          }
-        }
+              {
+                name: "Basic",
+                price: "$0",
+                features: ["1 Site", "Standard Themes"],
+              },
+              {
+                name: "Pro",
+                price: "$29",
+                features: ["Unlimited Sites", "Custom CSS"],
+                isPopular: true,
+              },
+            ],
+          },
+        },
       },
       {
         name: "Minimal List",
@@ -789,13 +962,21 @@ export const SCHEMAS = [
             title: "Flexible Options",
             variant: "list",
             plans: [
-              { name: "Developer", price: "$10/mo", features: ["API Access", "Webhooks"] },
-              { name: "Enterprise", price: "Custom", features: ["SLA", "Dedicated Support"] }
-            ]
-          }
-        }
-      }
-    ]
+              {
+                name: "Developer",
+                price: "$10/mo",
+                features: ["API Access", "Webhooks"],
+              },
+              {
+                name: "Enterprise",
+                price: "Custom",
+                features: ["SLA", "Dedicated Support"],
+              },
+            ],
+          },
+        },
+      },
+    ],
   },
   {
     type: "project_grid",
@@ -809,16 +990,25 @@ export const SCHEMAS = [
         title: "Selected Works",
         columns: 2,
         items: [
-          { title: "Neko App", image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c", tags: ["Web", "Design"], link: "#" }
-        ]
+          {
+            title: "Neko App",
+            image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c",
+            tags: ["Web", "Design"],
+            link: "#",
+          },
+        ],
       },
-      styles: { padding: "py-24" }
+      styles: { padding: "py-24" },
     },
     props: [
       { name: "title", type: "string", desc: "Section header." },
       { name: "columns", type: "number", desc: "Column count (2-3)." },
-      { name: "items", type: "array", desc: "Array of {title, image, tags, link}." }
-    ]
+      {
+        name: "items",
+        type: "array",
+        desc: "Array of {title, image, tags, link}.",
+      },
+    ],
   },
   {
     type: "education",
@@ -831,15 +1021,31 @@ export const SCHEMAS = [
       props: {
         title: "Education",
         items: [
-          { school: "Universidad De Manila", degree: "Bachelor of Science in Information Technology", period: "2018 — 2022" },
-          { school: "Arellano University", degree: "Senior High School", period: "2016 — 2018" }
-        ]
-      }
+          {
+            school: "Universidad De Manila",
+            degree: "Bachelor of Science in Information Technology",
+            period: "2018 — 2022",
+          },
+          {
+            school: "Arellano University",
+            degree: "Senior High School",
+            period: "2016 — 2018",
+          },
+        ],
+      },
     },
     props: [
       { name: "title", type: "string", desc: "Section header." },
-      { name: "items", type: "array", desc: "List of {school, degree, period, icon}." },
-      { name: "variant", type: '"timeline" | "brutalist" | "outline_minimal"', desc: "Visual style." }
+      {
+        name: "items",
+        type: "array",
+        desc: "List of {school, degree, period, icon}.",
+      },
+      {
+        name: "variant",
+        type: '"timeline" | "brutalist" | "outline_minimal"',
+        desc: "Visual style.",
+      },
     ],
     variants: [
       {
@@ -852,10 +1058,14 @@ export const SCHEMAS = [
             title: "Learning Path",
             variant: "brutalist",
             items: [
-              { school: "Design Academy", degree: "Visual Arts", period: "2020-2022" }
-            ]
-          }
-        }
+              {
+                school: "Design Academy",
+                degree: "Visual Arts",
+                period: "2020-2022",
+              },
+            ],
+          },
+        },
       },
       {
         name: "Outline Minimal",
@@ -867,12 +1077,16 @@ export const SCHEMAS = [
             title: "Academic Log",
             variant: "outline_minimal",
             items: [
-              { school: "University", degree: "Computer Science", period: "2018-2022" }
-            ]
-          }
-        }
-      }
-    ]
+              {
+                school: "University",
+                degree: "Computer Science",
+                period: "2018-2022",
+              },
+            ],
+          },
+        },
+      },
+    ],
   },
   {
     type: "theme_toggle",
@@ -883,12 +1097,12 @@ export const SCHEMAS = [
       id: "toggle-1",
       type: "theme_toggle",
       props: {
-        variant: "inline"
-      }
+        variant: "inline",
+      },
     },
     props: [
-      { name: "variant", type: '"inline" | "floating"', desc: "Visual style." }
-    ]
+      { name: "variant", type: '"inline" | "floating"', desc: "Visual style." },
+    ],
   },
   {
     type: "search_bar",
@@ -897,7 +1111,7 @@ export const SCHEMAS = [
     props: [
       { name: "placeholder", type: "string", desc: "Input placeholder." },
       { name: "category", type: "string", desc: "Search category tag." },
-      { name: "results", type: "array", desc: "List of {title, stats}." }
+      { name: "results", type: "array", desc: "List of {title, stats}." },
     ],
     example: {
       id: "search-1",
@@ -905,10 +1119,13 @@ export const SCHEMAS = [
       props: {
         category: "Mathematics",
         results: [
-          { title: "Calculus, Volume 2 - Gilbert Strang", stats: { answers: 12, rating: 4.8, likes: 24 } }
-        ]
-      }
-    }
+          {
+            title: "Calculus, Volume 2 - Gilbert Strang",
+            stats: { answers: 12, rating: 4.8, likes: 24 },
+          },
+        ],
+      },
+    },
   },
   {
     type: "selection_list",
@@ -916,8 +1133,12 @@ export const SCHEMAS = [
     description: "Selectable list of cards.",
     props: [
       { name: "title", type: "string", desc: "List title." },
-      { name: "items", type: "array", desc: "List of {id, label, icon, description}." },
-      { name: "selectedId", type: "string", desc: "ID of selected item." }
+      {
+        name: "items",
+        type: "array",
+        desc: "List of {id, label, icon, description}.",
+      },
+      { name: "selectedId", type: "string", desc: "ID of selected item." },
     ],
     example: {
       id: "sel-1",
@@ -926,11 +1147,11 @@ export const SCHEMAS = [
         title: "Subject Category",
         items: [
           { id: "1", label: "High School", icon: "🎨" },
-          { id: "2", label: "College", icon: "🎓" }
+          { id: "2", label: "College", icon: "🎓" },
         ],
-        selectedId: "2"
-      }
-    }
+        selectedId: "2",
+      },
+    },
   },
   {
     type: "step_progress",
@@ -939,15 +1160,15 @@ export const SCHEMAS = [
     props: [
       { name: "title", type: "string", desc: "Top indicator text." },
       { name: "subTitle", type: "string", desc: "Main title text." },
-      { name: "currentStep", type: "number", desc: "Active step index." }
+      { name: "currentStep", type: "number", desc: "Active step index." },
     ],
     example: {
       id: "steps-1",
       type: "step_progress",
       props: {
         currentStep: 2,
-        subTitle: "Join Now"
-      }
-    }
-  }
+        subTitle: "Join Now",
+      },
+    },
+  },
 ];
