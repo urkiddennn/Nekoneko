@@ -96,20 +96,14 @@ const Skills: React.FC<SkillsProps> = ({
             {skills.map((skill, index) => {
               const effectiveColor = skill.color || primaryColor;
               return (
-                <div key={index} className="group bg-slate-900">
-                  <div className="flex justify-between items-end mb-2">
-                    <span className="text-lg bg-slate-800 font-bold text-slate-950 dark:text-white uppercase tracking-wider">
-                      {skill.name}
-                    </span>
-                    {showPercentage && (
-                      <span
-                        className="text-sm font-black text-slate-400 group-hover:text-indigo-600 transition-colors"
-                        style={{ color: effectiveColor }}
-                      >
-                        {skill.level}%
-                      </span>
-                    )}
-                  </div>
+                <div
+                  key={index}
+                  className="p-4 rounded-lg flex items-center justify-center h-24"
+                  style={{ backgroundColor: effectiveColor }}
+                >
+                  <span className="text-xl font-bold text-white uppercase tracking-wider text-center">
+                    {skill.name}
+                  </span>
                 </div>
               );
             })}

@@ -502,18 +502,24 @@ export const SCHEMAS = [
         },
       },
       {
-        name: "artistic",
-        description: "Artistic skill bar.",
-        variants: "artistic",
+        name: "Artistic",
+        description:
+          "Artistic skills display with prominent skill names and no progress indicators.",
         example: {
-          id: "skills-1",
+          id: "skills-2",
           type: "skills",
           props: {
-            title: "Artistic arsenal",
-            barColor: "#6366f1",
+            title: "Creative Tools",
+            variant: "artistic",
+            barColor: "#eab308", // A different color for artistic variant
             showProgressBar: false,
             showPercentage: false,
-            skills: [{ name: "Graphic Design", level: 0, color: "#61dafb" }],
+            skills: [
+              { name: "Graphic Design", level: 0, color: "#f97316" }, // Orange
+              { name: "Photography", level: 0, color: "#0ea5e9" }, // Sky blue
+              { name: "Video Editing", level: 0, color: "#8b5cf6" }, // Violet
+              { name: "Illustration", level: 0, color: "#10b981" }, // Emerald
+            ],
           },
           styles: {
             padding: "py-20",
