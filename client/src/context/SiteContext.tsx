@@ -51,6 +51,29 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // SWR Strategy:
+    // 1. Try to load from local cache first for instant render
+    if (effectiveSlug) {
+      try {
+        const cached = localStorage.getItem(`site_cache_${effectiveSlug}`);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          // Only use cache if it looks valid
+          if (parsed && parsed.site_settings) {
+            setSiteConfig({
+              site_settings: parsed.site_settings,
+              sections: parsed.sections || [],
+            });
+            setLoading(false); // Show cached version immediately
+          }
+        }
+      } catch (e) {
+        console.warn("Failed to load from cache", e);
+      }
+    }
+  }, [effectiveSlug]);
+
+  useEffect(() => {
     if (siteConfig.site_settings.theme?.font) {
       const fontName = siteConfig.site_settings.theme.font;
       const linkId = "google-font-loader";
@@ -67,7 +90,22 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     // Load a set of standard fonts for the editor to make transitions smooth
-    const fontNames = ["Inter", "Outfit", "Space Grotesk", "Roboto", "Lexend", "JetBrains Mono"];
+    const fontNames = [
+      "Inter",
+      "Outfit",
+      "Space Grotesk",
+      "Roboto",
+      "Lexend",
+      "JetBrains Mono",
+      "Lato",
+      "Poppins",
+      "Montserrat",
+      "Playfair Display",
+      "Merriweather",
+      "Press Start 2P",
+      "Pixelify Sans",
+      "Doto",
+    ];
     const linkId = "google-fonts-preloader";
     let link = document.getElementById(linkId) as HTMLLinkElement;
     if (!link) {
@@ -76,7 +114,9 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
       link.rel = "stylesheet";
       document.head.appendChild(link);
     }
-    const families = fontNames.map(f => `family=${f.replace(/\s+/g, "+")}:wght@400;500;700;900`).join("&");
+    const families = fontNames
+      .map((f) => `family=${f.replace(/\s+/g, "+")}:wght@400;500;700;900`)
+      .join("&");
     link.href = `https://fonts.googleapis.com/css2?${families}&display=swap`;
   }, []);
 
@@ -99,15 +139,29 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       };
 
-      setSiteConfig({
+      const newConfig = {
         site_settings: mergedSettings,
         sections: projectData.sections,
-      });
+      };
+
+      setSiteConfig(newConfig);
       setLoading(false);
+
+      // Update Cache with fresh data
+      if (effectiveSlug) {
+        try {
+          localStorage.setItem(
+            `site_cache_${effectiveSlug}`,
+            JSON.stringify(newConfig),
+          );
+        } catch (e) {
+          console.warn("Failed to save to cache", e);
+        }
+      }
     } else if (projectData === null) {
       setLoading(false);
     }
-  }, [projectData]);
+  }, [projectData, effectiveSlug]);
 
   const updateSectionProperty = (
     sectionId: string,

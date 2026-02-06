@@ -5,16 +5,29 @@ interface ImageComponentProps {
     alt?: string;
     caption?: string;
     className?: string;
+    width?: number | string;
+    height?: number | string;
+    priority?: boolean;
 }
 
-const ImageComponent: React.FC<ImageComponentProps> = ({ src, alt = 'Image', caption }) => {
+const ImageComponent: React.FC<ImageComponentProps> = ({
+    src,
+    alt = 'Image',
+    caption,
+    width,
+    height,
+    priority = false
+}) => {
     return (
         <div className="flex flex-col items-center">
             <img
                 src={src}
                 alt={alt}
+                width={width}
+                height={height}
                 className="max-w-full h-auto rounded-2xl shadow-lg border border-white/10"
-                loading="lazy"
+                loading={priority ? "eager" : "lazy"}
+                fetchPriority={priority ? "high" : "auto"}
             />
             {caption && (
                 <p className="mt-3 text-sm text-slate-400 font-medium italic text-center max-w-lg">

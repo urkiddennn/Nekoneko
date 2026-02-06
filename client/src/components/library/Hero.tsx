@@ -81,6 +81,7 @@ const Hero: React.FC<HeroProps> = ({
           <img
             src={avatarUrl}
             alt="Avatar"
+            fetchPriority="high"
             className="w-full md:w-80 h-auto md:h-96 aspect-square md:aspect-auto rounded-none border border-slate-950 dark:border-white object-cover"
           />
         </div>
@@ -123,6 +124,7 @@ const Hero: React.FC<HeroProps> = ({
           <img
             src={avatarUrl}
             alt="Avatar"
+            fetchPriority="high"
             className="w-64 h-64 md:w-72 md:h-72 rounded-[2rem] border-[3px] border-slate-950 dark:border-white shadow-[8px_8px_0px_0px_rgba(2,6,23,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] object-cover"
           />
         </div>
@@ -212,6 +214,7 @@ const Hero: React.FC<HeroProps> = ({
           <img
             src={avatarUrl}
             alt="Avatar"
+            fetchPriority="high"
             className="w-full md:w-64 h-auto md:h-64 rounded-3xl border-8 border-slate-100 dark:border-white/10 shadow-2xl object-cover"
           />
         </div>
@@ -224,6 +227,7 @@ const Hero: React.FC<HeroProps> = ({
       <img
         src={avatarUrl}
         alt="Avatar"
+        fetchPriority="high"
         className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-slate-100 dark:border-white/20 shadow-lg mb-4 md:mb-6 object-cover"
       />
       <h1

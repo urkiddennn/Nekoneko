@@ -98,12 +98,18 @@ export const renderSection = (section: any, index: number) => {
   );
 };
 
+const MemoizedSection = React.memo(({ section, index }: { section: any; index: number }) => {
+  return renderSection(section, index);
+});
+
 const SectionRenderer: React.FC<SectionRendererProps> = ({ sections }) => {
   return (
     <div className="bg-transparent text-slate-950 dark:text-white min-h-full mx-auto w-full">
-      {sections.map((section, idx) => renderSection(section, idx))}
+      {sections.map((section, idx) => (
+        <MemoizedSection key={section.id || idx} section={section} index={idx} />
+      ))}
     </div>
   );
 };
 
-export default SectionRenderer;
+export default React.memo(SectionRenderer);
