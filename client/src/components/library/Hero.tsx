@@ -79,8 +79,8 @@ const Hero: React.FC<HeroProps> = ({
                 key={idx}
                 href={btn.url}
                 className={`px-10 py-4 md:px-12 md:py-5 text-sm font-black transition-all uppercase tracking-widest hover:scale-105 active:scale-95 w-full md:w-auto text-center ${btn.variant === 'primary'
-                    ? 'text-white'
-                    : 'bg-transparent text-slate-950 dark:text-white border border-slate-200 dark:border-white/10'
+                  ? 'text-white'
+                  : 'bg-transparent text-slate-950 dark:text-white border border-slate-200 dark:border-white/10'
                   }`}
                 style={btn.variant === 'primary' ? { backgroundColor: style?.titleColor || "#ef4444", borderRadius: '2px' } : { borderRadius: '2px' }}
               >
@@ -141,7 +141,7 @@ const Hero: React.FC<HeroProps> = ({
           <img
             src={avatarUrl}
             alt="Avatar"
-            fetchPriority="high"
+            {...({ fetchpriority: "high" } as any)}
             className="w-full md:w-80 h-auto md:h-96 aspect-square md:aspect-auto rounded-none border border-slate-950 dark:border-white object-cover"
           />
         </div>
@@ -184,7 +184,7 @@ const Hero: React.FC<HeroProps> = ({
           <img
             src={avatarUrl}
             alt="Avatar"
-            fetchPriority="high"
+            {...({ fetchpriority: "high" } as any)}
             className="w-64 h-64 md:w-72 md:h-72 rounded-[2rem] border-[3px] border-slate-950 dark:border-white shadow-[8px_8px_0px_0px_rgba(2,6,23,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] object-cover"
           />
         </div>
@@ -274,7 +274,7 @@ const Hero: React.FC<HeroProps> = ({
           <img
             src={avatarUrl}
             alt="Avatar"
-            fetchPriority="high"
+            {...({ fetchpriority: "high" } as any)}
             className="w-full md:w-64 h-auto md:h-64 rounded-3xl border-8 border-slate-100 dark:border-white/10 shadow-2xl object-cover"
           />
         </div>

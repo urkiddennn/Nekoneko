@@ -129,7 +129,7 @@ const Navigation: React.FC<NavigationProps> = ({
           {links.map((link, idx) => (
             <a
               key={idx}
-              href={link.url.startsWith('#') || (!link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : link.url}
+              href={link.url?.startsWith('#') || (link.url && !link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : (link.url || '#')}
               onClick={(e) => handleLinkClick(e, link.url)}
               className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact ? 'font-black uppercase tracking-[0.2em]' : 'font-medium'}`}
             >
@@ -157,7 +157,7 @@ const Navigation: React.FC<NavigationProps> = ({
           {links.map((link, idx) => (
             <a
               key={idx}
-              href={link.url.startsWith('#') || (!link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : link.url}
+              href={link.url?.startsWith('#') || (link.url && !link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : (link.url || '#')}
               className="block py-2 text-base font-medium transition-colors hover:text-indigo-600 text-inherit"
               onClick={(e) => handleLinkClick(e, link.url)}
             >

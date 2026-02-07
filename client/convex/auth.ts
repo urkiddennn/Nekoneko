@@ -4,7 +4,8 @@ import { internal } from "./_generated/api";
 import { rateLimiter } from "./rateLimiter";
 import bcrypt from "bcryptjs";
 import { SignJWT } from "jose";
-import { getJwtSecret, validatePassword, validateEmail, verifyUser } from "./utils";
+import { getJwtSecret, validatePassword, validateEmail } from "./utils";
+import { jwtVerify } from "jose";
 
 const JWT_SECRET = getJwtSecret();
 
@@ -145,6 +146,23 @@ export const { auth, signIn, signOut, store } = convexAuth({
         }),
     ],
 });
+
+export async function verifyUser(ctx: any, token: string | undefined): Promise<any> {
+    // 1. Check for @convex-dev/auth session
+    const userId = await auth.getUserId(ctx);
+    if (userId !== null) {
+        return userId;
+    }
+
+    // 2. Fallback to custom JWT token (for mobile or legacy parts)
+    if (!token || token === "skip") throw new Error("Authentication required");
+    try {
+        const { payload } = await jwtVerify(token, JWT_SECRET);
+        return payload.userId as any;
+    } catch (e) {
+        throw new Error("Invalid or expired session");
+    }
+}
 
 export const currentUser = query({
     args: {},

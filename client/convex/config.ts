@@ -1,6 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-import { verifyUser } from "./utils";
+import { verifyUser } from "./auth";
 
 export const getProject = query({
     args: { id: v.id("projects") },

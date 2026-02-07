@@ -1,6 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { verifyUser } from "./utils";
+import { verifyUser } from "./auth";
 
 export const recordView = mutation({
     args: { projectId: v.id("projects") },
