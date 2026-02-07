@@ -35,9 +35,9 @@ export const TEMPLATES: Template[] = [
                 props: {
                     logo: 'John Doe',
                     links: [
-                        { label: 'Experience', href: '#experience' },
-                        { label: 'Skills', href: '#skills' },
-                        { label: 'Contact', href: '#contact' }
+                        { label: 'Experience', url: '#experience' },
+                        { label: 'Skills', url: '#skills' },
+                        { label: 'Contact', url: '#contact' }
                     ]
                 }
             },
@@ -100,8 +100,8 @@ export const TEMPLATES: Template[] = [
                 props: {
                     logo: 'ULTRA',
                     links: [
-                        { label: 'Features', href: '#features' },
-                        { label: 'Pricing', href: '#pricing' }
+                        { label: 'Features', url: '#features' },
+                        { label: 'Pricing', url: '#pricing' }
                     ]
                 }
             },
@@ -218,8 +218,8 @@ export const TEMPLATES: Template[] = [
                 props: {
                     logo: 'RETRO',
                     links: [
-                        { label: 'Work', href: '#work' },
-                        { label: 'Pricing', href: '#pricing' }
+                        { label: 'Work', url: '#work' },
+                        { label: 'Pricing', url: '#pricing' }
                     ]
                 }
             },

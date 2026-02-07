@@ -2,7 +2,8 @@ import React from "react";
 
 interface Link {
   label: string;
-  url: string;
+  url?: string;
+  href?: string; // Backward compatibility
 }
 interface NavigationProps {
   links: Link[];
@@ -84,7 +85,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url?: string) => {
     // Check if it's an anchor link (starts with # or is just a plain string without / or :)
     if (url && !url.includes(':') && !url.includes('/')) {
       const id = url.startsWith('#') ? url.slice(1) : url;
@@ -97,6 +98,16 @@ const Navigation: React.FC<NavigationProps> = ({
         setIsMenuOpen(false);
       }
     }
+  };
+
+  // Helper to get the link URL (supports both 'url' and 'href' for backward compatibility)
+  const getLinkUrl = (link: Link): string => {
+    const linkUrl = link.url || link.href || '#';
+    // Normalize anchor links
+    if (linkUrl && !linkUrl.includes(':') && !linkUrl.includes('/')) {
+      return linkUrl.startsWith('#') ? linkUrl : `#${linkUrl}`;
+    }
+    return linkUrl;
   };
 
   return (
@@ -126,16 +137,19 @@ const Navigation: React.FC<NavigationProps> = ({
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
-          {links.map((link, idx) => (
-            <a
-              key={idx}
-              href={link.url?.startsWith('#') || (link.url && !link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : (link.url || '#')}
-              onClick={(e) => handleLinkClick(e, link.url)}
-              className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact ? 'font-black uppercase tracking-[0.2em]' : 'font-medium'}`}
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link, idx) => {
+            const linkUrl = getLinkUrl(link);
+            return (
+              <a
+                key={idx}
+                href={linkUrl}
+                onClick={(e) => handleLinkClick(e, link.url || link.href)}
+                className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact ? 'font-black uppercase tracking-[0.2em]' : 'font-medium'}`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
           {showResumeButton && (
             <button
               className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black' : isImpact ? 'rounded-none uppercase tracking-widest font-black px-8 py-3' : 'rounded-lg'}`}
@@ -154,16 +168,19 @@ const Navigation: React.FC<NavigationProps> = ({
       {/* Mobile Navigation Menu */}
       {isMenuOpen && (
         <div className="md:hidden pb-6 pt-2 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200">
-          {links.map((link, idx) => (
-            <a
-              key={idx}
-              href={link.url?.startsWith('#') || (link.url && !link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : (link.url || '#')}
-              className="block py-2 text-base font-medium transition-colors hover:text-indigo-600 text-inherit"
-              onClick={(e) => handleLinkClick(e, link.url)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link, idx) => {
+            const linkUrl = getLinkUrl(link);
+            return (
+              <a
+                key={idx}
+                href={linkUrl}
+                className="block py-2 text-base font-medium transition-colors hover:text-indigo-600 text-inherit"
+                onClick={(e) => handleLinkClick(e, link.url || link.href)}
+              >
+                {link.label}
+              </a>
+            );
+          })}
           {showResumeButton && (
             <button
               className={`w-full py-3 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter' : 'rounded-lg'}`}
