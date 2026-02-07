@@ -66,7 +66,7 @@ const Editor: React.FC = () => {
           if (JSON.stringify(JSON.parse(prev)) === JSON.stringify(siteConfig)) {
             return prev;
           }
-        } catch (e) {}
+        } catch (e) { }
         return currentJson;
       });
     }
@@ -197,12 +197,11 @@ const Editor: React.FC = () => {
             </button>
           </div>
         </div>
+        <div className="text-sm font-medium text-gray-500 max-w-[200px] truncate">
+          {siteConfig.site_settings?.name || "Untitled Project"}
+        </div>
 
         <div className="flex items-center gap-4">
-          <div className="text-sm font-medium text-gray-500 max-w-[200px] truncate">
-            {siteConfig.site_settings?.name || "Untitled Project"}
-          </div>
-
           {!isSaving && projectSlug && (
             <button
               onClick={() => {
@@ -225,7 +224,7 @@ const Editor: React.FC = () => {
         <div className="w-14 border-r border-gray-200 bg-white flex flex-col items-center py-6 gap-6 shrink-0 z-30">
           <button
             className="p-2 rounded transition-colors bg-gray-100 text-gray-900"
-            onClick={() => {}}
+            onClick={() => { }}
           >
             <Files size={20} />
           </button>
@@ -287,11 +286,10 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth(375);
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${
-                      viewportWidth === 375
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                    }`}
+                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 375
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      }`}
                     title="Mobile (375px)"
                   >
                     <Smartphone size={16} />
@@ -301,11 +299,10 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth(768);
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${
-                      viewportWidth === 768
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                    }`}
+                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 768
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      }`}
                     title="Tablet (768px)"
                   >
                     <Tablet size={16} />
@@ -315,11 +312,10 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth("full");
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${
-                      viewportWidth === "full"
-                        ? "bg-gray-900 text-white"
-                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                    }`}
+                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === "full"
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      }`}
                     title="Desktop (Full Width)"
                   >
                     <Monitor size={16} />
@@ -348,60 +344,60 @@ const Editor: React.FC = () => {
                         siteConfig.site_settings?.theme?.font || "Inter",
                       paddingTop: siteConfig.site_settings?.layout?.paddingTop
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.paddingTop,
-                          )
+                          siteConfig.site_settings.layout.paddingTop,
+                        )
                           ? `${siteConfig.site_settings.layout.paddingTop}px`
                           : siteConfig.site_settings.layout.paddingTop
                         : undefined,
                       paddingRight: siteConfig.site_settings?.layout
                         ?.paddingRight
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.paddingRight,
-                          )
+                          siteConfig.site_settings.layout.paddingRight,
+                        )
                           ? `${siteConfig.site_settings.layout.paddingRight}px`
                           : siteConfig.site_settings.layout.paddingRight
                         : undefined,
                       paddingBottom: siteConfig.site_settings?.layout
                         ?.paddingBottom
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.paddingBottom,
-                          )
+                          siteConfig.site_settings.layout.paddingBottom,
+                        )
                           ? `${siteConfig.site_settings.layout.paddingBottom}px`
                           : siteConfig.site_settings.layout.paddingBottom
                         : undefined,
                       paddingLeft: siteConfig.site_settings?.layout?.paddingLeft
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.paddingLeft,
-                          )
+                          siteConfig.site_settings.layout.paddingLeft,
+                        )
                           ? `${siteConfig.site_settings.layout.paddingLeft}px`
                           : siteConfig.site_settings.layout.paddingLeft
                         : undefined,
                       marginTop: siteConfig.site_settings?.layout?.marginTop
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.marginTop,
-                          )
+                          siteConfig.site_settings.layout.marginTop,
+                        )
                           ? `${siteConfig.site_settings.layout.marginTop}px`
                           : siteConfig.site_settings.layout.marginTop
                         : undefined,
                       marginRight: siteConfig.site_settings?.layout?.marginRight
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.marginRight,
-                          )
+                          siteConfig.site_settings.layout.marginRight,
+                        )
                           ? `${siteConfig.site_settings.layout.marginRight}px`
                           : siteConfig.site_settings.layout.marginRight
                         : undefined,
                       marginBottom: siteConfig.site_settings?.layout
                         ?.marginBottom
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.marginBottom,
-                          )
+                          siteConfig.site_settings.layout.marginBottom,
+                        )
                           ? `${siteConfig.site_settings.layout.marginBottom}px`
                           : siteConfig.site_settings.layout.marginBottom
                         : undefined,
                       marginLeft: siteConfig.site_settings?.layout?.marginLeft
                         ? /^\d+$/.test(
-                            siteConfig.site_settings.layout.marginLeft,
-                          )
+                          siteConfig.site_settings.layout.marginLeft,
+                        )
                           ? `${siteConfig.site_settings.layout.marginLeft}px`
                           : siteConfig.site_settings.layout.marginLeft
                         : undefined,
@@ -424,7 +420,7 @@ const Editor: React.FC = () => {
                 <ThemePlugin
                   activeThemeId={activeThemeId}
                   handleThemeChange={handleThemeChange}
-                  setShowPlugins={() => {}}
+                  setShowPlugins={() => { }}
                 />
               </div>
             </Panel>

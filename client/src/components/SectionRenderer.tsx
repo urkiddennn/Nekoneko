@@ -19,6 +19,7 @@ import ThemeToggle from "./library/ThemeToggle";
 import SearchBar from "./library/SearchBar";
 import SelectionList from "./library/SelectionList";
 import StepProgress from "./library/StepProgress";
+import Section from "./library/Section";
 
 const componentRegistry: Record<string, React.FC<any>> = {
   navigation: Navigation,
@@ -43,6 +44,7 @@ const componentRegistry: Record<string, React.FC<any>> = {
   search_bar: SearchBar,
   selection_list: SelectionList,
   step_progress: StepProgress,
+  section: Section,
 };
 
 interface SectionRendererProps {
@@ -53,7 +55,7 @@ interface SectionRendererProps {
 export const renderSection = (section: any, index: number) => {
   const Component = componentRegistry[section.type];
   const extraProps =
-    section.type === "layout" || section.type === "features"
+    section.type === "layout" || section.type === "features" || section.type === "section"
       ? { renderItem: renderSection }
       : {};
 
@@ -65,6 +67,7 @@ export const renderSection = (section: any, index: number) => {
     styles.padding || "py-16",
     styles.margin || "my-0",
     styles.textAlign ? `text-${styles.textAlign}` : "",
+    section.props?.anchorId ? "scroll-mt-20" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -78,7 +81,11 @@ export const renderSection = (section: any, index: number) => {
     .join(" ");
 
   return Component ? (
-    <div key={section.id || index} className={containerClasses}>
+    <div
+      key={section.id || index}
+      id={section.props?.anchorId}
+      className={containerClasses}
+    >
       <div className={innerClasses}>
         <Component {...section.props} {...extraProps} styles={styles} />
       </div>

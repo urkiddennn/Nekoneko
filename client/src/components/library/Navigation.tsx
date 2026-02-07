@@ -81,6 +81,21 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
+    // Check if it's an anchor link (starts with # or is just a plain string without / or :)
+    if (url && !url.includes(':') && !url.includes('/')) {
+      const id = url.startsWith('#') ? url.slice(1) : url;
+      const element = document.getElementById(id);
+      if (element) {
+        e.preventDefault();
+        element.scrollIntoView({ behavior: 'smooth' });
+        // Update URL hash without reload
+        window.history.pushState(null, '', `#${id}`);
+        setIsMenuOpen(false);
+      }
+    }
+  };
+
   return (
     <nav
       className={`relative ${navTextColorClass} ${baseColorClass} 
@@ -111,7 +126,8 @@ const Navigation: React.FC<NavigationProps> = ({
           {links.map((link, idx) => (
             <a
               key={idx}
-              href={link.url}
+              href={link.url.startsWith('#') || (!link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : link.url}
+              onClick={(e) => handleLinkClick(e, link.url)}
               className="text-sm font-medium transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit"
             >
               {link.label}
@@ -138,9 +154,9 @@ const Navigation: React.FC<NavigationProps> = ({
           {links.map((link, idx) => (
             <a
               key={idx}
-              href={link.url}
+              href={link.url.startsWith('#') || (!link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : link.url}
               className="block py-2 text-base font-medium transition-colors hover:text-indigo-600 text-inherit"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={(e) => handleLinkClick(e, link.url)}
             >
               {link.label}
             </a>

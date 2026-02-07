@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   line-height: 1.5;
   font-weight: 400;
@@ -93,35 +97,25 @@ body {
 
   background: none;
   /* Hide the gradient on older browsers */
-  background: -moz-linear-gradient(
-    55deg,
-    rgba(0, 0, 0, 0) 61%,
-    rgba(255, 255, 255, 0.05) 61%
-  );
+  background: -moz-linear-gradient(55deg,
+      rgba(0, 0, 0, 0) 61%,
+      rgba(255, 255, 255, 0.05) 61%);
   /* FF3.6+ */
-  background: -webkit-linear-gradient(
-    36deg,
-    rgba(0, 0, 0, 0) 61%,
-    rgba(255, 255, 255, 0.05) 61%
-  );
+  background: -webkit-linear-gradient(36deg,
+      rgba(0, 0, 0, 0) 61%,
+      rgba(255, 255, 255, 0.05) 61%);
   /* Chrome10+ and Safari5.1+ compute the degree differently */
-  background: -o-linear-gradient(
-    55deg,
-    rgba(0, 0, 0, 0) 61%,
-    rgba(255, 255, 255, 0.05) 61%
-  );
+  background: -o-linear-gradient(55deg,
+      rgba(0, 0, 0, 0) 61%,
+      rgba(255, 255, 255, 0.05) 61%);
   /* Opera 11.10+ */
-  background: -ms-linear-gradient(
-    55deg,
-    rgba(0, 0, 0, 0) 61%,
-    rgba(255, 255, 255, 0.05) 61%
-  );
+  background: -ms-linear-gradient(55deg,
+      rgba(0, 0, 0, 0) 61%,
+      rgba(255, 255, 255, 0.05) 61%);
   /* IE10+ */
-  background: linear-gradient(
-    55deg,
-    rgba(0, 0, 0, 0) 61%,
-    rgba(255, 255, 255, 0.05) 61%
-  );
+  background: linear-gradient(55deg,
+      rgba(0, 0, 0, 0) 61%,
+      rgba(255, 255, 255, 0.05) 61%);
 
   -webkit-border-top-right-radius: 5.3075%;
   -moz-border-radius-toptight: 5.3075%;
