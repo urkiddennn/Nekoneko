@@ -89,38 +89,6 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [siteConfig.site_settings.theme?.font]);
 
   useEffect(() => {
-    // Load a set of standard fonts for the editor to make transitions smooth
-    const fontNames = [
-      "Inter",
-      "Outfit",
-      "Space Grotesk",
-      "Roboto",
-      "Lexend",
-      "JetBrains Mono",
-      "Lato",
-      "Poppins",
-      "Montserrat",
-      "Playfair Display",
-      "Merriweather",
-      "Press Start 2P",
-      "Pixelify Sans",
-      "Doto",
-    ];
-    const linkId = "google-fonts-preloader";
-    let link = document.getElementById(linkId) as HTMLLinkElement;
-    if (!link) {
-      link = document.createElement("link");
-      link.id = linkId;
-      link.rel = "stylesheet";
-      document.head.appendChild(link);
-    }
-    const families = fontNames
-      .map((f) => `family=${f.replace(/\s+/g, "+")}:wght@400;500;700;900`)
-      .join("&");
-    link.href = `https://fonts.googleapis.com/css2?${families}&display=swap`;
-  }, []);
-
-  useEffect(() => {
     if (projectData) {
       const mergedSettings: SiteSettings = {
         ...defaultSettings,
