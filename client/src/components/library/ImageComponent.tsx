@@ -27,7 +27,7 @@ const ImageComponent: React.FC<ImageComponentProps> = ({
                 height={height}
                 className="max-w-full h-auto rounded-2xl shadow-lg border border-white/10"
                 loading={priority ? "eager" : "lazy"}
-                fetchPriority={priority ? "high" : "auto"}
+                {...({ fetchpriority: priority ? "high" : "auto" } as any)}
             />
             {caption && (
                 <p className="mt-3 text-sm text-slate-400 font-medium italic text-center max-w-lg">

@@ -18,6 +18,10 @@ const NavigationBar: React.FC = () => {
     navigate("/login");
     setIsMenuOpen(false);
   };
+  const handleShowcase = () => {
+    navigate("/showcase");
+    setIsMenuOpen(false);
+  };
   return (
     <nav className="h-16 border-b border-gray-100 flex items-center justify-between px-6 md:px-8 bg-white/80 backdrop-blur-md fixed top-0 w-full z-50">
       <div
@@ -29,6 +33,12 @@ const NavigationBar: React.FC = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-6">
+        <button
+          onClick={handleShowcase}
+          className="text-xs font-semibold tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
+        >
+          Showcase
+        </button>
         <button
           onClick={handleDocs}
           className="text-xs font-semibold tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
@@ -60,6 +70,12 @@ const NavigationBar: React.FC = () => {
       {/* Mobile Menu Overlay */}
       {isMenuOpen && (
         <div className="absolute top-16 left-0 w-full bg-white border-b border-gray-100 p-6 flex flex-col gap-6 md:hidden animate-in slide-in-from-top-4 duration-200">
+          <button
+            onClick={handleShowcase}
+            className="text-sm font-bold tracking-widest text-gray-400 hover:text-gray-900 transition-colors text-left"
+          >
+            Showcase
+          </button>
           <button
             onClick={handleDocs}
             className="text-sm font-bold tracking-widest text-gray-400 hover:text-gray-900 transition-colors text-left"

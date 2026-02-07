@@ -12,6 +12,7 @@ const Docs = lazy(() => import("./components/Docs"));
 const Analytics = lazy(() => import("./components/Analytics"));
 const Landing = lazy(() => import("./components/Pages/Landing"));
 const PrivacyPolicy = lazy(() => import("./components/Pages/PrivacyPolicy"));
+const Showcase = lazy(() => import("./components/Pages/Showcase"));
 
 // Profile page
 const ProfilePage = lazy(() => import("./components/Pages/ProfilePage"));
@@ -97,6 +98,7 @@ function App() {
               }
             />
             <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/showcase" element={<Showcase />} />
             <Route path="/" element={<Landing />} />
             <Route path="*" element={<div className="flex items-center justify-center min-h-screen font-black text-2xl uppercase tracking-tighter">404 - Page Not Found</div>} />
           </Routes>

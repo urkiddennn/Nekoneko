@@ -2,54 +2,63 @@ import React from "react";
 import NavigationBar from "../NavigationBar";
 import Footer from "../Footer";
 import { SendHorizontal } from "lucide-react";
+
 const PrivacyPolicy: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
       <NavigationBar />
-      <main className="pt-40 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center space-y-8 ">
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-1000">
-            Privacy Policy
-          </h1>
-          <div className="prose dark:prose-invert max-w-none">
-            <p className="max-w-xl mx-auto text-gray-500 font-medium leading-relaxed md:text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+      <main className="pt-32 pb-24 px-6">
+        <div className="max-w-3xl mx-auto">
+          {/* Header Section */}
+          <div className="text-center mb-16 space-y-6">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-1000">
+              Privacy Policy
+            </h1>
+            <p className="max-w-2xl mx-auto text-gray-500 font-medium leading-relaxed text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
               This Privacy Policy describes Our policies and procedures on the
               collection, use and disclosure of Your information when You use
               the Service and tells You about Your privacy rights and how the
               law protects You.
             </p>
+          </div>
 
-            <form className="w-max-9xl flex flex-col justify-normal items-center">
-              <h2 className="font-black text-3xl relative z-10 mt-10 mb-5">
+          {/* Contact Us Section */}
+          <div className="mt-20 pt-16 border-t border-gray-100">
+            <div className="text-center mb-12">
+              <h2 className="font-black text-4xl mb-4">
                 Contact Us
               </h2>
-              <p className="text-gray-500 font-medium">
+              <p className="text-gray-500 font-medium text-lg">
                 If you have any questions about this Privacy Policy, You can
                 contact us:
               </p>
-              <div className="w-full md:w-1/2 flex flex-col gap-4 mt-4">
+            </div>
+
+            <form className="max-w-xl mx-auto space-y-6">
+              <div className="space-y-6">
                 <input
                   type="text"
                   placeholder="Name"
-                  className="outline-none border-gray-900 border-b border-t-0 border-r-0 border-l-0 p-2 border-solid"
+                  className="w-full outline-none border-b-2 border-gray-200 focus:border-gray-900 p-3 transition-colors bg-transparent"
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="outline-none border-gray-900 border-b border-t-0 border-r-0 border-l-0 p-2 border-solid"
+                  className="w-full outline-none border-b-2 border-gray-200 focus:border-gray-900 p-3 transition-colors bg-transparent"
                 />
                 <textarea
                   placeholder="Message"
-                  className="outline-none border-gray-900 border-b border-t-0 border-r-0 border-l-0 p-2 border-solid"
+                  rows={4}
+                  className="w-full outline-none border-b-2 border-gray-200 focus:border-gray-900 p-3 transition-colors bg-transparent resize-none"
                 />
-                <button
-                  type="submit"
-                  className="w-full sm:w-auto bg-gray-900 text-white px-8 py-4 rounded font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 shadow-lg shadow-gray-200"
-                >
-                  Submit
-                  <SendHorizontal size={16} />
-                </button>
               </div>
+              <button
+                type="submit"
+                className="w-full bg-gray-900 text-white px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 shadow-lg shadow-gray-200"
+              >
+                Submit
+                <SendHorizontal size={16} />
+              </button>
             </form>
           </div>
         </div>

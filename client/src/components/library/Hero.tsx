@@ -287,7 +287,7 @@ const Hero: React.FC<HeroProps> = ({
       <img
         src={avatarUrl}
         alt="Avatar"
-        fetchPriority="high"
+        {...({ fetchpriority: "high" } as any)}
         className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-slate-100 dark:border-white/20 shadow-lg mb-4 md:mb-6 object-cover"
       />
       <h1
