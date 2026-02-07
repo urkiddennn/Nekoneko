@@ -10,9 +10,13 @@ interface Link {
 interface ContactInfoProps {
     title?: string;
     description?: string;
-    links: Link[];
+    links?: Link[];
     alignment?: 'left' | 'center' | 'right';
-    variant?: 'default' | 'card';
+    variant?: 'default' | 'card' | 'impact';
+    email?: string;
+    github?: string;
+    linkedin?: string;
+    footer_text?: string;
 }
 
 const ContactInfo: React.FC<ContactInfoProps> = ({
@@ -20,8 +24,65 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
     description,
     links = [],
     alignment = 'center',
-    variant = 'default'
+    variant = 'default',
+    email,
+    github,
+    linkedin,
+    footer_text,
 }) => {
+    if (variant === "impact") {
+        const contactLinks = [
+            { id: 'email', label: email, icon: Icons.Mail, url: `mailto:${email}` },
+            { id: 'github', label: github, icon: Icons.Github, url: `https://github.com/${github}` },
+            { id: 'linkedin', label: linkedin, icon: Icons.Linkedin, url: `https://linkedin.com/in/${linkedin}` },
+        ].filter(l => l.label);
+
+        return (
+            <div className="py-24 flex flex-col items-center">
+                {/* Connection line/header */}
+                <div className="flex flex-col items-center mb-16 space-y-4">
+                    <div className="w-px h-24 bg-gradient-to-b from-transparent to-indigo-600" />
+                    <div className="bg-indigo-600 text-white px-6 py-2 rounded-full text-[10px] font-black tracking-[0.3em] uppercase">
+                        CONNECT WITH ME
+                    </div>
+                </div>
+
+                <h2 className="text-5xl md:text-8xl font-black text-slate-950 dark:text-white uppercase tracking-tighter text-center mb-20 italic">
+                    LET'S WORK <br /> <span className="text-indigo-600 not-italic">TOGETHER</span>
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-12 w-full max-w-5xl px-4">
+                    {contactLinks.map((link) => (
+                        <a
+                            key={link.id}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex flex-col items-center space-y-6 transition-all duration-300"
+                        >
+                            <div className="relative">
+                                <div className="absolute inset-0 bg-indigo-600/20 rounded-full blur-2xl group-hover:blur-3xl transition-all opacity-0 group-hover:opacity-100" />
+                                <div className="relative w-24 h-24 md:w-32 md:h-32 bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-white/5 rounded-full flex items-center justify-center group-hover:border-indigo-600 transition-colors">
+                                    <link.icon size={40} className="text-slate-400 group-hover:text-indigo-600 transition-colors" />
+                                </div>
+                            </div>
+                            <span className="font-black text-slate-950 dark:text-white uppercase tracking-widest text-sm md:text-base border-b-2 border-transparent group-hover:border-indigo-600 pb-1 transition-all">
+                                {link.id}
+                            </span>
+                        </a>
+                    ))}
+                </div>
+
+                {footer_text && (
+                    <div className="mt-32 border-t border-slate-100 dark:border-white/5 pt-12 w-full text-center">
+                        <p className="text-[10px] font-black tracking-[0.5em] text-slate-400 uppercase">
+                            {footer_text}
+                        </p>
+                    </div>
+                )}
+            </div>
+        );
+    }
     if (variant === 'card') {
         return (
             <div className="bg-[#ff4d4d] dark:bg-red-600 p-8 rounded-2xl relative overflow-hidden group">

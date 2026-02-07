@@ -13,12 +13,56 @@ interface Job {
 interface ExperienceProps {
     title: string;
     jobs: Job[];
-    variant?: 'timeline' | 'cards' | 'brutalist' | 'outline_minimal';
+    variant?: 'timeline' | 'cards' | 'brutalist' | 'outline_minimal' | 'impact';
 }
 
 const Experience: React.FC<ExperienceProps> = ({ title, jobs, variant = 'cards' }) => {
     const { siteConfig } = useSite();
     const primaryColor = siteConfig.site_settings.theme.primary;
+
+    if (variant === 'impact') {
+        return (
+            <div className="space-y-16 py-12">
+                <div className="flex flex-col items-start gap-4">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-1 bg-indigo-600" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">HISTORY</span>
+                    </div>
+                    <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
+                        Professional <span className="text-indigo-600">Journey</span>
+                    </h2>
+                </div>
+
+                <div className="space-y-8">
+                    {jobs.map((job, index) => (
+                        <div
+                            key={index}
+                            className="group flex flex-col md:flex-row md:items-center gap-6 md:gap-12 p-8 md:p-12 bg-white dark:bg-slate-900 border-[3px] border-slate-100 dark:border-white/5 rounded-none hover:border-indigo-600 dark:hover:border-indigo-600 transition-all duration-500"
+                        >
+                            <div className="md:w-48 flex-shrink-0">
+                                <span className="text-xl font-black uppercase tracking-widest text-indigo-600">
+                                    {job.period}
+                                </span>
+                            </div>
+                            <div className="flex-1 space-y-4">
+                                <div>
+                                    <h3 className="text-2xl md:text-4xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
+                                        {job.role}
+                                    </h3>
+                                    <p className="text-sm font-black uppercase tracking-widest text-slate-400 mt-2">
+                                        {job.company}
+                                    </p>
+                                </div>
+                                <p className="text-lg font-medium text-slate-500 dark:text-slate-400 leading-relaxed max-w-3xl">
+                                    {job.description}
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     if (variant === 'outline_minimal') {
         return (

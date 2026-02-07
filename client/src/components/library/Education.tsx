@@ -12,12 +12,52 @@ interface EducationItem {
 interface EducationProps {
     title: string;
     items: EducationItem[];
-    variant?: 'timeline' | 'brutalist' | 'outline_minimal';
+    variant?: 'timeline' | 'brutalist' | 'outline_minimal' | 'impact';
 }
 
 const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline' }) => {
     const { siteConfig } = useSite();
     const primaryColor = siteConfig.site_settings.theme.primary;
+
+    if (variant === 'impact') {
+        return (
+            <div className="space-y-16 py-12">
+                <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="flex items-center justify-center gap-4">
+                        <div className="w-12 h-1 bg-indigo-600" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">ACADEMICS</span>
+                        <div className="w-12 h-1 bg-indigo-600" />
+                    </div>
+                    <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
+                        Education <span className="text-indigo-600">Background</span>
+                    </h2>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    {items.map((item, index) => (
+                        <div
+                            key={index}
+                            className="group p-8 md:p-12 bg-white dark:bg-slate-900 border-[3px] border-slate-100 dark:border-white/5 rounded-none hover:border-indigo-600 dark:hover:border-indigo-600 transition-all duration-500 flex flex-col justify-between"
+                        >
+                            <div className="space-y-6">
+                                <div className="text-lg font-black uppercase tracking-widest text-indigo-600">
+                                    {item.period}
+                                </div>
+                                <div className="space-y-2">
+                                    <h3 className="text-3xl md:text-4xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
+                                        {item.school}
+                                    </h3>
+                                    <p className="text-md font-bold text-slate-400 uppercase tracking-widest">
+                                        {item.degree}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     if (variant === 'outline_minimal') {
         return (

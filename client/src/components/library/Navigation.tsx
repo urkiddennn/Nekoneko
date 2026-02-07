@@ -13,7 +13,7 @@ interface NavigationProps {
     backgroundColor?: string;
     buttonBackgroundColor?: string;
   };
-  variant?: "default" | "minimal" | "brutalist" | "outline_minimal";
+  variant?: "default" | "minimal" | "brutalist" | "outline_minimal" | "impact";
 }
 
 // Helper function to determine if a string is a direct CSS color value
@@ -32,6 +32,7 @@ const Navigation: React.FC<NavigationProps> = ({
 }) => {
   const isBrutalist = variant === "brutalist";
   const isOutlineMinimal = variant === "outline_minimal";
+  const isImpact = variant === "impact";
   // Determine general text color (class or inline style)
   const navTextColorClass =
     styles?.textColor && !isDirectCssColorValue(styles.textColor)
@@ -69,7 +70,9 @@ const Navigation: React.FC<NavigationProps> = ({
           ? "border border-slate-950 dark:border-white rounded-none"
           : styles?.borderColor
             ? "border"
-            : "";
+            : isImpact
+              ? "border-none"
+              : "";
   const buttonBorderStyle =
     styles?.borderColor && isDirectCssColorValue(styles.borderColor)
       ? {
@@ -128,14 +131,14 @@ const Navigation: React.FC<NavigationProps> = ({
               key={idx}
               href={link.url.startsWith('#') || (!link.url.includes(':') && !link.url.includes('/')) ? `#${link.url.replace(/^#/, '')}` : link.url}
               onClick={(e) => handleLinkClick(e, link.url)}
-              className="text-sm font-medium transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit"
+              className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact ? 'font-black uppercase tracking-[0.2em]' : 'font-medium'}`}
             >
               {link.label}
             </a>
           ))}
           {showResumeButton && (
             <button
-              className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black' : 'rounded-lg'}`}
+              className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black' : isImpact ? 'rounded-none uppercase tracking-widest font-black px-8 py-3' : 'rounded-lg'}`}
               style={{
                 ...buttonBackgroundColorStyle,
                 ...buttonBorderStyle,

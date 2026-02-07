@@ -2,8 +2,8 @@ import React from "react";
 import Navigation from "./library/Navigation";
 import Hero from "./library/Hero";
 import StatsBar from "./library/StatsBar";
-import ProjectGrid from "./library/ProjectGrid";
-import ContactSection from "./library/ContactSection";
+
+
 import Features from "./library/Features";
 import Pricing from "./library/Pricing";
 import Skills from "./library/Skills";
@@ -11,7 +11,7 @@ import Experience from "./library/Experience";
 import CTA from "./library/CTA";
 import Layout from "./library/Layout";
 import ImageComponent from "./library/ImageComponent";
-import SkillsBullets from "./library/SkillsBullets";
+
 import ContactInfo from "./library/ContactInfo";
 import ProjectDetails from "./library/ProjectDetails";
 import Education from './library/Education';
@@ -26,8 +26,8 @@ const componentRegistry: Record<string, React.FC<any>> = {
   navigation_minimal: Navigation,
   hero: Hero,
   stats_bar: StatsBar,
-  project_grid: ProjectGrid,
-  contact_section: ContactSection,
+  project_grid: ProjectDetails,
+  contact_section: ContactInfo,
   features: Features,
   pricing: Pricing,
   skills: Skills,
@@ -35,7 +35,7 @@ const componentRegistry: Record<string, React.FC<any>> = {
   cta: CTA,
   layout: Layout,
   image: ImageComponent,
-  skills_bullets: SkillsBullets,
+  skills_bullets: Skills,
   contact_info: ContactInfo,
   project_details: ProjectDetails,
   education: Education,

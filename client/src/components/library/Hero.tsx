@@ -18,7 +18,7 @@ interface HeroProps {
   subheading: string;
   avatarUrl: string;
   alignment: "left" | "center" | "right";
-  variant?: "stack" | "split" | "invest" | "brutalist" | "outline_minimal";
+  variant?: "stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact";
   backgroundImageUrl?: string;
   topBadgeItems?: BadgeItem[];
   ctaButtons?: CTAButton[];
@@ -45,6 +45,66 @@ const Hero: React.FC<HeroProps> = ({
     center: "text-center items-center",
     right: "text-right items-end",
   }[alignment];
+
+  if (variant === "impact") {
+    const titleParts = heading.split(' ');
+    return (
+      <div className="flex flex-col md:flex-row items-center gap-12 md:gap-24 text-slate-950 dark:text-white py-16 md:py-24 relative overflow-hidden">
+        {/* Subtle background blob */}
+        <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-[40%] h-[80%] bg-indigo-500/10 blur-[120px] rounded-full -z-10" />
+
+        <div className="flex-1 space-y-8 md:space-y-10 w-full animate-in fade-in slide-in-from-left-12 duration-1000">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-1 bg-slate-200 dark:bg-slate-800" />
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">HELLO</span>
+          </div>
+
+          <h1
+            className={`${style?.titleSize || "text-5xl md:text-[5.5rem]"} font-black tracking-tight leading-[1.1] break-words`}
+          >
+            {titleParts.map((part, i) => (
+              <span key={i} style={i === 1 ? { color: style?.titleColor || "#ef4444" } : { color: style?.titleColor ? undefined : undefined }}>
+                {part}{' '}
+              </span>
+            ))}
+          </h1>
+
+          <p className="text-lg md:text-xl font-medium text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">
+            {subheading}
+          </p>
+
+          <div className="flex flex-wrap gap-4 pt-6">
+            {ctaButtons.map((btn, idx) => (
+              <a
+                key={idx}
+                href={btn.url}
+                className={`px-10 py-4 md:px-12 md:py-5 text-sm font-black transition-all uppercase tracking-widest hover:scale-105 active:scale-95 w-full md:w-auto text-center ${btn.variant === 'primary'
+                    ? 'text-white'
+                    : 'bg-transparent text-slate-950 dark:text-white border border-slate-200 dark:border-white/10'
+                  }`}
+                style={btn.variant === 'primary' ? { backgroundColor: style?.titleColor || "#ef4444", borderRadius: '2px' } : { borderRadius: '2px' }}
+              >
+                {btn.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex-shrink-0 relative animate-in fade-in zoom-in-95 duration-1000 delay-200">
+          {/* Decorative behind image */}
+          <div
+            className="absolute -right-12 top-1/2 -translate-y-1/2 w-full h-[120%] bg-slate-50 dark:bg-slate-900/50 -z-10 rotate-3 rounded-[4rem]"
+            style={{ backgroundImage: 'radial-gradient(circle at 20% 20%, rgba(239, 68, 68, 0.05) 0%, transparent 50%)' }}
+          />
+          <img
+            src={avatarUrl}
+            alt="Hero Avatar"
+            className="w-full md:w-[480px] aspect-[4/5] object-cover rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out"
+          />
+        </div>
+      </div>
+    );
+  }
 
   if (variant === "outline_minimal") {
     return (

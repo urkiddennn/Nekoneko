@@ -1,3 +1,5 @@
+
+
 export const SCHEMAS = [
   {
     type: "site_settings",
@@ -143,6 +145,22 @@ export const SCHEMAS = [
           },
         },
       },
+      {
+        name: "Impact",
+        description: "Bold uppercase links with high-contrast buttons.",
+        example: {
+          id: "nav-impact",
+          type: "navigation",
+          props: {
+            links: [
+              { label: "Works", url: "#" },
+              { label: "Contact", url: "#" },
+            ],
+            showResumeButton: true,
+            variant: "impact",
+          },
+        },
+      },
     ],
     props: [
       { name: "links", type: "array", desc: "List of {label, url}." },
@@ -153,7 +171,7 @@ export const SCHEMAS = [
       },
       {
         name: "variant",
-        type: '"default" | "minimal" | "brutalist" | "outline_minimal"',
+        type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact"',
         desc: "Visual style.",
       },
     ],
@@ -266,7 +284,7 @@ export const SCHEMAS = [
       { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
       {
         name: "variant",
-        type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal"',
+        type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact"',
         desc: "Layout style.",
       },
       {
@@ -384,6 +402,24 @@ export const SCHEMAS = [
           },
         },
       },
+      {
+        name: "Modern Impact",
+        description: "Bold typography with Large Portrait and accent colors.",
+        example: {
+          id: "hero-impact",
+          type: "hero",
+          props: {
+            heading: "I'm Jems Kemerun",
+            subheading: "A Product Designer based in Manila.",
+            avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+            variant: "impact",
+            ctaButtons: [
+              { label: "DOWNLOAD CV", url: "#", variant: "primary" },
+            ],
+            style: { titleColor: "#ef4444" },
+          },
+        },
+      },
     ],
   },
   {
@@ -480,54 +516,7 @@ export const SCHEMAS = [
     description: "Skills with progress bars.",
     details:
       "Visual representation of technical skills with progress bars/levels.",
-    variants: [
-      {
-        name: "Default",
-        description: "Default skill bar.",
-        variants: "default",
-        example: {
-          id: "skills-1",
-          type: "skills",
-          props: {
-            title: "Technical Arsenal",
-            barColor: "#6366f1",
-            showProgressBar: true,
-            showPercentage: true,
-            skills: [{ name: "React", level: 90, color: "#61dafb" }],
-          },
-          styles: {
-            padding: "py-20",
-            maxWidth: "max-w-5xl",
-          },
-        },
-      },
-      {
-        name: "Artistic",
-        description:
-          "Artistic skills display with prominent skill names and no progress indicators.",
-        example: {
-          id: "skills-2",
-          type: "skills",
-          props: {
-            title: "Creative Tools",
-            variant: "artistic",
-            barColor: "#eab308", // A different color for artistic variant
-            showProgressBar: false,
-            showPercentage: false,
-            skills: [
-              { name: "Graphic Design", level: 0, color: "#f97316" }, // Orange
-              { name: "Photography", level: 0, color: "#0ea5e9" }, // Sky blue
-              { name: "Video Editing", level: 0, color: "#8b5cf6" }, // Violet
-              { name: "Illustration", level: 0, color: "#10b981" }, // Emerald
-            ],
-          },
-          styles: {
-            padding: "py-20",
-            maxWidth: "max-w-5xl",
-          },
-        },
-      },
-    ],
+
 
     props: [
       { name: "title", type: "string", desc: "Section header." },
@@ -541,10 +530,76 @@ export const SCHEMAS = [
         type: "boolean",
         desc: "Show numeric percentage.",
       },
+      { name: "skills", type: "array", desc: "List of skills {name, level, color}." },
       {
-        name: "skills",
-        type: "array",
-        desc: "List of skills {name, level, color}.",
+        name: "variant",
+        type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal"',
+        desc: "Visual style.",
+      },
+      { name: "barColor", type: "hex", desc: "Main progress color." },
+      { name: "bulletColor", type: "hex", desc: "Bullet/Icon color." },
+      { name: "textColor", type: "tailwind|hex", desc: "Text color." },
+      { name: "borderColor", type: "tailwind|hex", desc: "Border color." },
+      { name: "backgroundColor", type: "tailwind|hex", desc: "Background color." },
+    ],
+    variants: [
+      {
+        name: "Artistic",
+        description: "Artistic skills display with prominent skill names.",
+        example: {
+          id: "skills-2",
+          type: "skills",
+          props: {
+            title: "Creative Tools",
+            variant: "artistic",
+            skills: [
+              { name: "Graphic Design", level: 100, color: "#f97316" },
+              { name: "Photography", level: 100, color: "#0ea5e9" },
+            ],
+          },
+        },
+      },
+      {
+        name: "Impact",
+        description: "Bold monochromatic skill pills with accent highlights.",
+        example: {
+          id: "skills-impact",
+          type: "skills",
+          props: {
+            title: "Expertise",
+            variant: "impact",
+            skills: [
+              { name: "React", level: 100, color: "#6366f1" },
+              { name: "Design", level: 100, color: "#ec4899" },
+            ],
+          },
+        },
+      },
+      {
+        name: "Brutalist Pills",
+        description: "Thick bordered skill tags.",
+        example: {
+          id: "skills-pills-brutalist",
+          type: "skills",
+          props: {
+            title: "Tech Stack",
+            variant: "brutalist",
+            skills: ["React", "TypeScript", "Tailwind"],
+          },
+        },
+      },
+      {
+        name: "Outline Minimal",
+        description: "Square monochromatic tags.",
+        example: {
+          id: "skills-outline",
+          type: "skills",
+          props: {
+            title: "Core Stack",
+            variant: "outline_minimal",
+            skills: ["SYSTEM", "CORE", "API"],
+          },
+        },
       },
     ],
   },
@@ -579,7 +634,7 @@ export const SCHEMAS = [
       },
       {
         name: "variant",
-        type: '"timeline" | "cards" | "brutalist" | "outline_minimal"',
+        type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact"',
         desc: "Visual style.",
       },
     ],
@@ -642,6 +697,26 @@ export const SCHEMAS = [
                 period: "2020 — 2022",
                 description: "Scaling the edge network.",
                 icon: "Zap",
+              },
+            ],
+          },
+        },
+      },
+      {
+        name: "Impact",
+        description: "High-impact typography with side-by-side period layout.",
+        example: {
+          id: "exp-impact",
+          type: "experience",
+          props: {
+            title: "History",
+            variant: "impact",
+            jobs: [
+              {
+                role: "Senior Designer",
+                company: "Neko Studio",
+                period: "2024 — PRESENT",
+                description: "Leading the design system for modern web apps.",
               },
             ],
           },
@@ -734,108 +809,54 @@ export const SCHEMAS = [
       { name: "caption", type: "string", desc: "Optional text below image." },
     ],
   },
-  {
-    type: "skills_bullets",
-    category: "Content",
-    description: "Skills list with bullets.",
-    details:
-      "A simplified version of the skills section using pills/bullet points.",
-    example: {
-      id: "skills-bullets-1",
-      type: "skills_bullets",
-      props: {
-        title: "Stack & Tools",
-        bulletColor: "#6366f1",
-        skills: ["VS Code", "GitHub", "Figma"],
-      },
-      styles: {
-        padding: "py-20",
-        maxWidth: "max-w-5xl",
-      },
-    },
-    props: [
-      { name: "title", type: "string", desc: "Section header." },
-      {
-        name: "bulletColor",
-        type: "hex",
-        desc: "Active/Icon color.",
-      },
-      {
-        name: "textColor",
-        type: "tailwind|hex",
-        desc: "Text color (e.g., text-white or #fff).",
-      },
-      {
-        name: "borderColor",
-        type: "tailwind|hex",
-        desc: "Border color (e.g., border-white or #fff).",
-      },
-      {
-        name: "backgroundColor",
-        type: "tailwind|hex",
-        desc: "Background (e.g., bg-black or #000).",
-      },
-      {
-        name: "skills",
-        type: "array",
-        desc: "List of skill names.",
-      },
-      {
-        name: "variant",
-        type: '"default" | "brutalist" | "outline_minimal"',
-        desc: "Visual style.",
-      },
-    ],
-    variants: [
-      {
-        name: "Brutalist Pills",
-        description: "Thick bordered skill tags.",
-        example: {
-          id: "skills-pills-brutalist",
-          type: "skills_bullets",
-          props: {
-            title: "Tech Stack",
-            variant: "brutalist",
-            skills: ["React", "TypeScript", "Tailwind"],
-          },
-        },
-      },
-      {
-        name: "Outline Minimal",
-        description: "Square monochromatic tags.",
-        example: {
-          id: "skills-outline",
-          type: "skills_bullets",
-          props: {
-            title: "Core Stack",
-            variant: "outline_minimal",
-            skills: ["SYSTEM", "CORE", "API"],
-          },
-        },
-      },
-    ],
-  },
+
   {
     type: "contact_info",
     category: "Connect",
     description: "Social and contact icon links.",
     details:
-      "Display a clean row of icon buttons or a high-contrast card for contact information.",
+      "Display icon buttons, cards, or high-impact sections for contact information.",
+    example: {
+      id: "contact-default",
+      type: "contact_info",
+      props: {
+        title: "Let's connect",
+        description: "Available for freelance work.",
+        links: [
+          { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
+          { label: "GitHub", url: "https://github.com", icon: "Github" },
+        ],
+        alignment: "center",
+        variant: "default",
+      },
+    },
+    props: [
+      { name: "title", type: "string", desc: "Heading text." },
+      { name: "description", type: "string", desc: "Secondary text." },
+      { name: "links", type: "array", desc: "List of {label, url, icon}." },
+      {
+        name: "alignment",
+        type: '"left" | "center" | "right"',
+        desc: "Alignment.",
+      },
+      { name: "variant", type: '"default" | "card" | "impact"', desc: "Visual style." },
+      { name: "email", type: "string", desc: "Contact email." },
+      { name: "github", type: "string", desc: "GitHub username." },
+      { name: "linkedin", type: "string", desc: "LinkedIn username." },
+      { name: "footer_text", type: "string", desc: "Footer disclaimer." },
+    ],
     variants: [
       {
         name: "Default Icons",
         description: "Standard row of icon buttons.",
         example: {
-          id: "contact-default",
+          id: "contact-default-var",
           type: "contact_info",
           props: {
             title: "Let's connect",
-            description: "Available for freelance work.",
             links: [
               { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
-              { label: "GitHub", url: "https://github.com", icon: "Github" },
             ],
-            alignment: "center",
             variant: "default",
           },
         },
@@ -850,31 +871,33 @@ export const SCHEMAS = [
             title: "CONTACT_INFO",
             links: [
               { label: "Email", url: "mailto:hello@example.com", icon: "Mail" },
-              { label: "Phone", url: "tel:09669305550", icon: "Phone" },
             ],
             variant: "card",
           },
         },
       },
-    ],
-    props: [
-      { name: "title", type: "string", desc: "Heading text." },
-      { name: "description", type: "string", desc: "Secondary text." },
-      { name: "links", type: "array", desc: "List of {label, url, icon}." },
       {
-        name: "alignment",
-        type: '"left" | "center" | "right"',
-        desc: "Alignment.",
+        name: "Impact",
+        description: "Large-scale social links with bold typography.",
+        example: {
+          id: "contact-impact",
+          type: "contact_info",
+          props: {
+            email: "hello@example.com",
+            github: "example",
+            variant: "impact",
+          },
+        },
       },
-      { name: "variant", type: '"default" | "card"', desc: "Visual style." },
     ],
   },
+
   {
     type: "project_details",
     category: "Connect",
-    description: "Detailed project showcase card.",
+    description: "Project card or portfolio grid.",
     details:
-      "A comprehensive project card highlighting description and tech stack.",
+      "A comprehensive project display supporting single cards or full grids.",
     example: {
       id: "project-1",
       type: "project_details",
@@ -883,6 +906,7 @@ export const SCHEMAS = [
         description: "A professional minimal site builder.",
         stacks: ["React", "TypeScript", "Convex"],
         link: "https://nekoneko.space",
+        variant: "card",
       },
     },
     props: [
@@ -890,6 +914,40 @@ export const SCHEMAS = [
       { name: "description", type: "string", desc: "Description text." },
       { name: "stacks", type: "array", desc: "Tech stack strings." },
       { name: "link", type: "url", desc: "External link." },
+      { name: "items", type: "array", desc: "Array of projects {title, image, tags, link}." },
+      { name: "columns", type: "number", desc: "Column count." },
+      { name: "variant", type: '"card" | "grid" | "impact"', desc: "Visual style." },
+    ],
+    variants: [
+      {
+        name: "Portfolio Grid",
+        description: "Standard grid of projects.",
+        example: {
+          id: "project-grid-var",
+          type: "project_details",
+          props: {
+            title: "Works",
+            variant: "grid",
+            items: [
+              { title: "Project A", image: "", tags: ["Web"], link: "#" },
+            ],
+          },
+        },
+      },
+      {
+        name: "Impact Gallery",
+        description: "High-impact portfolio showcase.",
+        example: {
+          id: "project-impact",
+          type: "project_details",
+          props: {
+            variant: "impact",
+            items: [
+              { title: "Modern Design", image: "", tags: ["2024"], link: "#" },
+            ],
+          },
+        },
+      },
     ],
   },
   {
@@ -984,38 +1042,7 @@ export const SCHEMAS = [
       },
     ],
   },
-  {
-    type: "project_grid",
-    category: "Content",
-    description: "Visual portfolio grid.",
-    details: "Showcase projects with large preview images and category tags.",
-    example: {
-      id: "pgrid-1",
-      type: "project_grid",
-      props: {
-        title: "Selected Works",
-        columns: 2,
-        items: [
-          {
-            title: "Neko App",
-            image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c",
-            tags: ["Web", "Design"],
-            link: "#",
-          },
-        ],
-      },
-      styles: { padding: "py-24" },
-    },
-    props: [
-      { name: "title", type: "string", desc: "Section header." },
-      { name: "columns", type: "number", desc: "Column count (2-3)." },
-      {
-        name: "items",
-        type: "array",
-        desc: "Array of {title, image, tags, link}.",
-      },
-    ],
-  },
+
   {
     type: "education",
     category: "Content",
@@ -1049,7 +1076,7 @@ export const SCHEMAS = [
       },
       {
         name: "variant",
-        type: '"timeline" | "brutalist" | "outline_minimal"',
+        type: '"timeline" | "brutalist" | "outline_minimal" | "impact"',
         desc: "Visual style.",
       },
     ],
@@ -1087,6 +1114,25 @@ export const SCHEMAS = [
                 school: "University",
                 degree: "Computer Science",
                 period: "2018-2022",
+              },
+            ],
+          },
+        },
+      },
+      {
+        name: "Impact",
+        description: "High-contrast academic log with period highlighting.",
+        example: {
+          id: "edu-impact",
+          type: "education",
+          props: {
+            title: "Background",
+            variant: "impact",
+            items: [
+              {
+                school: "Design Institute",
+                degree: "Master of Arts",
+                period: "2022 — 2024",
               },
             ],
           },

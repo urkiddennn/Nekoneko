@@ -12,11 +12,63 @@ interface ProjectGridProps {
     columns: number;
     items?: ProjectItem[];
     projects?: ProjectItem[]; // Backward compatibility
+    variant?: 'default' | 'impact';
 }
 
-const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items, projects }) => {
+const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items, projects, variant = 'default' }) => {
     const displayItems = items || projects || [];
     const gridClass = columns === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+
+    if (variant === 'impact') {
+        return (
+            <div className="space-y-16">
+                <div className="flex flex-col items-start gap-4">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-1 bg-indigo-600" />
+                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">PORTFOLIO</span>
+                    </div>
+                    <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
+                        Featured <span className="text-indigo-600">Work</span>
+                    </h2>
+                </div>
+
+                <div className={`grid ${gridClass} gap-12`}>
+                    {displayItems.map((item, idx) => (
+                        <a
+                            key={idx}
+                            href={item.link}
+                            className="group block space-y-6 transition-all duration-700"
+                        >
+                            <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-gray-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 shadow-sm group-hover:shadow-2xl group-hover:shadow-indigo-500/20 transition-all duration-700">
+                                <img
+                                    src={item.image}
+                                    alt={item.title}
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out grayscale group-hover:grayscale-0"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-8">
+                                    <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
+                                        <span className="text-white text-xs font-black uppercase tracking-widest bg-indigo-600 px-4 py-2 rounded-none">View Case Study</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="space-y-4 px-2">
+                                <div className="flex flex-wrap gap-2">
+                                    {item.tags?.map((tag, tIdx) => (
+                                        <span key={tIdx} className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                                <h3 className="text-2xl md:text-3xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none group-hover:text-indigo-600 transition-colors">
+                                    {item.title}
+                                </h3>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div>
