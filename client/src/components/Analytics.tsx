@@ -4,13 +4,14 @@ import { useQuery } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { ArrowLeft, TrendingUp, Users, Clock, Globe } from 'lucide-react';
 import Header from './Header';
-import { getToken } from '../utils/authUtils';
+import { useAuth } from '../hooks/useAuth';
 
 const Analytics: React.FC = () => {
     const { projectId } = useParams();
     const navigate = useNavigate();
-    const token = getToken() || "";
-    const stats = useQuery(api.analytics.getStats, token && projectId ? { token, projectId: projectId as any } : "skip");
+    const { token, isConvexAuth } = useAuth();
+
+    const stats = useQuery(api.analytics.getStats, (token || isConvexAuth) && projectId ? { token: (token || undefined) as any, projectId: projectId as any } : "skip");
     const project = useQuery(api.config.getProject, { id: projectId as any });
 
     if (!stats || !project) {

@@ -7,8 +7,21 @@ if (!process.env.JWT_SECRET) {
 
 const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
-export async function verifyUser(token: string | undefined) {
-    if (!token) throw new Error("Authentication required");
+export async function verifyUser(ctx: any, token: string | undefined) {
+    const identity = await ctx.auth.getUserIdentity();
+    if (identity) {
+        // Find user by subject (which is the user ID in Convex Auth)
+        const user = await ctx.db
+            .query("users")
+            .withIndex("by_id", (q: any) => q.eq("_id", identity.subject))
+            .first();
+        if (user) return user._id;
+
+        // Fallback for some providers where subject might be different or needed to be mapped
+        return identity.subject as any;
+    }
+
+    if (!token || token === "skip") throw new Error("Authentication required");
     try {
         const { payload } = await jwtVerify(token, JWT_SECRET);
         return payload.userId as any;

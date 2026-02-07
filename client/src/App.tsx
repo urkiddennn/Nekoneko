@@ -98,6 +98,7 @@ function App() {
             />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/" element={<Landing />} />
+            <Route path="*" element={<div className="flex items-center justify-center min-h-screen font-black text-2xl uppercase tracking-tighter">404 - Page Not Found</div>} />
           </Routes>
         </div>
       </Suspense>

@@ -5,23 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { Plus, Globe, Settings, Check, TrendingUp } from "lucide-react";
 import { TEMPLATES, Template } from "../data/templates";
 import Header from "./Header";
-import { getUser, getToken } from "../utils/authUtils";
+
+import { useAuth } from "../hooks/useAuth";
 
 const Dashboard: React.FC = () => {
-  const user = getUser();
-  const token = getToken() || "";
+  const { user, token, isAuthenticated, isLoading, isConvexAuth } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
-    setTimeout(() => navigate("/login"), 0);
-    return null;
-  }
-
-  const projects = useQuery(api.config.listProjects, token ? { token } : "skip");
+  const projects = useQuery(api.config.listProjects, (token || isConvexAuth) ? { token: token || undefined } : "skip");
   const createProject = useMutation(api.config.createProject);
   const deleteProject = useMutation(api.config.deleteProject);
-
-
 
   const [isCreating, setIsCreating] = useState(false);
   const [newName, setNewName] = useState("");
@@ -40,12 +33,35 @@ const Dashboard: React.FC = () => {
 
   const isAvailable = useQuery(api.config.checkSlugAvailable, { slug: debouncedSlug });
 
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isLoading, isAuthenticated, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white font-sans overflow-hidden">
+        <div className="flex flex-col items-center gap-10 text-gray-900">
+          <div className="relative">
+            <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none">
+              nekoneko
+            </div>
+          </div>
+          <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isAvailable === false) return;
     try {
       const id = await createProject({
-        token,
+        token: token || undefined,
         name: newName,
         slug: newSlug.toLowerCase().replace(/[^a-z0-9]/g, "-"),
         site_settings: selectedTemplate?.site_settings ? { ...selectedTemplate.site_settings, name: newName } : undefined,
@@ -60,7 +76,7 @@ const Dashboard: React.FC = () => {
   const handleDelete = async () => {
     if (!projectToDelete) return;
     try {
-      await deleteProject({ token, id: projectToDelete._id });
+      await deleteProject({ token: token || undefined, id: projectToDelete._id });
       setProjectToDelete(null);
       setProjectToEdit(null); // Close the edit actions menu too
     } catch (err: any) {

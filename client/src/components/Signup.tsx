@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useAction } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, User, Mail, Lock } from 'lucide-react';
+import { ArrowLeft, User, Mail, Lock, Github } from 'lucide-react';
 import { setAuthData } from '../utils/authUtils';
+import { useAuthActions } from "@convex-dev/auth/react";
 
 const Signup: React.FC = () => {
     const [name, setName] = useState('');
@@ -14,6 +15,7 @@ const Signup: React.FC = () => {
     const [passwordStrength, setPasswordStrength] = useState(0);
     const navigate = useNavigate();
     const signupAction = useAction(api.auth.signup);
+    const { signIn } = useAuthActions();
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -212,6 +214,24 @@ const Signup: React.FC = () => {
                             className={`w-full bg-gray-900 text-white py-4 rounded font-bold hover:bg-black transition-all active:scale-[0.98] shadow-lg shadow-gray-100 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             {isLoading ? 'Creating Account...' : 'Create Account'}
+                        </button>
+
+                        <div className="relative my-8">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-gray-100"></div>
+                            </div>
+                            <div className="relative flex justify-center text-[10px] font-black uppercase tracking-[0.2em]">
+                                <span className="bg-white px-4 text-gray-300">Or continue with</span>
+                            </div>
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={() => signIn("github", { redirectTo: "/dashboard" })}
+                            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-900 py-4 rounded font-bold hover:bg-gray-50 transition-all active:scale-[0.98]"
+                        >
+                            <Github size={20} />
+                            GitHub
                         </button>
                     </form>
 

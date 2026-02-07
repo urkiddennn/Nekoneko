@@ -14,9 +14,9 @@ export const recordView = mutation({
 });
 
 export const getStats = query({
-    args: { token: v.string(), projectId: v.id("projects") },
+    args: { token: v.optional(v.string()), projectId: v.id("projects") },
     handler: async (ctx, args) => {
-        const userId = await verifyUser(args.token);
+        const userId = await verifyUser(ctx, args.token);
         const project = await ctx.db.get(args.projectId);
 
         if (!project || project.userId !== userId) {

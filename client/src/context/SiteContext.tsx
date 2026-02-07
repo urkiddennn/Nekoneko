@@ -197,7 +197,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = getToken() || "";
     try {
       await saveToConvex({
-        token,
+        token: token || undefined,
         projectId: projectId as any,
         site_settings: siteConfig.site_settings,
         sections: siteConfig.sections,

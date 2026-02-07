@@ -1,23 +1,43 @@
 import React, { useState } from "react";
 import Header from "../Header";
-import { getUser, setAuthData, getToken } from "../../utils/authUtils";
+import { useAuth } from "../../hooks/useAuth";
+import { setAuthData } from "../../utils/authUtils";
 import { useAction } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { User, Mail, ArrowLeft, Loader2, Save } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage: React.FC = () => {
-  const user = getUser();
-  const token = getToken();
+  const { user, token, isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
   const updateUserAction = useAction(api.auth.updateUser);
 
-  const [name, setName] = useState(user?.name || "");
+  const [name, setName] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  if (!user) {
-    navigate("/login");
+  // Sync name with user after loading
+  React.useEffect(() => {
+    if (user?.name) {
+      setName(user.name);
+    }
+  }, [user?.name]);
+
+  React.useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      navigate("/login");
+    }
+  }, [isLoading, isAuthenticated, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="animate-spin text-gray-400" size={32} />
+      </div>
+    );
+  }
+
+  if (!isAuthenticated || !user) {
     return null;
   }
 

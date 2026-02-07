@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useAction } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, Lock } from 'lucide-react';
-import { setAuthData } from '../utils/authUtils';
+import { ArrowLeft, Mail, Lock, Github } from 'lucide-react';
+import { useAuth } from '../hooks/useAuth';
+import { useAuthActions } from "@convex-dev/auth/react";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -11,8 +12,16 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
     const loginAction = useAction(api.auth.login);
     const [isLoading, setIsLoading] = useState(false);
+    const { signIn } = useAuthActions();
+
+    React.useEffect(() => {
+        if (isAuthenticated && !isAuthLoading) {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated, isAuthLoading, navigate]);
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,7 +41,9 @@ const Login: React.FC = () => {
         setIsLoading(true);
         try {
             const { token, user } = await loginAction({ email, password });
-            setAuthData({ token, user });
+            // Since we're using useAuth, we need to manually set the local storage for custom auth
+            localStorage.setItem('neko_token', token);
+            localStorage.setItem('neko_user', JSON.stringify(user));
             navigate('/dashboard');
         } catch (err: any) {
             setError(err.message || 'Invalid email or password');
@@ -145,6 +156,26 @@ const Login: React.FC = () => {
                         >
                             {isLoading ? 'Signing In...' : 'Sign In'}
                         </button>
+
+                        <div className="relative my-8">
+                            <div className="absolute inset-0 flex items-center">
+                                <div className="w-full border-t border-gray-100"></div>
+                            </div>
+                            <div className="relative flex justify-center text-[10px] font-black uppercase tracking-[0.2em]">
+                                <span className="bg-white px-4 text-gray-300">Or continue with</span>
+                            </div>
+                        </div>
+
+
+                        <button
+                            type="button"
+                            onClick={() => signIn("github", { redirectTo: "/dashboard" })}
+                            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-900 py-4 rounded font-bold hover:bg-gray-50 transition-all active:scale-[0.98]"
+                        >
+                            <Github size={20} />
+                            GitHub
+                        </button>
+
                     </form>
 
                     <div className="mt-8 pt-8 border-t border-gray-50 text-center">

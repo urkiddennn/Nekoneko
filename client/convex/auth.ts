@@ -1,4 +1,4 @@
-import { action, internalMutation, internalQuery } from "./_generated/server";
+import { action, internalMutation, internalQuery, query } from "./_generated/server";
 import { v } from "convex/values";
 import { internal } from "./_generated/api";
 import { rateLimiter } from "./rateLimiter";
@@ -13,7 +13,7 @@ export const getUserByEmail = internalQuery({
     handler: async (ctx, args) => {
         return await ctx.db
             .query("users")
-            .withIndex("by_email", (q) => q.eq("email", args.email))
+            .withIndex("email", (q) => q.eq("email", args.email))
             .first();
     },
 });
@@ -93,7 +93,7 @@ export const login: ReturnType<typeof action> = action({
 
         const user = await ctx.runQuery(internal.auth.getUserByEmail, { email: args.email });
 
-        if (!user) throw new Error("Invalid credentials");
+        if (!user || !user.password) throw new Error("Invalid credentials");
 
         const isValid = await bcrypt.compare(args.password, user.password);
         if (!isValid) throw new Error("Invalid credentials");
@@ -114,7 +114,7 @@ export const login: ReturnType<typeof action> = action({
 export const updateUser: ReturnType<typeof action> = action({
     args: { token: v.string(), name: v.string() },
     handler: async (ctx, args) => {
-        const userId = await verifyUser(args.token);
+        const userId = await verifyUser(ctx, args.token);
         if (!userId) throw new Error("Unauthorized");
 
         await ctx.runMutation(internal.auth.updateUserInternal, {
@@ -130,6 +130,30 @@ export const updateUser: ReturnType<typeof action> = action({
             email: user.email,
             name: user.name,
         };
+    },
+});
+
+import GitHub from "@auth/core/providers/github";
+import { convexAuth } from "@convex-dev/auth/server";
+
+export const { auth, signIn, signOut, store } = convexAuth({
+    providers: [
+        GitHub({
+            clientId: process.env.AUTH_GITHUB_ID || process.env.AUTH_CLIENT_ID,
+            clientSecret: process.env.AUTH_GITHUB_SECRET || process.env.AUTH_CLIENT_SECRET,
+            authorization: { params: { prompt: "select_account" } },
+        }),
+    ],
+});
+
+export const currentUser = query({
+    args: {},
+    handler: async (ctx) => {
+        const userId = await auth.getUserId(ctx);
+        if (userId === null) {
+            return null;
+        }
+        return await ctx.db.get(userId);
     },
 });
 

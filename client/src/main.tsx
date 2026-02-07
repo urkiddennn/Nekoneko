@@ -4,16 +4,17 @@ import "./index.css";
 import App from "./App.tsx";
 
 import { SiteProvider } from "./context/SiteContext.tsx";
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexReactClient } from "convex/react";
+import { ConvexAuthProvider } from "@convex-dev/auth/react";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ConvexProvider client={convex}>
+    <ConvexAuthProvider client={convex}>
       <SiteProvider>
         <App />
       </SiteProvider>
-    </ConvexProvider>
+    </ConvexAuthProvider>
   </StrictMode>,
 );

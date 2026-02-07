@@ -32,9 +32,9 @@ export const getProjectBySlug = query({
 });
 
 export const listProjects = query({
-    args: { token: v.string() },
+    args: { token: v.optional(v.string()) },
     handler: async (ctx, args) => {
-        const userId = await verifyUser(args.token);
+        const userId = await verifyUser(ctx, args.token);
         return await ctx.db
             .query("projects")
             .withIndex("by_user", (q) => q.eq("userId", userId))
@@ -44,14 +44,14 @@ export const listProjects = query({
 
 export const createProject = mutation({
     args: {
-        token: v.string(),
+        token: v.optional(v.string()),
         name: v.string(),
         slug: v.string(),
         site_settings: v.optional(v.any()),
         sections: v.optional(v.array(v.any())),
     },
     handler: async (ctx, args) => {
-        const userId = await verifyUser(args.token);
+        const userId = await verifyUser(ctx, args.token);
 
         const existing = await ctx.db
             .query("projects")
@@ -71,13 +71,13 @@ export const createProject = mutation({
 
 export const saveProjectConfig = mutation({
     args: {
-        token: v.string(),
+        token: v.optional(v.string()),
         projectId: v.id("projects"),
         site_settings: v.any(),
         sections: v.array(v.any()),
     },
     handler: async (ctx, args) => {
-        const userId = await verifyUser(args.token);
+        const userId = await verifyUser(ctx, args.token);
         const project = await ctx.db.get(args.projectId);
 
         if (!project || project.userId !== userId) {
@@ -93,11 +93,11 @@ export const saveProjectConfig = mutation({
 
 export const deleteProject = mutation({
     args: {
-        token: v.string(),
+        token: v.optional(v.string()),
         id: v.id("projects")
     },
     handler: async (ctx, args) => {
-        const userId = await verifyUser(args.token);
+        const userId = await verifyUser(ctx, args.token);
         const project = await ctx.db.get(args.id);
 
         if (!project || project.userId !== userId) {
