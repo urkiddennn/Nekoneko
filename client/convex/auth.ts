@@ -4,7 +4,7 @@ import { internal } from "./_generated/api";
 import { rateLimiter } from "./rateLimiter";
 import bcrypt from "bcryptjs";
 import { SignJWT } from "jose";
-import { getJwtSecret, validatePassword, validateEmail } from "./utils";
+import { getJwtSecret, validatePassword, validateEmail, verifyUser } from "./utils";
 
 const JWT_SECRET = getJwtSecret();
 
@@ -18,12 +18,28 @@ export const getUserByEmail = internalQuery({
     },
 });
 
+export const getUserById = internalQuery({
+    args: { id: v.id("users") },
+    handler: async (ctx, args) => {
+        return await ctx.db.get(args.id);
+    },
+});
+
 export const createUser = internalMutation({
     args: { email: v.string(), password: v.string(), name: v.string() },
     handler: async (ctx, args) => {
         return await ctx.db.insert("users", {
             email: args.email,
             password: args.password,
+            name: args.name,
+        });
+    },
+});
+
+export const updateUserInternal = internalMutation({
+    args: { userId: v.id("users"), name: v.string() },
+    handler: async (ctx, args) => {
+        await ctx.db.patch(args.userId, {
             name: args.name,
         });
     },
@@ -91,6 +107,28 @@ export const login: ReturnType<typeof action> = action({
         return {
             token,
             user: { _id: user._id, email: user.email, name: user.name }
+        };
+    },
+});
+
+export const updateUser: ReturnType<typeof action> = action({
+    args: { token: v.string(), name: v.string() },
+    handler: async (ctx, args) => {
+        const userId = await verifyUser(args.token);
+        if (!userId) throw new Error("Unauthorized");
+
+        await ctx.runMutation(internal.auth.updateUserInternal, {
+            userId,
+            name: args.name,
+        });
+
+        const user = await ctx.runQuery(internal.auth.getUserById, { id: userId });
+        if (!user) throw new Error("User not found");
+
+        return {
+            _id: user._id,
+            email: user.email,
+            name: user.name,
         };
     },
 });

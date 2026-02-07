@@ -4,34 +4,53 @@ import { useNavigate } from "react-router-dom";
 import { getUser, logout } from "../utils/authUtils";
 
 const Header: React.FC = () => {
-    const user = getUser();
-    const navigate = useNavigate();
+  const user = getUser();
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout(navigate);
-    };
+  const handleLogout = () => {
+    logout(navigate);
+  };
 
-    if (!user) return null;
+  const handleProfile = () => {
+    navigate("/profile");
+  };
 
-    return (
-        <div className="h-16 border-b border-gray-100 flex items-center justify-between px-8 bg-white fixed top-0 w-full z-10">
-            <div
-                className="font-black text-xl tracking-tighter cursor-pointer"
-                onClick={() => navigate("/dashboard")}
-            >
-                nekoneko
-            </div>
-            <div className="flex items-center gap-6">
-                <span className="text-sm font-medium text-gray-500">{user.name}</span>
-                <button
-                    onClick={handleLogout}
-                    className="text-gray-400 hover:text-gray-900 transition-colors"
-                >
-                    <LogOut size={18} />
-                </button>
-            </div>
-        </div>
-    );
+  const handleDashboard = () => {
+    navigate("/dashboard");
+  };
+  if (!user) return null;
+
+  return (
+    <div className="h-16 border-b border-gray-100 flex items-center justify-between px-8 bg-white fixed top-0 left-0 right-0 z-50">
+      <div
+        className="font-black text-xl tracking-tighter cursor-pointer"
+        onClick={() => navigate("/dashboard")}
+      >
+        nekoneko
+      </div>
+      <div className="flex items-center gap-6">
+        <button
+          className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          onClick={handleDashboard}
+        >
+          Dashboard
+        </button>
+        <button
+          className="w-10 h-10 overflow-hidden border border-slate-200 rounded-full hover:border-slate-500 duration-100"
+          onClick={handleProfile}
+        >
+          <img src="https://api.dicebear.com/9.x/adventurer/svg?seed=Sara" alt="Profile" />
+        </button>
+
+        <button
+          onClick={handleLogout}
+          className="text-gray-400 hover:text-gray-900 transition-colors"
+        >
+          <LogOut size={18} />
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Header;

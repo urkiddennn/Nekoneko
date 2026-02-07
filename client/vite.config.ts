@@ -41,15 +41,15 @@ export default defineConfig(({ command }) => {
         },
         png: {
           // https://sharp.pixelplumbing.com/api-output#png
-          quality: 80,
+          quality: 70,
         },
         jpeg: {
           // https://sharp.pixelplumbing.com/api-output#jpeg
-          quality: 80,
+          quality: 70,
         },
         jpg: {
           // https://sharp.pixelplumbing.com/api-output#jpeg
-          quality: 80,
+          quality: 70,
         },
         webp: {
           // https://sharp.pixelplumbing.com/api-output#webp

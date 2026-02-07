@@ -1,5 +1,5 @@
 /* Self-host common fonts via vite-plugin-webfont-dl */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@400;700&family=Space+Grotesk:wght@400;700&family=Roboto:wght@400;700&family=Lexend:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lato:wght@400;700&family=Poppins:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;700&family=Doto:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@400;700&family=Space+Grotesk:wght@400;700&family=Roboto:wght@400;700&family=Lexend:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lato:wght@400;700&family=Poppins:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;700&family=Doto:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -93,25 +93,35 @@ body {
 
   background: none;
   /* Hide the gradient on older browsers */
-  background: -moz-linear-gradient(55deg,
-      rgba(0, 0, 0, 0) 61%,
-      rgba(255, 255, 255, 0.05) 61%);
+  background: -moz-linear-gradient(
+    55deg,
+    rgba(0, 0, 0, 0) 61%,
+    rgba(255, 255, 255, 0.05) 61%
+  );
   /* FF3.6+ */
-  background: -webkit-linear-gradient(36deg,
-      rgba(0, 0, 0, 0) 61%,
-      rgba(255, 255, 255, 0.05) 61%);
+  background: -webkit-linear-gradient(
+    36deg,
+    rgba(0, 0, 0, 0) 61%,
+    rgba(255, 255, 255, 0.05) 61%
+  );
   /* Chrome10+ and Safari5.1+ compute the degree differently */
-  background: -o-linear-gradient(55deg,
-      rgba(0, 0, 0, 0) 61%,
-      rgba(255, 255, 255, 0.05) 61%);
+  background: -o-linear-gradient(
+    55deg,
+    rgba(0, 0, 0, 0) 61%,
+    rgba(255, 255, 255, 0.05) 61%
+  );
   /* Opera 11.10+ */
-  background: -ms-linear-gradient(55deg,
-      rgba(0, 0, 0, 0) 61%,
-      rgba(255, 255, 255, 0.05) 61%);
+  background: -ms-linear-gradient(
+    55deg,
+    rgba(0, 0, 0, 0) 61%,
+    rgba(255, 255, 255, 0.05) 61%
+  );
   /* IE10+ */
-  background: linear-gradient(55deg,
-      rgba(0, 0, 0, 0) 61%,
-      rgba(255, 255, 255, 0.05) 61%);
+  background: linear-gradient(
+    55deg,
+    rgba(0, 0, 0, 0) 61%,
+    rgba(255, 255, 255, 0.05) 61%
+  );
 
   -webkit-border-top-right-radius: 5.3075%;
   -moz-border-radius-toptight: 5.3075%;

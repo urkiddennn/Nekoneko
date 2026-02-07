@@ -13,6 +13,9 @@ const Analytics = lazy(() => import("./components/Analytics"));
 const Landing = lazy(() => import("./components/Pages/Landing"));
 const PrivacyPolicy = lazy(() => import("./components/Pages/PrivacyPolicy"));
 
+// Profile page
+const ProfilePage = lazy(() => import("./components/Pages/ProfilePage"));
+
 // Minimal Loading Fallback
 const LoadingFallback = () => (
   <div className="flex h-screen items-center justify-center bg-white font-sans overflow-hidden">
@@ -76,6 +79,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/docs" element={<Docs />} />
             <Route path="/analytics/:projectId" element={<Analytics />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route
               path="/editor/:projectId"
               element={
