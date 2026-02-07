@@ -7,6 +7,9 @@ const NavigationBar: React.FC = () => {
   const handleGetStarted = () => {
     navigate("/register");
   };
+  const handleDocs = () => {
+    navigate("/docs");
+  };
   return (
     <nav className="h-16 border-b border-gray-100 flex items-center justify-between px-8 bg-white/80 backdrop-blur-md fixed top-0 w-full z-50">
       <div
@@ -17,8 +20,14 @@ const NavigationBar: React.FC = () => {
       </div>
       <div className="flex items-center gap-6">
         <button
+          onClick={handleDocs}
+          className="text-xs font-semibold  tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
+        >
+          Docs
+        </button>
+        <button
           onClick={() => navigate("/login")}
-          className="text-xs font-black uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
+          className="text-xs font-semibold  tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
         >
           Login
         </button>

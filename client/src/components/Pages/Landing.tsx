@@ -5,6 +5,7 @@ import { getUser } from "../../utils/authUtils";
 import Footer from "../Footer";
 import TemplateShowcase from "../TemplateShowcase";
 import NavigationBar from "../NavigationBar";
+import HowItWorks from "../HowItWorks";
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();
@@ -77,8 +78,13 @@ const Landing: React.FC = () => {
           <div className="mb-body"></div>
           <div className="mb-bottom-cover"></div>
         </div>*/}
-        <div className="mt-24 max-w-5xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500">
-          <div className="bg-white border border-gray-100 rounded shadow-2xl shadow-gray-200 overflow-hidden group">
+        <div className="mt-24 max-w-5xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500 ">
+          <div className="bg-white border border-gray-100 rounded-lg shadow-2xl shadow-gray-200 overflow-hidden group">
+            <div className="w-full h-12 bg-slate-950 text-start px-5 items-center flex gap-2">
+              <div className=" h-3 w-3 rounded-full bg-red-500"></div>
+              <div className=" h-3 w-3 rounded-full bg-yellow-500"></div>
+              <div className=" h-3 w-3 rounded-full bg-green-500"></div>
+            </div>
             <img
               src="/assets/mockup.png"
               alt="Nekoneko Editor Preview"
@@ -89,33 +95,7 @@ const Landing: React.FC = () => {
       </main>
 
       {/* How it Works */}
-      <section className="py-24 bg-gray-50/50 border-y border-gray-100">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="text-center mb-16 space-y-4">
-            <h2 className="text-3xl font-black tracking-tight">How it Works</h2>
-            <p className="text-gray-500 font-medium">
-              Three steps to your new corner of the internet.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
-            <StepCard
-              number="01"
-              title="Pick a Template"
-              description="Start with one of our 4 aesthetic presets: Modern, Minimal, Aesthetic, or Retro."
-            />
-            <StepCard
-              number="02"
-              title="Customize Content"
-              description="Use our modular JSON block system to add text, images, skills, and more. No code needed."
-            />
-            <StepCard
-              number="03"
-              title="Publish Instantly"
-              description="Hit publish and your site is live on your dedicated subdomain in milliseconds."
-            />
-          </div>
-        </div>
-      </section>
+      <HowItWorks />
 
       {/* Template Showcase */}
 
@@ -189,26 +169,6 @@ const Landing: React.FC = () => {
     </div>
   );
 };
-
-const StepCard = ({
-  number,
-  title,
-  description,
-}: {
-  number: string;
-  title: string;
-  description: string;
-}) => (
-  <div className="relative space-y-4">
-    <div className="text-4xl font-black text-gray-100 absolute -top-10 -left-2 select-none group-hover:text-indigo-50 transition-colors">
-      {number}
-    </div>
-    <h3 className="font-black text-xl relative z-10">{title}</h3>
-    <p className="text-sm text-gray-500 font-medium leading-relaxed relative z-10">
-      {description}
-    </p>
-  </div>
-);
 
 const FeatureCard = ({
   icon,
