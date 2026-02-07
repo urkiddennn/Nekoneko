@@ -54,13 +54,14 @@ interface SectionRendererProps {
 
 export const renderSection = (section: any, index: number) => {
   const Component = componentRegistry[section.type];
-  const extraProps =
+  const extraProps = React.useMemo(() =>
     section.type === "layout" || section.type === "features" || section.type === "section"
       ? { renderItem: renderSection }
-      : {};
+      : {}, [section.type]);
 
   const styles = section.styles || {};
-  const containerClasses = [
+
+  const containerClasses = React.useMemo(() => [
     "relative group/section",
     section.type === "layout" ? "" : "w-full",
     styles.backgroundColor || "",
@@ -68,17 +69,13 @@ export const renderSection = (section: any, index: number) => {
     styles.margin || "my-0",
     styles.textAlign ? `text-${styles.textAlign}` : "",
     section.props?.anchorId ? "scroll-mt-20" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  ].filter(Boolean).join(" "), [section.type, styles, section.props?.anchorId]);
 
-  const innerClasses = [
+  const innerClasses = React.useMemo(() => [
     "mx-auto px-4",
     styles.maxWidth || "max-w-8xl",
     styles.borderRadius || "",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  ].filter(Boolean).join(" "), [styles.maxWidth, styles.borderRadius]);
 
   return Component ? (
     <div

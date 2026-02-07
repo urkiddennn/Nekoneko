@@ -149,14 +149,15 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
   const updateSiteSettings = (path: string, value: any) => {
     setSiteConfig((prev) => {
       const keys = path.split(".");
-      const newSettings = JSON.parse(JSON.stringify(prev.site_settings));
-      let current = newSettings;
+      const newSettings = { ...prev.site_settings };
+      let current: any = newSettings;
+
       for (let i = 0; i < keys.length - 1; i++) {
-        if (!current[keys[i]]) {
-          current[keys[i]] = {};
-        }
-        current = current[keys[i]];
+        const key = keys[i];
+        current[key] = { ...(current[key] || {}) };
+        current = current[key];
       }
+
       current[keys[keys.length - 1]] = value;
       return { ...prev, site_settings: newSettings };
     });

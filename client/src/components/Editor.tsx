@@ -72,13 +72,20 @@ const Editor: React.FC = () => {
     }
   }, [loading, siteConfig]);
 
+  const debounceRef = React.useRef<NodeJS.Timeout | null>(null);
+
   const handleJsonChange = (val: string) => {
     setJsonInput(val);
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
     try {
       const parsed = JSON.parse(val);
       if (parsed.site_settings && Array.isArray(parsed.sections)) {
-        setSiteConfig(parsed);
-        setError(null);
+        debounceRef.current = setTimeout(() => {
+          setSiteConfig(parsed);
+          setError(null);
+        }, 300);
       } else {
         setError("Missing 'site_settings' or 'sections' array.");
       }
