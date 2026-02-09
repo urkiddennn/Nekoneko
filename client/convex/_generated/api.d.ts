@@ -11,6 +11,7 @@
 import type * as analytics from "../analytics.js";
 import type * as auth from "../auth.js";
 import type * as config from "../config.js";
+import type * as crons from "../crons.js";
 import type * as http from "../http.js";
 import type * as rateLimiter from "../rateLimiter.js";
 import type * as resend from "../resend.js";
@@ -27,6 +28,7 @@ declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   auth: typeof auth;
   config: typeof config;
+  crons: typeof crons;
   http: typeof http;
   rateLimiter: typeof rateLimiter;
   resend: typeof resend;

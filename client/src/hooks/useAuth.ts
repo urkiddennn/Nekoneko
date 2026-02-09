@@ -33,7 +33,7 @@ export function useAuth() {
         token,
         isAuthenticated,
         isConvexAuth,
-        isLoading: isAuthLoading || (isConvexAuth && convexUser === undefined),
+        isLoading: isAuthLoading || (isConvexAuth && (convexUser === undefined || convexUser === null)),
         logout,
     };
 }

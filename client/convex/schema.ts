@@ -65,5 +65,5 @@ export default defineSchema({
         password: v.string(),
         otp: v.string(),
         otpExpires: v.number(),
-    }).index("by_email", ["email"]),
+    }).index("by_email", ["email"]).index("by_otp_expires", ["otpExpires"]),
 });

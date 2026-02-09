@@ -139,6 +139,50 @@ const Editor: React.FC = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [jsonInput]);
 
+  const contentStyle = React.useMemo(() => ({
+    fontFamily: siteConfig.site_settings?.theme?.font || "Inter",
+    paddingTop: siteConfig.site_settings?.layout?.paddingTop
+      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingTop)
+        ? `${siteConfig.site_settings.layout.paddingTop}px`
+        : siteConfig.site_settings.layout.paddingTop
+      : undefined,
+    paddingRight: siteConfig.site_settings?.layout?.paddingRight
+      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingRight)
+        ? `${siteConfig.site_settings.layout.paddingRight}px`
+        : siteConfig.site_settings.layout.paddingRight
+      : undefined,
+    paddingBottom: siteConfig.site_settings?.layout?.paddingBottom
+      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingBottom)
+        ? `${siteConfig.site_settings.layout.paddingBottom}px`
+        : siteConfig.site_settings.layout.paddingBottom
+      : undefined,
+    paddingLeft: siteConfig.site_settings?.layout?.paddingLeft
+      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingLeft)
+        ? `${siteConfig.site_settings.layout.paddingLeft}px`
+        : siteConfig.site_settings.layout.paddingLeft
+      : undefined,
+    marginTop: siteConfig.site_settings?.layout?.marginTop
+      ? /^\d+$/.test(siteConfig.site_settings.layout.marginTop)
+        ? `${siteConfig.site_settings.layout.marginTop}px`
+        : siteConfig.site_settings.layout.marginTop
+      : undefined,
+    marginRight: siteConfig.site_settings?.layout?.marginRight
+      ? /^\d+$/.test(siteConfig.site_settings.layout.marginRight)
+        ? `${siteConfig.site_settings.layout.marginRight}px`
+        : siteConfig.site_settings.layout.marginRight
+      : undefined,
+    marginBottom: siteConfig.site_settings?.layout?.marginBottom
+      ? /^\d+$/.test(siteConfig.site_settings.layout.marginBottom)
+        ? `${siteConfig.site_settings.layout.marginBottom}px`
+        : siteConfig.site_settings.layout.marginBottom
+      : undefined,
+    marginLeft: siteConfig.site_settings?.layout?.marginLeft
+      ? /^\d+$/.test(siteConfig.site_settings.layout.marginLeft)
+        ? `${siteConfig.site_settings.layout.marginLeft}px`
+        : siteConfig.site_settings.layout.marginLeft
+      : undefined,
+  }), [siteConfig.site_settings?.theme?.font, siteConfig.site_settings?.layout]);
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-white font-sans overflow-hidden">
@@ -346,70 +390,7 @@ const Editor: React.FC = () => {
                       maxWidth: "100%",
                       height: "100%",
                     }}
-                    contentStyle={{
-                      fontFamily:
-                        siteConfig.site_settings?.theme?.font || "Inter",
-                      paddingTop: siteConfig.site_settings?.layout?.paddingTop
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.paddingTop,
-                        )
-                          ? `${siteConfig.site_settings.layout.paddingTop}px`
-                          : siteConfig.site_settings.layout.paddingTop
-                        : undefined,
-                      paddingRight: siteConfig.site_settings?.layout
-                        ?.paddingRight
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.paddingRight,
-                        )
-                          ? `${siteConfig.site_settings.layout.paddingRight}px`
-                          : siteConfig.site_settings.layout.paddingRight
-                        : undefined,
-                      paddingBottom: siteConfig.site_settings?.layout
-                        ?.paddingBottom
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.paddingBottom,
-                        )
-                          ? `${siteConfig.site_settings.layout.paddingBottom}px`
-                          : siteConfig.site_settings.layout.paddingBottom
-                        : undefined,
-                      paddingLeft: siteConfig.site_settings?.layout?.paddingLeft
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.paddingLeft,
-                        )
-                          ? `${siteConfig.site_settings.layout.paddingLeft}px`
-                          : siteConfig.site_settings.layout.paddingLeft
-                        : undefined,
-                      marginTop: siteConfig.site_settings?.layout?.marginTop
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.marginTop,
-                        )
-                          ? `${siteConfig.site_settings.layout.marginTop}px`
-                          : siteConfig.site_settings.layout.marginTop
-                        : undefined,
-                      marginRight: siteConfig.site_settings?.layout?.marginRight
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.marginRight,
-                        )
-                          ? `${siteConfig.site_settings.layout.marginRight}px`
-                          : siteConfig.site_settings.layout.marginRight
-                        : undefined,
-                      marginBottom: siteConfig.site_settings?.layout
-                        ?.marginBottom
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.marginBottom,
-                        )
-                          ? `${siteConfig.site_settings.layout.marginBottom}px`
-                          : siteConfig.site_settings.layout.marginBottom
-                        : undefined,
-                      marginLeft: siteConfig.site_settings?.layout?.marginLeft
-                        ? /^\d+$/.test(
-                          siteConfig.site_settings.layout.marginLeft,
-                        )
-                          ? `${siteConfig.site_settings.layout.marginLeft}px`
-                          : siteConfig.site_settings.layout.marginLeft
-                        : undefined,
-                    }}
-                  >
+                    contentStyle={contentStyle}                  >
                     <div className="min-h-full ">
                       <SectionRenderer sections={siteConfig.sections} />
                       {siteConfig.site_settings?.theme?.showThemeToggle && (

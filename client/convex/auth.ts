@@ -63,7 +63,9 @@ export const { auth, signIn, signOut, store } = convexAuth({
       },
       // Generate a 6-digit numeric code
       generateVerificationToken: async () => {
-        return Math.floor(100000 + Math.random() * 900000).toString();
+        const buffer = new Uint32Array(1);
+        crypto.getRandomValues(buffer);
+        return (buffer[0] % 900000 + 100000).toString();
       },
       // Keep profile callback for existing email flow if needed, but signup uses custom flow now
       async profile(params: any) {
@@ -120,7 +122,9 @@ export const signup: ReturnType<typeof action> = action({
       throw new Error("Unable to create account. Please try a different email.");
 
     const hashedPassword = await bcrypt.hash(args.password, 10);
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const buffer = new Uint32Array(1);
+    crypto.getRandomValues(buffer);
+    const otp = (buffer[0] % 900000 + 100000).toString();
     const otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
 
     await ctx.runMutation(internal.auth.createUnverifiedUser, {
@@ -180,10 +184,13 @@ export const login: ReturnType<typeof action> = action({
       email: args.email,
     });
 
-    if (!user || !user.password) throw new Error("Invalid credentials");
+    // Timing attack mitigation: always compare password
+    const dummyHash = "$2a$10$abcdefghijklmnopqrstuvwxyz0123456789"; // Invalid dummy hash
+    const hashToCompare = user?.password || dummyHash;
 
-    const isValid = await bcrypt.compare(args.password, user.password);
-    if (!isValid) throw new Error("Invalid credentials");
+    const isValid = await bcrypt.compare(args.password, hashToCompare);
+
+    if (!user || !user.password || !isValid) throw new Error("Invalid credentials");
 
     const token = await new SignJWT({ userId: user._id })
       .setProtectedHeader({ alg: "HS256" })
@@ -324,5 +331,19 @@ export const currentUser = query({
       return null;
     }
     return await ctx.db.get(userId);
+  },
+});
+
+export const cleanupUnverifiedUsers = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    const expired = await ctx.db
+      .query("unverified_users")
+      .withIndex("by_otp_expires", (q) => q.lt("otpExpires", Date.now()))
+      .collect();
+
+    for (const record of expired) {
+      await ctx.db.delete(record._id);
+    }
   },
 });

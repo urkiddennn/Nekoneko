@@ -14,12 +14,12 @@ interface ExperienceProps {
   title: string;
   jobs: Job[];
   variant?:
-    | "timeline"
-    | "cards"
-    | "brutalist"
-    | "outline_minimal"
-    | "impact"
-    | "glassmorphism";
+  | "timeline"
+  | "cards"
+  | "brutalist"
+  | "outline_minimal"
+  | "impact"
+  | "glassmorphism";
 }
 
 const Experience: React.FC<ExperienceProps> = ({
@@ -284,8 +284,6 @@ const Experience: React.FC<ExperienceProps> = ({
 
             <div className="space-y-12">
               {jobs.map((job, index) => {
-                const IconComponent =
-                  (Icons as any)[job.icon || ""] || Icons.Briefcase;
                 return (
                   <div key={index} className="relative pl-24 md:pl-24 group">
                     <div className="bg-white dark:bg-slate-900/50 p-6 md:p-8 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-[0_5px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] transition-all">

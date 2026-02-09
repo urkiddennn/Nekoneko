@@ -10,10 +10,6 @@ import {
   Monitor,
   X,
 } from "lucide-react";
-import { vscodeDark } from "@uiw/codemirror-theme-vscode";
-import { githubLight } from "@uiw/codemirror-theme-github";
-import { dracula } from "@uiw/codemirror-theme-dracula";
-import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
 
 const PRESETS = [
   {
@@ -117,6 +113,35 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
     }));
   };
 
+  const handleThemeClick = async (id: string) => {
+    let themeObj;
+    switch (id) {
+      case "vscodeDark":
+        themeObj = (await import("@uiw/codemirror-theme-vscode")).vscodeDark;
+        break;
+      case "githubLight":
+        themeObj = (await import("@uiw/codemirror-theme-github")).githubLight;
+        break;
+      case "dracula":
+        themeObj = (await import("@uiw/codemirror-theme-dracula")).dracula;
+        break;
+      case "tokyoNight":
+        themeObj = (await import("@uiw/codemirror-theme-tokyo-night"))
+          .tokyoNight;
+        break;
+    }
+    if (themeObj) {
+      handleThemeChange(id, themeObj);
+    }
+  };
+
+  const THEMES = [
+    { name: "VS Code Dark", id: "vscodeDark" },
+    { name: "GitHub Light", id: "githubLight" },
+    { name: "Dracula", id: "dracula" },
+    { name: "Tokyo Night", id: "tokyoNight" },
+  ];
+
   return (
     <div className="flex flex-col h-full bg-white">
       {/* Header */}
@@ -154,11 +179,10 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                     e.preventDefault();
                     handleApplyPreset(preset);
                   }}
-                  className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all group cursor-pointer select-none ${
-                    isActive
+                  className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all group cursor-pointer select-none ${isActive
                       ? "border-slate-900 bg-slate-50 shadow-sm"
                       : "border-slate-100 hover:border-slate-200 hover:bg-slate-50/30"
-                  }`}
+                    }`}
                 >
                   <div
                     className="w-8 h-8 rounded-full flex items-center justify-center text-white shadow-inner"
@@ -240,11 +264,10 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                   e.preventDefault();
                   updateSiteSettings("theme.primary", color);
                 }}
-                className={`aspect-square rounded-full border transition-all flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 select-none ${
-                  theme.primary === color
+                className={`aspect-square rounded-full border transition-all flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 select-none ${theme.primary === color
                     ? "border-slate-900 scale-110 shadow-md"
                     : "border-slate-100"
-                }`}
+                  }`}
                 style={{ backgroundColor: color }}
               >
                 {theme.primary === color && (
@@ -261,24 +284,18 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
             <Monitor size={10} /> Editor
           </h3>
           <div className="space-y-1">
-            {[
-              { name: "VS Code Dark", id: "vscodeDark", theme: vscodeDark },
-              { name: "GitHub Light", id: "githubLight", theme: githubLight },
-              { name: "Dracula", id: "dracula", theme: dracula },
-              { name: "Tokyo Night", id: "tokyoNight", theme: tokyoNight },
-            ].map((t) => (
+            {THEMES.map((t) => (
               <button
                 key={t.id}
                 type="button"
                 onMouseDown={(e) => {
                   e.preventDefault();
-                  handleThemeChange(t.id, t.theme);
+                  handleThemeClick(t.id);
                 }}
-                className={`w-full flex items-center justify-between p-2 text-left text-[11px] font-bold rounded-lg transition-all cursor-pointer select-none ${
-                  activeThemeId === t.id
+                className={`w-full flex items-center justify-between p-2 text-left text-[11px] font-bold rounded-lg transition-all cursor-pointer select-none ${activeThemeId === t.id
                     ? "bg-slate-900 text-white shadow-md"
                     : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 border border-transparent hover:border-slate-100"
-                }`}
+                  }`}
               >
                 <span className="flex items-center gap-2">
                   <div

@@ -131,7 +131,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [projectData, effectiveSlug]);
 
-  const updateSectionProperty = (
+  const updateSectionProperty = React.useCallback((
     sectionId: string,
     key: string,
     value: any,
@@ -144,9 +144,9 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
           : section,
       ),
     }));
-  };
+  }, []);
 
-  const updateSiteSettings = (path: string, value: any) => {
+  const updateSiteSettings = React.useCallback((path: string, value: any) => {
     setSiteConfig((prev) => {
       const keys = path.split(".");
       const newSettings = { ...prev.site_settings };
@@ -161,9 +161,9 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
       current[keys[keys.length - 1]] = value;
       return { ...prev, site_settings: newSettings };
     });
-  };
+  }, []);
 
-  const addSection = (type: string) => {
+  const addSection = React.useCallback((type: string) => {
     const defaultStyles = getDefaultStyles(type);
     const newSection: Section = {
       id: `${type}-${Date.now()}`,
@@ -182,18 +182,18 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
       ...prev,
       sections: [...prev.sections, newSection],
     }));
-  };
+  }, []);
 
-  const reorderSections = (oldIndex: number, newIndex: number) => {
+  const reorderSections = React.useCallback((oldIndex: number, newIndex: number) => {
     setSiteConfig((prev) => {
       const newSections = [...prev.sections];
       const [movedItem] = newSections.splice(oldIndex, 1);
       newSections.splice(newIndex, 0, movedItem);
       return { ...prev, sections: newSections };
     });
-  };
+  }, []);
 
-  const saveConfig = async () => {
+  const saveConfig = React.useCallback(async () => {
     if (!projectId) return;
     const token = getToken() || "";
     try {
@@ -208,23 +208,33 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error("Error saving project:", error);
       throw error;
     }
-  };
+  }, [projectId, saveToConvex, siteConfig]);
+
+  const contextValue = React.useMemo(() => ({
+    siteConfig,
+    setSiteConfig,
+    updateSectionProperty,
+    updateSiteSettings,
+    addSection,
+    reorderSections,
+    saveConfig,
+    loading,
+    projectSlug: projectData?.slug,
+    projectId: projectData?._id,
+  }), [
+    siteConfig,
+    updateSectionProperty,
+    updateSiteSettings,
+    addSection,
+    reorderSections,
+    saveConfig,
+    loading,
+    projectData?.slug,
+    projectData?._id
+  ]);
 
   return (
-    <SiteContext.Provider
-      value={{
-        siteConfig,
-        setSiteConfig,
-        updateSectionProperty,
-        updateSiteSettings,
-        addSection,
-        reorderSections,
-        saveConfig,
-        loading,
-        projectSlug: projectData?.slug,
-        projectId: projectData?._id,
-      }}
-    >
+    <SiteContext.Provider value={contextValue}>
       {children}
     </SiteContext.Provider>
   );

@@ -1,27 +1,24 @@
 import React from "react";
-import Navigation from "./library/Navigation";
-import Hero from "./library/Hero";
-import StatsBar from "./library/StatsBar";
+const Navigation = React.lazy(() => import("./library/Navigation"));
+const Hero = React.lazy(() => import("./library/Hero"));
+const StatsBar = React.lazy(() => import("./library/StatsBar"));
+const Features = React.lazy(() => import("./library/Features"));
+const Pricing = React.lazy(() => import("./library/Pricing"));
+const Skills = React.lazy(() => import("./library/Skills"));
+const Experience = React.lazy(() => import("./library/Experience"));
+const CTA = React.lazy(() => import("./library/CTA"));
+const Layout = React.lazy(() => import("./library/Layout"));
+const ImageComponent = React.lazy(() => import("./library/ImageComponent"));
+const ContactInfo = React.lazy(() => import("./library/ContactInfo"));
+const ProjectDetails = React.lazy(() => import("./library/ProjectDetails"));
+const Education = React.lazy(() => import("./library/Education"));
+const ThemeToggle = React.lazy(() => import("./library/ThemeToggle"));
+const SearchBar = React.lazy(() => import("./library/SearchBar"));
+const SelectionList = React.lazy(() => import("./library/SelectionList"));
+const StepProgress = React.lazy(() => import("./library/StepProgress"));
+const Section = React.lazy(() => import("./library/Section"));
 
-
-import Features from "./library/Features";
-import Pricing from "./library/Pricing";
-import Skills from "./library/Skills";
-import Experience from "./library/Experience";
-import CTA from "./library/CTA";
-import Layout from "./library/Layout";
-import ImageComponent from "./library/ImageComponent";
-
-import ContactInfo from "./library/ContactInfo";
-import ProjectDetails from "./library/ProjectDetails";
-import Education from './library/Education';
-import ThemeToggle from "./library/ThemeToggle";
-import SearchBar from "./library/SearchBar";
-import SelectionList from "./library/SelectionList";
-import StepProgress from "./library/StepProgress";
-import Section from "./library/Section";
-
-const componentRegistry: Record<string, React.FC<any>> = {
+const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
   navigation: Navigation,
   navigation_minimal: Navigation,
   hero: Hero,
@@ -84,7 +81,9 @@ export const renderSection = (section: any, index: number) => {
       className={containerClasses}
     >
       <div className={innerClasses}>
-        <Component {...section.props} {...extraProps} styles={styles} />
+        <React.Suspense fallback={<div className="p-12 text-center text-gray-400 text-sm font-mono animate-pulse">Loading component...</div>}>
+          <Component {...section.props} {...extraProps} styles={styles} />
+        </React.Suspense>
       </div>
     </div>
   ) : (

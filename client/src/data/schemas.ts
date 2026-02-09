@@ -1,4 +1,3 @@
-import { DESTRUCTION } from "node:dns";
 
 export const SCHEMAS = [
   {
