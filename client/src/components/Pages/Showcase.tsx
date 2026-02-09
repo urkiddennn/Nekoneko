@@ -2,6 +2,7 @@ import React from "react";
 import NavigationBar from "../NavigationBar";
 import Footer from "../Footer";
 import { ExternalLink, Sparkles } from "lucide-react";
+import LiveSitePreview from "../LiveSitePreview";
 
 const Showcase: React.FC = () => {
     const showcaseProjects = [
@@ -61,13 +62,8 @@ const Showcase: React.FC = () => {
                                 className="group relative overflow-hidden rounded-lg border border-gray-200 hover:border-gray-900 transition-all duration-300 bg-white"
                             >
                                 {/* Site Preview Image */}
-                                <div className="aspect-[4/3] overflow-hidden bg-gray-100 relative">
-                                    <img
-                                        src={`https://placehold.co/600x400/e5e7eb/6b7280?text=${encodeURIComponent(project.name)}`}
-                                        alt={project.name}
-                                        className="w-full h-full object-cover"
-                                        loading="lazy"
-                                    />
+                                <div className="aspect-[4/3] overflow-hidden bg-gray-100 relative group-hover:shadow-lg transition-all duration-300">
+                                    <LiveSitePreview slug={project.slug} name={project.name} />
                                 </div>
 
                                 {/* Project Info */}

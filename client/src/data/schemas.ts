@@ -1,6 +1,28 @@
 
 export const SCHEMAS = [
   {
+    type: "getting_started",
+    category: "Guides",
+    description: "Learn how to build beautiful websites with Nekoneko.",
+    documentation: {
+      sections: [
+        {
+          title: "About",
+          content: "Nekoneko is a modern, JSON-based website builder designed for developers and creators who value speed, performance, and design consistency. Unlike traditional drag-and-drop builders, Nekoneko uses a structured schema approach, allowing you to define your site's layout and content through simple, declarative configuration objects."
+        },
+        {
+          title: "Introduction",
+          content: "At the core of Nekoneko is the concept of 'Sections'. A website is simply a collection of sections stacked vertically. Each section—whether it's a Hero, a Feature grid, or a Contact form—is a self-contained module with its own props and styles. This modular architecture ensures that your site remains consistent, responsive, and easy to maintain."
+        },
+        {
+          title: "How to Use",
+          content: "Building with Nekoneko is straightforward:\n\n1. **Choose a Template**: Start with a pre-configured template or a blank canvas.\n2. **Add Sections**: Browse the component library to find the sections you need (e.g., Hero, Features, Skills).\n3. **Configure Props**: Customize each section by updating its properties—change text, swap images, and toggle features.\n4. **Style**: Apply global themes or fine-tune individual section styles using our Tailwind-compatible styling system.\n5. **Publish**: Once you're happy, deploy your site instantly to a custom subdomain.",
+          code: `// Example Site Configuration\n{\n  "site_settings": {\n    "name": "My Portfolio",\n    "theme": { "primary": "#6366f1" }\n  },\n  "sections": [\n    {\n      "type": "hero",\n      "props": {\n        "heading": "Hello, World!",\n        "subheading": "Welcome to my new site."\n      }\n    }\n  ]\n}`
+        }
+      ]
+    }
+  },
+  {
     type: "site_settings",
     category: "Core",
     description: "Global site identity and styling.",
@@ -300,7 +322,7 @@ export const SCHEMAS = [
       { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
       {
         name: "variant",
-        type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact"',
+        type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "glassmorphism_vibrant" | "glassmorphism_dark" | "creative_gradient"',
         desc: "Layout style.",
       },
       {
@@ -317,6 +339,11 @@ export const SCHEMAS = [
         name: "ctaButtons",
         type: "array",
         desc: "List of {label, url, variant} buttons.",
+      },
+      {
+        name: "socialLinks",
+        type: "array",
+        desc: "List of {platform, url} for contact icons (creative_gradient).",
       },
     ],
     variants: [
@@ -456,6 +483,58 @@ export const SCHEMAS = [
           },
         },
       },
+      {
+        name: "Creative Gradient",
+        description: "Soft gradients with glassmorphism and rounded aesthetic.",
+        example: {
+          id: "hero-creative",
+          type: "hero",
+          props: {
+            heading: "Creative Soul",
+            subheading: "Designing with passion and precision.",
+            avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
+            variant: "creative_gradient",
+            socialLinks: [
+              { platform: "github", url: "https://github.com" },
+              { platform: "linkedin", url: "https://linkedin.com" },
+            ],
+          },
+        },
+      },
+      {
+        name: "Glassmorphism Vibrant",
+        description: "Vibrant backdrop blur with animated glows.",
+        example: {
+          id: "hero-glass-vibrant",
+          type: "hero",
+          props: {
+            heading: "Vibrant Mind",
+            subheading: "Connecting design with technology through glass.",
+            avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Vibrant",
+            variant: "glassmorphism_vibrant",
+            ctaButtons: [
+              { label: "GET STARTED", url: "#", variant: "primary" },
+            ],
+          },
+        },
+      },
+      {
+        name: "Glassmorphism Dark",
+        description: "Deep dark glass for high-end aesthetics.",
+        example: {
+          id: "hero-glass-dark",
+          type: "hero",
+          props: {
+            heading: "Dark Mode",
+            subheading: "Focus on what matters in the dark.",
+            avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Dark",
+            variant: "glassmorphism_dark",
+            ctaButtons: [
+              { label: "DISCOVER", url: "#", variant: "outline" },
+            ],
+          },
+        },
+      },
     ],
   },
   {
@@ -520,11 +599,27 @@ export const SCHEMAS = [
       },
       {
         name: "variant",
-        type: '"default" | "brutalist" | "outline_minimal"',
+        type: '"default" | "brutalist" | "outline_minimal" | "glassmorphism"',
         desc: "Visual style.",
       },
     ],
     variants: [
+      {
+        name: "Glassmorphism",
+        description: "Glassmorphic feature cards with blur and semi-transparent borders.",
+        example: {
+          id: "feat-glass",
+          type: "features",
+          props: {
+            title: "Premium Experience",
+            variant: "glassmorphism",
+            items: [
+              { title: "Glass UI", description: "Vibrant backdrop blur." },
+              { title: "Modern", description: "Built for the future." },
+            ],
+          },
+        },
+      },
       {
         name: "Brutalist",
         description: "Feature cards with thick borders and hover effects.",
@@ -568,11 +663,11 @@ export const SCHEMAS = [
       {
         name: "skills",
         type: "array",
-        desc: "List of skills {name, level, color}.",
+        desc: "List of skills {name, level, color, icon}.",
       },
       {
         name: "variant",
-        type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal" | "glassmorphism"|""',
+        type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal" | "glassmorphism" | "creative_gradient"',
         desc: "Visual style.",
       },
       { name: "barColor", type: "hex", desc: "Main progress color." },
@@ -657,6 +752,22 @@ export const SCHEMAS = [
           },
         },
       },
+      {
+        name: "Creative Gradient",
+        description: "Glassmorphic cards with icon support.",
+        example: {
+          id: "skills-creative",
+          type: "skills",
+          props: {
+            title: "My Toolkit",
+            variant: "creative_gradient",
+            skills: [
+              { name: "React", level: 90, icon: "React" },
+              { name: "TypeScript", level: 85, icon: "TS" },
+            ],
+          },
+        },
+      },
     ],
   },
   {
@@ -688,11 +799,7 @@ export const SCHEMAS = [
         type: "array",
         desc: "List of {role, company, period, description, icon}.",
       },
-      {
-        name: "variant",
-        type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact"|"glassmorphism"',
-        desc: "Visual style.",
-      },
+      { name: "variant", type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "creative_gradient"', desc: "Visual style." },
     ],
     variants: [
       {
@@ -799,14 +906,33 @@ export const SCHEMAS = [
           },
         },
       },
+      {
+        name: "Creative Gradient",
+        description: "Dark mode card with rich gradients and backdrop blur.",
+        example: {
+          id: "exp-creative",
+          type: "experience",
+          props: {
+            title: "Education & Skills",
+            variant: "creative_gradient",
+            jobs: [
+              {
+                role: "Graphic Design",
+                company: "University of Arts",
+                period: "2018 - 2022",
+                description: "Specialized in digital media and UI/UX functionality.",
+              }
+            ]
+          }
+        },
+      },
     ],
   },
   {
     type: "layout",
     category: "Layout",
     description: "Structural nested container.",
-    details:
-      "A structural component that allows nesting other components in rows or columns.",
+    details: "A structural component that allows nesting other components in rows or columns.",
     example: {
       id: "layout-1",
       type: "layout",
@@ -1075,11 +1201,27 @@ export const SCHEMAS = [
       },
       {
         name: "variant",
-        type: '"grid" | "list" | "brutalist" | "outline_minimal"',
+        type: '"grid" | "list" | "brutalist" | "outline_minimal" | "glassmorphism"',
         desc: "Layout style.",
       },
     ],
     variants: [
+      {
+        name: "Glassmorphism Comparison",
+        description: "Backdrop blur tiles for premium service comparison.",
+        example: {
+          id: "pricing-glass",
+          type: "pricing",
+          props: {
+            title: "Premium Tiers",
+            variant: "glassmorphism",
+            plans: [
+              { name: "Creator", price: "$12", features: ["10 Sites", "Analytics"] },
+              { name: "Team", price: "$49", features: ["Unlimited Sites", "Collaboration"], isPopular: true },
+            ],
+          },
+        },
+      },
       {
         name: "Comparison Grid",
         description: "Boxed vertical tiers side-by-side.",

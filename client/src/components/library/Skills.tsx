@@ -12,13 +12,14 @@ interface SkillsProps {
   showProgressBar?: boolean;
   showPercentage?: boolean;
   variant?:
-    | "default"
-    | "artistic"
-    | "impact"
-    | "bullets"
-    | "brutalist"
-    | "outline_minimal"
-    | "glassmorphism";
+  | "default"
+  | "artistic"
+  | "impact"
+  | "bullets"
+  | "brutalist"
+  | "outline_minimal"
+  | "glassmorphism"
+  | "creative_gradient";
 }
 
 const Skills: React.FC<SkillsProps> = ({
@@ -240,33 +241,51 @@ const Skills: React.FC<SkillsProps> = ({
       </section>
     );
   }
-  //glassmorphism variant
-  if (variant === "glassmorphism") {
+
+  if (variant === "creative_gradient") {
+    // Helper for icons if passed as string names, assuming standard set or Lucide
+    // In a real implementation, we'd map string names to components.
+    // For now, we'll use a placeholder circle with initials if no icon is available.
+
     return (
-      <section>
-        <div>
-          <div>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-950 dark:text-white tracking-tight uppercase italic mb-4">
-              {title}
-            </h2>
-          </div>
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 max-w-4xl mx-auto
-"
-          >
-            {skills.map((skill, index) => {
-              return (
-                <div
-                  key={index}
-                  className="p-4 flex items-center justify-center h-24 bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100"
-                >
-                  <span className="p-4 text-xl font-bold text-black uppercase tracking-wider text-center">
-                    {skill.name}
-                  </span>
+      <section className="py-8">
+        {/* Title */}
+        <h2 className="text-4xl md:text-5xl font-black text-white italic tracking-tighter mb-12 drop-shadow-lg">
+          {title}
+        </h2>
+
+        {/* Skills Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {skills.map((skill, index) => {
+            // Handle both string and object skills
+            const skillName = typeof skill === "string" ? skill : skill.name;
+            const skillIcon = typeof skill === "object" ? skill.icon : null;
+            // Generate initials for fallback icon
+            const initials = skillName.substring(0, 2).toUpperCase();
+
+            return (
+              <div
+                key={index}
+                className="group relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 overflow-hidden"
+              >
+                {/* Glow Effect on Hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/0 via-purple-500/0 to-pink-500/0 opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+
+                {/* Icon Placeholder or Image */}
+                <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xl font-black shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  {skillIcon ? (
+                    <span className="text-2xl">⚡</span> // Placeholder till valid icon mapping
+                  ) : (
+                    initials
+                  )}
                 </div>
-              );
-            })}
-          </div>
+
+                <span className="text-white font-bold tracking-wide text-sm uppercase text-center relative z-10">
+                  {skillName}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </section>
     );

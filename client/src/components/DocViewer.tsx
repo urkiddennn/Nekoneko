@@ -14,6 +14,9 @@ interface Schema {
     props?: Array<{ name: string; type: string; desc: string }>;
     variants?: Array<{ name: string; description: string; example: any }>;
     common_styles?: Array<{ name: string; type: string; desc: string }>;
+    documentation?: {
+        sections: Array<{ title: string; content: string; code?: string }>;
+    };
 }
 
 interface DocViewerProps {
@@ -29,6 +32,7 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
     // Reset variant when schema changes
     React.useEffect(() => {
         setSelectedVariantIndex(0);
+        setActiveTab('preview');
     }, [schema]);
 
     const currentVariant = schema.variants && schema.variants[selectedVariantIndex]
@@ -65,6 +69,68 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = '' }) => {
                 return <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-gray-50 text-gray-500 text-[10px] font-black uppercase ring-1 ring-gray-200/50">Component</span>;
         }
     };
+
+    // Guide/Documentation View
+    if (schema.documentation) {
+        return (
+            <div className={`space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 ${className}`}>
+                {/* Header */}
+                <div className="space-y-4 border-b border-gray-100 pb-8">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="px-3 py-1 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-emerald-200">
+                            {schema.category}
+                        </div>
+                    </div>
+                    <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-gray-900 leading-[0.9]">
+                        {schema.type.replace(/_/g, ' ')}
+                    </h1>
+                    <p className="text-xl md:text-2xl text-gray-500 font-medium max-w-3xl leading-relaxed">
+                        {schema.description}
+                    </p>
+                </div>
+
+                {/* Documentation Sections */}
+                <div className="space-y-16 max-w-4xl">
+                    {schema.documentation.sections.map((section, idx) => (
+                        <div key={idx} className="space-y-6">
+                            <h2 className="text-2xl font-black tracking-tight text-gray-900 flex items-center gap-3">
+                                {section.title}
+                            </h2>
+                            <div className="prose prose-lg prose-indigo text-gray-600 leading-loose">
+                                <p>{section.content}</p>
+                            </div>
+
+                            {section.code && (
+                                <div className="group relative bg-gray-950 rounded-xl overflow-hidden border border-gray-800 shadow-2xl ring-1 ring-black/20 mt-6">
+                                    <div className="absolute top-4 right-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button
+                                            onClick={() => copyToClipboard(section.code!, `code-${idx}`)}
+                                            className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all backdrop-blur-md"
+                                        >
+                                            {copiedId === `code-${idx}` ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                                        </button>
+                                    </div>
+                                    <CodeMirror
+                                        value={section.code}
+                                        theme="dark"
+                                        extensions={[
+                                            json(),
+                                            EditorView.lineWrapping,
+                                            EditorView.editable.of(false),
+                                            EditorView.theme({
+                                                '&': { backgroundColor: '#030712', fontSize: '14px' },
+                                                '.cm-content': { padding: '24px' },
+                                            })
+                                        ]}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 ${className}`}>

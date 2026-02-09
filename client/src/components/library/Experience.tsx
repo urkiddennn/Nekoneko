@@ -19,7 +19,8 @@ interface ExperienceProps {
   | "brutalist"
   | "outline_minimal"
   | "impact"
-  | "glassmorphism";
+  | "glassmorphism"
+  | "creative_gradient";
 }
 
 const Experience: React.FC<ExperienceProps> = ({
@@ -253,6 +254,57 @@ const Experience: React.FC<ExperienceProps> = ({
               </div>
             );
           })}
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "creative_gradient") {
+    return (
+      <section className="py-8">
+        <div className="flex items-center gap-4 mb-12">
+          <h2 className="text-4xl md:text-5xl font-black text-white italic tracking-tighter drop-shadow-lg">
+            {title}
+          </h2>
+          <span className="px-4 py-1 rounded-full border border-white/20 bg-white/5 text-xs font-bold text-white/60 uppercase tracking-widest backdrop-blur-sm">
+            2020 - Now
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8">
+          {jobs.map((job, index) => (
+            <div
+              key={index}
+              className="group relative p-8 rounded-[2rem] bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-white/10 backdrop-blur-md overflow-hidden transition-all duration-300 hover:shadow-[0_0_40px_-10px_rgba(124,58,237,0.3)] hover:border-white/20"
+            >
+              {/* Decorative background blob */}
+              <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-600/20 rounded-full blur-[80px] group-hover:bg-indigo-500/30 transition-colors duration-500"></div>
+
+              <div className="relative z-10 flex flex-col md:flex-row md:items-start justify-between gap-6">
+                <div className="space-y-2">
+                  <h3 className="text-2xl md:text-3xl font-black text-white italic tracking-tight">
+                    {job.role}
+                  </h3>
+                  <div className="text-purple-300 font-medium text-lg">
+                    {job.company}
+                  </div>
+                </div>
+
+                <div className="space-y-4 max-w-xl">
+                  <p className="text-slate-300 leading-relaxed font-medium">
+                    {job.description}
+                  </p>
+
+                  {/* Tags or skills used could go here if we had them in data */}
+                  <div className="flex gap-2">
+                    <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
+                    <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+                    <span className="w-2 h-2 rounded-full bg-pink-400"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
     );

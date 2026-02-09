@@ -6,7 +6,7 @@ interface FeaturesProps {
     items: any[];
     columns?: number;
     renderItem?: (item: any, index: number) => React.ReactNode;
-    variant?: 'default' | 'brutalist' | 'outline_minimal';
+    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism';
 }
 
 const Features: React.FC<FeaturesProps> = ({ title, items, columns = 3, renderItem, variant = 'default' }) => {
@@ -22,7 +22,9 @@ const Features: React.FC<FeaturesProps> = ({ title, items, columns = 3, renderIt
                         ? "space-y-6 p-10 bg-white dark:bg-slate-900 rounded-[2.5rem] border-[3px] border-slate-950 dark:border-white shadow-[6px_6px_0px_0px_rgba(2,6,23,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,1)] hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(2,6,23,1)] dark:hover:shadow-[10px_10px_0px_0px_rgba(255,255,255,1)] transition-all animate-in fade-in zoom-in-95 duration-500"
                         : isOutlineMinimal
                             ? "space-y-8 p-12 bg-white dark:bg-slate-950 rounded-none border border-slate-950 dark:border-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors animate-in fade-in slide-in-from-bottom-4 duration-500"
-                            : "space-y-4 p-8 bg-slate-50 dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 ring-1 ring-slate-200/50 hover:shadow-xl transition-all"}>
+                            : variant === 'glassmorphism'
+                                ? "space-y-6 p-10 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] hover:bg-white/10 hover:border-white/20 transition-all duration-300 animate-in fade-in zoom-in-95"
+                                : "space-y-4 p-8 bg-slate-50 dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 ring-1 ring-slate-200/50 hover:shadow-xl transition-all"}>
                         {item.type && renderItem ? (
                             renderItem(item, idx)
                         ) : (

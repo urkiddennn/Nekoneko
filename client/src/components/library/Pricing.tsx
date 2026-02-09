@@ -11,7 +11,7 @@ interface PricingProps {
     title: string;
     plans?: PricingTier[];
     tiers?: PricingTier[]; // Backward compatibility
-    variant?: 'grid' | 'list' | 'brutalist' | 'outline_minimal';
+    variant?: 'grid' | 'list' | 'brutalist' | 'outline_minimal' | 'glassmorphism';
 }
 
 const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid' }) => {
@@ -68,6 +68,37 @@ const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid'
                             <button className="w-full py-6 rounded-none font-black uppercase tracking-tighter text-sm border border-slate-950 dark:border-white transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black">
                                 Join Now
                             </button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'glassmorphism') {
+        return (
+            <div className="max-w-7xl mx-auto py-12 px-4 relative overflow-hidden">
+                {/* Background Blobs */}
+                <div className="absolute top-0 left-1/4 w-64 h-64 bg-indigo-500/10 blur-[100px] rounded-full -z-10" />
+                <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-purple-500/10 blur-[100px] rounded-full -z-10" />
+
+                <h2 className="text-4xl md:text-5xl font-black mb-20 text-center tracking-tighter uppercase italic text-slate-950 dark:text-white">{title}</h2>
+                <div className={`grid ${gridCols} gap-8 relative z-10`}>
+                    {displayPlans.map((tier, idx) => (
+                        <div key={idx} className={`p-10 rounded-[2.5rem] bg-indigo-500/5 backdrop-blur-xl border border-white/20 shadow-xl flex flex-col space-y-8 transition-all duration-500 hover:-translate-y-2 hover:bg-indigo-500/10 ${tier.isPopular ? 'ring-2 ring-indigo-500/50' : ''}`}>
+                            <div>
+                                <h3 className="text-xs font-black uppercase tracking-[0.2em] mb-2 text-indigo-400">{tier.name}</h3>
+                                <div className="text-5xl font-black tracking-tighter text-white">{tier.price}</div>
+                            </div>
+                            <ul className="flex-1 space-y-4">
+                                {tier.features?.map((f, i) => (
+                                    <li key={i} className="text-sm font-bold flex items-center gap-3 text-slate-300">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-400"></div>
+                                        {f}
+                                    </li>
+                                ))}
+                            </ul>
+                            <button className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] transition-all active:scale-95 ${tier.isPopular ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' : 'bg-white/10 text-white border border-white/10 hover:bg-white/20'}`}>Select Plan</button>
                         </div>
                     ))}
                 </div>

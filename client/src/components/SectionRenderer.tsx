@@ -17,6 +17,7 @@ const SearchBar = React.lazy(() => import("./library/SearchBar"));
 const SelectionList = React.lazy(() => import("./library/SelectionList"));
 const StepProgress = React.lazy(() => import("./library/StepProgress"));
 const Section = React.lazy(() => import("./library/Section"));
+const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
 const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
   navigation: Navigation,
@@ -42,6 +43,7 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   selection_list: SelectionList,
   step_progress: StepProgress,
   section: Section,
+  live_site_preview: LiveSitePreview,
 };
 
 interface SectionRendererProps {

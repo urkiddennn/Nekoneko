@@ -19,16 +19,20 @@ interface HeroProps {
   avatarUrl: string;
   alignment: "left" | "center" | "right";
   variant?:
-    | "stack"
-    | "split"
-    | "invest"
-    | "brutalist"
-    | "outline_minimal"
-    | "impact"
-    | "glassmorphism";
+  | "stack"
+  | "split"
+  | "invest"
+  | "brutalist"
+  | "outline_minimal"
+  | "impact"
+  | "glassmorphism"
+  | "glassmorphism_vibrant"
+  | "glassmorphism_dark"
+  | "creative_gradient";
   backgroundImageUrl?: string;
   topBadgeItems?: BadgeItem[];
   ctaButtons?: CTAButton[];
+  socialLinks?: { platform: string; url: string }[];
   style?: {
     titleColor?: string;
     subtitleColor?: string;
@@ -94,17 +98,16 @@ const Hero: React.FC<HeroProps> = ({
               <a
                 key={idx}
                 href={btn.url}
-                className={`px-10 py-4 md:px-12 md:py-5 text-sm font-black transition-all uppercase tracking-widest hover:scale-105 active:scale-95 w-full md:w-auto text-center ${
-                  btn.variant === "primary"
-                    ? "text-white"
-                    : "bg-transparent text-slate-950 dark:text-white border border-slate-200 dark:border-white/10"
-                }`}
+                className={`px-10 py-4 md:px-12 md:py-5 text-sm font-black transition-all uppercase tracking-widest hover:scale-105 active:scale-95 w-full md:w-auto text-center ${btn.variant === "primary"
+                  ? "text-white"
+                  : "bg-transparent text-slate-950 dark:text-white border border-slate-200 dark:border-white/10"
+                  }`}
                 style={
                   btn.variant === "primary"
                     ? {
-                        backgroundColor: style?.titleColor || "#ef4444",
-                        borderRadius: "2px",
-                      }
+                      backgroundColor: style?.titleColor || "#ef4444",
+                      borderRadius: "2px",
+                    }
                     : { borderRadius: "2px" }
                 }
               >
@@ -158,11 +161,10 @@ const Hero: React.FC<HeroProps> = ({
               <a
                 key={idx}
                 href={btn.url}
-                className={`px-6 py-4 md:px-10 md:py-5 text-xs md:text-sm font-black transition-all border border-slate-950 dark:border-white rounded-none uppercase tracking-tighter hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black w-full md:w-auto text-center ${
-                  btn.variant === "primary"
-                    ? "bg-slate-950 text-white dark:bg-white dark:text-black"
-                    : "bg-transparent text-slate-950 dark:text-white"
-                }`}
+                className={`px-6 py-4 md:px-10 md:py-5 text-xs md:text-sm font-black transition-all border border-slate-950 dark:border-white rounded-none uppercase tracking-tighter hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black w-full md:w-auto text-center ${btn.variant === "primary"
+                  ? "bg-slate-950 text-white dark:bg-white dark:text-black"
+                  : "bg-transparent text-slate-950 dark:text-white"
+                  }`}
               >
                 {btn.label}
               </a>
@@ -206,11 +208,10 @@ const Hero: React.FC<HeroProps> = ({
               <a
                 key={idx}
                 href={btn.url}
-                className={`px-6 py-3 md:px-8 md:py-4 rounded-xl text-base md:text-lg font-black transition-all active:scale-95 border-[3px] border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] w-full md:w-auto text-center ${
-                  btn.variant === "primary"
-                    ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                    : "bg-white dark:bg-slate-900 text-slate-950 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
-                }`}
+                className={`px-6 py-3 md:px-8 md:py-4 rounded-xl text-base md:text-lg font-black transition-all active:scale-95 border-[3px] border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] w-full md:w-auto text-center ${btn.variant === "primary"
+                  ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                  : "bg-white dark:bg-slate-900 text-slate-950 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
+                  }`}
               >
                 {btn.label}
               </a>
@@ -291,11 +292,10 @@ const Hero: React.FC<HeroProps> = ({
               <a
                 key={idx}
                 href={btn.url}
-                className={`px-6 py-3 md:px-8 md:py-4 rounded-xl text-base md:text-lg font-black transition-all active:scale-95 w-full md:w-auto text-center ${
-                  btn.variant === "primary"
-                    ? "bg-white text-gray-900 shadow-xl hover:bg-gray-100"
-                    : "bg-white/10 text-white backdrop-blur-sm border border-white/30 hover:bg-white/20"
-                }`}
+                className={`px-6 py-3 md:px-8 md:py-4 rounded-xl text-base md:text-lg font-black transition-all active:scale-95 w-full md:w-auto text-center ${btn.variant === "primary"
+                  ? "bg-white text-gray-900 shadow-xl hover:bg-gray-100"
+                  : "bg-white/10 text-white backdrop-blur-sm border border-white/30 hover:bg-white/20"
+                  }`}
               >
                 {btn.label}
               </a>
@@ -363,6 +363,153 @@ const Hero: React.FC<HeroProps> = ({
             {...({ fetchpriority: "high" } as any)}
             className="w-full md:w-64 h-auto md:h-64 rounded-3xl border-8 border-slate-100 dark:border-white/10 shadow-2xl object-cover"
           />
+        </div>
+      </div>
+    );
+  }
+
+  if (variant === "creative_gradient") {
+    // Helper for icons
+    const SocialIcon = ({ type, url }: { type: string; url: string }) => {
+      // Simple mapping for demo purposes. In a real app, use a proper icon map.
+      // Assuming lucide-react or similar is available in scope or passed down.
+      // For now, using text/generic if icon component isn't directly available in this scope without imports.
+      // But we can try to use standard Lucide if imported.
+      // usage: Icons.Github, etc.
+
+      // Since we can't easily import * as Icons inside a function if not already there, 
+      // let's rely on what's available or use text fallbacks if needed, 
+      // but ideally we should import specific icons at the top.
+      // For this snippet, I will assume basic accessible markup.
+
+      let label = type;
+      if (url.includes("github")) label = "GH";
+      if (url.includes("linkedin")) label = "LI";
+      if (url.includes("behance")) label = "Be";
+      if (url.includes("twitter")) label = "X";
+      if (url.includes("mail")) label = "@";
+
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-slate-300 hover:text-white transition-colors"
+        >
+          <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[10px]">
+            {label}
+          </div>
+          <span className="text-sm font-medium">{url.replace(/^https?:\/\/(www\.)?/, '')}</span>
+        </a>
+      );
+    };
+
+    return (
+      <div className="relative overflow-hidden py-12 md:py-24">
+        {/* Decorative background glow for the whole section */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-indigo-500/5 blur-[120px] rounded-full -z-10" />
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-24 relative z-10 container mx-auto px-4">
+          {/* Content Side */}
+          <div className={`flex-1 space-y-8 md:space-y-12 w-full ${alignment === 'center' ? 'text-center flex flex-col items-center' : 'text-left'}`}>
+
+            {/* Gradient Pill Title */}
+            <div className="inline-block relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 blur-sm opacity-50 rounded-full"></div>
+              <h1 className="relative z-10 px-6 py-2 md:px-8 md:py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full text-2xl md:text-5xl font-black text-white uppercase tracking-tight shadow-lg whitespace-nowrap md:whitespace-normal">
+                {heading}
+              </h1>
+            </div>
+
+            {/* Bio / Subheading */}
+            <div className={`space-y-6 max-w-xl ${alignment === 'center' ? 'mx-auto' : ''}`}>
+              <div className="text-slate-200 text-base md:text-xl leading-relaxed space-y-4 font-medium">
+                {subheading.split('\n').map((paragraph, i) => (
+                  <p key={i} className={i === 0 ? "text-slate-100" : "text-slate-400"}>
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact Section */}
+            <div className="space-y-4 pt-4 w-full">
+              <h3 className={`text-xl md:text-2xl font-black italic uppercase text-white tracking-widest ${alignment === 'center' ? 'text-center' : ''}`}>Contact</h3>
+              <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${alignment === 'center' ? 'justify-items-center' : ''}`}>
+                {ctaButtons.map((btn, idx) => (
+                  <SocialIcon key={idx} type="link" url={btn.url} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Image Side - Creative Shape */}
+          <div className="flex-shrink-0 relative w-full max-w-[300px] md:max-w-none md:w-[450px] aspect-[4/5] flex justify-center items-center">
+            {/* Abstract Background Lines/Glows */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-cyan-400/20 to-purple-500/20 blur-[60px] rounded-full -z-10 animate-pulse"></div>
+            <div className="absolute top-4 right-4 md:top-10 md:right-10 w-full h-full border border-white/10 rounded-[60px] md:rounded-[100px] rounded-tr-[30px] md:rounded-tr-[40px] -z-10 rotate-6"></div>
+
+            <img
+              src={avatarUrl}
+              alt="Profile"
+              className="w-full h-full object-cover rounded-[60px] md:rounded-[100px] rounded-tr-[30px] md:rounded-tr-[40px] shadow-2xl ring-1 ring-white/10 z-10"
+            />
+
+            {/* Floating Decorative Elements */}
+            <div className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full blur-2xl opacity-40"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (variant === "glassmorphism_vibrant" || variant === "glassmorphism_dark") {
+    const isVibrant = variant === "glassmorphism_vibrant";
+
+    return (
+      <div className="relative overflow-hidden py-16 md:py-24 px-8 md:px-12 rounded-[2rem] bg-clip-padding backdrop-filter backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500 hover:shadow-indigo-500/10"
+        style={{
+          backgroundColor: isVibrant ? 'rgba(99, 102, 241, 0.05)' : 'rgba(15, 23, 42, 0.4)',
+          borderColor: isVibrant ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)'
+        }}>
+
+        {/* Dynamic Background Effects */}
+        <div className={`absolute -top-24 -left-24 w-96 h-96 rounded-full blur-[100px] -z-10 animate-pulse ${isVibrant ? 'bg-indigo-500/20' : 'bg-slate-800/30'}`} />
+        <div className={`absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-[100px] -z-10 animate-pulse delay-700 ${isVibrant ? 'bg-purple-500/20' : 'bg-indigo-900/20'}`} />
+
+        <div className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 relative z-10 ${alignClass}`}>
+          <div className="flex-1 space-y-6 md:space-y-8 w-full">
+            <h1 className={`${style?.titleSize || "text-5xl md:text-7xl"} font-black tracking-tighter leading-none break-words ${isVibrant ? 'text-white' : 'text-slate-100'}`}
+              style={{ color: style?.titleColor }}>
+              {heading}
+            </h1>
+            <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl break-words ${isVibrant ? 'text-indigo-100/80' : 'text-slate-400'}`}
+              style={{ color: style?.subtitleColor }}>
+              {subheading}
+            </p>
+            <div className="flex flex-wrap gap-4 pt-4">
+              {ctaButtons.map((btn, idx) => (
+                <a
+                  key={idx}
+                  href={btn.url}
+                  className={`px-8 py-3 rounded-xl text-sm font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 ${btn.variant === "primary"
+                    ? "bg-white text-indigo-900 shadow-xl"
+                    : "border border-white/20 text-white hover:bg-white/10"
+                    }`}
+                >
+                  {btn.label}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="flex-shrink-0 relative group">
+            <div className={`absolute -inset-1 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200 ${isVibrant ? 'bg-gradient-to-r from-indigo-500 to-purple-600' : 'bg-white'}`} />
+            <img
+              src={avatarUrl}
+              alt="Avatar"
+              className="relative w-48 h-48 md:w-64 md:h-64 rounded-[2rem] object-cover ring-1 ring-white/20 shadow-2xl transition duration-500 group-hover:scale-[1.02]"
+            />
+          </div>
         </div>
       </div>
     );
