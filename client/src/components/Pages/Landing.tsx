@@ -147,7 +147,7 @@ const Landing: React.FC = () => {
 
       {/* Final CTA */}
       <section className="py-32 bg-white">
-        <div className="max-w-4xl mx-auto px-8 text-center space-y-8">
+        <div className="max-w-4xl mx-auto px-8 text-center space-y-8 ">
           <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
             Ready to build your <br /> next project?
           </h2>
@@ -155,11 +155,15 @@ const Landing: React.FC = () => {
             Join creators building the simplest sites on the web. Free to start,
             forever.
           </p>
+
           <button
             onClick={handleGetStarted}
             className="bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
           >
             Create Your Site
+          </button>
+          <button className="mr-0 md:ml-3 bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100">
+            Contribute
           </button>
         </div>
       </section>

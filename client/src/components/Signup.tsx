@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { useAction } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, User, Mail, Lock, Github } from 'lucide-react';
-import { setAuthData } from '../utils/authUtils';
+import { ArrowLeft, User, Mail, Lock, Github, Check, AlertCircle } from 'lucide-react';
 import { useAuthActions } from "@convex-dev/auth/react";
 
 const Signup: React.FC = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [code, setCode] = useState('');
+    const [step, setStep] = useState<'credentials' | 'verification'>('credentials');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [passwordStrength, setPasswordStrength] = useState(0);
+    const { signIn } = useAuthActions();
     const navigate = useNavigate();
     const signupAction = useAction(api.auth.signup);
-    const { signIn } = useAuthActions();
+    const verifySignup = useAction(api.auth.verifySignup);
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,11 +40,15 @@ const Signup: React.FC = () => {
         setPasswordStrength(calculatePasswordStrength(newPassword));
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSignupSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
-        // Client-side validation
+        if (!name.trim()) {
+            setError('Please enter your full name');
+            return;
+        }
+
         if (!validateEmail(email)) {
             setError('Please enter a valid email address');
             return;
@@ -55,11 +61,35 @@ const Signup: React.FC = () => {
 
         setIsLoading(true);
         try {
-            const { token, user } = await signupAction({ email, password, name });
-            setAuthData({ token, user });
+            // Step 1: Initiate signup (stores in unverified_users)
+            await signupAction({ email, password, name });
+            setStep('verification');
+        } catch (err: any) {
+            setError(err.message || 'Error occurred. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleCodeSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+
+        if (!code.trim()) {
+            setError('Please enter the verification code');
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            // Step 2: Verify OTP (creates user in 'users' table)
+            await verifySignup({ email, otp: code });
+
+            // Step 3: Log in with the newly created account
+            await signIn("password", { email, password, flow: "signIn" });
             navigate('/dashboard');
         } catch (err: any) {
-            setError(err.message || 'Error creating account');
+            setError(err.message || 'Invalid verification code');
         } finally {
             setIsLoading(false);
         }
@@ -122,85 +152,137 @@ const Signup: React.FC = () => {
                     </div>
 
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-black tracking-tight">Create Account</h1>
-                        <p className="text-sm font-medium text-gray-400">Get started with your free site today.</p>
+                        <h1 className="text-2xl font-black tracking-tight">
+                            {step === 'verification' ? 'Verify Email' : 'Create Account'}
+                        </h1>
+                        <p className="text-sm font-medium text-gray-400">
+                            {step === 'verification'
+                                ? `We sent a code to ${email}`
+                                : 'Start building your professional site today.'}
+                        </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="mt-10 space-y-6">
-                        <div>
-                            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Full Name</label>
-                            <div className="relative">
-                                <User className="absolute left-3 top-3 text-gray-300" size={16} />
-                                <input
-                                    type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
-                                    placeholder="John Doe"
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Email Address</label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-3 text-gray-300" size={16} />
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
-                                    placeholder="name@example.com"
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Password</label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={handlePasswordChange}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
-                                    placeholder="••••••••"
-                                    required
-                                />
-                            </div>
-                            {password && (
-                                <div className="mt-2 space-y-1">
-                                    <div className="flex gap-1">
-                                        {[1, 2, 3, 4, 5].map((level) => (
-                                            <div
-                                                key={level}
-                                                className={`h-1 flex-1 rounded-full transition-all ${passwordStrength >= level
-                                                    ? passwordStrength <= 2
-                                                        ? 'bg-red-500'
-                                                        : passwordStrength <= 3
-                                                            ? 'bg-yellow-500'
-                                                            : 'bg-green-500'
-                                                    : 'bg-gray-200'
-                                                    }`}
-                                            />
-                                        ))}
+                    <form
+                        onSubmit={
+                            step === 'credentials' ? handleSignupSubmit : handleCodeSubmit
+                        }
+                        className="mt-10 space-y-6"
+                    >
+                        {step === 'credentials' && (
+                            <>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Full Name</label>
+                                    <div className="relative">
+                                        <User className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <input
+                                            type="text"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            placeholder="John Doe"
+                                            required
+                                        />
                                     </div>
-                                    <p className="text-[10px] font-bold text-gray-400">
-                                        {passwordStrength === 0 && 'Enter a password'}
-                                        {passwordStrength === 1 && 'Very weak'}
-                                        {passwordStrength === 2 && 'Weak'}
-                                        {passwordStrength === 3 && 'Fair'}
-                                        {passwordStrength === 4 && 'Good'}
-                                        {passwordStrength === 5 && 'Strong ✓'}
-                                    </p>
-                                    {passwordStrength < 5 && (
-                                        <p className="text-[10px] text-gray-400">
-                                            Needs: 8+ chars, uppercase, lowercase, number, special char
-                                        </p>
-                                    )}
                                 </div>
-                            )}
-                        </div>
+
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Email Address</label>
+                                    <div className="relative">
+                                        <Mail className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            placeholder="name@example.com"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Password</label>
+                                    <div className="relative">
+                                        <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <input
+                                            type="password"
+                                            value={password}
+                                            onChange={handlePasswordChange}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            placeholder="••••••••"
+                                            required
+                                        />
+                                    </div>
+
+                                    {/* Password Strength Indicator */}
+                                    <div className="mt-4 space-y-3">
+                                        <div className="flex gap-1">
+                                            {[...Array(5)].map((_, i) => (
+                                                <div
+                                                    key={i}
+                                                    className={`h-1 flex-1 rounded-full transition-all duration-500 ${i < passwordStrength
+                                                        ? passwordStrength <= 2 ? 'bg-red-400' : passwordStrength <= 4 ? 'bg-yellow-400' : 'bg-green-400'
+                                                        : 'bg-gray-100'
+                                                        }`}
+                                                />
+                                            ))}
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${password.length >= 8 ? 'text-green-500' : 'text-gray-300'}`}>
+                                                {password.length >= 8 ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
+                                                8+ Characters
+                                            </div>
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[A-Z]/.test(password) ? 'text-green-500' : 'text-gray-300'}`}>
+                                                {/[A-Z]/.test(password) ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
+                                                Uppercase
+                                            </div>
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[0-9]/.test(password) ? 'text-green-500' : 'text-gray-300'}`}>
+                                                {/[0-9]/.test(password) ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
+                                                Number
+                                            </div>
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[!@#$%^&*()]/.test(password) ? 'text-green-500' : 'text-gray-300'}`}>
+                                                {/[!@#$%^&*()]/.test(password) ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
+                                                Special
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {step === 'verification' && (
+                            <div className="space-y-6">
+                                <div className="p-4 bg-gray-50 border border-gray-100 rounded-lg flex items-start gap-3">
+                                    <AlertCircle className="text-gray-400 shrink-0" size={18} />
+                                    <p className="text-xs font-medium text-gray-500 leading-relaxed">
+                                        We've sent a 6-digit verification code to <span className="text-gray-900 font-bold">{email}</span>. Please enter it below to complete your registration.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Verification Code</label>
+                                    <div className="relative">
+                                        <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <input
+                                            type="text"
+                                            value={code}
+                                            onChange={(e) => setCode(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium bg-gray-50/30 focus:bg-white text-center tracking-[0.5em] font-mono text-lg"
+                                            placeholder="••••••"
+                                            maxLength={6}
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep('credentials')}
+                                        className="mt-2 text-[10px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-widest transition-colors"
+                                    >
+                                        Edit Details
+                                    </button>
+                                </div>
+                            </div>
+                        )}
 
                         {error && (
                             <div className="p-3 bg-red-50 border border-red-100 rounded text-red-600 text-[10px] font-bold uppercase tracking-wider text-center">
@@ -213,7 +295,8 @@ const Signup: React.FC = () => {
                             disabled={isLoading}
                             className={`w-full bg-gray-900 text-white py-4 rounded font-bold hover:bg-black transition-all active:scale-[0.98] shadow-lg shadow-gray-100 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                            {isLoading ? 'Creating Account...' : 'Create Account'}
+                            {isLoading ? 'Processing...' :
+                                step === 'credentials' ? 'Create Account' : 'Verify & Continue'}
                         </button>
 
                         <div className="relative my-8">
@@ -237,7 +320,7 @@ const Signup: React.FC = () => {
 
                     <div className="mt-8 pt-8 border-t border-gray-50 text-center">
                         <p className="text-sm text-gray-400 font-medium">
-                            Already have an account? <Link to="/login" className="text-gray-900 font-bold hover:underline underline-offset-4">Log in</Link>
+                            Already have an account? <Link to="/login" className="text-gray-900 font-bold hover:underline underline-offset-4">Sign in</Link>
                         </p>
                     </div>
                 </div>

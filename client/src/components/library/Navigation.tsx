@@ -14,7 +14,13 @@ interface NavigationProps {
     backgroundColor?: string;
     buttonBackgroundColor?: string;
   };
-  variant?: "default" | "minimal" | "brutalist" | "outline_minimal" | "impact";
+  variant?:
+    | "default"
+    | "minimal"
+    | "brutalist"
+    | "outline_minimal"
+    | "impact"
+    | "glassmorphism";
 }
 
 // Helper function to determine if a string is a direct CSS color value
@@ -34,6 +40,8 @@ const Navigation: React.FC<NavigationProps> = ({
   const isBrutalist = variant === "brutalist";
   const isOutlineMinimal = variant === "outline_minimal";
   const isImpact = variant === "impact";
+  // this is for Glassmorphism
+  const isGlassmorphism = variant === "glassmorphism";
   // Determine general text color (class or inline style)
   const navTextColorClass =
     styles?.textColor && !isDirectCssColorValue(styles.textColor)
@@ -46,19 +54,25 @@ const Navigation: React.FC<NavigationProps> = ({
       : {};
 
   // Default color if nothing specified (applied to nav to cascade)
-  const baseColorClass = !styles?.textColor ? "text-slate-950 dark:text-white" : "";
+  const baseColorClass = !styles?.textColor
+    ? "text-slate-950 dark:text-white"
+    : "";
 
   // Determine button styles - Button should generally keep its own contrast
   const buttonTextColorClass = "text-white";
 
   // Allow user to override button background
   const buttonBackgroundColorClass =
-    styles?.buttonBackgroundColor && !isDirectCssColorValue(styles.buttonBackgroundColor)
+    styles?.buttonBackgroundColor &&
+    !isDirectCssColorValue(styles.buttonBackgroundColor)
       ? styles.buttonBackgroundColor
-      : !styles?.buttonBackgroundColor ? "bg-indigo-600 hover:bg-indigo-700" : "";
+      : !styles?.buttonBackgroundColor
+        ? "bg-indigo-600 hover:bg-indigo-700"
+        : "";
 
   const buttonBackgroundColorStyle =
-    styles?.buttonBackgroundColor && isDirectCssColorValue(styles.buttonBackgroundColor)
+    styles?.buttonBackgroundColor &&
+    isDirectCssColorValue(styles.buttonBackgroundColor)
       ? { backgroundColor: styles.buttonBackgroundColor }
       : {};
 
@@ -73,28 +87,34 @@ const Navigation: React.FC<NavigationProps> = ({
             ? "border"
             : isImpact
               ? "border-none"
-              : "";
+              : isGlassmorphism
+                ? "bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100"
+                : "";
+
   const buttonBorderStyle =
     styles?.borderColor && isDirectCssColorValue(styles.borderColor)
       ? {
-        borderColor: styles.borderColor,
-        borderWidth: "1px",
-        borderStyle: "solid",
-      }
+          borderColor: styles.borderColor,
+          borderWidth: "1px",
+          borderStyle: "solid",
+        }
       : {};
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, url?: string) => {
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    url?: string,
+  ) => {
     // Check if it's an anchor link (starts with # or is just a plain string without / or :)
-    if (url && !url.includes(':') && !url.includes('/')) {
-      const id = url.startsWith('#') ? url.slice(1) : url;
+    if (url && !url.includes(":") && !url.includes("/")) {
+      const id = url.startsWith("#") ? url.slice(1) : url;
       const element = document.getElementById(id);
       if (element) {
         e.preventDefault();
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: "smooth" });
         // Update URL hash without reload
-        window.history.pushState(null, '', `#${id}`);
+        window.history.pushState(null, "", `#${id}`);
         setIsMenuOpen(false);
       }
     }
@@ -102,26 +122,30 @@ const Navigation: React.FC<NavigationProps> = ({
 
   // Helper to get the link URL (supports both 'url' and 'href' for backward compatibility)
   const getLinkUrl = (link: Link): string => {
-    const linkUrl = link.url || link.href || '#';
+    const linkUrl = link.url || link.href || "#";
     // Normalize anchor links
-    if (linkUrl && !linkUrl.includes(':') && !linkUrl.includes('/')) {
-      return linkUrl.startsWith('#') ? linkUrl : `#${linkUrl}`;
+    if (linkUrl && !linkUrl.includes(":") && !linkUrl.includes("/")) {
+      return linkUrl.startsWith("#") ? linkUrl : `#${linkUrl}`;
     }
     return linkUrl;
   };
 
   return (
     <nav
-      className={`relative ${navTextColorClass} ${baseColorClass} 
-        ${isBrutalist ? "border-[3px] border-slate-950 dark:border-white rounded-2xl px-8 shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-slate-900"
-          : isOutlineMinimal ? "border border-slate-950 dark:border-white rounded-none px-6 bg-white dark:bg-slate-950"
-            : ""}`}
+      className={`relative ${navTextColorClass} ${baseColorClass}
+        ${
+          isBrutalist
+            ? "border-[3px] border-slate-950 dark:border-white rounded-2xl px-8 shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-slate-900"
+            : isOutlineMinimal
+              ? "border border-slate-950 dark:border-white rounded-none px-6 bg-white dark:bg-slate-950"
+              : isGlassmorphism
+                ? "bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 px-3"
+                : ""
+        }`}
       style={navTextStyle}
     >
       <div className="flex items-center justify-between py-4">
-        <div className="text-xl font-bold">
-          Portfolio
-        </div>
+        <div className="text-xl font-bold">Portfolio</div>
 
         {/* Mobile Menu Button */}
         <button
@@ -129,9 +153,36 @@ const Navigation: React.FC<NavigationProps> = ({
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           {isMenuOpen ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
           )}
         </button>
 
@@ -144,7 +195,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 key={idx}
                 href={linkUrl}
                 onClick={(e) => handleLinkClick(e, link.url || link.href)}
-                className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact ? 'font-black uppercase tracking-[0.2em]' : 'font-medium'}`}
+                className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact ? "font-black uppercase tracking-[0.2em]" : "font-medium"}`}
               >
                 {link.label}
               </a>
@@ -152,7 +203,7 @@ const Navigation: React.FC<NavigationProps> = ({
           })}
           {showResumeButton && (
             <button
-              className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black' : isImpact ? 'rounded-none uppercase tracking-widest font-black px-8 py-3' : 'rounded-lg'}`}
+              className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? "rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black" : isImpact ? "rounded-none uppercase tracking-widest font-black px-8 py-3" : "rounded-lg"}`}
               style={{
                 ...buttonBackgroundColorStyle,
                 ...buttonBorderStyle,
@@ -183,7 +234,7 @@ const Navigation: React.FC<NavigationProps> = ({
           })}
           {showResumeButton && (
             <button
-              className={`w-full py-3 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? 'rounded-none uppercase tracking-tighter' : 'rounded-lg'}`}
+              className={`w-full py-3 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? "rounded-none uppercase tracking-tighter" : "rounded-lg"}`}
               style={{
                 ...buttonBackgroundColorStyle,
                 ...buttonBorderStyle,

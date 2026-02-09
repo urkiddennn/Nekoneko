@@ -58,4 +58,12 @@ export default defineSchema({
         type: v.string(),
         timestamp: v.number(),
     }).index("by_project", ["projectId"]),
+
+    unverified_users: defineTable({
+        email: v.string(),
+        name: v.string(),
+        password: v.string(),
+        otp: v.string(),
+        otpExpires: v.number(),
+    }).index("by_email", ["email"]),
 });

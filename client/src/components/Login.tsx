@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { useAction } from 'convex/react';
 import { api } from '../../convex/_generated/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, Lock, Github } from 'lucide-react';
+import { ArrowLeft, Mail, Lock, Github, AlertCircle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useAuthActions } from "@convex-dev/auth/react";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [code, setCode] = useState('');
+    const [step, setStep] = useState<'credentials' | 'verification'>('credentials');
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
-    const loginAction = useAction(api.auth.login);
     const [isLoading, setIsLoading] = useState(false);
+    const loginAction = useAction(api.auth.login);
     const { signIn } = useAuthActions();
 
     React.useEffect(() => {
@@ -28,11 +30,10 @@ const Login: React.FC = () => {
         return emailRegex.test(email);
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
 
-        // Client-side validation
         if (!validateEmail(email)) {
             setError('Please enter a valid email address');
             return;
@@ -40,13 +41,33 @@ const Login: React.FC = () => {
 
         setIsLoading(true);
         try {
-            const { token, user } = await loginAction({ email, password });
-            // Since we're using useAuth, we need to manually set the local storage for custom auth
-            localStorage.setItem('neko_token', token);
-            localStorage.setItem('neko_user', JSON.stringify(user));
-            navigate('/dashboard');
+            // Step 1: Verify credentials
+            await loginAction({ email, password });
+            // Step 2: Send OTP
+            await signIn("resend", { email });
+            setStep('verification');
         } catch (err: any) {
             setError(err.message || 'Invalid email or password');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleCodeSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+
+        if (!code.trim()) {
+            setError('Please enter the verification code');
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            await signIn("resend", { email, code });
+            navigate('/dashboard');
+        } catch (err: any) {
+            setError(err.message || 'Invalid verification code');
         } finally {
             setIsLoading(false);
         }
@@ -109,39 +130,89 @@ const Login: React.FC = () => {
                     </div>
 
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-black tracking-tight">Login</h1>
-                        <p className="text-sm font-medium text-gray-400">Welcome back to your workspace.</p>
+                        <h1 className="text-2xl font-black tracking-tight">
+                            {step === 'verification' ? 'Verify Email' : 'Login'}
+                        </h1>
+                        <p className="text-sm font-medium text-gray-400">
+                            {step === 'verification'
+                                ? `We sent a code to ${email}`
+                                : 'Welcome back to your workspace.'}
+                        </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="mt-10 space-y-6">
-                        <div>
-                            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Email Address</label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-3 text-gray-300" size={16} />
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
-                                    placeholder="name@example.com"
-                                    required
-                                />
+                    <form
+                        onSubmit={
+                            step === 'credentials' ? handleLoginSubmit : handleCodeSubmit
+                        }
+                        className="mt-10 space-y-6"
+                    >
+                        {step === 'credentials' && (
+                            <>
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Email Address</label>
+                                    <div className="relative">
+                                        <Mail className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            placeholder="name@example.com"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Password</label>
+                                    <div className="relative">
+                                        <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <input
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            placeholder="••••••••"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {step === 'verification' && (
+                            <div className="space-y-6">
+                                <div className="p-4 bg-gray-50 border border-gray-100 rounded-lg flex items-start gap-3">
+                                    <AlertCircle className="text-gray-400 shrink-0" size={18} />
+                                    <p className="text-xs font-medium text-gray-500 leading-relaxed">
+                                        We've sent a 6-digit verification code to <span className="text-gray-900 font-bold">{email}</span>. Please enter it below to complete your login.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Verification Code</label>
+                                    <div className="relative">
+                                        <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <input
+                                            type="text"
+                                            value={code}
+                                            onChange={(e) => setCode(e.target.value)}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium bg-gray-50/30 focus:bg-white text-center tracking-[0.5em] font-mono text-lg"
+                                            placeholder="••••••"
+                                            maxLength={6}
+                                            required
+                                        />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep('credentials')}
+                                        className="mt-2 text-[10px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-widest transition-colors"
+                                    >
+                                        Edit Details
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Password</label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
-                                    placeholder="••••••••"
-                                    required
-                                />
-                            </div>
-                        </div>
+                        )}
 
                         {error && (
                             <div className="p-3 bg-red-50 border border-red-100 rounded text-red-600 text-[10px] font-bold uppercase tracking-wider text-center">
@@ -154,7 +225,8 @@ const Login: React.FC = () => {
                             disabled={isLoading}
                             className={`w-full bg-gray-900 text-white py-4 rounded font-bold hover:bg-black transition-all active:scale-[0.98] shadow-lg shadow-gray-100 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                            {isLoading ? 'Signing In...' : 'Sign In'}
+                            {isLoading ? 'Processing...' :
+                                step === 'credentials' ? 'Sign In' : 'Verify & Continue'}
                         </button>
 
                         <div className="relative my-8">
@@ -166,7 +238,6 @@ const Login: React.FC = () => {
                             </div>
                         </div>
 
-
                         <button
                             type="button"
                             onClick={() => signIn("github", { redirectTo: "/dashboard" })}
@@ -175,7 +246,6 @@ const Login: React.FC = () => {
                             <Github size={20} />
                             GitHub
                         </button>
-
                     </form>
 
                     <div className="mt-8 pt-8 border-t border-gray-50 text-center">

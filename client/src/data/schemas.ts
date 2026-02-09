@@ -1,4 +1,4 @@
-
+import { DESTRUCTION } from "node:dns";
 
 export const SCHEMAS = [
   {
@@ -158,6 +158,23 @@ export const SCHEMAS = [
             ],
             showResumeButton: true,
             variant: "impact",
+          },
+        },
+      },
+      {
+        name: "Glassmorphism",
+        description:
+          "Glasmorphism is design for modern adn futuristic website.",
+        example: {
+          id: "nav-glassmorphism",
+          type: "navigation",
+          props: {
+            links: [
+              { label: "Works", url: "#" },
+              { label: "Contact", url: "#" },
+            ],
+            showResumeButton: true,
+            variant: "glassmorphism",
           },
         },
       },
@@ -411,8 +428,28 @@ export const SCHEMAS = [
           props: {
             heading: "I'm Jems Kemerun",
             subheading: "A Product Designer based in Manila.",
-            avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+            avatarUrl:
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
             variant: "impact",
+            ctaButtons: [
+              { label: "DOWNLOAD CV", url: "#", variant: "primary" },
+            ],
+            style: { titleColor: "#ef4444" },
+          },
+        },
+      },
+      {
+        name: "Glassmorphism",
+        description: "A subtle blur effect with a subtle shadow.",
+        example: {
+          id: "hero-glass",
+          type: "hero",
+          props: {
+            heading: "I'm Jems Kemerun",
+            subheading: "A Product Designer based in Manila.",
+            avatarUrl:
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
+            variant: "glassmorphism",
             ctaButtons: [
               { label: "DOWNLOAD CV", url: "#", variant: "primary" },
             ],
@@ -517,7 +554,6 @@ export const SCHEMAS = [
     details:
       "Visual representation of technical skills with progress bars/levels.",
 
-
     props: [
       { name: "title", type: "string", desc: "Section header." },
       {
@@ -530,17 +566,25 @@ export const SCHEMAS = [
         type: "boolean",
         desc: "Show numeric percentage.",
       },
-      { name: "skills", type: "array", desc: "List of skills {name, level, color}." },
+      {
+        name: "skills",
+        type: "array",
+        desc: "List of skills {name, level, color}.",
+      },
       {
         name: "variant",
-        type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal"',
+        type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal" | "glassmorphism"|""',
         desc: "Visual style.",
       },
       { name: "barColor", type: "hex", desc: "Main progress color." },
       { name: "bulletColor", type: "hex", desc: "Bullet/Icon color." },
       { name: "textColor", type: "tailwind|hex", desc: "Text color." },
       { name: "borderColor", type: "tailwind|hex", desc: "Border color." },
-      { name: "backgroundColor", type: "tailwind|hex", desc: "Background color." },
+      {
+        name: "backgroundColor",
+        type: "tailwind|hex",
+        desc: "Background color.",
+      },
     ],
     variants: [
       {
@@ -572,6 +616,19 @@ export const SCHEMAS = [
               { name: "React", level: 100, color: "#6366f1" },
               { name: "Design", level: 100, color: "#ec4899" },
             ],
+          },
+        },
+      },
+      {
+        name: "Glassmorphism",
+        description: "Modern glassmorphism tags",
+        example: {
+          id: "skills-glassmorphism",
+          type: "skills",
+          props: {
+            title: "Core Stack",
+            variant: "glassmorphism",
+            skills: ["SYSTEM", "CORE", "API"],
           },
         },
       },
@@ -634,7 +691,7 @@ export const SCHEMAS = [
       },
       {
         name: "variant",
-        type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact"',
+        type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact"|"glassmorphism"',
         desc: "Visual style.",
       },
     ],
@@ -703,14 +760,35 @@ export const SCHEMAS = [
         },
       },
       {
-        name: "Impact",
+        name: "Clean Timeline",
+        description: "Minimal vertical timeline design.",
+        example: {
+          id: "exp-timeline",
+          type: "experience",
+          props: {
+            title: "Professional Timeline",
+            variant: "timeline",
+            jobs: [
+              {
+                role: "Software Engineer",
+                company: "Vercel",
+                period: "2020 — 2022",
+                description: "Scaling the edge network.",
+                icon: "Zap",
+              },
+            ],
+          },
+        },
+      },
+      {
+        name: "Glassmorphism",
         description: "High-impact typography with side-by-side period layout.",
         example: {
-          id: "exp-impact",
+          id: "exp-glassmorphism",
           type: "experience",
           props: {
             title: "History",
-            variant: "impact",
+            variant: "glassmorphism",
             jobs: [
               {
                 role: "Senior Designer",
@@ -839,7 +917,11 @@ export const SCHEMAS = [
         type: '"left" | "center" | "right"',
         desc: "Alignment.",
       },
-      { name: "variant", type: '"default" | "card" | "impact"', desc: "Visual style." },
+      {
+        name: "variant",
+        type: '"default" | "card" | "impact"',
+        desc: "Visual style.",
+      },
       { name: "email", type: "string", desc: "Contact email." },
       { name: "github", type: "string", desc: "GitHub username." },
       { name: "linkedin", type: "string", desc: "LinkedIn username." },
@@ -914,9 +996,17 @@ export const SCHEMAS = [
       { name: "description", type: "string", desc: "Description text." },
       { name: "stacks", type: "array", desc: "Tech stack strings." },
       { name: "link", type: "url", desc: "External link." },
-      { name: "items", type: "array", desc: "Array of projects {title, image, tags, link}." },
+      {
+        name: "items",
+        type: "array",
+        desc: "Array of projects {title, image, tags, link}.",
+      },
       { name: "columns", type: "number", desc: "Column count." },
-      { name: "variant", type: '"card" | "grid" | "impact"', desc: "Visual style." },
+      {
+        name: "variant",
+        type: '"card" | "grid" | "impact"',
+        desc: "Visual style.",
+      },
     ],
     variants: [
       {
@@ -1246,7 +1336,9 @@ export const SCHEMAS = [
       type: "section",
       props: {
         anchorId: "about-me",
-        items: [{ id: "inner-hero", type: "hero", props: { heading: "Inner Hero" } }],
+        items: [
+          { id: "inner-hero", type: "hero", props: { heading: "Inner Hero" } },
+        ],
       },
       styles: { padding: "py-0" },
     },

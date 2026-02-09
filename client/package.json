@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@auth/core": "0.37.0",
+    "@auth/core": "^0.37.0",
     "@codemirror/autocomplete": "^6.20.0",
     "@codemirror/commands": "^6.10.1",
     "@codemirror/lang-json": "^6.0.2",
@@ -20,6 +20,7 @@
     "@codemirror/view": "^6.39.12",
     "@convex-dev/auth": "^0.0.90",
     "@convex-dev/rate-limiter": "^0.3.2",
+    "@convex-dev/resend": "^0.2.3",
     "@uiw/codemirror-themes-all": "^4.25.4",
     "@uiw/react-codemirror": "^4.25.4",
     "autoprefixer": "^10.4.24",
@@ -33,6 +34,7 @@
     "react-resizable-panels": "^2.0.0",
     "react-router-dom": "^7.13.0",
     "react-simple-code-editor": "^0.14.1",
+    "resend": "^6.9.1",
     "tailwindcss": "^3.4.19",
     "zod": "^4.3.6"
   },
