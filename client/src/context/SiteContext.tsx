@@ -73,10 +73,26 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [effectiveSlug]);
 
-  useEffect(() => {
+  React.useLayoutEffect(() => {
     if (siteConfig.site_settings.theme?.font) {
       const fontName = siteConfig.site_settings.theme.font;
       const linkId = "google-font-loader";
+
+      // Inject preconnect hints if they don't exist
+      if (!document.getElementById("google-fonts-preconnect")) {
+        const pre1 = document.createElement("link");
+        pre1.id = "google-fonts-preconnect";
+        pre1.rel = "preconnect";
+        pre1.href = "https://fonts.googleapis.com";
+        document.head.appendChild(pre1);
+
+        const pre2 = document.createElement("link");
+        pre2.rel = "preconnect";
+        pre2.href = "https://fonts.gstatic.com";
+        pre2.crossOrigin = "anonymous";
+        document.head.appendChild(pre2);
+      }
+
       let link = document.getElementById(linkId) as HTMLLinkElement;
       if (!link) {
         link = document.createElement("link");

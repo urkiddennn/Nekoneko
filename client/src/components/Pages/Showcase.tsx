@@ -3,6 +3,7 @@ import NavigationBar from "../NavigationBar";
 import Footer from "../Footer";
 import { ExternalLink, Sparkles } from "lucide-react";
 import LiveSitePreview from "../LiveSitePreview";
+import { SEO } from "../SEO";
 
 const Showcase: React.FC = () => {
     const showcaseProjects = [
@@ -37,6 +38,10 @@ const Showcase: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+            <SEO
+                title="Showcase"
+                description="Explore the beautiful websites built with Nekoneko. Get inspired by our community's creations."
+            />
             <NavigationBar />
             <main className="pt-32 pb-24 px-6">
                 <div className="max-w-6xl mx-auto">

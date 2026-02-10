@@ -19,6 +19,15 @@ interface ProjectDetailsProps {
     variant?: 'card' | 'grid' | 'impact';
 }
 
+const optimizeImageUrl = (url: string, width: number = 800) => {
+    if (!url) return url;
+    if (url.includes("images.unsplash.com")) {
+        const baseUrl = url.split("?")[0];
+        return `${baseUrl}?auto=format&fit=crop&q=80&w=${width}`;
+    }
+    return url;
+};
+
 const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     title = "Project Title",
     description = "Detailed description.",
@@ -56,8 +65,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                             >
                                 <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-gray-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 shadow-sm group-hover:shadow-2xl group-hover:shadow-indigo-500/20 transition-all duration-700">
                                     <img
-                                        src={item.image}
+                                        src={optimizeImageUrl(item.image, 800)}
                                         alt={item.title}
+                                        loading="lazy"
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out grayscale group-hover:grayscale-0"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-8">
@@ -92,7 +102,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                     {displayItems.map((item, idx) => (
                         <a key={idx} href={item.link} className="group block overflow-hidden rounded-2xl bg-gray-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 hover:shadow-2xl transition-all duration-500">
                             <div className="aspect-[16/10] overflow-hidden">
-                                <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                <img src={optimizeImageUrl(item.image, 800)} alt={item.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                             </div>
                             <div className="p-6">
                                 <h3 className="text-xl font-bold mb-3 text-slate-950 dark:text-white">{item.title}</h3>
@@ -151,3 +161,5 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 };
 
 export default ProjectDetails;
+
+

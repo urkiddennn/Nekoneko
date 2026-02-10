@@ -1,32 +1,28 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowRight, Box, Zap, Share2, MousePointer2, Cat } from "lucide-react";
 import { getUser } from "../../utils/authUtils";
 import Footer from "../Footer";
 import TemplateShowcase from "../TemplateShowcase";
 import NavigationBar from "../NavigationBar";
 import HowItWorks from "../HowItWorks";
+import { SEO } from "../SEO";
 
 const Landing: React.FC = () => {
-  const navigate = useNavigate();
   const user = getUser();
-
-  const handleGetStarted = () => {
-    if (user) {
-      navigate("/dashboard");
-    } else {
-      navigate("/login");
-    }
-  };
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+      <SEO
+        title="Nekoneko - Build and Deploy Premium Websites Instantly"
+        description="Nekoneko is the ultimate platform for building modern, premium websites with ease. Explore our JSON-based editor and instant deployment."
+      />
       {/* Minimal Nav */}
       <NavigationBar />
       {/* Hero Section */}
       <main className="pt-40 pb-20 px-6">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded text-indigo-600 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded text-indigo-700 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Zap size={14} className="fill-indigo-600" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em]">
               The No-Code Era is Here
@@ -35,49 +31,31 @@ const Landing: React.FC = () => {
 
           <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-1000">
             Build your personal <br />
-            <span className="text-gray-400">space in seconds.</span>
+            <span className="text-gray-500">space in seconds.</span>
           </h1>
 
-          <p className="max-w-xl mx-auto text-gray-500 font-medium leading-relaxed md:text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+          <p className="max-w-xl mx-auto text-gray-700 font-medium leading-relaxed md:text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
             A minimal, high-performance site builder for developers and
             creatives. No bloated editors, just clean JSON blocks and instant
             deployment.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
-            <button
-              onClick={handleGetStarted}
+            <Link
+              to={user ? "/dashboard" : "/login"}
               className="w-full sm:w-auto bg-gray-900 text-white px-8 py-4 rounded font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 shadow-lg shadow-gray-200"
             >
               Start Building Now
               <ArrowRight size={18} />
-            </button>
-            <button
-              onClick={() => navigate("/docs")}
-              className="w-full sm:w-auto px-8 py-4 rounded border border-gray-100 font-bold hover:bg-gray-50 transition-all"
+            </Link>
+            <Link
+              to="/docs"
+              className="w-full sm:w-auto px-8 py-4 rounded border border-gray-100 font-bold hover:bg-gray-50 transition-all text-center"
             >
               View Library
-            </button>
+            </Link>
           </div>
         </div>
-        {/* Visual Mockup */}
-        {/*<div className="css-mb">
-          <div className="mb-display-position">
-            <div className="mb-display bg-gray-900">
-              <div className="mb-screen-position">
-                <div className="mb-screen w-full h-full bg-cover bg-center">
-                  <img
-                    src="/assets/mockup.png"
-                    alt="example image"
-                    className="w-full h-full bg-cover bg-center"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mb-body"></div>
-          <div className="mb-bottom-cover"></div>
-        </div>*/}
         <div className="mt-24 max-w-5xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500 ">
           <div className="bg-white border border-gray-100 rounded-lg shadow-2xl shadow-gray-200 overflow-hidden group">
             <div className="w-full h-12 bg-slate-950 text-start px-5 items-center flex gap-2">
@@ -98,11 +76,12 @@ const Landing: React.FC = () => {
       <HowItWorks />
 
       {/* Template Showcase */}
-
       <TemplateShowcase />
+
       {/* Features Grid */}
       <section className="py-24 bg-gray-50/50 border-t border-gray-100">
         <div className="max-w-6xl mx-auto px-8">
+          <h2 className="sr-only">Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <FeatureCard
               icon={<Box size={24} />}
@@ -130,13 +109,14 @@ const Landing: React.FC = () => {
           <h2 className="text-3xl font-black tracking-tight">
             Support Nekoneko
           </h2>
-          <p className="text-gray-500 font-medium max-w-md mx-auto">
+          <p className="text-gray-600 font-medium max-w-md mx-auto">
             If Nekoneko helped you build your dream site, consider fueling the
             next update with a coffee!
           </p>
           <a
-            onClick={handleGetStarted}
             href="https://buymeacoffee.com/urkidden/nekoneko-support"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-gray-900 text-white flex justify-center items-center gap-3 px-5 py-2 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
           >
             <Cat size={20} />
@@ -151,20 +131,25 @@ const Landing: React.FC = () => {
           <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
             Ready to build your <br /> next project?
           </h2>
-          <p className="text-gray-500 font-medium max-w-md mx-auto">
+          <p className="text-gray-600 font-medium max-w-md mx-auto">
             Join creators building the simplest sites on the web. Free to start,
             forever.
           </p>
 
-          <button
-            onClick={handleGetStarted}
-            className="bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
+          <Link
+            to="/signup"
+            className="inline-block bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
           >
             Create Your Site
-          </button>
-          <button className="mr-0 md:ml-3 bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100">
+          </Link>
+          <a
+            href="https://github.com/urkiddennn/Nekoneko"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mr-0 md:ml-3 bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
+          >
             Contribute
-          </button>
+          </a>
         </div>
       </section>
 

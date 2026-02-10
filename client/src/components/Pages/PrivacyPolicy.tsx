@@ -2,10 +2,15 @@ import React from "react";
 import NavigationBar from "../NavigationBar";
 import Footer from "../Footer";
 import { SendHorizontal } from "lucide-react";
+import { SEO } from "../SEO";
 
 const PrivacyPolicy: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+      <SEO
+        title="Privacy Policy"
+        description="Read our privacy policy to understand how we handle your data."
+      />
       <NavigationBar />
       <main className="pt-32 pb-24 px-6">
         <div className="max-w-3xl mx-auto">

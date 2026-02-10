@@ -4,6 +4,7 @@ import { api } from "../../convex/_generated/api";
 import { useSite } from "../context/useSite";
 import SectionRenderer from "./SectionRenderer";
 import ThemeToggle from "./library/ThemeToggle";
+import { SEO } from "./SEO";
 
 const Site: React.FC = () => {
   const { siteConfig, loading, projectId } = useSite();
@@ -64,6 +65,10 @@ const Site: React.FC = () => {
         marginLeft: formatSpacing(layout.marginLeft),
       }}
     >
+      <SEO
+        title={siteConfig.site_settings.seo?.title || siteConfig.site_settings.name}
+        description={siteConfig.site_settings.seo?.description}
+      />
       <main className="w-full">
         <SectionRenderer sections={siteConfig.sections} />
       </main>

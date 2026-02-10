@@ -70,8 +70,8 @@ const TemplatePreview = ({
       </div>
     </div>
     <div>
-      <h4 className="font-bold text-lg text-slate-900">{name}</h4>
-      <p className="text-sm text-gray-500 font-medium">{description}</p>
+      <h3 className="font-bold text-lg text-slate-900">{name}</h3>
+      <p className="text-sm text-gray-600 font-medium">{description}</p>
     </div>
   </div>
 );

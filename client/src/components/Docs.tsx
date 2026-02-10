@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Layers, Box, Terminal, Globe, Menu, X } from 'lucide-react';
 import { SCHEMAS } from '../data/schemas';
 import DocViewer from './DocViewer';
+import { SEO } from './SEO';
 
 const Docs: React.FC = () => {
     const navigate = useNavigate();
@@ -45,6 +46,10 @@ const Docs: React.FC = () => {
 
     return (
         <div className="flex h-screen bg-white text-gray-900 font-sans overflow-hidden relative">
+            <SEO
+                title="Documentation"
+                description="Learn how to use Nekoneko's JSON-based site builder. Explore our component library and schema definitions."
+            />
 
             {/* Mobile Backdrop */}
             {isSidebarOpen && (

@@ -40,6 +40,15 @@ interface HeroProps {
   };
 }
 
+const optimizeImageUrl = (url: string, width: number = 800) => {
+  if (!url) return url;
+  if (url.includes("images.unsplash.com")) {
+    const baseUrl = url.split("?")[0];
+    return `${baseUrl}?auto=format&fit=crop&q=80&w=${width}`;
+  }
+  return url;
+};
+
 const Hero: React.FC<HeroProps> = ({
   heading,
   subheading,
@@ -51,6 +60,9 @@ const Hero: React.FC<HeroProps> = ({
   ctaButtons = [],
   style,
 }) => {
+  const optimizedAvatar = React.useMemo(() => optimizeImageUrl(avatarUrl, 1000), [avatarUrl]);
+  const optimizedBg = React.useMemo(() => backgroundImageUrl ? optimizeImageUrl(backgroundImageUrl, 1920) : undefined, [backgroundImageUrl]);
+
   const alignClass = {
     left: "text-left items-start",
     center: "text-center items-center",
@@ -127,8 +139,11 @@ const Hero: React.FC<HeroProps> = ({
             }}
           />
           <img
-            src={avatarUrl}
+            src={optimizedAvatar}
             alt="Hero Avatar"
+            width={480}
+            height={600}
+            fetchPriority="high"
             className="w-full md:w-[480px] aspect-[4/5] object-cover rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-out"
           />
         </div>
@@ -161,7 +176,7 @@ const Hero: React.FC<HeroProps> = ({
               <a
                 key={idx}
                 href={btn.url}
-                className={`px-6 py-4 md:px-10 md:py-5 text-xs md:text-sm font-black transition-all border border-slate-950 dark:border-white rounded-none uppercase tracking-tighter hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black w-full md:w-auto text-center ${btn.variant === "primary"
+                className={`px-6 py-4 md:px-10 md:py-5 text-sm md:text-sm font-black transition-all border border-slate-950 dark:border-white rounded-none uppercase tracking-tighter hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black w-full md:w-auto text-center ${btn.variant === "primary"
                   ? "bg-slate-950 text-white dark:bg-white dark:text-black"
                   : "bg-transparent text-slate-950 dark:text-white"
                   }`}
@@ -173,9 +188,11 @@ const Hero: React.FC<HeroProps> = ({
         </div>
         <div className="flex-shrink-0 grayscale opacity-90 w-full md:w-auto flex justify-center">
           <img
-            src={avatarUrl}
+            src={optimizedAvatar}
             alt="Avatar"
-            {...({ fetchpriority: "high" } as any)}
+            width={320}
+            height={384}
+            fetchPriority="high"
             className="w-full md:w-80 h-auto md:h-96 aspect-square md:aspect-auto rounded-none border border-slate-950 dark:border-white object-cover"
           />
         </div>
@@ -220,9 +237,11 @@ const Hero: React.FC<HeroProps> = ({
         </div>
         <div className="flex-shrink-0 animate-in fade-in zoom-in-95 duration-700 delay-150 w-full md:w-auto flex justify-center">
           <img
-            src={avatarUrl}
+            src={optimizedAvatar}
             alt="Avatar"
-            {...({ fetchpriority: "high" } as any)}
+            width={288}
+            height={288}
+            fetchPriority="high"
             className="w-64 h-64 md:w-72 md:h-72 rounded-[2rem] border-[3px] border-slate-950 dark:border-white shadow-[8px_8px_0px_0px_rgba(2,6,23,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] object-cover"
           />
         </div>
@@ -235,8 +254,8 @@ const Hero: React.FC<HeroProps> = ({
       <div
         className="relative min-h-[500px] md:min-h-[600px] flex flex-col justify-center px-4 md:px-8 py-12 md:py-20 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden"
         style={{
-          backgroundImage: backgroundImageUrl
-            ? `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${backgroundImageUrl})`
+          backgroundImage: optimizedBg
+            ? `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${optimizedBg})`
             : undefined,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -254,6 +273,8 @@ const Hero: React.FC<HeroProps> = ({
                     <img
                       src={item.logo}
                       alt=""
+                      width={20}
+                      height={20}
                       className="w-4 h-4 md:w-5 md:h-5 rounded-full"
                     />
                   )}
@@ -327,10 +348,12 @@ const Hero: React.FC<HeroProps> = ({
         </div>
         <div className="flex-shrink-0 w-full md:w-auto flex justify-center">
           <img
-            src={avatarUrl}
+            src={optimizedAvatar}
             alt="Avatar"
-            {...({ fetchpriority: "high" } as any)}
-            className="w-full md:w-64 h-auto md:h-64 rounded-3xl border-8 border-slate-100 dark:border-white/10 shadow-2xl object-cover"
+            width={256}
+            height={256}
+            fetchPriority="high"
+            className="w-full md:w-64 h-auto md:h-64 rounded-3xl border-8 border-slate-100 dark:border-white/10 shadow-2xl object-cover aspect-square"
           />
         </div>
       </div>
@@ -339,18 +362,18 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "glassmorphism") {
     return (
       <div
-        className={`p-2 bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100
+        className={`p-10 bg-gray-200 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 flex flex-col md:flex-row items-center gap-8 md:gap-12
 `}
       >
         <div className="flex-1 space-y-4 md:space-y-6 w-full">
           <h1
-            className={`${style?.titleSize || "text-4xl md:text-6xl"} font-black tracking-tight leading-none break-words`}
+            className={`${style?.titleSize || "text-4xl md:text-6xl"} font-black tracking-tight leading-none break-words text-slate-950`}
             style={{ color: style?.titleColor }}
           >
             {heading}
           </h1>
           <p
-            className="text-lg md:text-2xl font-medium text-slate-900 dark:text-white/80 max-w-2xl break-words"
+            className="text-lg md:text-2xl font-medium text-slate-900 max-w-2xl break-words"
             style={{ color: style?.subtitleColor }}
           >
             {subheading}
@@ -358,10 +381,12 @@ const Hero: React.FC<HeroProps> = ({
         </div>
         <div className="flex-shrink-0 w-full md:w-auto flex justify-center">
           <img
-            src={avatarUrl}
+            src={optimizedAvatar}
             alt="Avatar"
-            {...({ fetchpriority: "high" } as any)}
-            className="w-full md:w-64 h-auto md:h-64 rounded-3xl border-8 border-slate-100 dark:border-white/10 shadow-2xl object-cover"
+            width={256}
+            height={256}
+            fetchPriority="high"
+            className="w-full md:w-64 h-auto md:h-64 rounded-3xl border-8 border-white/20 shadow-2xl object-cover aspect-square"
           />
         </div>
       </div>
@@ -371,17 +396,6 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "creative_gradient") {
     // Helper for icons
     const SocialIcon = ({ type, url }: { type: string; url: string }) => {
-      // Simple mapping for demo purposes. In a real app, use a proper icon map.
-      // Assuming lucide-react or similar is available in scope or passed down.
-      // For now, using text/generic if icon component isn't directly available in this scope without imports.
-      // But we can try to use standard Lucide if imported.
-      // usage: Icons.Github, etc.
-
-      // Since we can't easily import * as Icons inside a function if not already there, 
-      // let's rely on what's available or use text fallbacks if needed, 
-      // but ideally we should import specific icons at the top.
-      // For this snippet, I will assume basic accessible markup.
-
       let label = type;
       if (url.includes("github")) label = "GH";
       if (url.includes("linkedin")) label = "LI";
@@ -450,8 +464,11 @@ const Hero: React.FC<HeroProps> = ({
             <div className="absolute top-4 right-4 md:top-10 md:right-10 w-full h-full border border-white/10 rounded-[60px] md:rounded-[100px] rounded-tr-[30px] md:rounded-tr-[40px] -z-10 rotate-6"></div>
 
             <img
-              src={avatarUrl}
+              src={optimizedAvatar}
               alt="Profile"
+              width={450}
+              height={562}
+              fetchPriority="high"
               className="w-full h-full object-cover rounded-[60px] md:rounded-[100px] rounded-tr-[30px] md:rounded-tr-[40px] shadow-2xl ring-1 ring-white/10 z-10"
             />
 
@@ -505,9 +522,12 @@ const Hero: React.FC<HeroProps> = ({
           <div className="flex-shrink-0 relative group">
             <div className={`absolute -inset-1 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200 ${isVibrant ? 'bg-gradient-to-r from-indigo-500 to-purple-600' : 'bg-white'}`} />
             <img
-              src={avatarUrl}
+              src={optimizedAvatar}
               alt="Avatar"
-              className="relative w-48 h-48 md:w-64 md:h-64 rounded-[2rem] object-cover ring-1 ring-white/20 shadow-2xl transition duration-500 group-hover:scale-[1.02]"
+              width={256}
+              height={256}
+              fetchPriority="high"
+              className="relative w-48 h-48 md:w-64 md:h-64 rounded-[2rem] object-cover ring-1 ring-white/20 shadow-2xl transition duration-500 group-hover:scale-[1.02] aspect-square"
             />
           </div>
         </div>
@@ -520,10 +540,12 @@ const Hero: React.FC<HeroProps> = ({
       className={`flex flex-col ${alignClass} text-slate-950 dark:text-white`}
     >
       <img
-        src={avatarUrl}
+        src={optimizedAvatar}
         alt="Avatar"
-        {...({ fetchpriority: "high" } as any)}
-        className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-slate-100 dark:border-white/20 shadow-lg mb-4 md:mb-6 object-cover"
+        width={96}
+        height={96}
+        fetchPriority="high"
+        className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-slate-100 dark:border-white/20 shadow-lg mb-4 md:mb-6 object-cover aspect-square"
       />
       <h1
         className={`${style?.titleSize || "text-4xl md:text-6xl"} font-black mb-4 tracking-tight leading-none break-words`}
