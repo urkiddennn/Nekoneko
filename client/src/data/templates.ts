@@ -10,8 +10,8 @@ export interface Template {
 export const TEMPLATES: Template[] = [
     {
         id: 'empty',
-        name: 'Empty',
-        description: 'Start with a completely blank canvas.',
+        name: 'Empty Canvas',
+        description: 'Start with a completely blank canvas and build your vision.',
         style: 'Minimal',
         site_settings: {
             name: 'New Project',
@@ -20,230 +20,346 @@ export const TEMPLATES: Template[] = [
         sections: []
     },
     {
-        id: 'modern-resume',
-        name: 'Modern Resume',
-        description: 'A professional and clean layout for your career journey.',
-        style: 'Modern',
+        id: 'glassmorphism-premium',
+        name: 'Glassmorphism Premium',
+        description: 'Translucent layers and vibrant gradients for a high-end digital feel.',
+        style: 'Aesthetic',
         site_settings: {
-            name: 'John Doe',
+            name: 'Aero Studio',
             theme: { primary: '#6366f1', font: 'Inter', darkMode: true }
         },
         sections: [
             {
-                id: 'nav-1',
+                id: 'nav-glass',
                 type: 'navigation',
                 props: {
-                    logo: 'John Doe',
+                    logo: 'AERO',
                     links: [
-                        { label: 'Experience', url: '#experience' },
-                        { label: 'Skills', url: '#skills' },
+                        { label: 'Work', url: '#work' },
+                        { label: 'Services', url: '#services' },
                         { label: 'Contact', url: '#contact' }
-                    ]
+                    ],
+                    showResumeButton: true,
+                    variant: 'glassmorphism'
                 }
             },
             {
-                id: 'hero-1',
+                id: 'hero-glass',
                 type: 'hero',
                 props: {
-                    heading: 'Passionate Software Engineer',
-                    subheading: 'Building impactful digital experiences with modern technologies.',
-                    alignment: 'left',
-                    layout: 'split',
-                    avatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2070&auto=format&fit=crop'
+                    heading: 'Pure Transparency.',
+                    subheading: 'Creating digital clarity through layered glass aesthetics and modern vibrancy.',
+                    alignment: 'center',
+                    variant: 'glassmorphism_vibrant',
+                    avatarUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop',
+                    ctaButtons: [
+                        { label: 'View Portfolio', url: '#work', variant: 'primary' },
+                        { label: 'Get in Touch', url: '#contact', variant: 'outline' }
+                    ]
                 },
-                styles: { padding: 'py-24', backgroundColor: 'bg-slate-900' }
+                styles: { padding: 'py-24' }
             },
             {
-                id: 'exp-1',
-                type: 'experience',
+                id: 'features-glass',
+                type: 'features',
                 props: {
-                    title: 'Work Experience',
-                    jobs: [
-                        {
-                            role: 'Senior Developer',
-                            company: 'TechCorp',
-                            period: '2021 - Present',
-                            description: 'Led a team of 5 developers in building a high-scale e-commerce platform.'
-                        },
-                        {
-                            role: 'Full Stack Engineer',
-                            company: 'StartUp Inc',
-                            period: '2018 - 2021',
-                            description: 'Developed and maintained various web applications using React and Node.js.'
-                        }
+                    title: 'Our Capabilities',
+                    variant: 'glassmorphism',
+                    items: [
+                        { title: 'Brand Design', description: 'Visual identities that resonate.' },
+                        { title: 'Development', description: 'High-performance web solutions.' },
+                        { title: 'Strategy', description: 'Data-driven growth plans.' }
                     ]
                 }
             },
             {
-                id: 'skills-1',
-                type: 'skills_bullets',
+                id: 'skills-glass',
+                type: 'skills',
                 props: {
-                    title: 'Technical Skills',
-                    skills: ['React', 'TypeScript', 'Node.js', 'Convex', 'Tailwind CSS']
+                    title: 'The Stack',
+                    variant: 'glassmorphism',
+                    skills: [
+                        { name: 'React', level: 95 },
+                        { name: 'TypeScript', level: 90 },
+                        { name: 'Next.js', level: 85 }
+                    ]
                 }
             }
         ]
     },
     {
-        id: 'minimal-landing',
-        name: 'Minimal Landing',
-        description: 'Focus on what matters with this ultra-clean landing page.',
+        id: 'brutalist-bold',
+        name: 'Brutalist Bold',
+        description: 'High-impact design with raw aesthetics and bold typography.',
+        style: 'Retro',
+        site_settings: {
+            name: 'RAW',
+            theme: { primary: '#f59e0b', font: 'Lexend', darkMode: false }
+        },
+        sections: [
+            {
+                id: 'nav-brutal',
+                type: 'navigation',
+                props: {
+                    logo: 'RAW_CORE',
+                    links: [
+                        { label: 'LOG', url: '#log' },
+                        { label: 'LAB', url: '#lab' }
+                    ],
+                    showResumeButton: true,
+                    variant: 'brutalist'
+                }
+            },
+            {
+                id: 'hero-brutal',
+                type: 'hero',
+                props: {
+                    heading: 'NO NONSENSE.\nJUST CODE.',
+                    subheading: 'WE BUILD RAW DIGITAL EXPERIENCES THAT CUT THROUGH THE NOISE.',
+                    alignment: 'left',
+                    variant: 'brutalist',
+                    avatarUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop',
+                    ctaButtons: [
+                        { label: 'DEPLOY NOW', url: '#', variant: 'primary' }
+                    ]
+                },
+                styles: { padding: 'py-20' }
+            },
+            {
+                id: 'features-brutal',
+                type: 'features',
+                props: {
+                    title: 'SERVICES',
+                    variant: 'brutalist',
+                    items: [
+                        { title: 'CORE ARCH', description: 'Solid foundations.' },
+                        { title: 'SENSORY UI', description: 'Bold interaction.' }
+                    ]
+                }
+            },
+            {
+                id: 'skills-brutal',
+                type: 'skills',
+                props: {
+                    title: 'TOOLSET',
+                    variant: 'brutalist',
+                    skills: ['Rust', 'Zig', 'Go', 'NeoVim']
+                }
+            }
+        ]
+    },
+    {
+        id: 'minimal-refined',
+        name: 'Minimal Refined',
+        description: 'A clean, sophisticated layout that lets your content speak for itself.',
         style: 'Minimal',
         site_settings: {
-            name: 'Ultra',
+            name: 'Zenith',
             theme: { primary: '#000000', font: 'Space Grotesk', darkMode: false }
         },
         sections: [
             {
-                id: 'nav-2',
+                id: 'nav-minimal',
                 type: 'navigation',
                 props: {
-                    logo: 'ULTRA',
+                    logo: 'ZENITH',
                     links: [
-                        { label: 'Features', url: '#features' },
-                        { label: 'Pricing', url: '#pricing' }
-                    ]
+                        { label: 'About', url: '#about' },
+                        { label: 'Contact', url: '#contact' }
+                    ],
+                    showResumeButton: true,
+                    variant: 'outline_minimal'
                 }
             },
             {
-                id: 'hero-2',
+                id: 'hero-minimal',
                 type: 'hero',
                 props: {
-                    heading: 'Simplicity redefined.',
-                    subheading: 'Less noise, more signal. The perfect platform for your next big idea.',
-                    alignment: 'center',
-                    layout: 'stack',
-                    avatarUrl: 'https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=2070&auto=format&fit=crop'
+                    heading: 'Simplicity is\nultimate.',
+                    subheading: 'An exercise in restraint and clarity. Designed for those who appreciate the essence of form.',
+                    alignment: 'left',
+                    variant: 'outline_minimal',
+                    avatarUrl: 'https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2067&auto=format&fit=crop',
+                    ctaButtons: [
+                        { label: 'Begin', url: '#', variant: 'primary' }
+                    ]
                 },
                 styles: { padding: 'py-32' }
             },
             {
-                id: 'features-1',
+                id: 'features-minimal',
                 type: 'features',
                 props: {
-                    title: 'Why choose Ultra?',
+                    title: 'Principles',
+                    variant: 'outline_minimal',
                     items: [
-                        { title: 'Fast', description: 'Blazing fast performance out of the box.' },
-                        { title: 'Secure', description: 'Privacy-focused and secure by default.' }
+                        { title: 'Space', description: 'Allowing room to breathe.' },
+                        { title: 'Type', description: 'Legibility as priority.' }
                     ]
                 }
             },
             {
-                id: 'cta-1',
-                type: 'cta',
+                id: 'skills-minimal',
+                type: 'skills',
                 props: {
-                    title: 'Ready to start?',
-                    buttonText: 'Get Started'
+                    title: 'Expertise',
+                    variant: 'outline_minimal',
+                    skills: ['UI/UX', 'Typography', 'Minimalism']
                 }
             }
         ]
     },
     {
-        id: 'aesthetic-portfolio',
-        name: 'Aesthetic Portfolio',
-        description: 'Vibrant and creative layout for visual storytelling.',
+        id: 'designer-dark',
+        name: 'Designer Dark',
+        description: 'Elite portfolio design with decorative line work and bold red accents.',
+        style: 'Modern',
+        site_settings: {
+            name: 'amogoe',
+            theme: { primary: '#ff5a5f', font: 'Inter', darkMode: true }
+        },
+        sections: [
+            {
+                id: 'nav-main',
+                type: 'navigation',
+                props: {
+                    logo: 'amogoe',
+                    links: [
+                        { label: 'Home', url: '#' },
+                        { label: 'Services', url: '#services' },
+                        { label: 'About', url: '#about' },
+                        { label: 'Skills', url: '#skills' },
+                        { label: 'Portfolio', url: '#portfolio' },
+                        { label: 'Contact', url: '#contact' }
+                    ]
+                },
+                styles: { backgroundColor: 'bg-[#13131f]', textColor: 'text-white' }
+            },
+            {
+                id: 'hero-main',
+                type: 'hero',
+                props: {
+                    heading: "Hello, I'm\na Front end Developer",
+                    subheading: "Fond of creating web application designs and bring them to life using code & develop mobile designs",
+                    variant: 'connected_line',
+                    ctaButtons: [
+                        { label: 'Creator journey', url: '#', variant: 'primary' }
+                    ]
+                }
+            },
+            {
+                id: 'skills-main',
+                type: 'skills',
+                props: {
+                    title: 'Skill-Set',
+                    variant: 'detailed_cards',
+                    skills: [
+                        { name: 'Git Version Control', icon: 'github' },
+                        { name: 'App Design', icon: 'mobile' },
+                        { name: 'Book-end Development', icon: 'database' },
+                        { name: 'Web Development', icon: 'web' },
+                        { name: 'Photography', icon: 'camera' },
+                        { name: 'Freelancing', icon: 'freelancing' }
+                    ],
+                    anchorId: 'services'
+                }
+            },
+            {
+                id: 'connect-main',
+                type: 'connect_with_me',
+                props: {
+                    title: 'Connect with me',
+                    buttonText: 'Stay Connected',
+                    emailPlaceholder: 'Email',
+                    messagePlaceholder: 'Message',
+                    anchorId: 'contact'
+                }
+            },
+            {
+                id: 'footer-main',
+                type: 'footer',
+                props: {
+                    logo: 'AMOGOE.',
+                    tagline: 'Crafting premium digital identities through design and code.',
+                    variant: 'impact',
+                    links: [
+                        { label: 'Services', url: '#services' },
+                        { label: 'Work', url: '#portfolio' },
+                        { label: 'Contact', url: '#contact' }
+                    ],
+                    socials: [
+                        { platform: 'github', url: 'https://github.com' },
+                        { platform: 'linkedin', url: 'https://linkedin.com' },
+                        { platform: 'twitter', url: 'https://twitter.com' }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        id: 'variant-showcase',
+        name: 'Variant Showcase',
+        description: 'A comprehensive showcase of all new design variants (Brutalist, Glass, Impact, etc.)',
         style: 'Aesthetic',
         site_settings: {
-            name: 'Studio X',
-            theme: { primary: '#ec4899', font: 'Outfit', darkMode: true }
+            name: 'Showcase',
+            theme: { primary: '#ff5a5f', font: 'Inter', darkMode: true }
         },
         sections: [
             {
-                id: 'nav-3',
+                id: 'nav-showcase',
                 type: 'navigation',
                 props: {
-                    logo: 'STUDIO X',
-                    links: []
-                }
-            },
-            {
-                id: 'hero-3',
-                type: 'hero',
-                props: {
-                    heading: 'Creating visual magic.',
-                    subheading: 'We blend art and code to build digital dreamscapes.',
-                    alignment: 'center',
-                    layout: 'stack',
-                    avatarUrl: 'https://images.unsplash.com/photo-1558655146-d09347e92701?q=80&w=1964&auto=format&fit=crop'
-                },
-                styles: { padding: 'py-20', backgroundColor: 'bg-pink-50' }
-            },
-            {
-                id: 'projects-1',
-                type: 'project_grid',
-                props: {
-                    title: 'Selected Works',
-                    columns: 2,
-                    items: [
-                        {
-                            title: 'Project One',
-                            image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=2000&auto=format&fit=crop',
-                            tags: ['Identity', 'Print'],
-                            link: '#'
-                        },
-                        {
-                            title: 'Project Two',
-                            image: 'https://images.unsplash.com/photo-1586717791821-3f44a563eb4c?q=80&w=2070&auto=format&fit=crop',
-                            tags: ['UI/UX', 'Mobile'],
-                            link: '#'
-                        }
-                    ]
-                }
-            },
-            {
-                id: 'stats-1',
-                type: 'stats_bar',
-                props: {
-                    items: [
-                        { label: 'Happy Clients', value: '100+' },
-                        { label: 'Projects Done', value: '250+' }
-                    ]
-                }
-            }
-        ]
-    },
-    {
-        id: 'retro-agency',
-        name: 'Retro Agency',
-        description: 'Bold, nostalgic, and high-impact agency template.',
-        style: 'Retro',
-        site_settings: {
-            name: 'OLD SCHOOL',
-            theme: { primary: '#f59e0b', font: 'Lexend', darkMode: true }
-        },
-        sections: [
-            {
-                id: 'nav-4',
-                type: 'navigation',
-                props: {
-                    logo: 'RETRO',
                     links: [
-                        { label: 'Work', url: '#work' },
-                        { label: 'Pricing', url: '#pricing' }
-                    ]
+                        { label: 'Experience', url: '#exp' },
+                        { label: 'Pricing', url: '#pricing' },
+                        { label: 'FAQ', url: '#faq' }
+                    ],
+                    showResumeButton: true,
+                    variant: 'creative_gradient'
                 }
             },
             {
-                id: 'hero-4',
-                type: 'hero',
+                id: 'exp-showcase',
+                type: 'experience',
                 props: {
-                    heading: 'OLD SCHOOL VIBES.',
-                    subheading: 'MODERN RESULTS. WE BUILD THINGS THE RIGHT WAY.',
-                    alignment: 'left',
-                    layout: 'split',
-                    avatarUrl: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop'
-                },
-                styles: { padding: 'py-24', backgroundColor: 'bg-amber-100' }
+                    title: 'Professional Path',
+                    jobs: [
+                        { role: 'Senior Designer', company: 'Neko Industries', period: '2022 - Now', description: 'Driving the future of design systems.' }
+                    ],
+                    variant: 'connected_line'
+                }
             },
             {
-                id: 'pricing-1',
+                id: 'pricing-showcase',
                 type: 'pricing',
                 props: {
-                    title: 'Fair Pricing',
+                    title: 'Our Plans',
                     plans: [
-                        { name: 'Basic', price: '$99', features: ['Consultation', 'Basic Site'] },
-                        { name: 'Pro', price: '$299', features: ['Custom Design', 'CMS Integration'] }
-                    ]
+                        { name: 'Starter', price: '$0', features: ['Core Features'] },
+                        { name: 'Premium', price: '$49', features: ['All Variants', 'Priority Support'], isPopular: true }
+                    ],
+                    variant: 'creative_gradient'
+                }
+            },
+            {
+                id: 'faq-showcase',
+                type: 'faq',
+                props: {
+                    title: 'Common Questions',
+                    items: [
+                        { question: 'What is this?', answer: 'This is the new variant showcase.' }
+                    ],
+                    variant: 'glassmorphism'
+                }
+            },
+            {
+                id: 'cta-showcase',
+                type: 'cta',
+                props: {
+                    title: 'Ready for the future?',
+                    buttonText: 'Get Started Now',
+                    variant: 'brutalist'
                 }
             }
         ]

@@ -31,6 +31,7 @@ interface ExperienceProps {
   | "outline_minimal"
   | "impact"
   | "glassmorphism"
+  | "connected_line"
   | "creative_gradient";
 }
 
@@ -227,6 +228,30 @@ const Experience: React.FC<ExperienceProps> = ({
       </section>
     );
   }
+  if (variant === 'connected_line') {
+    return (
+      <div className="relative py-12 bg-[#13131f] -mx-4 px-4 overflow-hidden">
+        <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-slate-800 hidden md:block" />
+        <div className="relative pl-12 space-y-16">
+          <div className="absolute left-[-45px] top-6 w-2.5 h-2.5 rounded-full bg-[#ff5a5f] shadow-[0_0_10px_#ff5a5f] hidden md:block" />
+          <h2 className="text-6xl font-black text-white uppercase tracking-tight">{title}</h2>
+          <div className="space-y-12">
+            {jobs.map((job, index) => (
+              <div key={index} className="relative group">
+                <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 mb-6">
+                  <h3 className="text-3xl font-black text-white uppercase tracking-tighter group-hover:text-[#ff5a5f] transition-all">{job.role}</h3>
+                  <span className="text-slate-500 font-black uppercase tracking-[0.4em] text-xs">{job.period}</span>
+                </div>
+                <div className="text-indigo-400 font-bold uppercase tracking-widest text-sm mb-4">{job.company}</div>
+                <p className="text-slate-400 font-medium leading-relaxed max-w-3xl">{job.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (variant === "glassmorphism") {
     return (
       <section className="py-12">

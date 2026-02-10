@@ -19,6 +19,8 @@ const SelectionList = React.lazy(() => import("./library/SelectionList"));
 const StepProgress = React.lazy(() => import("./library/StepProgress"));
 const Section = React.lazy(() => import("./library/Section"));
 const FAQ = React.lazy(() => import("./library/FAQ"));
+const ConnectWithMe = React.lazy(() => import("./library/ConnectWithMe"));
+const Footer = React.lazy(() => import("./library/Footer"));
 const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
 const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
@@ -47,6 +49,8 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   step_progress: StepProgress,
   section: Section,
   faq: FAQ,
+  connect_with_me: ConnectWithMe,
+  footer: Footer,
   live_site_preview: LiveSitePreview,
 };
 

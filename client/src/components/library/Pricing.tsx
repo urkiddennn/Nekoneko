@@ -11,7 +11,7 @@ interface PricingProps {
     title: string;
     plans?: PricingTier[];
     tiers?: PricingTier[]; // Backward compatibility
-    variant?: 'grid' | 'list' | 'brutalist' | 'outline_minimal' | 'glassmorphism';
+    variant?: 'grid' | 'list' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient';
 }
 
 const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid' }) => {
@@ -99,6 +99,106 @@ const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid'
                                 ))}
                             </ul>
                             <button className={`w-full py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] transition-all active:scale-95 ${tier.isPopular ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20' : 'bg-white/10 text-white border border-white/10 hover:bg-white/20'}`}>Select Plan</button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'impact') {
+        return (
+            <div className="max-w-7xl mx-auto py-24 bg-[#13131f] -mx-4 px-4 overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ff5a5f]/5 blur-[150px] rounded-full" />
+                <h2 className="text-7xl md:text-9xl font-black mb-24 text-white uppercase tracking-tighter leading-none opacity-20">{title}</h2>
+                <div className={`grid ${gridCols} gap-px bg-white/5 border border-white/5`}>
+                    {displayPlans.map((tier, idx) => (
+                        <div key={idx} className={`p-16 bg-[#13131f] flex flex-col space-y-12 group hover:bg-white/5 transition-colors ${tier.isPopular ? 'relative z-10 shadow-2xl ring-1 ring-[#ff5a5f]/50' : ''}`}>
+                            <div className="space-y-4">
+                                <h3 className="text-[#ff5a5f] text-xs font-black uppercase tracking-[0.4em]">{tier.name}</h3>
+                                <div className="text-7xl font-black text-white tracking-tighter leading-none">
+                                    {tier.price}
+                                    <span className="text-lg text-slate-500 font-medium ml-2">/mo</span>
+                                </div>
+                            </div>
+                            <ul className="flex-1 space-y-6">
+                                {tier.features?.map((f, i) => (
+                                    <li key={i} className="text-slate-400 font-bold flex items-center gap-4">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-[#ff5a5f]" />
+                                        {f}
+                                    </li>
+                                ))}
+                            </ul>
+                            <button className="w-full py-6 bg-[#ff5a5f] text-white font-black uppercase tracking-widest text-sm hover:scale-105 active:scale-95 transition-all">
+                                Choose Plan
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'creative_gradient') {
+        return (
+            <div className="max-w-7xl mx-auto py-24 relative overflow-hidden px-4">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full" />
+                <h2 className="text-4xl md:text-6xl font-black mb-24 text-center tracking-tight text-slate-900 dark:text-white">{title}</h2>
+                <div className={`grid ${gridCols} gap-12 relative z-10`}>
+                    {displayPlans.map((tier, idx) => (
+                        <div key={idx} className={`p-12 rounded-[3.5rem] bg-white dark:bg-white/5 backdrop-blur-md border border-slate-100 dark:border-white/10 shadow-2xl flex flex-col space-y-10 transition-all duration-500 hover:-translate-y-4 ${tier.isPopular ? 'scale-105 ring-2 ring-indigo-500/30' : ''}`}>
+                            <div className="text-center space-y-4">
+                                <h3 className="text-sm font-black uppercase tracking-widest text-indigo-500">{tier.name}</h3>
+                                <div className="text-6xl font-black tracking-tight text-slate-900 dark:text-white">{tier.price}</div>
+                            </div>
+                            <ul className="flex-1 space-y-5">
+                                {tier.features?.map((f, i) => (
+                                    <li key={i} className="text-slate-600 dark:text-slate-400 font-medium flex items-center justify-center gap-3">
+                                        <div className="w-2 h-2 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600" />
+                                        {f}
+                                    </li>
+                                ))}
+                            </ul>
+                            <button className="w-full py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-[2rem] font-black uppercase tracking-widest text-xs shadow-lg shadow-indigo-500/20 hover:scale-[1.02] transition-all">
+                                Start Free Trial
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'connected_line') {
+        return (
+            <div className="max-w-7xl mx-auto py-24 bg-[#13131f] -mx-4 px-4 overflow-hidden relative">
+                <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-slate-800 hidden md:block" />
+                <h2 className="text-5xl font-black mb-24 text-white uppercase tracking-tight relative pl-12">
+                    <div className="absolute left-[-5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-[#ff5a5f] shadow-[0_0_10px_#ff5a5f]" />
+                    {title}
+                </h2>
+                <div className={`grid ${gridCols} gap-12`}>
+                    {displayPlans.map((tier, idx) => (
+                        <div key={idx} className="relative group">
+                            <div className="absolute left-0 top-0 h-full w-[1px] bg-slate-800" />
+                            <div className="pl-12 space-y-10 group-hover:translate-x-2 transition-transform">
+                                <div>
+                                    <h3 className="text-slate-500 text-xs font-black uppercase tracking-[0.4em] mb-4">{tier.name}</h3>
+                                    <div className="text-6xl font-black text-white leading-none">{tier.price}</div>
+                                </div>
+                                <ul className="space-y-4">
+                                    {tier.features?.map((f, i) => (
+                                        <li key={i} className="text-slate-400 font-medium flex items-center gap-3">
+                                            <div className="w-1 h-1 bg-[#ff5a5f]" />
+                                            {f}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button className="px-10 py-5 bg-transparent border border-white text-white font-black uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all">
+                                    Join Now
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>

@@ -16,26 +16,21 @@ const TemplateShowcase: React.FC = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <TemplatePreview
-            name="Modern Resume"
+            name="Glassmorphism Premium"
             color="bg-indigo-500"
-            description="A bold, professional layout for developers."
+            description="Translucent layers and vibrant gradients for a high-end feel."
           />
           <TemplatePreview
-            name="Minimal Landing"
-            color="bg-slate-900"
-            description="Ultra-clean design with high-focus typography."
-          />
-          <TemplatePreview
-            name="Aesthetic Portfolio"
-            color="bg-pink-500"
-            description="Vibrant and creative for visual storytellers."
-          />
-          <TemplatePreview
-            name="Retro Agency"
+            name="Brutalist Bold"
             color="bg-amber-500"
-            description="Nostalgic, high-impact blocky design."
+            description="High-impact design with raw aesthetics and bold type."
+          />
+          <TemplatePreview
+            name="Minimal Refined"
+            color="bg-slate-900"
+            description="A clean layout that lets your content speak for itself."
           />
         </div>
       </div>

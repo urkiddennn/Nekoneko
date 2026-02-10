@@ -6,13 +6,97 @@ interface FeaturesProps {
     items: any[];
     columns?: number;
     renderItem?: (item: any, index: number) => React.ReactNode;
-    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism';
+    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient';
 }
 
-const Features: React.FC<FeaturesProps> = ({ title, items, columns = 3, renderItem, variant = 'default' }) => {
+const Features: React.FC<FeaturesProps> = ({
+    title,
+    items,
+    columns = 3,
+    renderItem,
+    variant = 'default'
+}) => {
     const isBrutalist = variant === 'brutalist';
     const isOutlineMinimal = variant === 'outline_minimal';
     const gridClass = columns === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+
+    if (variant === 'impact') {
+        return (
+            <div className="space-y-24 py-20 bg-[#13131f] -mx-4 px-4 overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-[#ff5a5f]/5 blur-[120px] rounded-full" />
+                <div className="max-w-7xl mx-auto relative z-10">
+                    <h2 className="text-7xl md:text-9xl font-black text-white uppercase tracking-tighter leading-none mb-24 opacity-20">
+                        {title}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
+                        {items?.map((item, idx) => (
+                            <div key={idx} className="p-16 bg-[#13131f] group hover:bg-white/5 transition-colors">
+                                <span className="text-[#ff5a5f] text-xs font-black uppercase tracking-[0.4em] mb-8 block">
+                                    Feature {idx + 1}
+                                </span>
+                                <h3 className="text-4xl font-black text-white uppercase tracking-tight mb-6">
+                                    {item.title}
+                                </h3>
+                                <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-md">
+                                    {item.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'creative_gradient') {
+        return (
+            <div className="space-y-16 py-12 relative overflow-hidden">
+                <div className="absolute -top-24 -left-24 w-96 h-96 bg-purple-500/10 blur-[100px] rounded-full" />
+                <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-indigo-500/10 blur-[100px] rounded-full" />
+                <div className="max-w-7xl mx-auto text-center relative z-10">
+                    <h2 className="text-4xl md:text-5xl font-black mb-20 text-slate-900 dark:text-white tracking-tight">{title}</h2>
+                    <div className={`grid ${gridClass} gap-8`}>
+                        {items?.map((item, idx) => (
+                            <div key={idx} className="p-10 bg-white dark:bg-white/5 backdrop-blur-sm border border-slate-100 dark:border-white/10 rounded-[3rem] shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group">
+                                <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white mb-8 mx-auto group-hover:rotate-12 transition-transform">
+                                    <span className="text-xl font-black">{idx + 1}</span>
+                                </div>
+                                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4">{item.title}</h3>
+                                <p className="text-slate-600 dark:text-slate-400 font-medium">{item.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'connected_line') {
+        return (
+            <div className="relative py-24 -mx-4 px-4 bg-[#13131f] overflow-hidden">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 relative z-10">
+                    <div className="md:col-span-4 space-y-6">
+                        <span className="text-[#ff5a5f] text-xs font-black uppercase tracking-[0.5em]">Capabilities</span>
+                        <h2 className="text-5xl font-black text-white tracking-tight leading-none uppercase">{title}</h2>
+                        <div className="h-1 w-20 bg-[#ff5a5f]" />
+                    </div>
+
+                    <div className="md:col-span-7 md:col-start-6 space-y-12 relative">
+                        <div className="absolute -left-12 top-0 bottom-0 w-[1px] bg-slate-800 hidden md:block">
+                            <div className="absolute top-0 -left-[5px] w-2.5 h-2.5 rounded-full bg-[#ff5a5f] shadow-[0_0_10px_#ff5a5f]" />
+                        </div>
+                        {items?.map((item, idx) => (
+                            <div key={idx} className="relative group">
+                                <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4 group-hover:text-[#ff5a5f] transition-colors">{item.title}</h3>
+                                <p className="text-slate-400 font-medium leading-relaxed max-w-xl">{item.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div>
             <h2 className="text-4xl font-black mb-16 text-center tracking-tighter uppercase italic text-slate-950 dark:text-white">{title}</h2>

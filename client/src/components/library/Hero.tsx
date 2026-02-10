@@ -28,7 +28,8 @@ interface HeroProps {
   | "glassmorphism"
   | "glassmorphism_vibrant"
   | "glassmorphism_dark"
-  | "creative_gradient";
+  | "creative_gradient"
+  | "connected_line";
   backgroundImageUrl?: string;
   topBadgeItems?: BadgeItem[];
   ctaButtons?: CTAButton[];

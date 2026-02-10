@@ -25,7 +25,7 @@ interface ContactInfoProps {
     description?: string;
     links?: Link[];
     alignment?: 'left' | 'center' | 'right';
-    variant?: 'default' | 'card' | 'impact';
+    variant?: 'default' | 'card' | 'impact' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'creative_gradient';
     email?: string;
     github?: string;
     linkedin?: string;
@@ -43,6 +43,94 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
     linkedin,
     footer_text,
 }) => {
+    if (variant === 'brutalist') {
+        return (
+            <div className="p-12 bg-white dark:bg-slate-900 border-[4px] border-slate-950 dark:border-white shadow-[12px_12px_0px_0px_rgba(2,6,23,1)] dark:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)] space-y-10">
+                <h2 className="text-4xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">{title}</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {links.map((link, idx) => {
+                        const IconComponent = ICON_MAP[link.icon || ''] || Mail;
+                        return (
+                            <a key={idx} href={link.url} className="p-6 bg-white dark:bg-slate-800 border-[3px] border-slate-950 dark:border-white hover:bg-[#ff5a5f] hover:text-white transition-all group flex items-center justify-between shadow-[4px_4px_0px_0px_rgba(2,6,23,1)]">
+                                <div className="flex items-center gap-4">
+                                    <IconComponent size={24} />
+                                    <span className="font-black uppercase tracking-widest text-sm">{link.label}</span>
+                                </div>
+                                <ArrowUpRight size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                            </a>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'glassmorphism') {
+        return (
+            <div className="p-16 rounded-[4rem] bg-indigo-500/5 backdrop-blur-3xl border border-white/20 shadow-2xl space-y-12 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[100px] -z-10" />
+                <h2 className="text-3xl font-black text-white">{title}</h2>
+                <div className="flex flex-wrap gap-6">
+                    {links.map((link, idx) => {
+                        const IconComponent = ICON_MAP[link.icon || ''] || Mail;
+                        return (
+                            <a key={idx} href={link.url} className="px-8 py-5 rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 transition-all flex items-center gap-4 group">
+                                <IconComponent size={20} className="text-slate-400 group-hover:text-white transition-colors" />
+                                <span className="font-bold text-sm tracking-wide">{link.label}</span>
+                            </a>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'connected_line') {
+        return (
+            <div className="relative py-12 bg-[#13131f] -mx-4 px-4 overflow-hidden">
+                <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-slate-800 hidden md:block" />
+                <div className="relative pl-12 space-y-12">
+                    <div className="absolute left-[-45px] top-4 w-2.5 h-2.5 rounded-full bg-[#ff5a5f] shadow-[0_0_10px_#ff5a5f] hidden md:block" />
+                    <h2 className="text-5xl font-black text-white uppercase tracking-tight">{title}</h2>
+                    <div className="space-y-6">
+                        {links.map((link, idx) => (
+                            <a key={idx} href={link.url} className="flex items-center gap-8 group">
+                                <span className="text-slate-600 font-black uppercase tracking-[0.4em] text-xs">0{idx + 1}</span>
+                                <span className="text-3xl font-black text-white uppercase tracking-tighter group-hover:text-[#ff5a5f] transition-all">{link.label}</span>
+                                <ArrowUpRight size={24} className="text-[#ff5a5f] opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-2" />
+                            </a>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'creative_gradient') {
+        return (
+            <div className="p-16 rounded-[4rem] bg-gradient-to-br from-indigo-900 to-slate-900 border border-indigo-500/30 shadow-2xl space-y-12 relative overflow-hidden group">
+                <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none" />
+                <h2 className="text-4xl font-black text-white italic tracking-tighter">{title}</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {links.map((link, idx) => {
+                        const IconComponent = ICON_MAP[link.icon || ''] || Mail;
+                        return (
+                            <a key={idx} href={link.url} className="p-8 bg-white/5 backdrop-blur-md rounded-3xl border border-white/10 flex items-center justify-between hover:bg-white/10 transition-all group/item">
+                                <div className="flex items-center gap-6">
+                                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white">
+                                        <IconComponent size={24} />
+                                    </div>
+                                    <span className="text-white font-black uppercase tracking-widest text-xs">{link.label}</span>
+                                </div>
+                                <ArrowUpRight size={20} className="text-white opacity-0 group-hover/item:opacity-100 transition-all" />
+                            </a>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+
     if (variant === "impact") {
         const contactLinks = [
             { id: 'email', label: email, icon: Mail, url: `mailto:${email}` },

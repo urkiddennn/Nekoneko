@@ -16,6 +16,11 @@ import type * as feedback from "../feedback.js";
 import type * as http from "../http.js";
 import type * as rateLimiter from "../rateLimiter.js";
 import type * as resend from "../resend.js";
+import type * as schema_analytics from "../schema/analytics.js";
+import type * as schema_feedback from "../schema/feedback.js";
+import type * as schema_projects from "../schema/projects.js";
+import type * as schema_unverified_users from "../schema/unverified_users.js";
+import type * as schema_users from "../schema/users.js";
 import type * as utils from "../utils.js";
 import type * as validation from "../validation.js";
 
@@ -34,6 +39,11 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   rateLimiter: typeof rateLimiter;
   resend: typeof resend;
+  "schema/analytics": typeof schema_analytics;
+  "schema/feedback": typeof schema_feedback;
+  "schema/projects": typeof schema_projects;
+  "schema/unverified_users": typeof schema_unverified_users;
+  "schema/users": typeof schema_users;
   utils: typeof utils;
   validation: typeof validation;
 }>;

@@ -23,7 +23,15 @@ interface EducationItem {
 interface EducationProps {
     title: string;
     items: EducationItem[];
-    variant?: 'timeline' | 'brutalist' | 'outline_minimal' | 'impact';
+    variant?:
+    | "timeline"
+    | "cards"
+    | "brutalist"
+    | "outline_minimal"
+    | "impact"
+    | "glassmorphism"
+    | "connected_line"
+    | "creative_gradient";
 }
 
 const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline' }) => {

@@ -1,5 +1,16 @@
 import React from "react";
 import { useSite } from "../../context/useSite";
+import {
+  ArrowRight,
+  Github,
+  Smartphone,
+  Database,
+  Globe,
+  Camera,
+  Briefcase,
+  Layers,
+  Code
+} from "lucide-react";
 
 interface SkillsProps {
   title: string;
@@ -19,7 +30,8 @@ interface SkillsProps {
   | "brutalist"
   | "outline_minimal"
   | "glassmorphism"
-  | "creative_gradient";
+  | "creative_gradient"
+  | "detailed_cards";
 }
 
 const Skills: React.FC<SkillsProps> = ({
@@ -233,6 +245,76 @@ const Skills: React.FC<SkillsProps> = ({
                   <span className="text-xl font-bold text-white uppercase tracking-wider text-center">
                     {skill.name}
                   </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "detailed_cards") {
+    return (
+      <section className="py-24 bg-[#13131f] -mx-4 px-4">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <div className="space-y-4">
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-500">
+              Services
+            </span>
+            <h2 className="text-5xl font-black text-[#ff5a5f] tracking-tight">
+              {title}
+            </h2>
+            <div className="h-[4px] w-24 bg-[#ff5a5f]" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {skills.map((skill: any, index: number) => {
+              const skillName = typeof skill === "string" ? skill : skill.name;
+              const skillIconStr = typeof skill === "object" ? skill.icon : "";
+              const description = skill.description || "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.";
+
+              const iconMap: Record<string, any> = {
+                github: Github,
+                mobile: Smartphone,
+                app: Smartphone,
+                database: Database,
+                book: Database,
+                globe: Globe,
+                web: Globe,
+                camera: Camera,
+                photography: Camera,
+                freelancing: Briefcase,
+                business: Briefcase,
+                layers: Layers,
+                code: Code,
+                react: Code
+              };
+
+              const lowerName = skillName.toLowerCase();
+              const IconComponent = iconMap[skillIconStr.toLowerCase()] ||
+                iconMap[lowerName] ||
+                (lowerName.includes("git") ? Github :
+                  lowerName.includes("dev") ? Code :
+                    lowerName.includes("design") ? Layers :
+                      ArrowRight);
+
+              return (
+                <div
+                  key={index}
+                  className="p-10 bg-[#1a1a2e] rounded-sm hover:-translate-y-2 transition-all duration-300 group shadow-lg shadow-black/20"
+                >
+                  <div className="text-[#ff5a5f] mb-6 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 flex items-center justify-start">
+                      <IconComponent size={32} strokeWidth={1.5} />
+                    </div>
+                  </div>
+                  <h3 className="text-white font-black text-lg mb-3 tracking-wide uppercase">
+                    {skillName}
+                  </h3>
+                  <p className="text-slate-400 text-sm font-medium leading-relaxed">
+                    {description}
+                  </p>
                 </div>
               );
             })}

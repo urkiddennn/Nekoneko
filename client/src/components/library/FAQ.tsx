@@ -10,7 +10,7 @@ interface FAQProps {
     title?: string;
     description?: string;
     items?: FAQItem[];
-    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism';
+    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient';
 }
 
 const FAQ: React.FC<FAQProps> = ({
@@ -129,7 +129,59 @@ const FAQ: React.FC<FAQProps> = ({
                 </div>
             )}
 
-            {variant === 'grid' || variant === 'minimal_cards' ? renderGrid() : renderAccordion()}
+            {variant === 'impact' ? (
+                <div className="space-y-1 bg-[#13131f] -mx-4 px-4 border border-white/5">
+                    {items.map((item, index) => (
+                        <div key={index} className="group border-b border-white/5 last:border-0">
+                            <button
+                                onClick={() => toggleAccordion(index)}
+                                className="w-full text-left py-12 flex flex-col md:flex-row md:items-center justify-between gap-8 group"
+                            >
+                                <span className="text-[#ff5a5f] text-xs font-black uppercase tracking-[0.5em]">0{index + 1}</span>
+                                <span className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter group-hover:text-[#ff5a5f] transition-colors flex-1">
+                                    {item.question}
+                                </span>
+                                <div className={`w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white transition-all ${openIndex === index ? 'bg-[#ff5a5f] border-[#ff5a5f] rotate-180' : 'group-hover:border-[#ff5a5f]'}`}>
+                                    <ChevronDown size={24} />
+                                </div>
+                            </button>
+                            <div className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? 'max-h-96 pb-12' : 'max-h-0'}`}>
+                                <div className="md:ml-[15%] max-w-2xl">
+                                    <p className="text-xl text-slate-400 font-medium leading-relaxed">{item.answer}</p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            ) : variant === 'creative_gradient' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative overflow-hidden">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-indigo-500/5 to-purple-500/5 blur-[120px] -z-10" />
+                    {items.map((item, index) => (
+                        <div key={index} className="p-10 bg-white dark:bg-white/5 backdrop-blur-md border border-slate-100 dark:border-white/10 rounded-[3rem] shadow-xl hover:-translate-y-2 transition-all duration-300">
+                            <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-4">
+                                <span className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-[10px]">{index + 1}</span>
+                                {item.question}
+                            </h3>
+                            <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed">{item.answer}</p>
+                        </div>
+                    ))}
+                </div>
+            ) : variant === 'connected_line' ? (
+                <div className="relative py-12 bg-[#13131f] -mx-4 px-4 overflow-hidden">
+                    <div className="absolute left-8 top-0 bottom-0 w-[1px] bg-slate-800 hidden md:block" />
+                    <div className="max-w-4xl mx-auto space-y-12">
+                        {items.map((item, index) => (
+                            <div key={index} className="relative pl-12 group">
+                                <div className="absolute left-[-45px] top-4 w-2.5 h-2.5 rounded-full bg-[#ff5a5f] shadow-[0_0_10px_#ff5a5f] hidden md:block" />
+                                <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4 group-hover:text-[#ff5a5f] transition-colors">{item.question}</h3>
+                                <p className="text-slate-400 font-medium leading-relaxed max-w-2xl">{item.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : (
+                variant === 'grid' || variant === 'minimal_cards' ? renderGrid() : renderAccordion()
+            )}
         </div>
     );
 };

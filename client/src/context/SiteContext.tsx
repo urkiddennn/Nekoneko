@@ -328,6 +328,67 @@ const getDefaultProps = (type: string) => {
           { question: "Can I customize the design?", answer: "Yes, you can choose from various variants and style tokens." },
         ],
       };
+    case "connect_with_me":
+      return {
+        title: "Connect with me",
+        buttonText: "Stay Connected",
+        emailPlaceholder: "Email",
+        messagePlaceholder: "Message",
+      };
+    case "pricing":
+      return {
+        title: "Pricing Plans",
+        plans: [
+          { name: "Basic", price: "$0", features: ["1 Site", "Standard Themes"] },
+          { name: "Pro", price: "$29", features: ["Unlimited Sites", "Custom CSS"], isPopular: true },
+        ],
+        variant: "grid"
+      };
+    case "experience":
+      return {
+        title: "Work Experience",
+        jobs: [
+          { role: "Senior Developer", company: "Generic Tech", period: "2020 - Present", description: "Led development of various web projects using React and Node.js." }
+        ],
+        variant: "timeline"
+      };
+    case "education":
+      return {
+        title: "Education",
+        items: [
+          { school: "University of Technology", degree: "B.S. in Computer Science", period: "2016 - 2020" }
+        ],
+        variant: "timeline"
+      };
+    case "contact_info":
+      return {
+        title: "Get in touch",
+        email: "hello@example.com",
+        github: "username",
+        linkedin: "username",
+        footer_text: "© 2024 Your Name. All rights reserved.",
+        variant: "default"
+      };
+    case "cta":
+      return {
+        title: "Ready to start your project?",
+        buttonText: "Get Started",
+        variant: "default"
+      };
+    case "footer":
+      return {
+        logo: "Neko",
+        tagline: "Building beautiful digital experiences.",
+        links: [
+          { label: "About", url: "#" },
+          { label: "Projects", url: "#" },
+          { label: "Contact", url: "#" },
+        ],
+        socials: [
+          { platform: "github", url: "#" },
+          { platform: "twitter", url: "#" },
+        ]
+      };
     default:
       return {};
   }

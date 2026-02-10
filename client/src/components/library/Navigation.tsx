@@ -20,7 +20,9 @@ interface NavigationProps {
   | "brutalist"
   | "outline_minimal"
   | "impact"
-  | "glassmorphism";
+  | "glassmorphism"
+  | "connected_line"
+  | "creative_gradient";
 }
 
 // Helper function to determine if a string is a direct CSS color value
@@ -139,7 +141,11 @@ const Navigation: React.FC<NavigationProps> = ({
             ? "border border-slate-950 dark:border-white rounded-none px-6 bg-white dark:bg-slate-950"
             : isGlassmorphism
               ? "bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 px-3"
-              : ""
+              : variant === "connected_line"
+                ? "bg-[#13131f] border-b border-slate-800 px-8 py-4"
+                : variant === "creative_gradient"
+                  ? "bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full px-12 py-4 my-4 mx-auto max-w-fit"
+                  : ""
         }`}
       style={navTextStyle}
     >
@@ -194,7 +200,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 key={idx}
                 href={linkUrl}
                 onClick={(e) => handleLinkClick(e, link.url || link.href)}
-                className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact ? "font-black uppercase tracking-[0.2em]" : "font-medium"}`}
+                className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact || variant === "connected_line" ? "font-black uppercase tracking-[0.2em]" : variant === "creative_gradient" ? "font-bold" : "font-medium"}`}
               >
                 {link.label}
               </a>
@@ -202,7 +208,7 @@ const Navigation: React.FC<NavigationProps> = ({
           })}
           {showResumeButton && (
             <button
-              className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal ? "rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black" : isImpact ? "rounded-none uppercase tracking-widest font-black px-8 py-3" : "rounded-lg"}`}
+              className={`px-4 py-2 text-sm font-semibold transition-colors ${buttonTextColorClass} ${buttonBorderClass} ${buttonBackgroundColorClass} ${isOutlineMinimal || variant === "connected_line" ? "rounded-none uppercase tracking-tighter transition-all hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black" : isImpact || variant === "creative_gradient" ? "rounded-none uppercase tracking-widest font-black px-8 py-3" : "rounded-lg"}`}
               style={{
                 ...buttonBackgroundColorStyle,
                 ...buttonBorderStyle,
