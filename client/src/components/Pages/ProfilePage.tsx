@@ -14,7 +14,10 @@ const ProfilePage: React.FC = () => {
 
   const [name, setName] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [message, setMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   // Sync name with user after loading
   React.useEffect(() => {
@@ -53,7 +56,10 @@ const ProfilePage: React.FC = () => {
       setAuthData({ token, user: updatedUser });
       setMessage({ type: "success", text: "Profile updated successfully!" });
     } catch (err: any) {
-      setMessage({ type: "error", text: err.message || "Failed to update profile" });
+      setMessage({
+        type: "error",
+        text: err.message || "Failed to update profile",
+      });
     } finally {
       setIsUpdating(false);
     }
@@ -88,7 +94,9 @@ const ProfilePage: React.FC = () => {
             </div>
             <div>
               <h2 className="font-bold text-xl">{user.name}</h2>
-              <p className="text-xs text-gray-400 font-mono italic">/{user.name.toLowerCase().replace(/\s+/g, '-')}</p>
+              <p className="text-xs text-gray-400 font-mono italic">
+                /{user.name.toLowerCase().replace(/\s+/g, "-")}
+              </p>
             </div>
           </div>
 
@@ -99,7 +107,10 @@ const ProfilePage: React.FC = () => {
                   Display Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                  <User
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    size={14}
+                  />
                   <input
                     type="text"
                     value={name}
@@ -116,7 +127,10 @@ const ProfilePage: React.FC = () => {
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300" size={14} />
+                  <Mail
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300"
+                    size={14}
+                  />
                   <input
                     type="email"
                     value={user.email}
@@ -128,8 +142,13 @@ const ProfilePage: React.FC = () => {
             </div>
 
             {message && (
-              <div className={`p-4 rounded text-xs font-bold uppercase tracking-wider ${message.type === "success" ? "bg-green-50 text-green-700 border border-green-200" : "bg-red-50 text-red-700 border border-red-200"
-                }`}>
+              <div
+                className={`p-4 rounded text-xs font-bold uppercase tracking-wider ${
+                  message.type === "success"
+                    ? "bg-green-50 text-green-700 border border-green-200"
+                    : "bg-red-50 text-red-700 border border-red-200"
+                }`}
+              >
                 {message.text}
               </div>
             )}

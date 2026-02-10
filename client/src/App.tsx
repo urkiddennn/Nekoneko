@@ -14,6 +14,9 @@ const Landing = lazy(() => import("./components/Pages/Landing"));
 const PrivacyPolicy = lazy(() => import("./components/Pages/PrivacyPolicy"));
 const Showcase = lazy(() => import("./components/Pages/Showcase"));
 
+// Message page
+const MessagePage = lazy(() => import("./components/Pages/MessagePage"));
+
 // Profile page
 const ProfilePage = lazy(() => import("./components/Pages/ProfilePage"));
 
@@ -80,6 +83,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/docs" element={<Docs />} />
             <Route path="/analytics/:projectId" element={<Analytics />} />
+            <Route path="/message" element={<MessagePage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route
               path="/editor/:projectId"
@@ -100,7 +104,14 @@ function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/showcase" element={<Showcase />} />
             <Route path="/" element={<Landing />} />
-            <Route path="*" element={<div className="flex items-center justify-center min-h-screen font-black text-2xl uppercase tracking-tighter">404 - Page Not Found</div>} />
+            <Route
+              path="*"
+              element={
+                <div className="flex items-center justify-center min-h-screen font-black text-2xl uppercase tracking-tighter">
+                  404 - Page Not Found
+                </div>
+              }
+            />
           </Routes>
         </div>
       </Suspense>

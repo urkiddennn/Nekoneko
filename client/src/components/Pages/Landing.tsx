@@ -7,6 +7,7 @@ import TemplateShowcase from "../TemplateShowcase";
 import NavigationBar from "../NavigationBar";
 import HowItWorks from "../HowItWorks";
 import { SEO } from "../SEO";
+import StatsSection from "../StatsSection";
 
 const Landing: React.FC = () => {
   const user = getUser();
@@ -71,6 +72,9 @@ const Landing: React.FC = () => {
           </div>
         </div>
       </main>
+
+      {/* Stats Section */}
+      <StatsSection />
 
       {/* How it Works */}
       <HowItWorks />

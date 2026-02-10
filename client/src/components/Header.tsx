@@ -15,6 +15,10 @@ const Header: React.FC = () => {
     navigate("/profile");
   };
 
+  // go to messages page
+  const handleMessage = () => {
+    navigate("/message");
+  };
 
   if (!user) return null;
 
@@ -27,12 +31,21 @@ const Header: React.FC = () => {
         nekoneko
       </div>
       <div className="flex items-center gap-6">
+        <button
+          className="text-xs font-semibold tracking-widest text-gray-600 hover:text-gray-900 transition-colors"
+          onClick={handleMessage}
+        >
+          Messages
+        </button>
 
         <button
           className="w-10 h-10 overflow-hidden border border-slate-200 rounded-full hover:border-slate-500 duration-100"
           onClick={handleProfile}
         >
-          <img src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.name}`} alt="Profile" />
+          <img
+            src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.name}`}
+            alt="Profile"
+          />
         </button>
 
         <button
