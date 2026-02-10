@@ -16,17 +16,17 @@ const Showcase: React.FC = () => {
         },
         {
             id: 2,
-            name: "Creative Agency",
+            name: "Richard Banguiz Sample",
             slug: "richardbanguiz",
             description: "Bold design for digital agency",
-            tags: ["Agency", "Creative"]
+            tags: ["Simple", "Creative"]
         },
         {
             id: 3,
-            name: "Minimal Landing",
-            slug: "ultra-app",
-            description: "Clean SaaS landing page",
-            tags: ["SaaS", "Minimal"]
+            name: "Pixel Portfolio",
+            slug: "pixels",
+            description: "Pixel perfect portfolio",
+            tags: ["Pixel", "Minimal"]
         }
     ];
 

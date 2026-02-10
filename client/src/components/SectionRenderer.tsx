@@ -72,7 +72,7 @@ export const renderSection = (section: any, index: number) => {
     "relative group/section",
     section.type === "layout" ? "" : "w-full",
     styles.backgroundColor || "",
-    styles.padding || "py-16",
+    styles.padding || "py-2",//padding in every components
     styles.margin || "my-0",
     styles.textAlign ? `text-${styles.textAlign}` : "",
     section.props?.anchorId ? "scroll-mt-20" : "",
