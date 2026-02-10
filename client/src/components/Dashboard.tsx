@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useNavigate } from "react-router-dom";
-import { Plus, Globe, Settings, Check, TrendingUp } from "lucide-react";
+import { Plus, Globe, Settings, Check, TrendingUp, MessageSquare, Star } from "lucide-react";
 import { TEMPLATES, Template } from "../data/templates";
 import Header from "./Header";
+import { NotificationContainer, NotificationType } from "./Notification";
 
 import { useAuth } from "../hooks/useAuth";
 
@@ -15,6 +16,7 @@ const Dashboard: React.FC = () => {
   const projects = useQuery(api.config.listProjects, (token || isConvexAuth) ? { token: token || undefined } : "skip");
   const createProject = useMutation(api.config.createProject);
   const deleteProject = useMutation(api.config.deleteProject);
+  const sendFeedback = useMutation(api.feedback.sendFeedback);
 
   const [isCreating, setIsCreating] = useState(false);
   const [newName, setNewName] = useState("");
@@ -22,7 +24,22 @@ const Dashboard: React.FC = () => {
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(TEMPLATES[0]);
   const [projectToDelete, setProjectToDelete] = useState<any>(null);
   const [projectToEdit, setProjectToEdit] = useState<any>(null);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [feedbackType, setFeedbackType] = useState<"problem" | "rating">("problem");
+  const [feedbackRating, setFeedbackRating] = useState(5);
+  const [isSendingFeedback, setIsSendingFeedback] = useState(false);
   const [debouncedSlug, setDebouncedSlug] = useState("");
+  const [notifications, setNotifications] = useState<{ id: string; message: string; type: NotificationType }[]>([]);
+
+  const notify = (type: NotificationType, message: string) => {
+    const id = Math.random().toString(36).substring(2, 9);
+    setNotifications((prev) => [...prev, { id, message, type }]);
+  };
+
+  const removeNotification = (id: string) => {
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -69,7 +86,29 @@ const Dashboard: React.FC = () => {
       });
       navigate(`/editor/${id}`);
     } catch (err: any) {
-      alert(err.message);
+      notify("error", err.message);
+    }
+  };
+
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!feedbackMessage.trim()) return;
+    setIsSendingFeedback(true);
+    try {
+      await sendFeedback({
+        token: token || undefined,
+        message: feedbackMessage,
+        type: feedbackType,
+        rating: feedbackRating,
+      });
+      setFeedbackMessage("");
+      setFeedbackRating(5);
+      setIsFeedbackOpen(false);
+      notify("success", "Feedback sent! Thank you.");
+    } catch (err: any) {
+      notify("error", err.message);
+    } finally {
+      setIsSendingFeedback(false);
     }
   };
 
@@ -79,13 +118,18 @@ const Dashboard: React.FC = () => {
       await deleteProject({ token: token || undefined, id: projectToDelete._id });
       setProjectToDelete(null);
       setProjectToEdit(null); // Close the edit actions menu too
+      notify("info", "Project deleted successfully");
     } catch (err: any) {
-      alert(err.message);
+      notify("error", err.message);
     }
   };
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+      <NotificationContainer
+        notifications={notifications}
+        removeNotification={removeNotification}
+      />
       <Header />
 
 
@@ -99,6 +143,13 @@ const Dashboard: React.FC = () => {
           </div>
           <div className="flex gap-3">
 
+            <button
+              onClick={() => setIsFeedbackOpen(true)}
+              className="px-4 py-2 rounded font-bold text-gray-500 hover:text-gray-900 border border-transparent hover:bg-gray-50 transition-all flex items-center gap-2"
+            >
+              <MessageSquare size={18} />
+              Feedback
+            </button>
             <button
               onClick={() => setIsCreating(true)}
               className="bg-gray-900 text-white px-4 py-2 rounded font-bold flex items-center gap-2 hover:bg-black transition-all active:scale-95"
@@ -349,6 +400,108 @@ const Dashboard: React.FC = () => {
                 className={`flex-1 py-2 rounded font-bold text-sm transition-all active:scale-95 ${isAvailable === false ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' : 'bg-gray-900 text-white hover:bg-black'}`}
               >
                 Create Project
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Feedback Modal */}
+      {isFeedbackOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <form
+            onSubmit={handleFeedbackSubmit}
+            className="bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+          >
+            <h2 className="text-xl font-bold mb-2">Send Feedback</h2>
+            <p className="text-gray-500 text-sm mb-6">
+              Found a bug or have a suggestion? Let us know!
+            </p>
+
+            <div className="space-y-4 mb-8">
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
+                  Type
+                </label>
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setFeedbackType("problem")}
+                    className={`flex-1 py-2 rounded-lg text-xs font-bold border transition-all ${feedbackType === "problem"
+                      ? "border-red-500 bg-red-50 text-red-600 shadow-sm"
+                      : "border-gray-100 text-gray-400 hover:border-gray-200"
+                      }`}
+                  >
+                    Report Problem
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFeedbackType("rating")}
+                    className={`flex-1 py-2 rounded-lg text-xs font-bold border transition-all ${feedbackType === "rating"
+                      ? "border-indigo-500 bg-indigo-50 text-indigo-600 shadow-sm"
+                      : "border-gray-100 text-gray-400 hover:border-gray-200"
+                      }`}
+                  >
+                    Rating
+                  </button>
+                </div>
+              </div>
+
+              {feedbackType === "rating" && (
+                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
+                    Rating
+                  </label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setFeedbackRating(star)}
+                        className="p-1 group transition-all"
+                      >
+                        <Star
+                          size={24}
+                          className={`transition-all ${star <= feedbackRating
+                            ? "fill-amber-400 text-amber-400 scale-110"
+                            : "text-gray-200 group-hover:text-amber-200"
+                            }`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
+                  Message
+                </label>
+                <textarea
+                  value={feedbackMessage}
+                  onChange={(e) => setFeedbackMessage(e.target.value)}
+                  placeholder="Tell us what's on your mind..."
+                  className="w-full h-32 px-4 py-3 border border-gray-100 rounded-xl focus:border-gray-900 outline-none text-sm transition-all resize-none"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setIsFeedbackOpen(false)}
+                className="flex-1 py-2 text-gray-400 font-bold hover:text-gray-900 transition-colors"
+                disabled={isSendingFeedback}
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSendingFeedback || !feedbackMessage.trim()}
+                className="flex-[2] bg-gray-900 text-white py-2 rounded-xl font-bold hover:bg-black transition-all shadow-lg active:scale-95 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none"
+              >
+                {isSendingFeedback ? "Sending..." : "Submit Feedback"}
               </button>
             </div>
           </form>

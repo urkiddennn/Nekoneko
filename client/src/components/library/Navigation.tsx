@@ -15,12 +15,12 @@ interface NavigationProps {
     buttonBackgroundColor?: string;
   };
   variant?:
-    | "default"
-    | "minimal"
-    | "brutalist"
-    | "outline_minimal"
-    | "impact"
-    | "glassmorphism";
+  | "default"
+  | "minimal"
+  | "brutalist"
+  | "outline_minimal"
+  | "impact"
+  | "glassmorphism";
 }
 
 // Helper function to determine if a string is a direct CSS color value
@@ -64,7 +64,7 @@ const Navigation: React.FC<NavigationProps> = ({
   // Allow user to override button background
   const buttonBackgroundColorClass =
     styles?.buttonBackgroundColor &&
-    !isDirectCssColorValue(styles.buttonBackgroundColor)
+      !isDirectCssColorValue(styles.buttonBackgroundColor)
       ? styles.buttonBackgroundColor
       : !styles?.buttonBackgroundColor
         ? "bg-indigo-600 hover:bg-indigo-700"
@@ -72,7 +72,7 @@ const Navigation: React.FC<NavigationProps> = ({
 
   const buttonBackgroundColorStyle =
     styles?.buttonBackgroundColor &&
-    isDirectCssColorValue(styles.buttonBackgroundColor)
+      isDirectCssColorValue(styles.buttonBackgroundColor)
       ? { backgroundColor: styles.buttonBackgroundColor }
       : {};
 
@@ -94,10 +94,10 @@ const Navigation: React.FC<NavigationProps> = ({
   const buttonBorderStyle =
     styles?.borderColor && isDirectCssColorValue(styles.borderColor)
       ? {
-          borderColor: styles.borderColor,
-          borderWidth: "1px",
-          borderStyle: "solid",
-        }
+        borderColor: styles.borderColor,
+        borderWidth: "1px",
+        borderStyle: "solid",
+      }
       : {};
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -133,18 +133,17 @@ const Navigation: React.FC<NavigationProps> = ({
   return (
     <nav
       className={`relative ${navTextColorClass} ${baseColorClass}
-        ${
-          isBrutalist
-            ? "border-[3px] border-slate-950 dark:border-white rounded-2xl px-8 shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-slate-900"
-            : isOutlineMinimal
-              ? "border border-slate-950 dark:border-white rounded-none px-6 bg-white dark:bg-slate-950"
-              : isGlassmorphism
-                ? "bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 px-3"
-                : ""
+        ${isBrutalist
+          ? "border-[3px] border-slate-950 dark:border-white rounded-2xl px-8 shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-slate-900"
+          : isOutlineMinimal
+            ? "border border-slate-950 dark:border-white rounded-none px-6 bg-white dark:bg-slate-950"
+            : isGlassmorphism
+              ? "bg-gray-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 px-3"
+              : ""
         }`}
       style={navTextStyle}
     >
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center justify-between">
         <div className="text-xl font-bold">Portfolio</div>
 
         {/* Mobile Menu Button */}

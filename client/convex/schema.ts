@@ -66,4 +66,12 @@ export default defineSchema({
         otp: v.string(),
         otpExpires: v.number(),
     }).index("by_email", ["email"]).index("by_otp_expires", ["otpExpires"]),
+
+    feedback: defineTable({
+        userId: v.id("users"),
+        message: v.string(),
+        type: v.union(v.literal("problem"), v.literal("rating"), v.literal("suggestion")),
+        rating: v.optional(v.number()),
+        timestamp: v.number(),
+    }).index("by_user", ["userId"]),
 });

@@ -7,17 +7,61 @@ export const SCHEMAS = [
     documentation: {
       sections: [
         {
-          title: "About",
-          content: "Nekoneko is a modern, JSON-based website builder designed for developers and creators who value speed, performance, and design consistency. Unlike traditional drag-and-drop builders, Nekoneko uses a structured schema approach, allowing you to define your site's layout and content through simple, declarative configuration objects."
+          title: "The Vision",
+          content: "Nekoneko is more than just a website builder; it's a design-system-first architecture that bridges the gap between structured data and high-end visual design. Our mission is to allow anyone to create websites that look like they were custom-coded by a top-tier design agency, all through a simple, declarative JSON interface."
         },
         {
-          title: "Introduction",
-          content: "At the core of Nekoneko is the concept of 'Sections'. A website is simply a collection of sections stacked vertically. Each section—whether it's a Hero, a Feature grid, or a Contact form—is a self-contained module with its own props and styles. This modular architecture ensures that your site remains consistent, responsive, and easy to maintain."
+          title: "Core Architecture: Data to UI",
+          content: "Nekoneko follows a unidirectional flow where your site remains a single source of truth—the `SiteConfig` object. \n\n1. The JSON Schema: Everything from typography to the layout of a single button is defined in a JSON object.\n2. The Context Layer: The `SiteContext` manages this state globally, handling live updates as you edit.\n3. The Rendering Engine: Our `SectionRenderer` takes this data and dynamically instantiates React components from our internal library, mapping JSON 'types' to functional modules."
         },
         {
-          title: "How to Use",
-          content: "Building with Nekoneko is straightforward:\n\n1. **Choose a Template**: Start with a pre-configured template or a blank canvas.\n2. **Add Sections**: Browse the component library to find the sections you need (e.g., Hero, Features, Skills).\n3. **Configure Props**: Customize each section by updating its properties—change text, swap images, and toggle features.\n4. **Style**: Apply global themes or fine-tune individual section styles using our Tailwind-compatible styling system.\n5. **Publish**: Once you're happy, deploy your site instantly to a custom subdomain.",
-          code: `// Example Site Configuration\n{\n  "site_settings": {\n    "name": "My Portfolio",\n    "theme": { "primary": "#6366f1" }\n  },\n  "sections": [\n    {\n      "type": "hero",\n      "props": {\n        "heading": "Hello, World!",\n        "subheading": "Welcome to my new site."\n      }\n    }\n  ]\n}`
+          title: "Understanding Sections",
+          content: "A Nekoneko site is a vertical stack of Sections. Each section is an independent module designed with a specific purpose (Hero, Features, Experience). \n\nSections are governed by two distinct data points:\n- Props: Control 'what' the section displays (text, image URLs, button links).\n- Styles: Control 'how' it looks (padding, background colors, alignment, max-width).\n\nThis separation allows you to swap content without breaking the layout, or completely reskin a section while keeping the information intact."
+        },
+        {
+          title: "Design Variants",
+          content: "Most sections come with built-in Variants. A variant isn't just a different style—it's often a completely different sub-layout that fits the same data schema. For example, a `hero` might have a `split` variant for side-by-side content or a `glassmorphism` variant for a modern, futuristic aesthetic. This allows for infinite creative combinations while maintaining strict design consistency."
+        },
+        {
+          title: "The Styling System",
+          content: "We use a Tailwind-compatible styling engine. This means you can use standard Utility Classes or our curated design tokens. Our engine sanitizes and applies these classes to the wrapper and inner containers of every section, ensuring responsiveness and dark mode compatibility are handled automatically."
+        },
+        {
+          title: "Example Configuration",
+          content: "Here is how a complete site is structured. Notice how the `site_settings` define the global identity, while the `sections` array defines the page flow.",
+          code: `// The Blueprint of your Website
+{
+  "site_settings": {
+    "name": "Nova Portfolio",
+    "theme": {
+      "primary": "#6366f1",
+      "font": "Inter",
+      "darkMode": true
+    },
+    "seo": {
+      "title": "Home | Nova",
+      "description": "Creative Portfolio"
+    }
+  },
+  "sections": [
+    {
+      "id": "nav-1",
+      "type": "navigation",
+      "props": { "links": [{ "label": "Work", "url": "#" }], "showResumeButton": true },
+      "styles": { "backgroundColor": "bg-white/10", "textColor": "text-white" }
+    },
+    {
+      "id": "hero-1",
+      "type": "hero",
+      "props": {
+        "heading": "Designing the Future",
+        "subheading": "One JSON at a time.",
+        "variant": "glassmorphism"
+      },
+      "styles": { "padding": "py-32" }
+    }
+  ]
+}`
         }
       ]
     }
@@ -538,6 +582,64 @@ export const SCHEMAS = [
     ],
   },
   {
+    type: "image_slider",
+    category: "Media",
+    description: "High-end image carousel.",
+    details: "A smooth image slider with support for captions, auto-play, and multiple transition effects.",
+    example: {
+      id: "slider-1",
+      type: "image_slider",
+      props: {
+        images: [
+          { url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", caption: "Deep Work" },
+          { url: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80", caption: "Modern Architecture" },
+          { url: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1200&q=80", caption: "Studio Space" },
+        ],
+        transitionType: "slide",
+        autoPlay: true,
+        interval: 5000,
+        variant: "minimal",
+      },
+      styles: { padding: "py-12", borderRadius: "rounded-[32px]" },
+    },
+    props: [
+      { name: "images", type: "array", desc: "List of {url, caption} images." },
+      { name: "transitionType", type: '"slide" | "fade"', desc: "Swipe or cross-fade." },
+      { name: "autoPlay", type: "boolean", desc: "Enable auto-cycling." },
+      { name: "interval", type: "number", desc: "Ms between slides." },
+      { name: "variant", type: '"minimal" | "brutalist" | "glassmorphism"', desc: "Design aesthetic." },
+    ],
+    variants: [
+      {
+        name: "Minimal",
+        description: "Thin lines and clean typography.",
+        example: {
+          id: "slider-minimal",
+          type: "image_slider",
+          props: { variant: "minimal", transitionType: "slide", autoPlay: true },
+        },
+      },
+      {
+        name: "Brutalist",
+        description: "Bold borders and high-impact shadows.",
+        example: {
+          id: "slider-brutalist",
+          type: "image_slider",
+          props: { variant: "brutalist", transitionType: "slide" },
+        },
+      },
+      {
+        name: "Glassmorphism",
+        description: "Translucent controls and modern blur effects.",
+        example: {
+          id: "slider-glass",
+          type: "image_slider",
+          props: { variant: "glassmorphism", transitionType: "fade" },
+        },
+      },
+    ],
+  },
+  {
     type: "stats_bar",
     category: "Content",
     description: "Numerical metrics and stats.",
@@ -924,6 +1026,108 @@ export const SCHEMAS = [
               }
             ]
           }
+        },
+      },
+    ],
+  },
+  {
+    type: "faq",
+    category: "Content",
+    description: "Frequently Asked Questions.",
+    details: "Display a list of questions and answers in various formats like accordions or grids.",
+    example: {
+      id: "faq-1",
+      type: "faq",
+      props: {
+        title: "Questions & Answers",
+        description: "Everything you need to know about our service.",
+        variant: "accordion",
+        items: [
+          {
+            question: "How does it work?",
+            answer: "Nekoneko uses a design-system-first architecture to turn JSON into beautiful UI.",
+          },
+          {
+            question: "Is it really free?",
+            answer: "We have a generous free tier for individuals and a pro plan for agencies.",
+          },
+        ],
+      },
+      styles: { padding: "py-24", backgroundColor: "bg-white" },
+    },
+    props: [
+      { name: "title", type: "string", desc: "Section header." },
+      { name: "description", type: "string", desc: "Brief intro text." },
+      {
+        name: "items",
+        type: "array",
+        desc: "List of {question, answer}.",
+      },
+      { name: "variant", type: '"accordion" | "grid" | "minimal_cards" | "brutalist" | "glassmorphism"', desc: "Visual style." },
+    ],
+    variants: [
+      {
+        name: "Accordion",
+        description: "Interactive collapsible list.",
+        example: {
+          id: "faq-accordion",
+          type: "faq",
+          props: {
+            title: "General FAQ",
+            variant: "accordion",
+            items: [
+              { question: "Can I export my site?", answer: "Yes, you can export to high-quality code or host with us." },
+              { question: "Is support included?", answer: "24/7 priority support is available on our Pro plan." },
+            ],
+          },
+        },
+      },
+      {
+        name: "Grid Layout",
+        description: "Static multi-column grid.",
+        example: {
+          id: "faq-grid",
+          type: "faq",
+          props: {
+            title: "Help Center",
+            variant: "grid",
+            items: [
+              { question: "Payment Methods", answer: "We accept all major credit cards and wire transfers." },
+              { question: "Refund Policy", answer: "14-day money-back guarantee, no questions asked." },
+            ],
+          },
+        },
+      },
+      {
+        name: "Brutalist",
+        description: "Bold borders and high contrast.",
+        example: {
+          id: "faq-brutalist",
+          type: "faq",
+          props: {
+            title: "The Fine Print",
+            variant: "brutalist",
+            items: [
+              { question: "Terms of Service", answer: "Read our full terms on the legal page." },
+              { question: "Privacy Mode", answer: "Your data is encrypted and never sold." },
+            ],
+          },
+        },
+      },
+      {
+        name: "Glassmorphism",
+        description: "Modern, translucent aesthetic.",
+        example: {
+          id: "faq-glassmorphism",
+          type: "faq",
+          props: {
+            title: "Modern Q&A",
+            variant: "glassmorphism",
+            items: [
+              { question: "Is it fast?", answer: "Optimized for speed with built-in asset management." },
+              { question: "Collaboration?", answer: "Real-time editing with your entire team." },
+            ],
+          },
         },
       },
     ],

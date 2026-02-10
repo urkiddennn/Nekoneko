@@ -9,6 +9,7 @@ const Experience = React.lazy(() => import("./library/Experience"));
 const CTA = React.lazy(() => import("./library/CTA"));
 const Layout = React.lazy(() => import("./library/Layout"));
 const ImageComponent = React.lazy(() => import("./library/ImageComponent"));
+const ImageSlider = React.lazy(() => import("./library/ImageSlider"));
 const ContactInfo = React.lazy(() => import("./library/ContactInfo"));
 const ProjectDetails = React.lazy(() => import("./library/ProjectDetails"));
 const Education = React.lazy(() => import("./library/Education"));
@@ -17,6 +18,7 @@ const SearchBar = React.lazy(() => import("./library/SearchBar"));
 const SelectionList = React.lazy(() => import("./library/SelectionList"));
 const StepProgress = React.lazy(() => import("./library/StepProgress"));
 const Section = React.lazy(() => import("./library/Section"));
+const FAQ = React.lazy(() => import("./library/FAQ"));
 const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
 const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
@@ -33,6 +35,7 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   cta: CTA,
   layout: Layout,
   image: ImageComponent,
+  image_slider: ImageSlider,
   skills_bullets: Skills,
   contact_info: ContactInfo,
   project_details: ProjectDetails,
@@ -43,6 +46,7 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   selection_list: SelectionList,
   step_progress: StepProgress,
   section: Section,
+  faq: FAQ,
   live_site_preview: LiveSitePreview,
 };
 

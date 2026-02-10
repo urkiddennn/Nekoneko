@@ -307,6 +307,27 @@ const getDefaultProps = (type: string) => {
         title: "Technical Stack",
         skills: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Convex"],
       };
+    case "image_slider":
+      return {
+        images: [
+          { url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", caption: "Innovative Design" },
+          { url: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80", caption: "Modern Engineering" }
+        ],
+        transitionType: "slide",
+        autoPlay: true,
+        interval: 5000,
+        variant: "minimal"
+      };
+    case "faq":
+      return {
+        title: "General FAQ",
+        description: "Find answers to the most common questions.",
+        variant: "accordion",
+        items: [
+          { question: "What is Nekoneko?", answer: "Nekoneko is a powerful website builder powered by JSON and React." },
+          { question: "Can I customize the design?", answer: "Yes, you can choose from various variants and style tokens." },
+        ],
+      };
     default:
       return {};
   }
