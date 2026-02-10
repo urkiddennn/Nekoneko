@@ -1,5 +1,17 @@
-import React from 'react';
-import * as Icons from 'lucide-react';
+import { TrendingUp, Users, Clock, Globe, Zap, Heart, Star, Code, Briefcase, Award } from 'lucide-react';
+
+const ICON_MAP: Record<string, any> = {
+    TrendingUp,
+    Users,
+    Clock,
+    Globe,
+    Zap,
+    Heart,
+    Star,
+    Code,
+    Briefcase,
+    Award
+};
 
 interface StatItem {
     label: string;
@@ -17,7 +29,7 @@ const StatsBar: React.FC<StatsBarProps> = ({ items, stats }) => {
     return (
         <div className="flex flex-wrap items-center justify-around gap-12 py-10 px-8 bg-white dark:bg-slate-900/50 rounded-[2.5rem] border-2 border-slate-50 dark:border-slate-800 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)]">
             {displayItems.map((item, idx) => {
-                const IconComponent = (Icons as any)[item.icon || ''] || null;
+                const IconComponent = ICON_MAP[item.icon || ''] || null;
                 return (
                     <div key={idx} className="text-center group flex flex-col items-center">
                         <div className="flex items-center gap-2">

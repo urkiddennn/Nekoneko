@@ -12,9 +12,11 @@ export default defineConfig(({ command }) => {
     plugins: [
       react(),
       isBuild && webfontDownload(
-        [],
+        [
+          "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@400;700&family=Space+Grotesk:wght@400;700&family=Roboto:wght@400;700&family=Lexend:wght@400;700&family=JetBrains+Mono:wght@400;700&family=Lato:wght@400;700&family=Poppins:wght@400;700&family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Press+Start+2P&family=Pixelify+Sans:wght@400;700&family=Doto:wght@400;700&display=swap"
+        ],
         {
-          injectAsStyleTag: true,
+          injectAsStyleTag: false, // Use link rel="stylesheet" for better caching/performance in some cases
           async: true,
           cache: true,
         }
@@ -93,6 +95,13 @@ export default defineConfig(({ command }) => {
       }
     },
     build: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
       cssMinify: 'lightningcss',
       cssCodeSplit: true,
       rollupOptions: {
@@ -106,7 +115,6 @@ export default defineConfig(({ command }) => {
               '@uiw/react-codemirror',
               '@uiw/codemirror-themes-all'
             ],
-            'vendor-lucide': ['lucide-react'],
             'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           }
         }

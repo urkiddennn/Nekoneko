@@ -1,5 +1,18 @@
 import React from 'react';
-import * as Icons from 'lucide-react';
+import { Mail, Github, Linkedin, ArrowUpRight, Globe, Phone, MapPin, Instagram, Twitter, Facebook } from 'lucide-react';
+
+const ICON_MAP: Record<string, any> = {
+    Mail,
+    Github,
+    Linkedin,
+    ArrowUpRight,
+    Globe,
+    Phone,
+    MapPin,
+    Instagram,
+    Twitter,
+    Facebook
+};
 
 interface Link {
     label: string;
@@ -32,9 +45,9 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
 }) => {
     if (variant === "impact") {
         const contactLinks = [
-            { id: 'email', label: email, icon: Icons.Mail, url: `mailto:${email}` },
-            { id: 'github', label: github, icon: Icons.Github, url: `https://github.com/${github}` },
-            { id: 'linkedin', label: linkedin, icon: Icons.Linkedin, url: `https://linkedin.com/in/${linkedin}` },
+            { id: 'email', label: email, icon: Mail, url: `mailto:${email}` },
+            { id: 'github', label: github, icon: Github, url: `https://github.com/${github}` },
+            { id: 'linkedin', label: linkedin, icon: Linkedin, url: `https://linkedin.com/in/${linkedin}` },
         ].filter(l => l.label);
 
         return (
@@ -94,7 +107,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
 
                     <div className="space-y-6">
                         {links.map((link, idx) => {
-                            const IconComponent = (Icons as any)[link.icon || ''] || null;
+                            const IconComponent = ICON_MAP[link.icon || ''] || null;
                             return (
                                 <a
                                     key={idx}
@@ -105,7 +118,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
                                         {IconComponent && <IconComponent size={20} className="text-white" />}
                                         <span className="font-mono font-bold uppercase tracking-tighter text-lg text-white">{link.label}</span>
                                     </div>
-                                    <Icons.ArrowUpRight size={20} className="text-white group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
+                                    <ArrowUpRight size={20} className="text-white group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform" />
                                 </a>
                             );
                         })}
@@ -132,7 +145,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
             {description && <p className="text-slate-950 dark:text-slate-400 font-medium mb-8 max-w-md">{description}</p>}
             <div className="flex flex-wrap gap-4">
                 {links.map((link, idx) => {
-                    const IconComponent = (Icons as any)[link.icon || ''] || null;
+                    const IconComponent = ICON_MAP[link.icon || ''] || null;
                     return (
                         <a
                             key={idx}

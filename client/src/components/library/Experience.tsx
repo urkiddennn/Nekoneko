@@ -1,6 +1,17 @@
 import React from "react";
 import { useSite } from "../../context/useSite";
-import * as Icons from "lucide-react";
+import { Briefcase, Plus, Calendar, Star, GraduationCap, Award, MapPin, Link as LinkIcon } from "lucide-react";
+
+const ICON_MAP: Record<string, any> = {
+  Briefcase,
+  Plus,
+  Calendar,
+  Star,
+  GraduationCap,
+  Award,
+  MapPin,
+  Link: LinkIcon
+};
 
 interface Job {
   role: string;
@@ -121,7 +132,7 @@ const Experience: React.FC<ExperienceProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {jobs.map((job, index) => {
             const IconComponent =
-              (Icons as any)[job.icon || ""] || Icons.Briefcase;
+              ICON_MAP[job.icon || ""] || Briefcase;
             return (
               <div
                 key={index}
@@ -156,7 +167,7 @@ const Experience: React.FC<ExperienceProps> = ({
                 </div>
                 <div className="bg-indigo-100 dark:bg-slate-800 p-4 border-t-[3px] border-slate-950 dark:border-white flex items-center gap-2 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
                   <div className="w-6 h-6 bg-slate-950 dark:bg-white rounded-full flex items-center justify-center">
-                    <Icons.Plus className="w-3 h-3 text-white dark:text-slate-950 stroke-[4px]" />
+                    <Plus className="w-3 h-3 text-white dark:text-slate-950 stroke-[4px]" />
                   </div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-950 dark:text-white">
                     View Project Details
@@ -181,7 +192,7 @@ const Experience: React.FC<ExperienceProps> = ({
         <div className="relative pl-8 space-y-12 border-l-2 border-gray-100 dark:border-slate-800 ml-4">
           {jobs.map((job, index) => {
             const IconComponent =
-              (Icons as any)[job.icon || ""] || Icons.Briefcase;
+              ICON_MAP[job.icon || ""] || Briefcase;
             return (
               <div key={index} className="relative">
                 <div
@@ -344,7 +355,7 @@ const Experience: React.FC<ExperienceProps> = ({
                           {job.role}
                         </h3>
                         <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-950 dark:text-slate-500 bg-slate-50 dark:bg-slate-800/50 px-3 py-1.5 rounded-full w-fit">
-                          <Icons.Calendar size={12} /> {job.period}
+                          <Calendar size={12} /> {job.period}
                         </div>
                       </div>
                       <div

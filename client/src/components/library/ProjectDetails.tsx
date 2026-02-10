@@ -1,4 +1,4 @@
-import * as Icons from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 interface ProjectItem {
     title: string;
@@ -152,7 +152,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                         className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-900 dark:text-white hover:text-black dark:hover:text-indigo-400 transition-colors group/link"
                     >
                         Visit Link
-                        <Icons.ExternalLink size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                        <ExternalLink size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                     </a>
                 </div>
             )}

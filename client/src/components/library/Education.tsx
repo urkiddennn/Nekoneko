@@ -1,6 +1,17 @@
 import React from 'react';
 import { useSite } from '../../context/useSite';
-import * as Icons from 'lucide-react';
+import { GraduationCap, Briefcase, Plus, Calendar, Star, Award, MapPin, Link as LinkIcon, ChevronRight } from "lucide-react";
+
+const ICON_MAP: Record<string, any> = {
+    GraduationCap,
+    Briefcase,
+    Plus,
+    Calendar,
+    Star,
+    Award,
+    MapPin,
+    Link: LinkIcon
+};
 
 interface EducationItem {
     school: string;
@@ -97,7 +108,7 @@ const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline
                                     <div className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mt-4 leading-none">{item.period}</div>
                                 </div>
                                 <div className="text-slate-950 dark:text-white group-hover:translate-x-1 transition-transform">
-                                    <Icons.ChevronRight className="w-6 h-6 stroke-[3px]" />
+                                    <ChevronRight className="w-6 h-6 stroke-[3px]" />
                                 </div>
                             </div>
                         );
@@ -114,7 +125,7 @@ const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline
                     className="p-2 rounded-lg bg-gray-50 dark:bg-slate-800 text-gray-900 dark:text-gray-100"
                     style={{ color: primaryColor }}
                 >
-                    <Icons.GraduationCap size={24} />
+                    <GraduationCap size={24} />
                 </div>
                 <h2 className="text-2xl font-bold text-slate-950 dark:text-white uppercase italic tracking-tighter">{title}</h2>
             </div>
@@ -124,7 +135,7 @@ const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline
                 <div className="absolute left-[11px] top-2 bottom-2 w-[2px] bg-gray-100 dark:bg-slate-800"></div>
 
                 {items.map((item, index) => {
-                    const IconComponent = (Icons as any)[item.icon || ''] || null;
+                    const IconComponent = ICON_MAP[item.icon || ''] || null;
                     return (
                         <div key={index} className="relative">
                             {/* Dot/Icon */}
