@@ -11,7 +11,7 @@ interface ImageSliderProps {
     transitionType?: 'slide' | 'fade';
     autoPlay?: boolean;
     interval?: number;
-    variant?: 'minimal' | 'brutalist' | 'glassmorphism';
+    variant?: 'minimal' | 'brutalist' | 'glassmorphism' | 'impact' | 'fullscreen';
 }
 
 const DEFAULT_IMAGES = [
@@ -31,7 +31,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
 
-    console.log("ImageSlider Render:", { imagesCount: images.length, variant, transitionType });
+
 
     const nextSlide = useCallback(() => {
         if (isAnimating) return;
@@ -56,6 +56,134 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
 
     const isBrutalist = variant === 'brutalist';
     const isGlass = variant === 'glassmorphism';
+    const isImpact = variant === 'impact';
+    const isFullscreen = variant === 'fullscreen';
+
+    if (isImpact) {
+        return (
+            <div className="relative w-full overflow-hidden">
+                <div className="relative aspect-[21/9] min-h-[500px] w-full overflow-hidden bg-slate-950">
+                    {images.map((image, index) => {
+                        const isActive = index === currentIndex;
+                        return (
+                            <div
+                                key={index}
+                                className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-out
+                                    ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-105 pointer-events-none'}
+                                `}
+                            >
+                                <img
+                                    src={image.url}
+                                    alt={image.caption || `Slide ${index + 1}`}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/40 to-transparent" />
+                            </div>
+                        );
+                    })}
+
+                    {/* Counter + Caption */}
+                    <div className="absolute bottom-0 left-0 right-0 p-12 flex items-end justify-between z-10">
+                        <div className="space-y-4">
+                            <span className="text-8xl md:text-9xl font-black text-white/10 leading-none tabular-nums">
+                                {String(currentIndex + 1).padStart(2, '0')}
+                            </span>
+                            {images[currentIndex]?.caption && (
+                                <p className="text-2xl font-black text-white uppercase tracking-tight">
+                                    {images[currentIndex].caption}
+                                </p>
+                            )}
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <button
+                                onClick={prevSlide}
+                                className="w-14 h-14 flex items-center justify-center border-2 border-white text-white hover:bg-white hover:text-slate-950 transition-all"
+                            >
+                                <ChevronLeft size={24} />
+                            </button>
+                            <button
+                                onClick={nextSlide}
+                                className="w-14 h-14 flex items-center justify-center border-2 border-white text-white hover:bg-white hover:text-slate-950 transition-all"
+                            >
+                                <ChevronRight size={24} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-20">
+                        <div
+                            className="h-full bg-[#ff5a5f] transition-all duration-500"
+                            style={{ width: `${((currentIndex + 1) / images.length) * 100}%` }}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (isFullscreen) {
+        return (
+            <div className="relative w-full overflow-hidden -mx-4 px-0">
+                <div className="relative aspect-video min-h-[500px] w-full overflow-hidden bg-slate-950">
+                    {images.map((image, index) => {
+                        const isActive = index === currentIndex;
+                        return (
+                            <div
+                                key={index}
+                                className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-out
+                                    ${isActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+                                `}
+                            >
+                                <img
+                                    src={image.url}
+                                    alt={image.caption || `Slide ${index + 1}`}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/20" />
+                            </div>
+                        );
+                    })}
+
+                    {/* Minimal overlay controls */}
+                    <div className="absolute inset-0 flex items-center justify-between px-6 z-10 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            onClick={prevSlide}
+                            className="w-12 h-12 flex items-center justify-center bg-black/30 backdrop-blur-sm text-white rounded-full hover:bg-black/50 transition-all"
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+                        <button
+                            onClick={nextSlide}
+                            className="w-12 h-12 flex items-center justify-center bg-black/30 backdrop-blur-sm text-white rounded-full hover:bg-black/50 transition-all"
+                        >
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
+
+                    {/* Bottom caption + dots */}
+                    <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/60 to-transparent z-10">
+                        <div className="flex items-end justify-between">
+                            {images[currentIndex]?.caption && (
+                                <p className="text-lg font-bold text-white">
+                                    {images[currentIndex].caption}
+                                </p>
+                            )}
+                            <div className="flex gap-2">
+                                {images.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setCurrentIndex(index)}
+                                        className={`h-1 rounded-full transition-all duration-300 ${index === currentIndex ? 'w-8 bg-white' : 'w-4 bg-white/40'}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={`relative w-full group overflow-hidden ${isBrutalist ? 'border-[3px] border-slate-950 shadow-[8px_8px_0px_0px_rgba(2,6,23,1)]' : 'rounded-[2rem]'}`}>

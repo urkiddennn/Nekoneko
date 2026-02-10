@@ -23,7 +23,7 @@ const Landing: React.FC = () => {
       {/* Hero Section */}
       <main className="pt-40 pb-20 px-6">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded text-indigo-700 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-700 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <Zap size={14} className="fill-indigo-600" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em]">
               The No-Code Era is Here
@@ -44,21 +44,21 @@ const Landing: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
             <Link
               to={user ? "/dashboard" : "/login"}
-              className="w-full sm:w-auto bg-gray-900 text-white px-8 py-4 rounded font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 shadow-lg shadow-gray-200"
+              className="w-full sm:w-auto bg-gray-900 text-white px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-200"
             >
               Start Building Now
               <ArrowRight size={18} />
             </Link>
             <Link
               to="/docs"
-              className="w-full sm:w-auto px-8 py-4 rounded border border-gray-100 font-bold hover:bg-gray-50 transition-all text-center"
+              className="w-full sm:w-auto px-8 py-4 rounded-lg border border-gray-100 font-bold hover:bg-gray-50 transition-all text-center text-gray-900"
             >
               View Library
             </Link>
           </div>
         </div>
-        <div className="mt-24 max-w-5xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500 ">
-          <div className="bg-white border border-gray-100 rounded-lg shadow-2xl shadow-gray-200 overflow-hidden group">
+        <div className="mt-24 max-w-7xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500 ">
+          <div className="bg-white border border-gray-100 rounded-xl shadow-2xl shadow-gray-200/50 overflow-hidden group">
             <div className="w-full h-12 bg-slate-950 text-start px-5 items-center flex gap-2">
               <div className=" h-3 w-3 rounded-full bg-red-500"></div>
               <div className=" h-3 w-3 rounded-full bg-yellow-500"></div>
@@ -121,7 +121,7 @@ const Landing: React.FC = () => {
             href="https://buymeacoffee.com/urkidden/nekoneko-support"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gray-900 text-white flex justify-center items-center gap-3 px-5 py-2 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
+            className="bg-gray-900 text-white flex justify-center items-center gap-3 px-8 py-3 rounded-lg font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-200/50"
           >
             <Cat size={20} />
             Buy Nekoneko a coffee
@@ -142,7 +142,7 @@ const Landing: React.FC = () => {
 
           <Link
             to="/signup"
-            className="inline-block bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
+            className="inline-block bg-gray-900 text-white px-10 py-4 rounded-lg font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-200"
           >
             Create Your Site
           </Link>
@@ -150,7 +150,7 @@ const Landing: React.FC = () => {
             href="https://github.com/urkiddennn/Nekoneko"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mr-0 md:ml-3 bg-gray-900 text-white px-10 py-4 rounded font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-100"
+            className="inline-block mr-0 md:ml-3 bg-white border border-gray-100 text-gray-900 px-10 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all active:scale-95 shadow-sm"
           >
             Contribute
           </a>
@@ -173,7 +173,7 @@ const FeatureCard = ({
   description: string;
 }) => (
   <div className="space-y-4 group">
-    <div className="w-12 h-12 flex items-center justify-center bg-white border border-gray-100 rounded text-gray-900 group-hover:scale-110 transition-transform duration-500 shadow-sm shadow-gray-50">
+    <div className="w-12 h-12 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-900 group-hover:scale-110 transition-transform duration-500 shadow-sm shadow-indigo-50/50 group-hover:bg-indigo-50/10 group-hover:border-indigo-100">
       {icon}
     </div>
     <h3 className="font-bold text-lg">{title}</h3>

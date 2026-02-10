@@ -22,7 +22,8 @@ interface NavigationProps {
   | "impact"
   | "glassmorphism"
   | "connected_line"
-  | "creative_gradient";
+  | "creative_gradient"
+  | "pixel";
 }
 
 // Helper function to determine if a string is a direct CSS color value
@@ -131,6 +132,49 @@ const Navigation: React.FC<NavigationProps> = ({
     }
     return linkUrl;
   };
+
+  if (variant === "pixel") {
+    const pixelFont = "'Press Start 2P', monospace";
+    return (
+      <nav className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] px-6 py-3 overflow-hidden"
+        style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+        <span className="absolute top-1 left-2 text-[#00ff41]/40 text-[8px] select-none" style={{ fontFamily: pixelFont }}>+</span>
+        <span className="absolute top-1 right-2 text-[#00ff41]/40 text-[8px] select-none" style={{ fontFamily: pixelFont }}>+</span>
+        <div className="flex items-center justify-between">
+          <div className="text-xs text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>Portfolio</div>
+          <button className="md:hidden p-2 text-[#00ff41]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {isMenuOpen ? <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></> : <><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>}
+            </svg>
+          </button>
+          <div className="hidden md:flex items-center gap-6">
+            {links.map((link, idx) => (
+              <a key={idx} href={getLinkUrl(link)} onClick={(e) => handleLinkClick(e, link.url || link.href)}
+                className="text-[8px] text-[#00ff41]/70 uppercase tracking-widest hover:text-[#00ff41] transition-colors"
+                style={{ fontFamily: pixelFont }}>
+                {link.label}
+              </a>
+            ))}
+            {showResumeButton && (
+              <button className="px-4 py-2 text-[8px] uppercase tracking-widest border-2 border-[#00ff41] bg-[#00ff41] text-[#0a0a2e] hover:bg-transparent hover:text-[#00ff41] transition-all"
+                style={{ fontFamily: pixelFont, cursor: 'pointer' }}>Resume</button>
+            )}
+          </div>
+        </div>
+        {isMenuOpen && (
+          <div className="md:hidden pt-4 pb-2 flex flex-col gap-3">
+            {links.map((link, idx) => (
+              <a key={idx} href={getLinkUrl(link)} onClick={(e) => handleLinkClick(e, link.url || link.href)}
+                className="text-[8px] text-[#00ff41]/70 uppercase tracking-widest hover:text-[#00ff41] block py-1"
+                style={{ fontFamily: pixelFont }}>{link.label}</a>
+            ))}
+          </div>
+        )}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+      </nav>
+    );
+  }
 
   return (
     <nav

@@ -22,6 +22,7 @@ import { step_progress } from "./step_progress";
 import { section } from "./section";
 import { connect_with_me } from "./connect_with_me";
 import { footer } from "./footer";
+import { language } from "./language";
 
 export const SCHEMAS = [
     getting_started,
@@ -48,4 +49,5 @@ export const SCHEMAS = [
     section,
     connect_with_me,
     footer,
+    language,
 ];

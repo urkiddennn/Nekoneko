@@ -113,6 +113,10 @@ export const renderSection = (section: any, index: number) => {
 
 const MemoizedSection = React.memo(({ section, index }: { section: any; index: number }) => {
   return renderSection(section, index);
+}, (prevProps, nextProps) => {
+  // Simple deep compare to prevent re-renders if the section data hasn't changed
+  // This is cheaper than re-rendering the entire component tree
+  return JSON.stringify(prevProps.section) === JSON.stringify(nextProps.section);
 });
 
 const SectionRenderer: React.FC<SectionRendererProps> = ({ sections }) => {

@@ -34,7 +34,7 @@ export const pricing = {
         },
         {
             name: "variant",
-            type: '"grid" | "list" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient"',
+            type: '"grid" | "list" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"',
             desc: "Layout style.",
         },
     ],
@@ -148,6 +148,22 @@ export const pricing = {
                     plans: [
                         { name: "Standard", price: "$29", features: ["Full Access"] },
                         { name: "Pro", price: "$89", features: ["White Label", "24/7 Support"], isPopular: true },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal pricing cards with green-on-navy palette.",
+            example: {
+                id: "pricing-pixel",
+                type: "pricing",
+                props: {
+                    title: "Select Plan",
+                    variant: "pixel",
+                    plans: [
+                        { name: "Free", price: "$0", features: ["1 Project"] },
+                        { name: "Pro", price: "$19", features: ["Unlimited", "Priority"], isPopular: true },
                     ],
                 },
             },

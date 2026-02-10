@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSite } from "../context/useSite";
 import { useNavigate } from "react-router-dom";
 import {
-  Files,
   BookOpen,
   Globe,
   Sparkles,
@@ -27,8 +26,9 @@ import {
 import { autocompletion, CompletionContext } from "@codemirror/autocomplete";
 
 import { vscodeDark } from "@uiw/codemirror-themes-all";
-import ThemePlugin from "./ThemePlugin";
+import { CORE_EXTENSIONS } from "../extensions/registry";
 import ThemeToggle from "./library/ThemeToggle";
+
 
 function myCompletions(context: CompletionContext) {
   let word = context.matchBefore(/\w*/);
@@ -45,6 +45,8 @@ function myCompletions(context: CompletionContext) {
   };
 }
 
+
+
 const Editor: React.FC = () => {
   const { siteConfig, setSiteConfig, saveConfig, loading, projectSlug } =
     useSite();
@@ -55,6 +57,19 @@ const Editor: React.FC = () => {
   const [editorTheme, setEditorTheme] = useState<any>(vscodeDark);
   const [activeThemeId, setActiveThemeId] = useState<string>("vscodeDark");
   const [viewportWidth, setViewportWidth] = useState<number | "full">("full");
+  const [activeExtensionId, setActiveExtensionId] = useState<string>("appearance");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const activeExtension = CORE_EXTENSIONS.find(ext => ext.id === activeExtensionId) || CORE_EXTENSIONS[0];
+
+  const toggleExtension = (id: string) => {
+    if (activeExtensionId === id) {
+      setIsSidebarOpen(!isSidebarOpen);
+    } else {
+      setActiveExtensionId(id);
+      setIsSidebarOpen(true);
+    }
+  };
 
   useEffect(() => {
     if (!loading) {
@@ -76,22 +91,21 @@ const Editor: React.FC = () => {
 
   const handleJsonChange = (val: string) => {
     setJsonInput(val);
-
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
-    try {
-      const parsed = JSON.parse(val);
-      if (parsed.site_settings && Array.isArray(parsed.sections)) {
-        debounceRef.current = setTimeout(() => {
+    debounceRef.current = setTimeout(() => {
+      try {
+        const parsed = JSON.parse(val);
+        if (parsed.site_settings && Array.isArray(parsed.sections)) {
           setSiteConfig(parsed);
           setError(null);
-        }, 300);
-      } else {
-        setError("Missing 'site_settings' or 'sections' array.");
+        } else {
+          setError("Missing 'site_settings' or 'sections' array.");
+        }
+      } catch (e: any) {
+        setError(`Invalid JSON: ${e.message}`);
       }
-    } catch (e: any) {
-      setError(`Invalid JSON: ${e.message}`);
-    }
+    }, 300);
   };
 
   const handleThemeChange = (themeId: string, themeObj: any) => {
@@ -261,7 +275,7 @@ const Editor: React.FC = () => {
                 const newUrl = `${protocol}//${projectSlug}.${host}`;
                 window.open(newUrl, "_blank");
               }}
-              className="px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 text-indigo-600 border-indigo-100 bg-indigo-50"
+              className="px-3 py-1.5 rounded border hover:bg-gray-50 text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 text-indigo-600 border-indigo-100 bg-indigo-50"
             >
               <Globe size={14} />
               View Live
@@ -271,29 +285,47 @@ const Editor: React.FC = () => {
       </div>
 
       <div className="flex-1 flex overflow-hidden">
-        {/* Side Nav */}
+        {/* Side Nav (Activity Bar) */}
         <div className="w-14 border-r border-gray-200 bg-white flex flex-col items-center py-6 gap-6 shrink-0 z-30">
-          <button
-            className="p-2 rounded transition-colors bg-gray-100 text-gray-900"
-            onClick={() => { }}
-          >
-            <Files size={20} />
-          </button>
-          <a
-            href="/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded transition-colors text-gray-400 hover:text-gray-900 cursor-pointer"
-            title="Component Docs"
-          >
-            <BookOpen size={20} />
-          </a>
+          {CORE_EXTENSIONS.map((ext) => {
+            const Icon = ext.icon;
+            const isActive = activeExtensionId === ext.id;
+            return (
+              <div key={ext.id} className="relative group">
+                {isActive && isSidebarOpen && (
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-gray-900 rounded-r-full" />
+                )}
+                <button
+                  onClick={() => toggleExtension(ext.id)}
+                  className={`p-2 rounded transition-all active:scale-90 ${isActive && isSidebarOpen
+                    ? "bg-gray-900 text-white shadow-lg shadow-gray-200"
+                    : "text-gray-400 hover:text-gray-900 hover:bg-gray-50"
+                    }`}
+                  title={ext.name}
+                >
+                  <Icon size={20} />
+                </button>
+              </div>
+            );
+          })}
+
+          <div className="mt-auto pb-4">
+            <a
+              href="/docs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded transition-colors text-gray-400 hover:text-gray-900 cursor-pointer"
+              title="Component Docs"
+            >
+              <BookOpen size={20} />
+            </a>
+          </div>
         </div>
 
         {/* Content Area */}
         <div className="flex-1 flex overflow-hidden relative">
           <PanelGroup direction="horizontal">
-            <Panel defaultSize={30} minSize={25}>
+            <Panel defaultSize={isSidebarOpen ? 30 : 40} minSize={25}>
               <div className="h-full relative flex flex-col">
                 <div className="flex-1 relative overflow-hidden">
                   <div className="absolute inset-0">
@@ -328,7 +360,7 @@ const Editor: React.FC = () => {
 
             <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
 
-            <Panel defaultSize={50} minSize={25}>
+            <Panel defaultSize={isSidebarOpen ? 50 : 60} minSize={25}>
               <div className="h-full bg-gray-50 overflow-y-auto relative no-scrollbar cursor-default">
                 {/* Viewport Controls */}
                 <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-white border border-gray-200 rounded-lg shadow-sm p-1">
@@ -381,7 +413,7 @@ const Editor: React.FC = () => {
                   <IframePreview
                     title="Site Preview"
                     darkMode={siteConfig.site_settings?.theme?.darkMode}
-                    className={`${siteConfig.site_settings?.theme?.darkMode ? "bg-slate-950" : "bg-white"} shadow-sm transition-all duration-300 mx-auto `}
+                    className={`${siteConfig.site_settings?.theme?.darkMode ? "bg-slate-950" : "bg-white"} shadow-2xl transition-all duration-300 border-x border-gray-200`}
                     style={{
                       width:
                         viewportWidth === "full"
@@ -389,6 +421,7 @@ const Editor: React.FC = () => {
                           : `${viewportWidth}px`,
                       maxWidth: "100%",
                       height: "100%",
+                      borderRadius: "0",
                     }}
                     contentStyle={contentStyle}                  >
                     <div className="min-h-full ">
@@ -402,16 +435,20 @@ const Editor: React.FC = () => {
               </div>
             </Panel>
 
-            <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
-            <Panel defaultSize={20} minSize={20} maxSize={40}>
-              <div className="h-full overflow-hidden">
-                <ThemePlugin
-                  activeThemeId={activeThemeId}
-                  handleThemeChange={handleThemeChange}
-                  setShowPlugins={() => { }}
-                />
-              </div>
-            </Panel>
+            {isSidebarOpen && (
+              <>
+                <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
+                <Panel defaultSize={20} minSize={15} maxSize={40}>
+                  <div className="h-full overflow-hidden border-l border-gray-100 bg-white shadow-sm">
+                    <activeExtension.panel
+                      activeThemeId={activeThemeId}
+                      handleThemeChange={handleThemeChange}
+                      setShowPlugins={() => setIsSidebarOpen(false)}
+                    />
+                  </div>
+                </Panel>
+              </>
+            )}
           </PanelGroup>
         </div>
       </div>

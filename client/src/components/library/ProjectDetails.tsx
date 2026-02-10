@@ -16,7 +16,7 @@ interface ProjectDetailsProps {
     link?: string;
     items?: ProjectItem[];
     columns?: number;
-    variant?: 'card' | 'grid' | 'impact';
+    variant?: 'card' | 'grid' | 'impact' | 'brutalist' | 'glassmorphism' | 'pixel';
 }
 
 const optimizeImageUrl = (url: string, width: number = 800) => {
@@ -38,10 +38,96 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     variant = 'card'
 }) => {
     const gridClass = columns === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+    const displayItems = items.length > 0 ? items : [{ title, description, stacks, link, image: '', tags: stacks }];
+
+    if (variant === 'brutalist') {
+        return (
+            <div className="space-y-16">
+                <div className="space-y-4">
+                    <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter italic">
+                        Projects
+                    </h2>
+                    <div className="h-2 w-32 bg-[#ff5a5f] border-2 border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)]" />
+                </div>
+                <div className={`grid ${gridClass} gap-8`}>
+                    {displayItems.map((item, idx) => (
+                        <a
+                            key={idx}
+                            href={item.link}
+                            className="group block border-[3px] border-slate-950 dark:border-white bg-white dark:bg-slate-900 shadow-[8px_8px_0px_0px_rgba(2,6,23,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] transition-all overflow-hidden"
+                        >
+                            {item.image && (
+                                <div className="aspect-[16/10] overflow-hidden border-b-[3px] border-slate-950 dark:border-white">
+                                    <img src={optimizeImageUrl(item.image, 800)} alt={item.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                </div>
+                            )}
+                            <div className="p-6 space-y-4">
+                                <h3 className="text-2xl font-black uppercase tracking-tighter text-slate-950 dark:text-white">
+                                    {item.title}
+                                </h3>
+                                {item.description && (
+                                    <p className="text-sm font-bold text-slate-600 dark:text-slate-400 uppercase leading-relaxed">{item.description}</p>
+                                )}
+                                <div className="flex flex-wrap gap-2">
+                                    {item.tags?.map((tag, tIdx) => (
+                                        <span key={tIdx} className="px-3 py-1 border-2 border-slate-950 dark:border-white text-[10px] font-black uppercase tracking-widest bg-[#ff5a5f] text-white">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'glassmorphism') {
+        return (
+            <div className="space-y-16">
+                <div className="space-y-4 text-center">
+                    <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                        Featured Work
+                    </h2>
+                    <p className="text-slate-400 text-lg font-medium">A selection of recent projects</p>
+                </div>
+                <div className={`grid ${gridClass} gap-8`}>
+                    {displayItems.map((item, idx) => (
+                        <a
+                            key={idx}
+                            href={item.link}
+                            className="group block bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-500"
+                        >
+                            {item.image && (
+                                <div className="aspect-[16/10] overflow-hidden">
+                                    <img src={optimizeImageUrl(item.image, 800)} alt={item.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
+                                </div>
+                            )}
+                            <div className="p-6 space-y-4">
+                                <h3 className="text-xl font-black text-white tracking-tight">
+                                    {item.title}
+                                </h3>
+                                {item.description && (
+                                    <p className="text-sm text-slate-400 font-medium leading-relaxed">{item.description}</p>
+                                )}
+                                <div className="flex flex-wrap gap-2">
+                                    {item.tags?.map((tag, tIdx) => (
+                                        <span key={tIdx} className="px-3 py-1 bg-white/10 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-slate-300 rounded-lg">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        );
+    }
 
     if (variant === 'impact' || variant === 'grid') {
         const isImpact = variant === 'impact';
-        const displayItems = items.length > 0 ? items : [{ title, description, stacks, link, image: '', tags: stacks }];
 
         if (isImpact) {
             return (
@@ -117,6 +203,48 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                         </a>
                     ))}
                 </div>
+            </div>
+        );
+    }
+
+    if (variant === 'pixel') {
+        const pixelFont = "'Press Start 2P', monospace";
+        return (
+            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
+                        <ExternalLink size={14} className="text-[#00ff41]" />
+                    </div>
+                    <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                        Projects
+                    </h2>
+                </div>
+                <div className={`grid ${gridClass} gap-4`}>
+                    {displayItems.map((item, idx) => (
+                        <a key={idx} href={item.link || '#'} target="_blank" rel="noopener noreferrer"
+                            className="border-2 border-[#00ff41]/30 bg-[#1a1a4e] p-5 hover:border-[#00ff41] transition-colors group block">
+                            {item.image && (
+                                <div className="w-full h-32 mb-4 overflow-hidden border-2 border-[#00ff41]/20" style={{ imageRendering: 'pixelated' }}>
+                                    <img src={optimizeImageUrl(item.image, 400)} alt={item.title} className="w-full h-full object-cover" />
+                                </div>
+                            )}
+                            <h3 className="text-[9px] text-[#00ff41] uppercase tracking-wider mb-2" style={{ fontFamily: pixelFont }}>{item.title}</h3>
+                            {item.description && (
+                                <p className="text-[7px] text-[#00ff41]/40 leading-relaxed mb-3" style={{ fontFamily: pixelFont }}>{item.description}</p>
+                            )}
+                            <div className="flex flex-wrap gap-2">
+                                {item.tags?.map((tag, tIdx) => (
+                                    <span key={tIdx} className="px-2 py-1 border border-[#00ff41]/30 text-[6px] text-[#00ff41]/50 uppercase tracking-wider" style={{ fontFamily: pixelFont }}>{tag}</span>
+                                ))}
+                            </div>
+                        </a>
+                    ))}
+                </div>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
             </div>
         );
     }

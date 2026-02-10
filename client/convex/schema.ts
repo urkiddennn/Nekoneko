@@ -5,6 +5,7 @@ import { projects } from "./schema/projects";
 import { analytics } from "./schema/analytics";
 import { unverified_users } from "./schema/unverified_users";
 import { feedback } from "./schema/feedback";
+import { messages } from "./schema/messages";
 
 export default defineSchema({
     ...authTables,
@@ -13,4 +14,5 @@ export default defineSchema({
     analytics,
     unverified_users,
     feedback,
+    messages,
 });

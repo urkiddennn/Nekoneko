@@ -16,7 +16,7 @@ export const cta = {
     props: [
         { name: "title", type: "string", desc: "Direct message." },
         { name: "buttonText", type: "string", desc: "Text for the button." },
-        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient"', desc: "Visual style." },
+        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -62,6 +62,15 @@ export const cta = {
                 id: "cta-connected",
                 type: "cta",
                 props: { title: "Let's Connect", buttonText: "Contact Us", variant: "connected_line" },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal CTA with green-on-navy palette.",
+            example: {
+                id: "cta-pixel",
+                type: "cta",
+                props: { title: "READY PLAYER?", buttonText: "START", variant: "pixel" },
             },
         },
     ],

@@ -24,7 +24,7 @@ export const image_slider = {
         { name: "transitionType", type: '"slide" | "fade"', desc: "Swipe or cross-fade." },
         { name: "autoPlay", type: "boolean", desc: "Enable auto-cycling." },
         { name: "interval", type: "number", desc: "Ms between slides." },
-        { name: "variant", type: '"minimal" | "brutalist" | "glassmorphism"', desc: "Design aesthetic." },
+        { name: "variant", type: '"minimal" | "brutalist" | "glassmorphism" | "impact" | "fullscreen"', desc: "Design aesthetic." },
     ],
     variants: [
         {
@@ -52,6 +52,24 @@ export const image_slider = {
                 id: "slider-glass",
                 type: "image_slider",
                 props: { variant: "glassmorphism", transitionType: "fade" },
+            },
+        },
+        {
+            name: "Impact",
+            description: "Large counter typography with progress bar and bold navigation.",
+            example: {
+                id: "slider-impact",
+                type: "image_slider",
+                props: { variant: "impact", transitionType: "fade", autoPlay: true },
+            },
+        },
+        {
+            name: "Fullscreen",
+            description: "Edge-to-edge cinematic layout with minimal overlay controls.",
+            example: {
+                id: "slider-fullscreen",
+                type: "image_slider",
+                props: { variant: "fullscreen", transitionType: "fade", autoPlay: true },
             },
         },
     ],

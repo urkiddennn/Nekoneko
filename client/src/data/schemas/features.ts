@@ -35,7 +35,7 @@ export const features = {
         },
         {
             name: "variant",
-            type: '"default" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient"',
+            type: '"default" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"',
             desc: "Visual style.",
         },
     ],
@@ -119,6 +119,22 @@ export const features = {
                     items: [
                         { title: "Quality", description: "Zero Compromise" },
                         { title: "Speed", description: "Market leading" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal cards with green-on-navy palette.",
+            example: {
+                id: "feat-pixel",
+                type: "features",
+                props: {
+                    title: "Core Systems",
+                    variant: "pixel",
+                    items: [
+                        { title: "Engine", description: "Custom rendering" },
+                        { title: "Network", description: "Real-time sync" },
                     ],
                 },
             },

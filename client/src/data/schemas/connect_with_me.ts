@@ -9,7 +9,7 @@ export const connect_with_me = {
         { name: "buttonText", type: "string", desc: "CTA button label." },
         { name: "emailPlaceholder", type: "string", desc: "Email field placeholder." },
         { name: "messagePlaceholder", type: "string", desc: "Message field placeholder." },
-        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal_outline"', desc: "Visual style." },
+        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal_outline" | "pixel"', desc: "Visual style." },
         { name: "showLineDecoration", type: "boolean", desc: "Toggle the vertical line." }
     ],
     variants: [
@@ -40,6 +40,52 @@ export const connect_with_me = {
                     emailPlaceholder: "YOUR EMAIL",
                     messagePlaceholder: "YOUR MESSAGE",
                     variant: "brutalist"
+                }
+            }
+        },
+        {
+            name: "Glassmorphism",
+            description: "Frosted glass with backdrop blur and translucent inputs.",
+            example: {
+                id: "connect-glass",
+                type: "connect_with_me",
+                props: {
+                    title: "Let's Connect",
+                    subheading: "Drop me a message anytime.",
+                    buttonText: "SEND",
+                    emailPlaceholder: "your@email.com",
+                    messagePlaceholder: "What's on your mind?",
+                    variant: "glassmorphism"
+                }
+            }
+        },
+        {
+            name: "Minimal Outline",
+            description: "Clean underline inputs with monochrome palette.",
+            example: {
+                id: "connect-outline",
+                type: "connect_with_me",
+                props: {
+                    title: "SAY HELLO",
+                    buttonText: "SUBMIT",
+                    emailPlaceholder: "Email address",
+                    messagePlaceholder: "Your message",
+                    variant: "minimal_outline"
+                }
+            }
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal contact form with green-on-navy palette.",
+            example: {
+                id: "connect-pixel",
+                type: "connect_with_me",
+                props: {
+                    title: "TRANSMIT MSG",
+                    buttonText: "SEND",
+                    emailPlaceholder: "email@addr",
+                    messagePlaceholder: "Enter message...",
+                    variant: "pixel"
                 }
             }
         }

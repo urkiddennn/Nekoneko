@@ -140,6 +140,22 @@ export const navigation = {
                 },
             },
         },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal aesthetic with green-on-navy palette.",
+            example: {
+                id: "nav-pixel",
+                type: "navigation",
+                props: {
+                    links: [
+                        { label: "Work", url: "#" },
+                        { label: "Contact", url: "#" },
+                    ],
+                    showResumeButton: true,
+                    variant: "pixel",
+                },
+            },
+        },
     ],
     props: [
         { name: "links", type: "array", desc: "List of {label, url}." },
@@ -150,7 +166,7 @@ export const navigation = {
         },
         {
             name: "variant",
-            type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient"',
+            type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel"',
             desc: "Visual style.",
         },
     ],

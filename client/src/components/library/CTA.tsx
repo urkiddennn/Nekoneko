@@ -3,7 +3,7 @@ import React from 'react';
 interface CTAProps {
     title: string;
     buttonText: string;
-    variant?: 'default' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient';
+    variant?: 'default' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel';
 }
 
 const CTA: React.FC<CTAProps> = ({ title, buttonText, variant = 'default' }) => {
@@ -66,6 +66,27 @@ const CTA: React.FC<CTAProps> = ({ title, buttonText, variant = 'default' }) => 
                 <button className="px-12 py-5 bg-white text-slate-900 rounded-full font-black uppercase tracking-widest text-xs hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all shadow-2xl">
                     {buttonText}
                 </button>
+            </div>
+        );
+    }
+    if (variant === 'pixel') {
+        const pixelFont = "'Press Start 2P', monospace";
+        return (
+            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-10 md:p-16 overflow-hidden flex flex-col items-center text-center space-y-8"
+                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute bottom-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute bottom-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <h2 className="text-sm md:text-lg text-[#00ff41] uppercase tracking-wider max-w-xl leading-relaxed" style={{ fontFamily: pixelFont }}>
+                    {title}
+                </h2>
+                <button className="px-8 py-4 text-[8px] md:text-[10px] uppercase tracking-widest border-2 border-[#00ff41] bg-[#00ff41] text-[#0a0a2e] hover:bg-transparent hover:text-[#00ff41] transition-all shadow-[4px_4px_0px_0px_#00ff41] hover:shadow-[2px_2px_0px_0px_#00ff41]"
+                    style={{ fontFamily: pixelFont, cursor: 'pointer' }}>
+                    {buttonText}
+                </button>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
             </div>
         );
     }

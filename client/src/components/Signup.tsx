@@ -178,7 +178,7 @@ const Signup: React.FC = () => {
                                             type="text"
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
                                             placeholder="John Doe"
                                             required
                                         />
@@ -193,7 +193,7 @@ const Signup: React.FC = () => {
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
                                             placeholder="name@example.com"
                                             required
                                         />
@@ -208,7 +208,7 @@ const Signup: React.FC = () => {
                                             type="password"
                                             value={password}
                                             onChange={handlePasswordChange}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
                                             placeholder="••••••••"
                                             required
                                         />
@@ -267,7 +267,7 @@ const Signup: React.FC = () => {
                                             type="text"
                                             value={code}
                                             onChange={(e) => setCode(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded focus:border-gray-900 outline-none transition-all font-medium bg-gray-50/30 focus:bg-white text-center tracking-[0.5em] font-mono text-lg"
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium bg-gray-50/30 focus:bg-white text-center tracking-[0.5em] font-mono text-lg"
                                             placeholder="••••••"
                                             maxLength={6}
                                             required
@@ -285,7 +285,7 @@ const Signup: React.FC = () => {
                         )}
 
                         {error && (
-                            <div className="p-3 bg-red-50 border border-red-100 rounded text-red-600 text-[10px] font-bold uppercase tracking-wider text-center">
+                            <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-[10px] font-bold uppercase tracking-wider text-center">
                                 {error}
                             </div>
                         )}
@@ -293,7 +293,7 @@ const Signup: React.FC = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full bg-gray-900 text-white py-4 rounded font-bold hover:bg-black transition-all active:scale-[0.98] shadow-lg shadow-gray-100 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`w-full bg-gray-900 text-white py-4 rounded-lg font-bold hover:bg-black transition-all active:scale-[0.98] shadow-lg shadow-gray-100 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             {isLoading ? 'Processing...' :
                                 step === 'credentials' ? 'Create Account' : 'Verify & Continue'}
@@ -311,7 +311,7 @@ const Signup: React.FC = () => {
                         <button
                             type="button"
                             onClick={() => signIn("github", { redirectTo: "/dashboard" })}
-                            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-900 py-4 rounded font-bold hover:bg-gray-50 transition-all active:scale-[0.98]"
+                            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-900 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all active:scale-[0.98] shadow-sm"
                         >
                             <Github size={20} />
                             GitHub

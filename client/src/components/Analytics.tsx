@@ -71,7 +71,7 @@ const Analytics: React.FC = () => {
                 </div>
 
                 {/* Simple Sparkline Chart */}
-                <div className="bg-white border border-gray-100 rounded-3xl p-10 shadow-sm shadow-gray-100">
+                <div className="bg-white border border-gray-100 rounded-xl p-10 shadow-sm shadow-gray-100">
                     <div className="flex items-center justify-between mb-8">
                         <div>
                             <h3 className="text-lg font-bold text-gray-900">Traffic Trend</h3>
@@ -114,13 +114,13 @@ const Analytics: React.FC = () => {
 };
 
 const StatCard = ({ label, value, icon, color }: { label: string, value: number, icon: any, color: string }) => (
-    <div className="p-8 bg-white border border-gray-100 rounded-2xl shadow-sm shadow-gray-100 flex flex-col gap-4 group hover:border-slate-900 transition-all">
-        <div className={`p - 3 rounded - xl bg - slate - 50 w - fit group - hover: bg - slate - 900 group - hover: text - white transition - all ${color} `}>
+    <div className="p-8 bg-white border border-gray-100 rounded-xl shadow-sm shadow-gray-100 flex flex-col gap-4 group hover:border-gray-900 transition-all">
+        <div className={`p-3 rounded-lg bg-gray-50 w-fit group-hover:bg-gray-900 group-hover:text-white transition-all ${color}`}>
             {icon}
         </div>
         <div>
-            <div className="text-4xl font-black tracking-tight text-slate-900">{value}</div>
-            <div className="text-[10px] font-black uppercase tracking-[0.1em] text-slate-400 mt-1">{label}</div>
+            <div className="text-4xl font-black tracking-tight text-gray-900">{value}</div>
+            <div className="text-[10px] font-black uppercase tracking-[0.1em] text-gray-400 mt-1">{label}</div>
         </div>
     </div>
 );

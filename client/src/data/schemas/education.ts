@@ -31,7 +31,7 @@ export const education = {
         },
         {
             name: "variant",
-            type: '"timeline" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient"',
+            type: '"timeline" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel"',
             desc: "Visual style.",
         },
     ],
@@ -134,6 +134,21 @@ export const education = {
                     variant: "creative_gradient",
                     items: [
                         { school: "RISD", degree: "Arts", period: "2018" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit pixel art style with green accents.",
+            example: {
+                id: "edu-pixel",
+                type: "education",
+                props: {
+                    title: "Education",
+                    variant: "pixel",
+                    items: [
+                        { school: "Universidad De Manila", degree: "Bachelor of IT", period: "2018 — 2022" },
                     ],
                 },
             },

@@ -31,7 +31,8 @@ interface EducationProps {
     | "impact"
     | "glassmorphism"
     | "connected_line"
-    | "creative_gradient";
+    | "creative_gradient"
+    | "pixel";
 }
 
 const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline' }) => {
@@ -122,6 +123,62 @@ const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline
                         );
                     })}
                 </div>
+            </div>
+        );
+    }
+
+    if (variant === 'pixel') {
+        const pixelFont = "'Press Start 2P', monospace";
+        return (
+            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+                {/* Corner markers */}
+                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+
+                {/* Section header */}
+                <div className="flex items-center gap-3 mb-8">
+                    <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
+                        <GraduationCap size={14} className="text-[#00ff41]" />
+                    </div>
+                    <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                        {title}
+                    </h2>
+                </div>
+
+                {/* Items */}
+                <div className="space-y-0 relative">
+                    {items.map((item, index) => (
+                        <div key={index} className="relative">
+                            {/* Dashed connector */}
+                            {index > 0 && (
+                                <div className="w-px h-4 border-l-2 border-dashed border-[#00ff41]/30 ml-[15px]" />
+                            )}
+                            <div className="flex items-start gap-4 group">
+                                {/* Year badge */}
+                                <div className="w-[32px] h-[32px] border-2 border-[#00ff41] bg-[#1a1a4e] flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#00ff41]">
+                                    <span className="text-[6px] text-[#00ff41] font-bold" style={{ fontFamily: pixelFont }}>
+                                        {item.period.match(/\d{4}/)?.[0] || item.period.slice(0, 4)}
+                                    </span>
+                                </div>
+                                {/* Content */}
+                                <div className="pt-1">
+                                    <h3 className="text-[10px] md:text-xs text-[#00ff41] uppercase tracking-wide leading-relaxed" style={{ fontFamily: pixelFont }}>
+                                        {item.school}
+                                    </h3>
+                                    <p className="text-[8px] md:text-[10px] text-[#00ff41]/50 uppercase tracking-wider mt-1" style={{ fontFamily: pixelFont }}>
+                                        {item.degree}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Scanline */}
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }}
+                />
             </div>
         );
     }

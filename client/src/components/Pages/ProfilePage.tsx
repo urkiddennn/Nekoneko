@@ -83,7 +83,7 @@ const ProfilePage: React.FC = () => {
           <p className="text-gray-500 mt-2">Manage your account details.</p>
         </div>
 
-        <div className="max-w-2xl border border-gray-200 rounded p-8 space-y-10">
+        <div className="max-w-2xl border border-gray-100 rounded-xl p-8 space-y-10 shadow-sm">
           <div className="flex items-center gap-6 pb-10 border-b border-gray-100">
             <div className="w-20 h-20 rounded-full border border-gray-200 overflow-hidden">
               <img
@@ -115,7 +115,7 @@ const ProfilePage: React.FC = () => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded focus:border-gray-900 outline-none transition-all font-medium text-sm"
+                    className="w-full pl-9 pr-4 py-2 bg-gray-50/50 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm text-gray-900"
                     placeholder="Your Name"
                     required
                   />
@@ -135,7 +135,7 @@ const ProfilePage: React.FC = () => {
                     type="email"
                     value={user.email}
                     disabled
-                    className="w-full pl-9 pr-4 py-2 border border-gray-100 bg-gray-50/50 rounded text-gray-400 cursor-not-allowed font-medium text-sm"
+                    className="w-full pl-9 pr-4 py-2 border border-gray-100 bg-gray-50/30 rounded-lg text-gray-400 cursor-not-allowed font-medium text-sm"
                   />
                 </div>
               </div>
@@ -143,11 +143,10 @@ const ProfilePage: React.FC = () => {
 
             {message && (
               <div
-                className={`p-4 rounded text-xs font-bold uppercase tracking-wider ${
-                  message.type === "success"
-                    ? "bg-green-50 text-green-700 border border-green-200"
-                    : "bg-red-50 text-red-700 border border-red-200"
-                }`}
+                className={`p-4 rounded-lg text-xs font-bold uppercase tracking-wider ${message.type === "success"
+                    ? "bg-green-50 text-green-700 border border-green-100"
+                    : "bg-red-50 text-red-700 border border-red-100"
+                  }`}
               >
                 {message.text}
               </div>
@@ -157,7 +156,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isUpdating || name === user.name}
-                className="bg-gray-900 text-white px-8 py-2.5 rounded font-bold text-sm flex items-center gap-2 hover:bg-black transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 disabled:cursor-not-allowed"
+                className="bg-gray-900 text-white px-8 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-black transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 disabled:cursor-not-allowed shadow-lg shadow-gray-200"
               >
                 {isUpdating ? (
                   <Loader2 size={16} className="animate-spin" />

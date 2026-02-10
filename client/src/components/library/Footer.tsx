@@ -24,7 +24,7 @@ interface FooterProps {
     copyright?: string;
     links?: FooterLink[];
     socials?: SocialLink[];
-    variant?: "default" | "brutalist" | "glassmorphism" | "minimal" | "impact";
+    variant?: "default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel";
 }
 
 const socialIconMap = {
@@ -254,6 +254,55 @@ const Footer: React.FC<FooterProps> = ({
                         </button>
                     </div>
                 </div>
+            </footer>
+        );
+    }
+
+    if (variant === "pixel") {
+        const pixelFont = "'Press Start 2P', monospace";
+        return (
+            <footer className="relative bg-[#0a0a2e] border-t-[3px] border-[#00ff41] py-12 -mx-4 px-4 overflow-hidden">
+                <div className="max-w-7xl mx-auto relative z-10">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                        <div className="space-y-4">
+                            <h2 className="text-xs text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                                {logo || 'LOGO'}
+                            </h2>
+                            {tagline && <p className="text-[7px] text-[#00ff41]/40 leading-relaxed" style={{ fontFamily: pixelFont }}>{tagline}</p>}
+                        </div>
+                        <div className="space-y-4">
+                            <h3 className="text-[7px] text-[#00ff41]/50 uppercase tracking-widest" style={{ fontFamily: pixelFont }}>Navigation</h3>
+                            <ul className="space-y-2">
+                                {links.map((link, idx) => (
+                                    <li key={idx}>
+                                        <a href={link.url} className="text-[7px] text-[#00ff41]/60 uppercase tracking-wider hover:text-[#00ff41] transition-colors" style={{ fontFamily: pixelFont }}>
+                                            {link.label}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="space-y-4">
+                            <h3 className="text-[7px] text-[#00ff41]/50 uppercase tracking-widest" style={{ fontFamily: pixelFont }}>Connect</h3>
+                            <div className="flex gap-3">
+                                {socials.map((social, idx) => {
+                                    const Icon = socialIconMap[social.platform];
+                                    return (
+                                        <a key={idx} href={social.url}
+                                            className="w-9 h-9 border-2 border-[#00ff41]/30 bg-[#1a1a4e] flex items-center justify-center hover:border-[#00ff41] hover:bg-[#00ff41]/20 transition-all">
+                                            <Icon size={14} className="text-[#00ff41]" />
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="pt-6 border-t-2 border-[#00ff41]/20 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <p className="text-[6px] text-[#00ff41]/30 uppercase tracking-widest" style={{ fontFamily: pixelFont }}>{copyright}</p>
+                    </div>
+                </div>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
             </footer>
         );
     }

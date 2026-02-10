@@ -31,7 +31,7 @@ export const faq = {
             type: "array",
             desc: "List of {question, answer}.",
         },
-        { name: "variant", type: '"accordion" | "grid" | "minimal_cards" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient"', desc: "Visual style." },
+        { name: "variant", type: '"accordion" | "grid" | "minimal_cards" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -144,6 +144,22 @@ export const faq = {
                     items: [
                         { question: "Is it secure?", answer: "Bank-level encryption for all user data." },
                         { question: "Open Source?", answer: "The core rendering engine is open source." },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal accordion with green-on-navy palette.",
+            example: {
+                id: "faq-pixel",
+                type: "faq",
+                props: {
+                    title: "System FAQ",
+                    variant: "pixel",
+                    items: [
+                        { question: "How does it work?", answer: "JSON in, beautiful UI out." },
+                        { question: "Is it free?", answer: "Generous free tier available." },
                     ],
                 },
             },

@@ -29,7 +29,7 @@ export const contact_info = {
         },
         {
             name: "variant",
-            type: '"default" | "card" | "impact" | "brutalist" | "glassmorphism" | "connected_line" | "creative_gradient"',
+            type: '"default" | "card" | "impact" | "brutalist" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel"',
             desc: "Visual style.",
         },
         { name: "email", type: "string", desc: "Contact email." },
@@ -130,6 +130,19 @@ export const contact_info = {
                     title: "Say Hello",
                     links: [{ label: "Instagram", url: "#", icon: "Instagram" }],
                     variant: "creative_gradient",
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal contact links with green-on-navy palette.",
+            example: {
+                id: "contact-pixel",
+                type: "contact_info",
+                props: {
+                    title: "Contact",
+                    links: [{ label: "Email", url: "mailto:hello@example.com", icon: "Mail" }],
+                    variant: "pixel",
                 },
             },
         },

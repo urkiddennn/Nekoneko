@@ -10,7 +10,7 @@ interface FAQProps {
     title?: string;
     description?: string;
     items?: FAQItem[];
-    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient';
+    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel';
 }
 
 const FAQ: React.FC<FAQProps> = ({
@@ -111,6 +111,52 @@ const FAQ: React.FC<FAQProps> = ({
             })}
         </div>
     );
+
+    if (variant === 'pixel') {
+        const pixelFont = "'Press Start 2P', monospace";
+        return (
+            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                {title && (
+                    <div className="flex items-center gap-3 mb-8">
+                        <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
+                            <HelpCircle size={14} className="text-[#00ff41]" />
+                        </div>
+                        <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                            {title}
+                        </h2>
+                    </div>
+                )}
+                <div className="space-y-2">
+                    {items.map((item, index) => {
+                        const isOpen = openIndex === index;
+                        return (
+                            <div key={index} className="border-2 border-[#00ff41]/30 bg-[#1a1a4e]">
+                                <button onClick={() => toggleAccordion(index)}
+                                    className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 group">
+                                    <span className="text-[8px] md:text-[10px] text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                                        {item.question}
+                                    </span>
+                                    <span className="text-[#00ff41]/60 text-xs" style={{ fontFamily: pixelFont }}>
+                                        {isOpen ? '[-]' : '[+]'}
+                                    </span>
+                                </button>
+                                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 py-4 px-5 border-t border-[#00ff41]/20' : 'max-h-0'}`}>
+                                    <p className="text-[8px] text-[#00ff41]/50 leading-relaxed" style={{ fontFamily: pixelFont }}>
+                                        {item.answer}
+                                    </p>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+            </div>
+        );
+    }
 
     return (
         <div className="w-full">

@@ -24,7 +24,7 @@ export const skills = {
         },
         {
             name: "variant",
-            type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal" | "glassmorphism" | "creative_gradient" | "detailed_cards"',
+            type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal" | "glassmorphism" | "creative_gradient" | "detailed_cards" | "pixel"',
             desc: "Visual style.",
         },
         { name: "barColor", type: "hex", desc: "Main progress color." },
@@ -121,6 +121,22 @@ export const skills = {
                     skills: [
                         { name: "React", level: 90, icon: "React" },
                         { name: "TypeScript", level: 85, icon: "TS" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit pixel art style with segmented progress bars.",
+            example: {
+                id: "skills-pixel",
+                type: "skills",
+                props: {
+                    title: "Skills",
+                    variant: "pixel",
+                    skills: [
+                        { name: "React", level: 90 },
+                        { name: "TypeScript", level: 85 },
                     ],
                 },
             },

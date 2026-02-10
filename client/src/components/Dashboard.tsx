@@ -133,26 +133,25 @@ const Dashboard: React.FC = () => {
       <Header />
 
 
-      <main className="pt-32 px-8 max-w-6xl mx-auto">
-        <div className="flex justify-between items-end mb-12">
+      <main className="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-12">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Your Projects</h1>
-            <p className="text-gray-500 mt-2">
+            <p className="text-gray-500 mt-2 text-sm">
               Manage and view your static sites.
             </p>
           </div>
-          <div className="flex gap-3">
-
+          <div className="flex w-full sm:w-auto gap-3">
             <button
               onClick={() => setIsFeedbackOpen(true)}
-              className="px-4 py-2 rounded font-bold text-gray-500 hover:text-gray-900 border border-transparent hover:bg-gray-50 transition-all flex items-center gap-2"
+              className="flex-1 sm:flex-none px-4 py-2.5 rounded font-bold text-gray-500 hover:text-gray-900 border border-gray-100 hover:bg-gray-50 transition-all flex items-center justify-center gap-2 text-xs md:text-sm"
             >
               <MessageSquare size={18} />
               Feedback
             </button>
             <button
               onClick={() => setIsCreating(true)}
-              className="bg-gray-900 text-white px-4 py-2 rounded font-bold flex items-center gap-2 hover:bg-black transition-all active:scale-95"
+              className="flex-1 sm:flex-none bg-gray-900 text-white px-4 py-2.5 rounded font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 text-xs md:text-sm shadow-xl shadow-gray-200"
             >
               <Plus size={18} />
               New Project
@@ -176,14 +175,14 @@ const Dashboard: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {projects.map((project: any) => (
               <div
                 key={project._id}
-                className="group border border-gray-200 rounded p-6 hover:border-gray-900 transition-all flex flex-col justify-between h-48 relative"
+                className="group border border-gray-200 rounded-xl p-6 hover:border-gray-900 transition-all flex flex-col justify-between h-48 relative bg-white"
               >
                 <div>
-                  <h3 className="font-bold text-lg mb-1">{project.name}</h3>
+                  <h3 className="font-bold text-lg mb-1 text-gray-900">{project.name}</h3>
                   <p className="text-xs text-gray-400 font-mono">
                     /{project.slug}
                   </p>
@@ -195,7 +194,7 @@ const Dashboard: React.FC = () => {
                         projectToEdit?._id === project._id ? null : project,
                       )
                     }
-                    className="flex-1 border border-gray-200 py-1.5 rounded text-xs font-bold hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5"
+                    className="flex-1 border border-gray-100 py-1.5 rounded-lg text-xs font-bold hover:bg-gray-50 transition-colors flex items-center justify-center gap-1.5 text-gray-600"
                   >
                     <Settings size={14} />
                     Edit
@@ -206,14 +205,14 @@ const Dashboard: React.FC = () => {
                       const host = window.location.host;
                       window.open(`${protocol}//${project.slug}.${host}`, "_blank");
                     }}
-                    className="flex-1 bg-gray-50 py-1.5 rounded text-xs font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-1.5"
+                    className="flex-1 bg-gray-50 py-1.5 rounded-lg text-xs font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-1.5 text-gray-900"
                   >
                     <Globe size={14} />
                     Live
                   </button>
                   <button
                     onClick={() => navigate(`/analytics/${project._id}`)}
-                    className="p-1.5 px-2 border border-gray-100 rounded text-gray-400 hover:text-indigo-600 hover:bg-slate-50 transition-all"
+                    className="p-1.5 px-2 border border-gray-100 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-slate-50 transition-all"
                     title="View Analytics"
                   >
                     <TrendingUp size={14} />
@@ -226,24 +225,24 @@ const Dashboard: React.FC = () => {
                         className="fixed inset-0 z-20"
                         onClick={() => setProjectToEdit(null)}
                       ></div>
-                      <div className="absolute top-1/5 -right-11 mb-2 w-48 bg-white border border-gray-200 rounded-lg shadow-sm z-30 py-1 animate-in slide-in-from-bottom-2 duration-200">
+                      <div className="absolute top-1/5 -right-11 mb-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl shadow-gray-200/50 z-30 py-2 animate-in slide-in-from-bottom-2 duration-200">
                         <button
                           onClick={() => navigate(`/editor/${project._id}`)}
-                          className="w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-bold flex items-center gap-2"
+                          className="w-full text-left px-4 py-2.5 hover:bg-gray-50 text-xs font-bold flex items-center gap-2 text-gray-700"
                         >
                           <Settings size={14} className="text-gray-400" />
                           Edit Content
                         </button>
                         <button
                           onClick={() => navigate(`/analytics/${project._id}`)}
-                          className="w-full text-left px-4 py-2 hover:bg-gray-50 text-xs font-bold flex items-center gap-2 border-t border-gray-50"
+                          className="w-full text-left px-4 py-2.5 hover:bg-gray-50 text-xs font-bold flex items-center gap-2 border-t border-gray-50 text-gray-700"
                         >
                           <TrendingUp size={14} className="text-gray-400" />
                           View Analytics
                         </button>
                         <button
                           onClick={() => setProjectToDelete(project)}
-                          className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 text-xs font-bold flex items-center gap-2 border-t border-gray-50"
+                          className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 text-xs font-bold flex items-center gap-2 border-t border-gray-50"
                         >
                           <Plus size={14} className="rotate-45" />
                           Delete Project
@@ -260,9 +259,9 @@ const Dashboard: React.FC = () => {
 
       {/* Delete Confirmation Modal */}
       {projectToDelete && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-sm p-8 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200">
-            <h2 className="text-xl font-bold mb-2">Delete Project?</h2>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white w-full max-w-sm p-6 md:p-8 rounded-xl shadow-2xl animate-in zoom-in-95 duration-200">
+            <h2 className="text-xl font-bold mb-2 text-gray-900">Delete Project?</h2>
             <p className="text-gray-500 text-sm mb-8">
               Are you sure you want to delete{" "}
               <span className="font-bold text-gray-900">
@@ -270,18 +269,19 @@ const Dashboard: React.FC = () => {
               </span>
               ?
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <button
                 onClick={() => setProjectToDelete(null)}
-                className="flex-1 py-2 text-gray-500 font-bold hover:text-gray-900 border border-transparent"
+                className="flex-1 py-2 text-gray-500 font-bold hover:text-gray-900 transition-colors"
+                title="Cancel"
               >
                 Keep It
               </button>
               <button
                 onClick={handleDelete}
-                className="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200"
+                className="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-100"
               >
-                Delete Forever
+                Delete
               </button>
             </div>
           </div>
@@ -290,15 +290,15 @@ const Dashboard: React.FC = () => {
 
       {/* Create Modal */}
       {isCreating && (
-        <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/5 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <form
             onSubmit={handleCreate}
-            className="bg-white w-full max-w-2xl max-h-[90vh] flex flex-col border border-gray-200 rounded shadow-2xl animate-in zoom-in-95 duration-200 overflow-hidden"
+            className="bg-white w-full max-w-2xl my-auto flex flex-col border border-gray-100 rounded-xl shadow-2xl shadow-gray-200/50 animate-in zoom-in-95 duration-200 overflow-hidden"
           >
-            <div className="p-8 flex-1 overflow-y-auto">
-              <h2 className="text-xl font-bold mb-6 tracking-tight">Create New Project</h2>
+            <div className="p-6 md:p-10 flex-1">
+              <h2 className="text-2xl font-bold mb-8 tracking-tight text-gray-900">Create New Project</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div>
@@ -314,7 +314,7 @@ const Dashboard: React.FC = () => {
                             setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "-"));
                           }
                         }}
-                        className="w-full px-3 py-2 border border-gray-200 rounded focus:border-gray-900 outline-none font-medium text-sm transition-all"
+                        className="w-full px-4 py-2 border border-gray-100 rounded-lg focus:border-gray-900 outline-none font-medium text-sm transition-all bg-gray-50/50"
                         placeholder="My Portfolio"
                         required
                       />
@@ -329,7 +329,7 @@ const Dashboard: React.FC = () => {
                           type="text"
                           value={newSlug}
                           onChange={(e) => setNewSlug(e.target.value)}
-                          className={`flex-1 px-3 py-2 border rounded focus:border-gray-900 outline-none font-mono text-xs transition-all ${isAvailable === false ? 'border-red-500 bg-red-50 text-red-900' : 'border-gray-200'}`}
+                          className={`flex-1 px-4 py-2 border rounded-lg focus:border-gray-900 outline-none font-mono text-xs transition-all ${isAvailable === false ? 'border-red-500 bg-red-50 text-red-900' : 'border-gray-100 bg-gray-50/50'}`}
                           placeholder="portfolio-24"
                           required
                         />
@@ -352,7 +352,7 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-400">Select Template</h3>
                   <div className="grid grid-cols-1 gap-2">
                     {TEMPLATES.map((tmpl) => (
@@ -360,7 +360,7 @@ const Dashboard: React.FC = () => {
                         key={tmpl.id}
                         type="button"
                         onClick={() => setSelectedTemplate(tmpl)}
-                        className={`relative flex items-center gap-3 text-left p-3 rounded border transition-all ${selectedTemplate?.id === tmpl.id
+                        className={`relative flex items-center gap-3 text-left p-3 rounded-lg border transition-all ${selectedTemplate?.id === tmpl.id
                           ? "border-gray-900 bg-gray-50"
                           : "border-gray-100 hover:border-gray-200"
                           }`}
@@ -386,7 +386,7 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-3">
+            <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-4">
               <button
                 type="button"
                 onClick={() => setIsCreating(false)}
@@ -397,7 +397,7 @@ const Dashboard: React.FC = () => {
               <button
                 type="submit"
                 disabled={isAvailable === false}
-                className={`flex-1 py-2 rounded font-bold text-sm transition-all active:scale-95 ${isAvailable === false ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' : 'bg-gray-900 text-white hover:bg-black'}`}
+                className={`flex-1 py-2 rounded-lg font-bold text-sm transition-all active:scale-95 ${isAvailable === false ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' : 'bg-gray-900 text-white hover:bg-black shadow-lg shadow-gray-200'}`}
               >
                 Create Project
               </button>
@@ -408,48 +408,48 @@ const Dashboard: React.FC = () => {
 
       {/* Feedback Modal */}
       {isFeedbackOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <form
             onSubmit={handleFeedbackSubmit}
-            className="bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl animate-in zoom-in-95 duration-200"
+            className="bg-white w-full max-w-md my-auto p-6 md:p-10 rounded-xl shadow-2xl animate-in zoom-in-95 duration-200 shadow-indigo-100/30"
           >
-            <h2 className="text-xl font-bold mb-2">Send Feedback</h2>
+            <h2 className="text-2xl font-bold mb-2 tracking-tight text-gray-900">Send Feedback</h2>
             <p className="text-gray-500 text-sm mb-6">
               Found a bug or have a suggestion? Let us know!
             </p>
 
-            <div className="space-y-4 mb-8">
+            <div className="space-y-6 mb-8">
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
-                  Type
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                  Feedback Category
                 </label>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={() => setFeedbackType("problem")}
-                    className={`flex-1 py-2 rounded-lg text-xs font-bold border transition-all ${feedbackType === "problem"
+                    className={`flex-1 py-2.5 rounded-lg text-xs font-bold border transition-all ${feedbackType === "problem"
                       ? "border-red-500 bg-red-50 text-red-600 shadow-sm"
                       : "border-gray-100 text-gray-400 hover:border-gray-200"
                       }`}
                   >
-                    Report Problem
+                    Report Bug
                   </button>
                   <button
                     type="button"
                     onClick={() => setFeedbackType("rating")}
-                    className={`flex-1 py-2 rounded-lg text-xs font-bold border transition-all ${feedbackType === "rating"
+                    className={`flex-1 py-2.5 rounded-lg text-xs font-bold border transition-all ${feedbackType === "rating"
                       ? "border-indigo-500 bg-indigo-50 text-indigo-600 shadow-sm"
                       : "border-gray-100 text-gray-400 hover:border-gray-200"
                       }`}
                   >
-                    Rating
+                    Site Rating
                   </button>
                 </div>
               </div>
 
               {feedbackType === "rating" && (
                 <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
                     Rating
                   </label>
                   <div className="flex gap-2">
@@ -474,20 +474,20 @@ const Dashboard: React.FC = () => {
               )}
 
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
-                  Message
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                  Your Message
                 </label>
                 <textarea
                   value={feedbackMessage}
                   onChange={(e) => setFeedbackMessage(e.target.value)}
                   placeholder="Tell us what's on your mind..."
-                  className="w-full h-32 px-4 py-3 border border-gray-100 rounded-xl focus:border-gray-900 outline-none text-sm transition-all resize-none"
+                  className="w-full h-32 px-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none text-sm transition-all resize-none bg-gray-50/50"
                   required
                 />
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <button
                 type="button"
                 onClick={() => setIsFeedbackOpen(false)}
@@ -499,7 +499,7 @@ const Dashboard: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSendingFeedback || !feedbackMessage.trim()}
-                className="flex-[2] bg-gray-900 text-white py-2 rounded-xl font-bold hover:bg-black transition-all shadow-lg active:scale-95 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none"
+                className="flex-[2] bg-gray-900 text-white py-2.5 rounded-lg font-bold hover:bg-black transition-all shadow-lg shadow-gray-200 active:scale-95 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none"
               >
                 {isSendingFeedback ? "Sending..." : "Submit Feedback"}
               </button>

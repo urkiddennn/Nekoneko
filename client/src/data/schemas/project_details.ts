@@ -28,7 +28,7 @@ export const project_details = {
         { name: "columns", type: "number", desc: "Column count." },
         {
             name: "variant",
-            type: '"card" | "grid" | "impact"',
+            type: '"card" | "grid" | "impact" | "brutalist" | "glassmorphism" | "pixel"',
             desc: "Visual style.",
         },
     ],
@@ -58,6 +58,48 @@ export const project_details = {
                     variant: "impact",
                     items: [
                         { title: "Modern Design", image: "", tags: ["2024"], link: "#" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Brutalist",
+            description: "Thick borders and offset shadows with uppercase type.",
+            example: {
+                id: "project-brutalist",
+                type: "project_details",
+                props: {
+                    variant: "brutalist",
+                    items: [
+                        { title: "Raw Design", image: "", tags: ["Brutalist"], link: "#" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Glassmorphism",
+            description: "Translucent cards with backdrop blur and soft borders.",
+            example: {
+                id: "project-glass",
+                type: "project_details",
+                props: {
+                    variant: "glassmorphism",
+                    items: [
+                        { title: "Glass Project", image: "", tags: ["Design"], link: "#" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit terminal project cards with green-on-navy palette.",
+            example: {
+                id: "project-pixel",
+                type: "project_details",
+                props: {
+                    variant: "pixel",
+                    items: [
+                        { title: "Retro App", image: "", tags: ["Pixel"], link: "#" },
                     ],
                 },
             },

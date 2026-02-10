@@ -27,7 +27,7 @@ export const experience = {
             type: "array",
             desc: "List of {role, company, period, description, icon}.",
         },
-        { name: "variant", type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "creative_gradient" | "connected_line"', desc: "Visual style." },
+        { name: "variant", type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "creative_gradient" | "connected_line" | "pixel"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -159,6 +159,21 @@ export const experience = {
                     variant: "connected_line",
                     jobs: [
                         { role: "Frontend Developer", company: "Google", period: "2023", description: "Search UI team." },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit pixel art style with green accents.",
+            example: {
+                id: "exp-pixel",
+                type: "experience",
+                props: {
+                    title: "Experience",
+                    variant: "pixel",
+                    jobs: [
+                        { role: "Frontend Dev", company: "Neko", period: "2024", description: "Building the next-gen editor." },
                     ],
                 },
             },

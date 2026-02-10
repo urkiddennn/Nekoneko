@@ -6,7 +6,7 @@ interface FeaturesProps {
     items: any[];
     columns?: number;
     renderItem?: (item: any, index: number) => React.ReactNode;
-    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient';
+    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel';
 }
 
 const Features: React.FC<FeaturesProps> = ({
@@ -19,6 +19,35 @@ const Features: React.FC<FeaturesProps> = ({
     const isBrutalist = variant === 'brutalist';
     const isOutlineMinimal = variant === 'outline_minimal';
     const gridClass = columns === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
+
+    if (variant === 'pixel') {
+        const pixelFont = "'Press Start 2P', monospace";
+        return (
+            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider mb-8" style={{ fontFamily: pixelFont }}>{title}</h2>
+                <div className={`grid ${gridClass} gap-4`}>
+                    {items?.map((item, idx) => (
+                        <div key={idx} className="border-2 border-[#00ff41] bg-[#1a1a4e] p-5 shadow-[3px_3px_0px_0px_#00ff41] hover:shadow-[4px_4px_0px_0px_#00ff41] transition-shadow">
+                            <span className="text-[7px] text-[#00ff41]/40 uppercase tracking-widest block mb-3" style={{ fontFamily: pixelFont }}>
+                                Feature {idx + 1}
+                            </span>
+                            <h3 className="text-[10px] md:text-xs text-[#00ff41] uppercase tracking-wide mb-2" style={{ fontFamily: pixelFont }}>
+                                {item.title}
+                            </h3>
+                            <p className="text-[8px] text-[#00ff41]/40 leading-relaxed" style={{ fontFamily: pixelFont }}>
+                                {item.description}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+            </div>
+        );
+    }
 
     if (variant === 'impact') {
         return (

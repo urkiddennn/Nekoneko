@@ -40,7 +40,7 @@ export const hero = {
         { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
         {
             name: "variant",
-            type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "glassmorphism_vibrant" | "glassmorphism_dark" | "creative_gradient" | "connected_line"',
+            type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "glassmorphism_vibrant" | "glassmorphism_dark" | "creative_gradient" | "connected_line" | "pixel"',
             desc: "Layout style.",
         },
         {
@@ -265,6 +265,23 @@ export const hero = {
                     variant: "connected_line",
                     ctaButtons: [
                         { label: "Creator journey", url: "#", variant: "primary" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Pixel",
+            description: "Retro 8-bit pixel art style with green CRT accents.",
+            example: {
+                id: "hero-pixel",
+                type: "hero",
+                props: {
+                    heading: "JOHN DOE",
+                    subheading: "FRONT END DEVELOPER",
+                    variant: "pixel",
+                    avatarUrl: "https://api.dicebear.com/9.x/pixel-art/svg?seed=pixel",
+                    ctaButtons: [
+                        { label: "View Portfolio", url: "#", variant: "primary" },
                     ],
                 },
             },

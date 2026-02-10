@@ -29,7 +29,8 @@ interface HeroProps {
   | "glassmorphism_vibrant"
   | "glassmorphism_dark"
   | "creative_gradient"
-  | "connected_line";
+  | "connected_line"
+  | "pixel";
   backgroundImageUrl?: string;
   topBadgeItems?: BadgeItem[];
   ctaButtons?: CTAButton[];
@@ -532,6 +533,77 @@ const Hero: React.FC<HeroProps> = ({
             />
           </div>
         </div>
+      </div>
+    );
+  }
+
+  if (variant === "pixel") {
+    const pixelFont = "'Press Start 2P', monospace";
+    return (
+      <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-8 md:p-12 overflow-hidden"
+        style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+        {/* Corner decorations */}
+        <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+        <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+        <span className="absolute bottom-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+        <span className="absolute bottom-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+
+        <div className="flex flex-col items-center gap-8 relative z-10">
+          {/* Avatar */}
+          <div className="relative">
+            <div className="w-28 h-28 md:w-36 md:h-36 border-[3px] border-[#00ff41] bg-[#1a1a4e] p-1 shadow-[4px_4px_0px_0px_#00ff41]">
+              <img
+                src={optimizedAvatar}
+                alt="Avatar"
+                width={144}
+                height={144}
+                fetchPriority="high"
+                className="w-full h-full object-cover"
+                style={{ imageRendering: 'pixelated' }}
+              />
+            </div>
+          </div>
+
+          {/* Name */}
+          <div className="text-center space-y-4">
+            <h1
+              className="text-lg md:text-2xl text-[#00ff41] uppercase leading-relaxed tracking-wider"
+              style={{ fontFamily: pixelFont, color: style?.titleColor || '#00ff41' }}
+            >
+              {heading}
+            </h1>
+            <p
+              className="text-[10px] md:text-xs text-[#00ff41]/60 uppercase tracking-[0.3em]"
+              style={{ fontFamily: pixelFont, color: style?.subtitleColor }}
+            >
+              {subheading}
+            </p>
+          </div>
+
+          {/* CTA Buttons */}
+          {ctaButtons.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
+              {ctaButtons.map((btn, idx) => (
+                <a
+                  key={idx}
+                  href={btn.url}
+                  className={`px-6 py-3 text-[8px] md:text-[10px] uppercase tracking-widest border-2 border-[#00ff41] transition-all hover:-translate-y-0.5 ${btn.variant === "primary"
+                      ? "bg-[#00ff41] text-[#0a0a2e]"
+                      : "bg-transparent text-[#00ff41] hover:bg-[#00ff41]/10"
+                    }`}
+                  style={{ fontFamily: pixelFont }}
+                >
+                  {btn.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Scanline effect */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }}
+        />
       </div>
     );
   }
