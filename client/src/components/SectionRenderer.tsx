@@ -21,6 +21,10 @@ const Section = React.lazy(() => import("./library/Section"));
 const FAQ = React.lazy(() => import("./library/FAQ"));
 const ConnectWithMe = React.lazy(() => import("./library/ConnectWithMe"));
 const Footer = React.lazy(() => import("./library/Footer"));
+const BlogHero = React.lazy(() => import("./library/BlogHero"));
+const BlogList = React.lazy(() => import("./library/BlogList"));
+const BlogContent = React.lazy(() => import("./library/BlogContent"));
+const BlogNewsletter = React.lazy(() => import("./library/BlogNewsletter"));
 const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
 const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
@@ -51,6 +55,10 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   faq: FAQ,
   connect_with_me: ConnectWithMe,
   footer: Footer,
+  blog_hero: BlogHero,
+  blog_list: BlogList,
+  blog_content: BlogContent,
+  blog_newsletter: BlogNewsletter,
   live_site_preview: LiveSitePreview,
 };
 

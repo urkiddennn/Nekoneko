@@ -33,12 +33,13 @@ interface ExperienceProps {
   | "glassmorphism"
   | "connected_line"
   | "creative_gradient"
-  | "pixel";
+  | "pixel"
+  | "newspaper";
 }
 
 const Experience: React.FC<ExperienceProps> = ({
   title,
-  jobs,
+  jobs = [],
   variant = "cards",
 }) => {
   const { siteConfig } = useSite();
@@ -344,6 +345,43 @@ const Experience: React.FC<ExperienceProps> = ({
           ))}
         </div>
       </section>
+    );
+  }
+
+  if (variant === "newspaper") {
+    const serifFont = "'Playfair Display', 'Georgia', serif";
+    const bodyFont = "'Lora', 'Georgia', serif";
+    return (
+      <div className="bg-[#faf7f2] border-y-4 border-double border-[#2c2c2c] py-16 -mx-4 px-4 text-[#1a1a1a]">
+        <div className="max-w-4xl mx-auto space-y-12">
+          <div className="text-center border-b border-[#2c2c2c] pb-8">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: serifFont }}>
+              Professional Records
+            </h2>
+            <div className="h-px bg-[#2c2c2c]/40 w-32 mx-auto mt-4" />
+          </div>
+          <div className="space-y-0 border-l border-[#2c2c2c]">
+            {jobs.map((job, index) => (
+              <div key={index} className="relative pl-12 pb-16 last:pb-0">
+                <div className="absolute left-[-5px] top-0 w-[10px] h-[10px] bg-[#2c2c2c]" />
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 pb-8 border-b border-[#2c2c2c]/20">
+                  <div className="md:col-span-3 space-y-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#2c2c2c]/40" style={{ fontFamily: bodyFont }}>PERIOD</span>
+                    <div className="text-sm font-bold italic" style={{ fontFamily: bodyFont }}>{job.period}</div>
+                  </div>
+                  <div className="md:col-span-9 space-y-4">
+                    <div>
+                      <h3 className="text-2xl font-black uppercase tracking-tight italic leading-none" style={{ fontFamily: serifFont }}>{job.role}</h3>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-600 mt-2">{job.company}</p>
+                    </div>
+                    <p className="text-sm leading-relaxed" style={{ fontFamily: bodyFont }}>{job.description}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 

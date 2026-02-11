@@ -9,7 +9,7 @@ export const connect_with_me = {
         { name: "buttonText", type: "string", desc: "CTA button label." },
         { name: "emailPlaceholder", type: "string", desc: "Email field placeholder." },
         { name: "messagePlaceholder", type: "string", desc: "Message field placeholder." },
-        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal_outline" | "pixel"', desc: "Visual style." },
+        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal_outline" | "pixel" | "newspaper"', desc: "Visual style." },
         { name: "showLineDecoration", type: "boolean", desc: "Toggle the vertical line." }
     ],
     variants: [
@@ -86,6 +86,21 @@ export const connect_with_me = {
                     emailPlaceholder: "email@addr",
                     messagePlaceholder: "Enter message...",
                     variant: "pixel"
+                }
+            }
+        },
+        {
+            name: "Newspaper",
+            description: "Editorial letter-style contact form with serif labels.",
+            example: {
+                id: "connect-newspaper",
+                type: "connect_with_me",
+                props: {
+                    title: "Letter to the Editor",
+                    buttonText: "SEND LETTER",
+                    emailPlaceholder: "Return Address",
+                    messagePlaceholder: "Dear Editor...",
+                    variant: "newspaper"
                 }
             }
         }

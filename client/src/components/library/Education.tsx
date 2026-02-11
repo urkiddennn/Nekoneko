@@ -32,10 +32,11 @@ interface EducationProps {
     | "glassmorphism"
     | "connected_line"
     | "creative_gradient"
-    | "pixel";
+    | "pixel"
+    | "newspaper";
 }
 
-const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline' }) => {
+const Education: React.FC<EducationProps> = ({ title, items = [], variant = 'timeline' }) => {
     const { siteConfig } = useSite();
     const primaryColor = siteConfig.site_settings.theme.primary;
 
@@ -122,6 +123,36 @@ const Education: React.FC<EducationProps> = ({ title, items, variant = 'timeline
                             </div>
                         );
                     })}
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'newspaper') {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        const bodyFont = "'Lora', 'Georgia', serif";
+        return (
+            <div className="bg-[#faf7f2] border-y border-[#2c2c2c] py-16 -mx-4 px-4 text-[#1a1a1a]">
+                <div className="max-w-4xl mx-auto space-y-12">
+                    <div className="text-center pb-8 border-b-4 border-double border-[#2c2c2c]">
+                        <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter" style={{ fontFamily: serifFont }}>
+                            Educational Ledger
+                        </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+                        {items.map((item, index) => (
+                            <div key={index} className="space-y-4 relative">
+                                <span className="absolute -left-6 top-1 text-xs font-bold text-[#2c2c2c]/40 italic">§</span>
+                                <div className="space-y-1">
+                                    <h3 className="text-2xl font-black uppercase tracking-tight leading-tight italic" style={{ fontFamily: serifFont }}>{item.school}</h3>
+                                    <p className="text-sm font-bold uppercase tracking-widest text-[#2c2c2c]/60" style={{ fontFamily: bodyFont }}>{item.degree}</p>
+                                </div>
+                                <div className="pt-2 border-t border-[#2c2c2c]/10">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1a1a1a]">{item.period}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         );

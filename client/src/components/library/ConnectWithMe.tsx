@@ -10,7 +10,7 @@ interface ConnectWithMeProps {
     buttonText: string;
     emailPlaceholder: string;
     messagePlaceholder: string;
-    variant?: "default" | "brutalist" | "glassmorphism" | "minimal_outline" | "pixel";
+    variant?: "default" | "brutalist" | "glassmorphism" | "minimal_outline" | "pixel" | "newspaper";
     showLineDecoration?: boolean;
 }
 
@@ -270,6 +270,69 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                     </form>
                     <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
                         style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+                </div>
+            </section>
+        );
+    }
+
+    if (variant === "newspaper") {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        const bodyFont = "'Lora', 'Georgia', serif";
+        return (
+            <section className="bg-[#faf7f2] border-y-4 border-double border-[#2c2c2c] py-16 -mx-4 px-4 text-[#1a1a1a]">
+                <div className="max-w-2xl mx-auto space-y-10">
+                    <div className="space-y-4 text-center pb-8 border-b border-[#2c2c2c]">
+                        <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: serifFont }}>
+                            {title || "CORRESPONDENCE"}
+                        </h2>
+                        {subheading && (
+                            <p className="text-xs font-bold uppercase tracking-widest text-[#2c2c2c]/60 italic" style={{ fontFamily: bodyFont }}>
+                                {subheading}
+                            </p>
+                        )}
+                    </div>
+
+                    {status === "success" ? (
+                        renderFeedback()
+                    ) : (
+                        <form onSubmit={handleSubmit} className="space-y-8 pt-8">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#2c2c2c]" style={{ fontFamily: bodyFont }}>From (Email)</label>
+                                <input
+                                    type="email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder={emailPlaceholder}
+                                    className="w-full bg-transparent border-b border-[#2c2c2c] py-2 text-sm focus:outline-none focus:border-b-2 italic"
+                                    style={{ fontFamily: bodyFont }}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#2c2c2c]" style={{ fontFamily: bodyFont }}>Message Body</label>
+                                <textarea
+                                    required
+                                    rows={4}
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    placeholder={messagePlaceholder}
+                                    className="w-full bg-transparent border-b border-[#2c2c2c] py-2 text-sm focus:outline-none focus:border-b-2 italic resize-none leading-relaxed"
+                                    style={{ fontFamily: bodyFont }}
+                                />
+                            </div>
+                            <button
+                                disabled={status === "loading"}
+                                className="w-full py-5 bg-[#1a1a1a] text-[#faf7f2] font-black uppercase tracking-[0.2em] text-xs hover:bg-transparent hover:text-[#1a1a1a] border border-[#2c2c2c] transition-all disabled:opacity-50"
+                                style={{ fontFamily: serifFont }}
+                            >
+                                {status === "loading" ? (
+                                    <span className="flex items-center justify-center gap-2"><Loader2 className="animate-spin" size={16} /> TRANSMITTING...</span>
+                                ) : (
+                                    buttonText || "DISPATCH MESSAGE"
+                                )}
+                            </button>
+                        </form>
+                    )}
                 </div>
             </section>
         );

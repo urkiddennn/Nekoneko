@@ -31,7 +31,7 @@ export const faq = {
             type: "array",
             desc: "List of {question, answer}.",
         },
-        { name: "variant", type: '"accordion" | "grid" | "minimal_cards" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"', desc: "Visual style." },
+        { name: "variant", type: '"accordion" | "grid" | "minimal_cards" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -160,6 +160,22 @@ export const faq = {
                     items: [
                         { question: "How does it work?", answer: "JSON in, beautiful UI out." },
                         { question: "Is it free?", answer: "Generous free tier available." },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Interview-style Q&A layout with bold serif questions.",
+            example: {
+                id: "faq-newspaper",
+                type: "faq",
+                props: {
+                    title: "The Editorial FAQ",
+                    variant: "newspaper",
+                    items: [
+                        { question: "Q: Is this a real newspaper?", answer: "A: It is a design variant that emulates the classic editorial feel." },
+                        { question: "Q: Can I use it for my blog?", answer: "A: Absolutely, it's perfect for long-form content." },
                     ],
                 },
             },

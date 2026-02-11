@@ -40,7 +40,7 @@ export const hero = {
         { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
         {
             name: "variant",
-            type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "glassmorphism_vibrant" | "glassmorphism_dark" | "creative_gradient" | "connected_line" | "pixel"',
+            type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "glassmorphism_vibrant" | "glassmorphism_dark" | "creative_gradient" | "connected_line" | "pixel" | "newspaper"',
             desc: "Layout style.",
         },
         {
@@ -283,6 +283,20 @@ export const hero = {
                     ctaButtons: [
                         { label: "View Portfolio", url: "#", variant: "primary" },
                     ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Classic broadsheet editorial layout with serif typography.",
+            example: {
+                id: "hero-newspaper",
+                type: "hero",
+                props: {
+                    heading: "THE DAILY\nNEKO",
+                    subheading: "LATEST UPDATES IN MODERN WEB ARCHITECTURE",
+                    avatarUrl: "https://images.unsplash.com/photo-1504711434969-e33886168f5c",
+                    variant: "newspaper",
                 },
             },
         },

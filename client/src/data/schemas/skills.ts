@@ -24,7 +24,7 @@ export const skills = {
         },
         {
             name: "variant",
-            type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal" | "glassmorphism" | "creative_gradient" | "detailed_cards" | "pixel"',
+            type: '"default" | "artistic" | "impact" | "bullets" | "brutalist" | "outline_minimal" | "glassmorphism" | "creative_gradient" | "detailed_cards" | "pixel" | "newspaper"',
             desc: "Visual style.",
         },
         { name: "barColor", type: "hex", desc: "Main progress color." },
@@ -138,6 +138,19 @@ export const skills = {
                         { name: "React", level: 90 },
                         { name: "TypeScript", level: 85 },
                     ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Typographic skill list with column rules and serif emphasis.",
+            example: {
+                id: "skills-newspaper",
+                type: "skills",
+                props: {
+                    title: "TECHNICAL EXPERTISE",
+                    variant: "newspaper",
+                    skills: ["Editorial Design", "Typography", "React Architecture", "System Design"],
                 },
             },
         },

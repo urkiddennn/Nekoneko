@@ -29,7 +29,7 @@ export const contact_info = {
         },
         {
             name: "variant",
-            type: '"default" | "card" | "impact" | "brutalist" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel"',
+            type: '"default" | "card" | "impact" | "brutalist" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel" | "newspaper"',
             desc: "Visual style.",
         },
         { name: "email", type: "string", desc: "Contact email." },
@@ -143,6 +143,19 @@ export const contact_info = {
                     title: "Contact",
                     links: [{ label: "Email", url: "mailto:hello@example.com", icon: "Mail" }],
                     variant: "pixel",
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Classified-ad style contact information with rule dividers.",
+            example: {
+                id: "contact-newspaper",
+                type: "contact_info",
+                props: {
+                    title: "Classifieds",
+                    links: [{ label: "Email", url: "mailto:hello@example.com", icon: "Mail" }],
+                    variant: "newspaper",
                 },
             },
         },

@@ -16,7 +16,7 @@ interface ProjectDetailsProps {
     link?: string;
     items?: ProjectItem[];
     columns?: number;
-    variant?: 'card' | 'grid' | 'impact' | 'brutalist' | 'glassmorphism' | 'pixel';
+    variant?: 'card' | 'grid' | 'impact' | 'brutalist' | 'glassmorphism' | 'pixel' | 'newspaper';
 }
 
 const optimizeImageUrl = (url: string, width: number = 800) => {
@@ -207,6 +207,53 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
         );
     }
 
+    if (variant === 'newspaper') {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        const bodyFont = "'Lora', 'Georgia', serif";
+        return (
+            <div className="space-y-16 bg-[#faf7f2] border-y-4 border-double border-[#2c2c2c] py-16 -mx-4 px-4 text-[#1a1a1a]">
+                <div className="space-y-4 text-center">
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter" style={{ fontFamily: serifFont }}>
+                        Project Archive
+                    </h2>
+                    <div className="h-px bg-[#2c2c2c]/40 w-32 mx-auto" />
+                </div>
+                <div className={`grid ${gridClass} gap-px bg-[#2c2c2c] border border-[#2c2c2c]`}>
+                    {displayItems.map((item, idx) => (
+                        <a
+                            key={idx}
+                            href={item.link}
+                            className="group block bg-[#faf7f2] p-8 space-y-6 hover:bg-[#1a1a1a]/5 transition-colors"
+                        >
+                            {item.image && (
+                                <div className="aspect-[16/10] overflow-hidden border border-[#2c2c2c] grayscale group-hover:grayscale-0 transition-all duration-700">
+                                    <img src={optimizeImageUrl(item.image, 800)} alt={item.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                </div>
+                            )}
+                            <div className="space-y-4">
+                                <div className="flex flex-wrap gap-2">
+                                    {item.tags?.map((tag, tIdx) => (
+                                        <span key={tIdx} className="text-[10px] font-bold uppercase tracking-widest text-[#2c2c2c]/60 italic" style={{ fontFamily: bodyFont }}>
+                                            • {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                                <h3 className="text-2xl font-black uppercase tracking-tighter italic leading-none" style={{ fontFamily: serifFont }}>
+                                    {item.title}
+                                </h3>
+                                {item.description && (
+                                    <p className="text-sm leading-relaxed" style={{ fontFamily: bodyFont }}>{item.description}</p>
+                                )}
+                                <div className="pt-2">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] border-b border-[#1a1a1a] pb-0.5" style={{ fontFamily: serifFont }}>Read More</span>
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        );
+    }
     if (variant === 'pixel') {
         const pixelFont = "'Press Start 2P', monospace";
         return (
@@ -248,6 +295,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
             </div>
         );
     }
+
+
 
     return (
         <div className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all group flex flex-col h-full">

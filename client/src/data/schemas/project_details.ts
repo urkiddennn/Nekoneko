@@ -28,7 +28,7 @@ export const project_details = {
         { name: "columns", type: "number", desc: "Column count." },
         {
             name: "variant",
-            type: '"card" | "grid" | "impact" | "brutalist" | "glassmorphism" | "pixel"',
+            type: '"card" | "grid" | "impact" | "brutalist" | "glassmorphism" | "pixel" | "newspaper"',
             desc: "Visual style.",
         },
     ],
@@ -100,6 +100,21 @@ export const project_details = {
                     variant: "pixel",
                     items: [
                         { title: "Retro App", image: "", tags: ["Pixel"], link: "#" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Feature article-style project cards with editorial framing.",
+            example: {
+                id: "project-newspaper",
+                type: "project_details",
+                props: {
+                    title: "Special Editions",
+                    variant: "newspaper",
+                    items: [
+                        { title: "THE NEKO PROJECT", image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c", tags: ["FEATURE"], link: "#" },
                     ],
                 },
             },

@@ -23,7 +23,8 @@ interface NavigationProps {
   | "glassmorphism"
   | "connected_line"
   | "creative_gradient"
-  | "pixel";
+  | "pixel"
+  | "newspaper";
 }
 
 // Helper function to determine if a string is a direct CSS color value
@@ -172,6 +173,48 @@ const Navigation: React.FC<NavigationProps> = ({
         )}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+      </nav>
+    );
+  }
+
+  if (variant === "newspaper") {
+    const serifFont = "'Playfair Display', 'Georgia', serif";
+    return (
+      <nav className="bg-[#faf7f2] border-y border-[#2c2c2c] px-6 py-4">
+        <div className="flex flex-col items-center gap-4">
+          <div className="text-3xl font-black uppercase tracking-tighter text-[#1a1a1a]" style={{ fontFamily: serifFont, borderBottom: '3px double #2c2c2c', paddingBottom: '4px' }}>
+            Portfolio
+          </div>
+          <div className="flex items-center justify-between w-full border-t border-[#2c2c2c] pt-2">
+            <div className="hidden md:flex items-center gap-8 mx-auto">
+              {links.map((link, idx) => (
+                <a key={idx} href={getLinkUrl(link)} onClick={(e) => handleLinkClick(e, link.url || link.href)}
+                  className="text-[10px] text-[#1a1a1a] uppercase tracking-[0.2em] font-bold hover:italic transition-all"
+                >
+                  {link.label}
+                </a>
+              ))}
+              {showResumeButton && (
+                <button className="text-[10px] text-[#1a1a1a] uppercase tracking-[0.2em] font-bold border border-[#2c2c2c] px-4 py-1 hover:bg-[#1a1a1a] hover:text-[#faf7f2] transition-colors"
+                  style={{ cursor: 'pointer' }}>Resume</button>
+              )}
+            </div>
+            <button className="md:hidden p-2 text-[#1a1a1a]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                {isMenuOpen ? <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></> : <><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>}
+              </svg>
+            </button>
+          </div>
+        </div>
+        {isMenuOpen && (
+          <div className="md:hidden pt-4 pb-2 flex flex-col items-center gap-3 border-t border-[#2c2c2c] mt-2">
+            {links.map((link, idx) => (
+              <a key={idx} href={getLinkUrl(link)} onClick={(e) => handleLinkClick(e, link.url || link.href)}
+                className="text-[10px] text-[#1a1a1a] uppercase tracking-[0.2em] font-bold py-1"
+              >{link.label}</a>
+            ))}
+          </div>
+        )}
       </nav>
     );
   }

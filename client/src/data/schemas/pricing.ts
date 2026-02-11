@@ -34,7 +34,7 @@ export const pricing = {
         },
         {
             name: "variant",
-            type: '"grid" | "list" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"',
+            type: '"grid" | "list" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper"',
             desc: "Layout style.",
         },
     ],
@@ -164,6 +164,22 @@ export const pricing = {
                     plans: [
                         { name: "Free", price: "$0", features: ["1 Project"] },
                         { name: "Pro", price: "$19", features: ["Unlimited", "Priority"], isPopular: true },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Classified-ad style pricing columns with rule dividers.",
+            example: {
+                id: "pricing-newspaper",
+                type: "pricing",
+                props: {
+                    title: "Classifieds & Subscriptions",
+                    variant: "newspaper",
+                    plans: [
+                        { name: "Weekly", price: "$5", features: ["Full Archives"] },
+                        { name: "Annual", price: "$150", features: ["Home Delivery", "Digital Pro"], isPopular: true },
                     ],
                 },
             },

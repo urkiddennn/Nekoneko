@@ -23,6 +23,10 @@ import { section } from "./section";
 import { connect_with_me } from "./connect_with_me";
 import { footer } from "./footer";
 import { language } from "./language";
+import { blog_hero } from "./blog_hero";
+import { blog_list } from "./blog_list";
+import { blog_content } from "./blog_content";
+import { blog_newsletter } from "./blog_newsletter";
 
 export const SCHEMAS = [
     getting_started,
@@ -50,4 +54,8 @@ export const SCHEMAS = [
     connect_with_me,
     footer,
     language,
+    blog_hero,
+    blog_list,
+    blog_content,
+    blog_newsletter,
 ];

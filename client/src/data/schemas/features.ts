@@ -35,7 +35,7 @@ export const features = {
         },
         {
             name: "variant",
-            type: '"default" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"',
+            type: '"default" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper"',
             desc: "Visual style.",
         },
     ],
@@ -135,6 +135,22 @@ export const features = {
                     items: [
                         { title: "Engine", description: "Custom rendering" },
                         { title: "Network", description: "Real-time sync" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Editorial grid with vertical rules separating feature columns.",
+            example: {
+                id: "feat-newspaper",
+                type: "features",
+                props: {
+                    title: "Special Report",
+                    variant: "newspaper",
+                    items: [
+                        { title: "EDITORIAL", description: "Deep dive into design systems." },
+                        { title: "OP-ED", description: "The future of JSON logic." },
                     ],
                 },
             },

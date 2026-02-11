@@ -9,7 +9,7 @@ export const footer = {
         { name: "copyright", type: "string", desc: "Copyright notice." },
         { name: "links", type: "array", desc: "List of {label, url} navigation links." },
         { name: "socials", type: "array", desc: "List of {platform, url} social links." },
-        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel"', desc: "Visual style." }
+        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel" | "newspaper"', desc: "Visual style." }
     ],
     variants: [
         {
@@ -97,6 +97,21 @@ export const footer = {
                     tagline: "Built with pixels.",
                     variant: "pixel",
                     links: [{ label: "Home", url: "#" }],
+                    socials: [{ platform: "github", url: "#" }]
+                }
+            }
+        },
+        {
+            name: "Newspaper",
+            description: "Traditional broadsheet footer with masthead and rule dividers.",
+            example: {
+                id: "footer-newspaper",
+                type: "footer",
+                props: {
+                    logo: "THE NEKO TIMES",
+                    tagline: "ALL THE NEWS THAT'S FIT TO CODE",
+                    variant: "newspaper",
+                    links: [{ label: "Archives", url: "#" }],
                     socials: [{ platform: "github", url: "#" }]
                 }
             }

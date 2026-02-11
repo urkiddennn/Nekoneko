@@ -3,7 +3,7 @@ import React from 'react';
 interface CTAProps {
     title: string;
     buttonText: string;
-    variant?: 'default' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel';
+    variant?: 'default' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper';
 }
 
 const CTA: React.FC<CTAProps> = ({ title, buttonText, variant = 'default' }) => {
@@ -66,6 +66,23 @@ const CTA: React.FC<CTAProps> = ({ title, buttonText, variant = 'default' }) => 
                 <button className="px-12 py-5 bg-white text-slate-900 rounded-full font-black uppercase tracking-widest text-xs hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all shadow-2xl">
                     {buttonText}
                 </button>
+            </div>
+        );
+    }
+    if (variant === 'newspaper') {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        return (
+            <div className="relative py-20 bg-[#faf7f2] border-y-4 border-double border-[#2c2c2c] flex flex-col items-center text-center space-y-10 px-8">
+                <h2 className="text-4xl md:text-6xl font-black text-[#1a1a1a] uppercase tracking-tighter leading-none max-w-4xl" style={{ fontFamily: serifFont }}>
+                    {title}
+                </h2>
+                <button className="px-12 py-5 bg-[#1a1a1a] text-[#faf7f2] border border-[#2c2c2c] font-black uppercase tracking-[0.2em] text-xs hover:bg-transparent hover:text-[#1a1a1a] transition-all"
+                    style={{ fontFamily: serifFont }}>
+                    {buttonText}
+                </button>
+                <div className="absolute top-4 right-8 text-[10px] text-[#2c2c2c]/40 font-bold uppercase tracking-widest hidden md:block">
+                    URGENT DISPATCH
+                </div>
             </div>
         );
     }

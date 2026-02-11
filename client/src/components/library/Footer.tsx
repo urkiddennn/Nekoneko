@@ -24,7 +24,7 @@ interface FooterProps {
     copyright?: string;
     links?: FooterLink[];
     socials?: SocialLink[];
-    variant?: "default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel";
+    variant?: "default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel" | "newspaper";
 }
 
 const socialIconMap = {
@@ -307,7 +307,47 @@ const Footer: React.FC<FooterProps> = ({
         );
     }
 
-    // Default variant
+    if (variant === "newspaper") {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        return (
+            <footer className="bg-[#faf7f2] border-t-4 border-double border-[#2c2c2c] py-16 px-8 relative overflow-hidden">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-12 pb-12 border-b border-[#2c2c2c]">
+                        <div className="space-y-4 text-center md:text-left">
+                            <h2 className="text-3xl font-black uppercase tracking-tighter text-[#1a1a1a]" style={{ fontFamily: serifFont }}>
+                                {logo || "PORTFOLIO"}
+                            </h2>
+                            <p className="text-xs font-bold uppercase tracking-widest text-[#2c2c2c]/60 max-w-sm">
+                                {tagline || "All the news that's fit to code."}
+                            </p>
+                        </div>
+                        <div className="flex flex-wrap justify-center gap-8">
+                            {links.map((link, idx) => (
+                                <a key={idx} href={link.url} className="text-[10px] font-black uppercase tracking-[0.2em] text-[#1a1a1a] hover:italic underline decoration-1 underline-offset-4">
+                                    {link.label}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-12">
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-[#2c2c2c]/40 italic">
+                            {copyright}
+                        </div>
+                        <div className="flex gap-6">
+                            {socials.map((social, idx) => {
+                                const Icon = socialIconMap[social.platform];
+                                return (
+                                    <a key={idx} href={social.url} className="text-[#1a1a1a] hover:scale-110 transition-transform">
+                                        {Icon && <Icon size={18} strokeWidth={2.5} />}
+                                    </a>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        );
+    }
     return (
         <footer className="border-t border-slate-200 dark:border-white/5 py-20 bg-slate-50 dark:bg-slate-900/50 -mx-4 px-4 mt-20">
             <div className="max-w-7xl mx-auto">

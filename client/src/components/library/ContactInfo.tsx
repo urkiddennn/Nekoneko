@@ -25,7 +25,7 @@ interface ContactInfoProps {
     description?: string;
     links?: Link[];
     alignment?: 'left' | 'center' | 'right';
-    variant?: 'default' | 'card' | 'impact' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'creative_gradient' | 'pixel';
+    variant?: 'default' | 'card' | 'impact' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'creative_gradient' | 'pixel' | 'newspaper';
     email?: string;
     github?: string;
     linkedin?: string;
@@ -216,6 +216,42 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
         );
     }
 
+    if (variant === 'newspaper') {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        const bodyFont = "'Lora', 'Georgia', serif";
+        return (
+            <div className="bg-[#faf7f2] border-y-4 border-double border-[#2c2c2c] py-16 -mx-4 px-4 text-[#1a1a1a]">
+                <div className="max-w-4xl mx-auto space-y-12">
+                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-center" style={{ fontFamily: serifFont }}>
+                        {title}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#2c2c2c]">
+                        {links.map((link, idx) => {
+                            const Icon = ICON_MAP[link.icon] || Mail;
+                            return (
+                                <a key={idx} href={link.url} className="bg-[#faf7f2] p-8 flex items-center gap-6 group hover:bg-[#1a1a1a]/5 transition-colors border-r border-[#2c2c2c] last:border-r-0">
+                                    <div className="w-12 h-12 flex items-center justify-center border border-[#2c2c2c] group-hover:bg-[#1a1a1a] group-hover:text-[#faf7f2] transition-colors">
+                                        <Icon size={20} strokeWidth={1.5} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#2c2c2c]/40" style={{ fontFamily: bodyFont }}>CONTACT {idx + 1}</span>
+                                        <h3 className="text-lg font-black uppercase tracking-tight italic" style={{ fontFamily: serifFont }}>{link.label}</h3>
+                                    </div>
+                                </a>
+                            );
+                        })}
+                    </div>
+                    {footer_text && (
+                        <div className="text-center pt-8">
+                            <p className="text-xs font-bold uppercase tracking-widest text-[#2c2c2c]/60 max-w-sm mx-auto italic" style={{ fontFamily: bodyFont }}>
+                                {footer_text}
+                            </p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
     if (variant === 'pixel') {
         const pixelFont = "'Press Start 2P', monospace";
         return (

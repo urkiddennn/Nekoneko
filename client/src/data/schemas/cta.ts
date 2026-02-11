@@ -16,7 +16,7 @@ export const cta = {
     props: [
         { name: "title", type: "string", desc: "Direct message." },
         { name: "buttonText", type: "string", desc: "Text for the button." },
-        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel"', desc: "Visual style." },
+        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -71,6 +71,15 @@ export const cta = {
                 id: "cta-pixel",
                 type: "cta",
                 props: { title: "READY PLAYER?", buttonText: "START", variant: "pixel" },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Centered editorial announcement with double-rule borders.",
+            example: {
+                id: "cta-newspaper",
+                type: "cta",
+                props: { title: "JOIN THE DAILY EDITION", buttonText: "SUBSCRIBE", variant: "newspaper" },
             },
         },
     ],

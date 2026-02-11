@@ -32,7 +32,8 @@ interface SkillsProps {
   | "glassmorphism"
   | "creative_gradient"
   | "detailed_cards"
-  | "pixel";
+  | "pixel"
+  | "newspaper";
 }
 
 const Skills: React.FC<SkillsProps> = ({
@@ -322,6 +323,53 @@ const Skills: React.FC<SkillsProps> = ({
           </div>
         </div>
       </section>
+    );
+  }
+
+  if (variant === "newspaper") {
+    const serifFont = "'Playfair Display', 'Georgia', serif";
+    const bodyFont = "'Lora', 'Georgia', serif";
+    return (
+      <div className="bg-[#faf7f2] border-y-4 border-double border-[#2c2c2c] py-16 -mx-4 px-4 text-[#1a1a1a]">
+        <div className="max-w-4xl mx-auto space-y-12">
+          <div className="text-center border-b border-[#2c2c2c] pb-8">
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: serifFont }}>
+              {title || "MARKET INDICES"}
+            </h2>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#2c2c2c]/60 mt-2" style={{ fontFamily: bodyFont }}>
+              DAILY TECH STACK PERFORMANCE REPORT
+            </p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-y-10 gap-x-12 pt-8">
+            {skills.map((skill: any, index: number) => {
+              const skillName = typeof skill === "string" ? skill : skill.name;
+              const level = typeof skill === "object" ? skill.level || 80 : 80;
+              const isGain = level > 50;
+              return (
+                <div key={index} className="flex flex-col border-l border-[#2c2c2c]/20 pl-4">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#2c2c2c]/40 mb-1" style={{ fontFamily: bodyFont }}>
+                    ITEM {index + 1}
+                  </span>
+                  <div className="flex items-end justify-between gap-2 border-b border-[#2c2c2c] pb-2">
+                    <h3 className="text-lg md:text-xl font-black uppercase tracking-tight italic flex-1 truncate" style={{ fontFamily: serifFont }}>
+                      {skillName}
+                    </h3>
+                    <div className="flex flex-col items-end">
+                      <span className="text-sm font-black tracking-tighter" style={{ fontFamily: bodyFont }}>
+                        {isGain ? "▲" : "▼"} {level}%
+                      </span>
+                      <span className="text-[8px] font-bold text-[#2c2c2c]/60 uppercase">YTD</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="text-center pt-12 text-[8px] font-medium text-[#2c2c2c]/40 uppercase tracking-[0.3em]">
+            MARKET DATA IS DELAYED BY AT LEAST 15 MINUTES • SOURCE: CREATIVE CODING INDEX
+          </div>
+        </div>
+      </div>
     );
   }
 

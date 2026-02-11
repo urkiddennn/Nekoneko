@@ -31,7 +31,7 @@ export const education = {
         },
         {
             name: "variant",
-            type: '"timeline" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel"',
+            type: '"timeline" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel" | "newspaper"',
             desc: "Visual style.",
         },
     ],
@@ -149,6 +149,21 @@ export const education = {
                     variant: "pixel",
                     items: [
                         { school: "Universidad De Manila", degree: "Bachelor of IT", period: "2018 — 2022" },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Academic achievements as newspaper notices with rule dividers.",
+            example: {
+                id: "edu-newspaper",
+                type: "education",
+                props: {
+                    title: "Academic Background",
+                    variant: "newspaper",
+                    items: [
+                        { school: "Metropolis University", degree: "Master of Journalism", period: "2020 - 2022" },
                     ],
                 },
             },

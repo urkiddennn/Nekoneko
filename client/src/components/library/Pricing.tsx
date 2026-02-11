@@ -11,7 +11,7 @@ interface PricingProps {
     title: string;
     plans?: PricingTier[];
     tiers?: PricingTier[]; // Backward compatibility
-    variant?: 'grid' | 'list' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel';
+    variant?: 'grid' | 'list' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper';
 }
 
 const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid' }) => {
@@ -239,52 +239,60 @@ const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid'
         );
     }
 
-    if (variant === 'brutalist') {
+    if (variant === 'newspaper') {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        const bodyFont = "'Lora', 'Georgia', serif";
         return (
-            <div className="max-w-7xl mx-auto py-12">
-                <h2 className="text-4xl md:text-5xl font-black mb-20 text-center tracking-tighter uppercase italic text-slate-950 dark:text-white animate-in fade-in slide-in-from-top-4 duration-700">{title}</h2>
-                <div className={`grid ${gridCols} gap-10`}>
-                    {displayPlans.map((tier, idx) => (
-                        <div key={idx} className={`p-10 rounded-[2.5rem] border-[3px] border-slate-950 dark:border-white shadow-[8px_8px_0px_0px_rgba(2,6,23,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-slate-900 space-y-8 flex flex-col transition-all hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_rgba(2,6,23,1)] dark:hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)] animate-in fade-in zoom-in-95 duration-500`} style={{ animationDelay: `${idx * 150}ms` }}>
-                            <div>
-                                <h3 className="text-sm font-black uppercase tracking-[0.2em] mb-2 text-indigo-600 dark:text-indigo-400">{tier.name}</h3>
-                                <div className="text-5xl font-black tracking-tighter text-slate-950 dark:text-white">{tier.price}</div>
+            <div className="bg-[#faf7f2] border-y border-[#2c2c2c] py-16 -mx-4 px-4 overflow-hidden text-[#1a1a1a]">
+                <div className="max-w-7xl mx-auto">
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-16 text-center" style={{ fontFamily: serifFont }}>
+                        {title}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border border-[#2c2c2c]">
+                        {displayPlans.map((tier, idx) => (
+                            <div key={idx} className="p-10 border-[#2c2c2c] border-b lg:border-b-0 lg:border-r last:border-0 flex flex-col space-y-8">
+                                <div className="space-y-2 border-b border-[#2c2c2c] pb-4">
+                                    <h3 className="text-xs font-black uppercase tracking-[0.3em] mb-1" style={{ fontFamily: bodyFont }}>{tier.name}</h3>
+                                    <div className="text-5xl font-black italic tracking-tighter leading-none" style={{ fontFamily: serifFont }}>{tier.price}</div>
+                                </div>
+                                <ul className="flex-1 space-y-3">
+                                    {tier.features?.map((f, i) => (
+                                        <li key={i} className="text-xs font-bold uppercase tracking-widest flex items-center gap-3 italic" style={{ fontFamily: bodyFont }}>
+                                            <span className="w-1.5 h-1.5 bg-[#1a1a1a] rounded-none"></span>
+                                            {f}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button className="w-full py-4 border border-[#2c2c2c] font-black uppercase tracking-widest text-[10px] hover:bg-[#1a1a1a] hover:text-[#faf7f2] transition-colors"
+                                    style={{ fontFamily: serifFont }}>
+                                    SUBSCRIBE NOW
+                                </button>
                             </div>
-                            <ul className="flex-1 space-y-5">
-                                {tier.features?.map((f, i) => (
-                                    <li key={i} className="text-sm font-bold flex items-center gap-4 text-slate-900 dark:text-slate-300">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-slate-950 dark:bg-white"></div>
-                                        {f}
-                                    </li>
-                                ))}
-                            </ul>
-                            <button className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] border-[3px] border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95 transition-all">Select Plan</button>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         );
     }
-
     return (
-        <div>
-            <h2 className="text-4xl font-black mb-16 text-center tracking-tighter uppercase italic text-slate-950 dark:text-white">{title}</h2>
-            <div className={`grid ${gridCols} gap-8`}>
+        <div className="max-w-7xl mx-auto py-12">
+            <h2 className="text-4xl md:text-5xl font-black mb-20 text-center tracking-tighter uppercase italic text-slate-950 dark:text-white animate-in fade-in slide-in-from-top-4 duration-700">{title}</h2>
+            <div className={`grid ${gridCols} gap-10`}>
                 {displayPlans.map((tier, idx) => (
-                    <div key={idx} className={`p-10 rounded-[40px] border-2 ${tier.isPopular ? 'bg-indigo-600 border-indigo-600 dark:border-indigo-500 text-white shadow-2xl scale-105 z-10' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-950 dark:text-white'} space-y-8 flex flex-col`}>
+                    <div key={idx} className={`p-10 rounded-[2.5rem] border-[3px] border-slate-950 dark:border-white shadow-[8px_8px_0px_0px_rgba(2,6,23,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] bg-white dark:bg-slate-900 space-y-8 flex flex-col transition-all hover:-translate-y-1 hover:shadow-[12px_12px_0px_0px_rgba(2,6,23,1)] dark:hover:shadow-[12px_12px_0px_0px_rgba(255,255,255,1)] animate-in fade-in zoom-in-95 duration-500`} style={{ animationDelay: `${idx * 150}ms` }}>
                         <div>
-                            <h3 className={`text-sm font-black uppercase tracking-[0.2em] mb-2 ${tier.isPopular ? 'opacity-80' : 'opacity-60'}`}>{tier.name}</h3>
-                            <div className="text-5xl font-black tracking-tighter">{tier.price}</div>
+                            <h3 className="text-sm font-black uppercase tracking-[0.2em] mb-2 text-indigo-600 dark:text-indigo-400">{tier.name}</h3>
+                            <div className="text-5xl font-black tracking-tighter text-slate-950 dark:text-white">{tier.price}</div>
                         </div>
-                        <ul className="flex-1 space-y-4">
+                        <ul className="flex-1 space-y-5">
                             {tier.features?.map((f, i) => (
-                                <li key={i} className="text-sm font-bold flex items-center gap-3">
-                                    <div className={`w-1.5 h-1.5 rounded-full ${tier.isPopular ? 'bg-white' : 'bg-indigo-600 dark:bg-indigo-400'}`}></div>
+                                <li key={i} className="text-sm font-bold flex items-center gap-4 text-slate-900 dark:text-slate-300">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-slate-950 dark:bg-white"></div>
                                     {f}
                                 </li>
                             ))}
                         </ul>
-                        <button className={`w-full py-4 rounded-2xl font-black uppercase tracking-widest text-xs transition-all active:scale-95 ${tier.isPopular ? 'bg-white text-indigo-600 hover:bg-slate-50' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:opacity-90'}`}>Get Started</button>
+                        <button className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] border-[3px] border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95 transition-all">Select Plan</button>
                     </div>
                 ))}
             </div>
@@ -293,3 +301,5 @@ const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid'
 };
 
 export default Pricing;
+
+

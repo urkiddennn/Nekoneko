@@ -27,7 +27,7 @@ export const experience = {
             type: "array",
             desc: "List of {role, company, period, description, icon}.",
         },
-        { name: "variant", type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "creative_gradient" | "connected_line" | "pixel"', desc: "Visual style." },
+        { name: "variant", type: '"timeline" | "cards" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "creative_gradient" | "connected_line" | "pixel" | "newspaper"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -174,6 +174,21 @@ export const experience = {
                     variant: "pixel",
                     jobs: [
                         { role: "Frontend Dev", company: "Neko", period: "2024", description: "Building the next-gen editor." },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Newspaper",
+            description: "Chronological editorial timeline with dateline-style period markers.",
+            example: {
+                id: "exp-newspaper",
+                type: "experience",
+                props: {
+                    title: "Professional Record",
+                    variant: "newspaper",
+                    jobs: [
+                        { company: "The Daily Neko", role: "Special Correspondent", period: "2024 - PRESENT", description: "Covering the latest in web development." },
                     ],
                 },
             },

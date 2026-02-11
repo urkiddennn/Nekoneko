@@ -10,7 +10,7 @@ interface FAQProps {
     title?: string;
     description?: string;
     items?: FAQItem[];
-    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel';
+    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper';
 }
 
 const FAQ: React.FC<FAQProps> = ({
@@ -112,6 +112,37 @@ const FAQ: React.FC<FAQProps> = ({
         </div>
     );
 
+    if (variant === 'newspaper') {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        const bodyFont = "'Lora', 'Georgia', serif";
+        return (
+            <div className="bg-[#faf7f2] border-y-4 border-double border-[#2c2c2c] py-16 -mx-4 px-4 text-[#1a1a1a]">
+                <div className="max-w-4xl mx-auto space-y-12">
+                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-center mb-16" style={{ fontFamily: serifFont }}>
+                        {title}
+                    </h2>
+                    <div className="space-y-12">
+                        {items.map((item, index) => (
+                            <div key={index} className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                                <div className="md:col-span-1 text-[10px] font-bold text-[#2c2c2c]/40 uppercase tracking-widest pt-1" style={{ fontFamily: bodyFont }}>
+                                    Q{index + 1}
+                                </div>
+                                <div className="md:col-span-11 space-y-4">
+                                    <h3 className="text-xl md:text-2xl font-black uppercase leading-tight italic" style={{ fontFamily: serifFont }}>
+                                        {item.question}
+                                    </h3>
+                                    <div className="h-px bg-[#2c2c2c]/20 w-12" />
+                                    <p className="text-sm md:text-base leading-relaxed" style={{ fontFamily: bodyFont }}>
+                                        {item.answer}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
     if (variant === 'pixel') {
         const pixelFont = "'Press Start 2P', monospace";
         return (

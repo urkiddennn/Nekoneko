@@ -30,7 +30,8 @@ interface HeroProps {
   | "glassmorphism_dark"
   | "creative_gradient"
   | "connected_line"
-  | "pixel";
+  | "pixel"
+  | "newspaper";
   backgroundImageUrl?: string;
   topBadgeItems?: BadgeItem[];
   ctaButtons?: CTAButton[];
@@ -588,8 +589,8 @@ const Hero: React.FC<HeroProps> = ({
                   key={idx}
                   href={btn.url}
                   className={`px-6 py-3 text-[8px] md:text-[10px] uppercase tracking-widest border-2 border-[#00ff41] transition-all hover:-translate-y-0.5 ${btn.variant === "primary"
-                      ? "bg-[#00ff41] text-[#0a0a2e]"
-                      : "bg-transparent text-[#00ff41] hover:bg-[#00ff41]/10"
+                    ? "bg-[#00ff41] text-[#0a0a2e]"
+                    : "bg-transparent text-[#00ff41] hover:bg-[#00ff41]/10"
                     }`}
                   style={{ fontFamily: pixelFont }}
                 >
@@ -604,6 +605,69 @@ const Hero: React.FC<HeroProps> = ({
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }}
         />
+      </div>
+    );
+  }
+
+  if (variant === "newspaper") {
+    const serifFont = "'Playfair Display', 'Georgia', serif";
+    const bodyFont = "'Lora', 'Georgia', serif";
+    return (
+      <div className="bg-[#faf7f2] border border-[#2c2c2c] p-8 md:p-12 relative">
+        <div className="absolute top-4 left-4 text-[10px] text-[#2c2c2c]/60 font-medium uppercase tracking-widest" style={{ fontFamily: bodyFont }}>
+          ESTABLISHED 2024 • EDITION NO. 1
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-8">
+          <div className="md:col-span-8 space-y-6">
+            <h1 className="text-4xl md:text-7xl font-black text-[#1a1a1a] leading-[0.9] uppercase tracking-tighter italic"
+              style={{ fontFamily: serifFont, borderBottom: '1px solid #2c2c2c', paddingBottom: '1rem' }}>
+              {heading}
+            </h1>
+            <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-[#2c2c2c]" style={{ fontFamily: bodyFont }}>
+              <span className="bg-[#1a1a1a] text-[#faf7f2] px-2 py-0.5">LATEST</span>
+              <span>{subheading}</span>
+            </div>
+            <div className="text-base md:text-lg text-[#1a1a1a] leading-relaxed max-w-2xl italic" style={{ fontFamily: bodyFont }}>
+              Building the future with rule-governed design and high-end typography.
+            </div>
+            {ctaButtons.length > 0 && (
+              <div className="flex flex-wrap gap-4 pt-4">
+                {ctaButtons.map((btn, idx) => (
+                  <a
+                    key={idx}
+                    href={btn.url}
+                    className={`px-8 py-3 text-xs uppercase tracking-[0.2em] font-black border border-[#2c2c2c] transition-all ${btn.variant === "primary"
+                        ? "bg-[#1a1a1a] text-[#faf7f2]"
+                        : "bg-transparent text-[#1a1a1a] hover:bg-[#1a1a1a]/5"
+                      }`}
+                    style={{ fontFamily: serifFont }}
+                  >
+                    {btn.label}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="md:col-span-4">
+            <div className="aspect-[4/5] border border-[#2c2c2c] p-2 relative">
+              <div className="w-full h-full overflow-hidden grayscale contrast-125">
+                <img
+                  src={optimizedAvatar}
+                  alt="Editor"
+                  width={300}
+                  height={375}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-4 -right-2 bg-[#faf7f2] border border-[#2c2c2c] px-3 py-1 text-[8px] font-bold uppercase tracking-widest text-[#1a1a1a]">
+                EDITORIAL PORTRAIT
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-12 border-t border-[#2c2c2c] pt-4 text-[10px] text-[#2c2c2c]/40 font-medium uppercase tracking-[0.3em] text-center">
+          © {new Date().getFullYear()} ALL THE CODE THAT'S FIT TO SHIP
+        </div>
       </div>
     );
   }

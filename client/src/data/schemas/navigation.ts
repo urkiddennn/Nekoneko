@@ -156,6 +156,22 @@ export const navigation = {
                 },
             },
         },
+        {
+            name: "Newspaper",
+            description: "Traditional editorial masthead with rule dividers.",
+            example: {
+                id: "nav-newspaper",
+                type: "navigation",
+                props: {
+                    links: [
+                        { label: "Edition", url: "#" },
+                        { label: "Archive", url: "#" },
+                    ],
+                    showResumeButton: true,
+                    variant: "newspaper",
+                },
+            },
+        },
     ],
     props: [
         { name: "links", type: "array", desc: "List of {label, url}." },
@@ -166,7 +182,7 @@ export const navigation = {
         },
         {
             name: "variant",
-            type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel"',
+            type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel" | "newspaper"',
             desc: "Visual style.",
         },
     ],

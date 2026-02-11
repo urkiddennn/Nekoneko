@@ -6,7 +6,7 @@ interface FeaturesProps {
     items: any[];
     columns?: number;
     renderItem?: (item: any, index: number) => React.ReactNode;
-    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel';
+    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper';
 }
 
 const Features: React.FC<FeaturesProps> = ({
@@ -45,6 +45,35 @@ const Features: React.FC<FeaturesProps> = ({
                 </div>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
                     style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+            </div>
+        );
+    }
+
+    if (variant === 'newspaper') {
+        const serifFont = "'Playfair Display', 'Georgia', serif";
+        const bodyFont = "'Lora', 'Georgia', serif";
+        return (
+            <div className="bg-[#faf7f2] border-y border-[#2c2c2c] py-16 -mx-4 px-4 overflow-hidden">
+                <div className="max-w-7xl mx-auto">
+                    <h2 className="text-4xl md:text-6xl font-black text-[#1a1a1a] uppercase tracking-tighter mb-16 text-center" style={{ fontFamily: serifFont }}>
+                        {title}
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 border border-[#2c2c2c]">
+                        {items?.map((item, idx) => (
+                            <div key={idx} className="p-10 border-[#2c2c2c] border-b lg:border-b-0 lg:border-r last:border-0 group hover:bg-[#1a1a1a]/5 transition-colors">
+                                <span className="text-[10px] text-[#2c2c2c]/60 font-bold uppercase tracking-[0.3em] mb-4 block" style={{ fontFamily: bodyFont }}>
+                                    SECTION {idx + 1}
+                                </span>
+                                <h3 className="text-2xl font-black text-[#1a1a1a] uppercase leading-tight mb-4" style={{ fontFamily: serifFont }}>
+                                    {item.title}
+                                </h3>
+                                <p className="text-sm text-[#1a1a1a] leading-relaxed italic" style={{ fontFamily: bodyFont }}>
+                                    {item.description}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }
