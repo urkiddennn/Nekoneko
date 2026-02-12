@@ -54,55 +54,58 @@ const Showcase: React.FC = () => {
                         <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-[0.9] text-white">
                             Built with Nekoneko
                         </h1>
-                        <p className="max-w-2xl mx-auto text-gray-500 font-medium leading-relaxed">
+                        <p className="max-w-2xl mx-auto text-gray-400 font-medium leading-relaxed">
                             Discover stunning websites created by our community. Get inspired and start building your own in minutes.
                         </p>
                     </div>
 
                     {/* Showcase Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {showcaseProjects.map((project) => (
-                            <div
-                                key={project.id}
-                                className="group relative overflow-hidden rounded-lg border border-white/[0.04] hover:border-white/10 transition-all duration-300 bg-[#111]"
-                            >
-                                {/* Site Preview Image */}
-                                <div className="aspect-[4/3] overflow-hidden bg-black/20 relative group-hover:shadow-2xl group-hover:shadow-black/40 transition-all duration-300">
-                                    <LiveSitePreview slug={project.slug} name={project.name} />
-                                </div>
-
-                                {/* Project Info */}
-                                <div className="p-4 space-y-3">
-                                    <div className="space-y-1">
-                                        <h3 className="font-black text-lg tracking-tight text-white">{project.name}</h3>
-                                        <p className="text-gray-500 font-medium text-xs leading-relaxed">
-                                            {project.description}
-                                        </p>
+                    <div className="space-y-8">
+                        <h2 className="sr-only">Community Portfolios</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {showcaseProjects.map((project) => (
+                                <div
+                                    key={project.id}
+                                    className="group relative overflow-hidden rounded-lg border border-white/[0.04] hover:border-white/10 transition-all duration-300 bg-[#111]"
+                                >
+                                    {/* Site Preview Image */}
+                                    <div className="aspect-[4/3] overflow-hidden bg-black/20 relative group-hover:shadow-2xl group-hover:shadow-black/40 transition-all duration-300">
+                                        <LiveSitePreview slug={project.slug} name={project.name} />
                                     </div>
 
-                                    {/* Tags */}
-                                    <div className="flex flex-wrap gap-1.5">
-                                        {project.tags.map((tag) => (
-                                            <span
-                                                key={tag}
-                                                className="px-2 py-0.5 bg-white/[0.03] text-gray-400 rounded text-[10px] font-bold uppercase tracking-wider border border-white/[0.04]"
-                                            >
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
+                                    {/* Project Info */}
+                                    <div className="p-4 space-y-3">
+                                        <div className="space-y-1">
+                                            <h3 className="font-black text-lg tracking-tight text-white">{project.name}</h3>
+                                            <p className="text-gray-400 font-medium text-xs leading-relaxed">
+                                                {project.description}
+                                            </p>
+                                        </div>
 
-                                    {/* View Button */}
-                                    <button
-                                        onClick={() => window.open(getSiteUrl(project.slug), "_blank")}
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-white text-black rounded font-bold text-xs hover:bg-gray-200 transition-all active:scale-95"
-                                    >
-                                        View Live
-                                        <ExternalLink size={12} />
-                                    </button>
+                                        {/* Tags */}
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {project.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className="px-2 py-0.5 bg-white/[0.03] text-gray-400 rounded text-[10px] font-bold uppercase tracking-wider border border-white/[0.04]"
+                                                >
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+
+                                        {/* View Button */}
+                                        <button
+                                            onClick={() => window.open(getSiteUrl(project.slug), "_blank")}
+                                            className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-white text-black rounded font-bold text-xs hover:bg-gray-200 transition-all active:scale-95"
+                                        >
+                                            View Live
+                                            <ExternalLink size={12} />
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
 
                     {/* CTA Section */}
@@ -110,7 +113,7 @@ const Showcase: React.FC = () => {
                         <h2 className="text-2xl md:text-3xl font-black tracking-tight text-white">
                             Ready to build yours?
                         </h2>
-                        <p className="text-gray-500 font-medium max-w-xl mx-auto">
+                        <p className="text-gray-400 font-medium max-w-xl mx-auto">
                             Join thousands of creators building beautiful websites with Nekoneko.
                         </p>
                         <button

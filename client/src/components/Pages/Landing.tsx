@@ -39,7 +39,7 @@ const Landing: React.FC = () => {
               <span className="text-indigo-600 italic">presence</span> <span className="text-gray-400 font-medium">at scale.</span>
             </h1>
 
-            <p className="max-w-xl mx-auto text-gray-500 font-medium leading-relaxed md:text-xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+            <p className="max-w-xl mx-auto text-gray-400 font-medium leading-relaxed md:text-xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
               A block-based rendering engine for founders and teams.
               Zero complexity, just clean JSON blocks and instant global deployment.
             </p>
@@ -74,13 +74,14 @@ const Landing: React.FC = () => {
                 </div>
                 <div className="mx-auto flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/[0.04] rounded-lg">
                   <div className="h-2 w-2 rounded-full bg-green-500/80 shadow-[0_0_8px_rgba(34,197,94,0.3)]"></div>
-                  <span className="text-[10px] font-mono text-gray-500">preview.nekoneko.app</span>
+                  <span className="text-[10px] font-mono text-gray-400">preview.nekoneko.app</span>
                 </div>
               </div>
               <div className="relative overflow-hidden group">
                 <img
                   src="/assets/mockup.png"
                   alt="Nekoneko Editor Preview"
+                  fetchPriority="high"
                   className="w-full h-auto opacity-80 group-hover:opacity-100 transition-all duration-1000 scale-100 group-hover:scale-[1.02]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-0 transition-opacity duration-700"></div>
@@ -102,6 +103,7 @@ const Landing: React.FC = () => {
       {/* Features Grid */}
       <section className="py-24 bg-[#0b0b0b] border-t border-white/[0.06]">
         <div className="max-w-7xl mx-auto px-6">
+          <h2 className="sr-only">Core Features</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <FeatureCard
               icon={<Box size={24} />}
@@ -132,7 +134,7 @@ const Landing: React.FC = () => {
             <h2 className="text-4xl font-black tracking-tight text-white">
               Support the Project
             </h2>
-            <p className="text-[#a1a1aa] font-medium max-w-md mx-auto leading-relaxed text-lg">
+            <p className="text-gray-300 font-medium max-w-md mx-auto leading-relaxed text-lg">
               If Nekoneko helped you build your dream site, consider fueling the
               next update with a coffee!
             </p>
@@ -156,7 +158,7 @@ const Landing: React.FC = () => {
             Ready to build your <br />
             <span className="text-indigo-500 italic">next presence?</span>
           </h2>
-          <p className="text-[#a1a1aa] font-medium max-w-md mx-auto text-lg leading-relaxed">
+          <p className="text-gray-300 font-medium max-w-md mx-auto text-lg leading-relaxed">
             Join creators building the simplest, fastest sites on the web.
             Free to start, forever.
           </p>
@@ -201,7 +203,7 @@ const FeatureCard = ({
     </div>
     <div className="space-y-3">
       <h3 className="font-black text-xl text-white tracking-tight">{title}</h3>
-      <p className="text-sm text-[#a1a1aa] leading-relaxed font-medium">
+      <p className="text-sm text-gray-400 leading-relaxed font-medium">
         {description}
       </p>
     </div>

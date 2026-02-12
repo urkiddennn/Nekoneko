@@ -6,6 +6,7 @@ const StatsSection: React.FC = () => {
   return (
     <section className="py-24 bg-[#0b0b0b] border-t border-white/[0.06] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
+        <h2 className="sr-only">Platform Statistics</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
           <StatCard
             icon={Users}
@@ -77,7 +78,7 @@ const StatCard: React.FC<StatCardProps> = ({
       <h3 className="font-black text-lg tracking-tight text-white">
         {title}
       </h3>
-      <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed max-w-[240px]">
+      <p className="text-sm text-gray-400 font-medium leading-relaxed max-w-[240px]">
         {description}
       </p>
     </div>

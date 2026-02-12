@@ -9,7 +9,7 @@ const HowItWorks: React.FC = () => {
             <span className="text-[10px] font-black uppercase tracking-widest">Workflow</span>
           </div>
           <h2 className="text-4xl font-black tracking-tight text-white">How it Works</h2>
-          <p className="text-[#a1a1aa] font-medium max-w-lg mx-auto">
+          <p className="text-gray-400 font-medium max-w-lg mx-auto">
             Three steps to your new corner of the internet. Zero complexity, just your vision.
           </p>
         </div>
@@ -55,7 +55,7 @@ const StepCard = ({
     </div>
     <div className="space-y-2">
       <h3 className="font-black text-xl text-white">{title}</h3>
-      <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed max-w-[280px]">
+      <p className="text-sm text-gray-400 font-medium leading-relaxed max-w-[280px]">
         {description}
       </p>
     </div>

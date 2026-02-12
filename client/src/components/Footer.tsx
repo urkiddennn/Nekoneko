@@ -13,30 +13,30 @@ const Footer: React.FC = () => {
         <div className="flex gap-8">
           <a
             href="#"
-            className="text-xs font-bold text-gray-500 hover:text-white transition-colors"
+            className="text-xs font-bold text-gray-400 hover:text-white transition-colors"
           >
             Email
           </a>
           <a
             href="#"
-            className="text-xs font-bold text-gray-500 hover:text-white transition-colors"
+            className="text-xs font-bold text-gray-400 hover:text-white transition-colors"
           >
             Discord
           </a>
           <a
             href="#"
-            className="text-xs font-bold text-gray-500 hover:text-white transition-colors"
+            className="text-xs font-bold text-gray-400 hover:text-white transition-colors"
           >
             GitHub
           </a>
           <a
             onClick={handlePrivacyPolicy}
-            className="text-xs font-bold text-gray-500 hover:text-white transition-colors cursor-pointer"
+            className="text-xs font-bold text-gray-400 hover:text-white transition-colors cursor-pointer"
           >
             Privacy
           </a>
         </div>
-        <p className="text-[10px] font-black uppercase tracking-widest text-gray-700">
+        <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">
           © 2026 Nekoneko Studio
         </p>
       </div>

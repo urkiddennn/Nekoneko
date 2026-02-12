@@ -15,10 +15,10 @@ const PremiumFeatures: React.FC = () => {
 
                             <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9] text-white">
                                 Grow big <br />
-                                <span className="text-gray-500 font-medium italic">without the bloat.</span>
+                                <span className="text-gray-400 font-medium italic">without the bloat.</span>
                             </h2>
 
-                            <p className="text-lg text-[#a1a1aa] font-medium leading-relaxed">
+                            <p className="text-lg text-gray-400 font-medium leading-relaxed">
                                 Take your vision from a single block to a global presence. Nekoneko handles the complexity of infrastructure so you can focus on your brand.
                             </p>
 
@@ -80,10 +80,10 @@ const PremiumFeatures: React.FC = () => {
 
                             <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.9] text-white">
                                 Instant persistence. <br />
-                                <span className="text-gray-500 font-medium italic">Zero config.</span>
+                                <span className="text-gray-400 font-medium italic">Zero config.</span>
                             </h2>
 
-                            <p className="text-lg text-[#a1a1aa] font-medium leading-relaxed">
+                            <p className="text-lg text-gray-400 font-medium leading-relaxed">
                                 Private connections, secure endpoints, and real-time synchronization live from the moment you hit save.
                             </p>
 
@@ -113,7 +113,7 @@ const PremiumFeatures: React.FC = () => {
                                         <div className="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></div>
                                         <span className="font-bold text-white text-sm">convex-data-sync</span>
                                     </div>
-                                    <div className="text-[10px] font-mono text-gray-500">
+                                    <div className="text-[10px] font-mono text-gray-400">
                                         api-prod.nekoneko.app
                                     </div>
                                     <div className="flex items-center gap-2 text-[10px] text-green-500 font-black uppercase tracking-wider">
@@ -123,7 +123,7 @@ const PremiumFeatures: React.FC = () => {
 
                                 <div className="flex items-center gap-2 self-center">
                                     <div className="flex-1 h-px w-8 bg-white/[0.04]"></div>
-                                    <div className="px-3 py-1 bg-[#1a1a1a] border border-white/[0.06] rounded-full text-[9px] font-mono text-gray-500">
+                                    <div className="px-3 py-1 bg-[#1a1a1a] border border-white/[0.06] rounded-full text-[9px] font-mono text-gray-400">
                                         TCP:5432 | Private | Encrypted | &lt;1ms
                                     </div>
                                     <div className="flex-1 h-px w-8 bg-white/[0.04]"></div>
@@ -131,10 +131,10 @@ const PremiumFeatures: React.FC = () => {
 
                                 <div className="bg-[#161616] border border-white/[0.08] p-6 rounded-lg flex items-center justify-between shadow-xl shadow-black/20">
                                     <div className="flex items-center gap-4">
-                                        <Database className="text-gray-500" size={18} />
+                                        <Database className="text-gray-400" size={18} />
                                         <span className="font-bold text-white text-sm">projects_db</span>
                                     </div>
-                                    <div className="text-[10px] text-gray-600 font-mono italic">
+                                    <div className="text-[10px] text-gray-400 font-mono italic">
                                         Synced 2s ago
                                     </div>
                                 </div>
@@ -146,9 +146,9 @@ const PremiumFeatures: React.FC = () => {
 
             {/* Alternatives footer */}
             <div className="pb-24 pt-12 flex flex-col items-center gap-6 opacity-30 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">Alternative to</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Alternative to</span>
                 <div className="flex items-center gap-8 md:gap-12">
-                    <Globe size={24} className="text-gray-500" />
+                    <Globe size={24} className="text-gray-400" />
                     <div className="font-black italic text-xl text-white">framer</div>
                     <div className="font-black text-xl text-white">webflow</div>
                     <div className="font-black italic text-xl uppercase text-white">wix</div>
@@ -163,7 +163,7 @@ const FeatureItem = ({ icon, title, description }: { icon: any, title: string, d
         <div className="mt-1">{icon}</div>
         <div className="space-y-1">
             <h4 className="font-bold text-white">{title}</h4>
-            <p className="text-sm text-[#a1a1aa] leading-relaxed font-medium">{description}</p>
+            <p className="text-sm text-gray-400 leading-relaxed font-medium">{description}</p>
         </div>
     </div>
 );
@@ -172,12 +172,12 @@ const StatusCard = ({ icon, title, status, active = false, className = "" }: { i
     <div className={`p-6 rounded-lg border transition-all duration-700 ${active ? 'bg-[#1a1a1a] border-white/[0.1] z-10 scale-105 shadow-2xl shadow-black/50' : 'bg-white/[0.02] border-white/[0.04] opacity-40'} ${className}`}>
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-md ${active ? 'bg-indigo-500/10 text-indigo-400' : 'bg-transparent text-gray-500'}`}>
+                <div className={`p-2 rounded-md ${active ? 'bg-indigo-500/10 text-indigo-400' : 'bg-transparent text-gray-400'}`}>
                     {icon}
                 </div>
                 <span className="font-black text-sm tracking-tight text-white">{title}</span>
             </div>
-            <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest ${active ? 'text-green-500' : 'text-gray-500'}`}>
+            <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest ${active ? 'text-green-500' : 'text-gray-400'}`}>
                 <Zap size={10} className={active ? "fill-green-500" : ""} />
                 {status}
             </div>
