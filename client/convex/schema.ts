@@ -7,6 +7,7 @@ import { unverified_users } from "./schema/unverified_users";
 import { feedback } from "./schema/feedback";
 import { messages } from "./schema/messages";
 import { subscribe } from "./schema/subscribe";
+import { assets } from "./schema/assets";
 
 export default defineSchema({
     ...authTables,
@@ -17,4 +18,5 @@ export default defineSchema({
     feedback,
     messages,
     subscribe,
+    assets,
 });

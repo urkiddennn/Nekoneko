@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
             Privacy
           </a>
         </div>
-        <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+        <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">
           © 2026 Nekoneko Studio
         </p>
       </div>

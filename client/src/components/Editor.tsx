@@ -444,6 +444,11 @@ const Editor: React.FC = () => {
                       activeThemeId={activeThemeId}
                       handleThemeChange={handleThemeChange}
                       setShowPlugins={() => setIsSidebarOpen(false)}
+                      onClose={() => setIsSidebarOpen(false)}
+                      onSelect={(url: string) => {
+                        // Copy to clipboard as a helpful shortcut when in the editor
+                        navigator.clipboard.writeText(url);
+                      }}
                     />
                   </div>
                 </Panel>

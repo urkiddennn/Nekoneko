@@ -60,7 +60,7 @@ const Footer: React.FC<FooterProps> = ({
                             <h2 className="text-3xl font-black uppercase tracking-tighter">
                                 {logo || "LOGO"}
                             </h2>
-                            <p className="font-bold text-slate-600 dark:text-slate-400 max-w-xs uppercase text-sm leading-tight">
+                            <p className="font-bold text-slate-600 dark:text-gray-400 max-w-xs uppercase text-sm leading-tight">
                                 {tagline}
                             </p>
                         </div>
@@ -185,7 +185,7 @@ const Footer: React.FC<FooterProps> = ({
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
                     <div className="space-y-4">
                         <h2 className="text-xl font-black tracking-tight dark:text-white uppercase">{logo}</h2>
-                        <p className="text-sm text-slate-500 font-medium max-w-xs">{tagline}</p>
+                        <p className="text-sm text-gray-400 font-medium max-w-xs">{tagline}</p>
                     </div>
 
                     <div className="flex flex-col items-center md:items-end gap-6">
@@ -380,7 +380,7 @@ const Footer: React.FC<FooterProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                     <div className="space-y-6">
                         <h3 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">{logo}</h3>
-                        <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed max-w-xs">{tagline}</p>
+                        <p className="text-slate-500 dark:text-gray-400 text-sm leading-relaxed max-w-xs">{tagline}</p>
                     </div>
 
                     <div>
@@ -431,7 +431,7 @@ const Footer: React.FC<FooterProps> = ({
                     </div>
                 </div>
 
-                <div className="pt-12 border-t border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center text-slate-400 text-sm gap-8">
+                <div className="pt-12 border-t border-slate-200 dark:border-white/5 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm gap-8">
                     <p>{copyright}</p>
                     <div className="flex gap-8 font-medium">
                         <a href="#" className="hover:text-slate-950 dark:hover:text-white">Privacy Policy</a>

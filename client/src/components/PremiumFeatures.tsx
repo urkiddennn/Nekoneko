@@ -145,10 +145,10 @@ const PremiumFeatures: React.FC = () => {
             </section>
 
             {/* Alternatives footer */}
-            <div className="pb-24 pt-12 flex flex-col items-center gap-6 opacity-30 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-700">
-                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">Alternative to</span>
-                <div className="flex items-center gap-8 md:gap-12">
-                    <Globe size={24} className="text-gray-400" />
+            <div className="pb-24 pt-12 flex flex-col items-center gap-6 border-t border-white/[0.04]">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-300">Alternative to</span>
+                <div className="flex items-center gap-8 md:gap-12 opacity-60">
+                    <Globe size={24} className="text-gray-300" />
                     <div className="font-black italic text-xl text-white">framer</div>
                     <div className="font-black text-xl text-white">webflow</div>
                     <div className="font-black italic text-xl uppercase text-white">wix</div>
@@ -162,20 +162,20 @@ const FeatureItem = ({ icon, title, description }: { icon: any, title: string, d
     <div className="flex gap-4">
         <div className="mt-1">{icon}</div>
         <div className="space-y-1">
-            <h4 className="font-bold text-white">{title}</h4>
+            <h3 className="font-bold text-white">{title}</h3>
             <p className="text-sm text-gray-400 leading-relaxed font-medium">{description}</p>
         </div>
     </div>
 );
 
 const StatusCard = ({ icon, title, status, active = false, className = "" }: { icon: any, title: string, status: string, active?: boolean, className?: string }) => (
-    <div className={`p-6 rounded-lg border transition-all duration-700 ${active ? 'bg-[#1a1a1a] border-white/[0.1] z-10 scale-105 shadow-2xl shadow-black/50' : 'bg-white/[0.02] border-white/[0.04] opacity-40'} ${className}`}>
+    <div className={`p-6 rounded-lg border transition-all duration-700 ${active ? 'bg-[#1a1a1a] border-white/[0.1] z-10 scale-105 shadow-2xl shadow-black/50' : 'bg-white/[0.01] border-white/[0.04]'} ${className}`}>
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
                 <div className={`p-2 rounded-md ${active ? 'bg-indigo-500/10 text-indigo-400' : 'bg-transparent text-gray-400'}`}>
                     {icon}
                 </div>
-                <span className="font-black text-sm tracking-tight text-white">{title}</span>
+                <span className={`font-black text-sm tracking-tight ${active ? 'text-white' : 'text-gray-400'}`}>{title}</span>
             </div>
             <div className={`flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest ${active ? 'text-green-500' : 'text-gray-400'}`}>
                 <Zap size={10} className={active ? "fill-green-500" : ""} />

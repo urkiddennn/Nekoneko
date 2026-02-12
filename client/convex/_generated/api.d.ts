@@ -9,6 +9,7 @@
  */
 
 import type * as analytics from "../analytics.js";
+import type * as assets from "../assets.js";
 import type * as auth from "../auth.js";
 import type * as config from "../config.js";
 import type * as crons from "../crons.js";
@@ -18,12 +19,14 @@ import type * as messages from "../messages.js";
 import type * as rateLimiter from "../rateLimiter.js";
 import type * as resend from "../resend.js";
 import type * as schema_analytics from "../schema/analytics.js";
+import type * as schema_assets from "../schema/assets.js";
 import type * as schema_feedback from "../schema/feedback.js";
 import type * as schema_messages from "../schema/messages.js";
 import type * as schema_projects from "../schema/projects.js";
 import type * as schema_subscribe from "../schema/subscribe.js";
 import type * as schema_unverified_users from "../schema/unverified_users.js";
 import type * as schema_users from "../schema/users.js";
+import type * as stats from "../stats.js";
 import type * as subscriber from "../subscriber.js";
 import type * as utils from "../utils.js";
 import type * as validation from "../validation.js";
@@ -36,6 +39,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
+  assets: typeof assets;
   auth: typeof auth;
   config: typeof config;
   crons: typeof crons;
@@ -45,12 +49,14 @@ declare const fullApi: ApiFromModules<{
   rateLimiter: typeof rateLimiter;
   resend: typeof resend;
   "schema/analytics": typeof schema_analytics;
+  "schema/assets": typeof schema_assets;
   "schema/feedback": typeof schema_feedback;
   "schema/messages": typeof schema_messages;
   "schema/projects": typeof schema_projects;
   "schema/subscribe": typeof schema_subscribe;
   "schema/unverified_users": typeof schema_unverified_users;
   "schema/users": typeof schema_users;
+  stats: typeof stats;
   subscriber: typeof subscriber;
   utils: typeof utils;
   validation: typeof validation;

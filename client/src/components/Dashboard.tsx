@@ -14,6 +14,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const projects = useQuery(api.config.listProjects, (token || isConvexAuth) ? { token: token || undefined } : "skip");
+  const dashStats = useQuery(api.stats.getUserStats, (token || isConvexAuth) ? { token: token || undefined } : "skip");
   const createProject = useMutation(api.config.createProject);
   const deleteProject = useMutation(api.config.deleteProject);
   const sendFeedback = useMutation(api.feedback.sendFeedback);
@@ -134,10 +135,10 @@ const Dashboard: React.FC = () => {
 
 
       <main className="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-12">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8">
           <div className="space-y-1">
             <h1 className="text-3xl font-bold tracking-tight text-white">Your Projects</h1>
-            <p className="text-[#a1a1aa] text-sm">
+            <p className="text-gray-400 text-sm">
               Manage and view your static sites.
             </p>
           </div>
@@ -159,6 +160,88 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
+        {/* Usage Overview - Horizontal Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+          {dashStats ? (
+            <>
+              {[
+                {
+                  label: "Asset Storage",
+                  used: `${Math.round((dashStats.storage.used / (1024 * 1024)) * 10) / 10}MB`,
+                  limit: "40MB",
+                  percent: (dashStats.storage.used / dashStats.storage.limit) * 100,
+                  icon: <Star size={14} className="text-indigo-400" />
+                },
+                {
+                  label: "Web Analytics Events",
+                  used: dashStats.analytics.used >= 1000 ? `${(dashStats.analytics.used / 1000).toFixed(1)}k` : dashStats.analytics.used,
+                  limit: "10k",
+                  percent: (dashStats.analytics.used / dashStats.analytics.limit) * 100,
+                  icon: <TrendingUp size={14} className="text-green-400" />
+                },
+                {
+                  label: "Site Engine Awesome",
+                  used: "27k",
+                  limit: "1M",
+                  percent: 2.7,
+                  icon: <Globe size={14} className="text-pink-400" />
+                }
+              ].map((stat, i) => (
+                <div key={i} className="bg-[#111] border border-white/[0.04] p-4 rounded-xl flex items-center gap-4 group hover:border-white/[0.1] transition-all">
+                  <div className="relative w-10 h-10 flex items-center justify-center">
+                    <svg className="w-full h-full -rotate-90">
+                      <circle
+                        cx="20"
+                        cy="20"
+                        r="18"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        className="text-white/[0.02]"
+                      />
+                      <circle
+                        cx="20"
+                        cy="20"
+                        r="18"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeDasharray={113}
+                        strokeDashoffset={113 - (113 * stat.percent) / 100}
+                        strokeLinecap="round"
+                        className="text-white transition-all duration-1000"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-40 group-hover:opacity-100 transition-opacity">
+                      {stat.icon}
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between items-baseline mb-1">
+                      <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-500 truncate mr-2">
+                        {stat.label}
+                      </h3>
+                      <span className="text-[10px] font-bold text-white whitespace-nowrap">
+                        {stat.used} <span className="text-gray-600 font-medium">/ {stat.limit}</span>
+                      </span>
+                    </div>
+                    <div className="h-0.5 w-full bg-white/[0.02] rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-white transition-all duration-1000"
+                        style={{ width: `${stat.percent}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : (
+            [1, 2, 3].map(i => (
+              <div key={i} className="h-20 bg-white/[0.02] animate-pulse rounded-xl border border-white/[0.04]" />
+            ))
+          )}
+        </div>
+
         {projects === undefined ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
@@ -170,7 +253,7 @@ const Dashboard: React.FC = () => {
           </div>
         ) : projects.length === 0 ? (
           <div className="text-center py-20 bg-white/[0.02] rounded-xl border border-dashed border-white/[0.08]">
-            <p className="text-gray-500 font-medium">
+            <p className="text-gray-400 font-medium">
               No projects yet. Create your first one!
             </p>
           </div>
@@ -183,7 +266,7 @@ const Dashboard: React.FC = () => {
               >
                 <div>
                   <h3 className="font-bold text-lg mb-1 text-white">{project.name}</h3>
-                  <p className="text-xs text-gray-500 font-mono">
+                  <p className="text-xs text-gray-400 font-mono">
                     /{project.slug}
                   </p>
                 </div>
@@ -212,7 +295,7 @@ const Dashboard: React.FC = () => {
                   </button>
                   <button
                     onClick={() => navigate(`/analytics/${project._id}`)}
-                    className="p-1.5 px-2 border border-white/[0.08] rounded-lg text-gray-500 hover:text-indigo-400 hover:bg-white/[0.04] transition-all"
+                    className="p-1.5 px-2 border border-white/[0.08] rounded-lg text-gray-400 hover:text-indigo-400 hover:bg-white/[0.04] transition-all"
                     title="View Analytics"
                   >
                     <TrendingUp size={14} />
@@ -302,7 +385,7 @@ const Dashboard: React.FC = () => {
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1.5">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
                         Project Name
                       </label>
                       <input
@@ -320,7 +403,7 @@ const Dashboard: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-1.5">
+                      <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5">
                         URL Slug
                       </label>
                       <div className="flex items-center">

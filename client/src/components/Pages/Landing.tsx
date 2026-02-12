@@ -74,7 +74,7 @@ const Landing: React.FC = () => {
                 </div>
                 <div className="mx-auto flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/[0.04] rounded-lg">
                   <div className="h-2 w-2 rounded-full bg-green-500/80 shadow-[0_0_8px_rgba(34,197,94,0.3)]"></div>
-                  <span className="text-[10px] font-mono text-gray-400">preview.nekoneko.app</span>
+                  <span className="text-[10px] font-mono text-gray-300">preview.nekoneko.app</span>
                 </div>
               </div>
               <div className="relative overflow-hidden group">

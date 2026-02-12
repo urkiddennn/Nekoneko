@@ -1,7 +1,8 @@
 import React from "react";
-import { Palette, Files, LayoutGrid, LucideIcon } from "lucide-react";
+import { Palette, Files, LayoutGrid, LucideIcon, Image as ImageIcon } from "lucide-react";
 import ThemePlugin from "../components/ThemePlugin";
 import ExtensionsPanel from "../components/ExtensionsPanel";
+import AssetLibrary from "../components/AssetLibrary";
 
 
 export interface EditorExtension {
@@ -32,6 +33,12 @@ export const CORE_EXTENSIONS: EditorExtension[] = [
         name: "Appearance",
         icon: Palette,
         panel: ThemePlugin,
+    },
+    {
+        id: "assets",
+        name: "Assets",
+        icon: ImageIcon,
+        panel: AssetLibrary,
     },
     {
         id: "extensions",
