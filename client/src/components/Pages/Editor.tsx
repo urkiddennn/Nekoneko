@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSite } from "../context/useSite";
+import { useSite } from "../../context/useSite";
 import { useNavigate } from "react-router-dom";
 import {
   BookOpen,
@@ -13,8 +13,8 @@ import {
   Check,
 } from "lucide-react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
-import SectionRenderer from "./SectionRenderer";
-import IframePreview from "./IframePreview";
+import SectionRenderer from "../SectionRenderer";
+import IframePreview from "../IframePreview";
 
 import CodeMirror from "@uiw/react-codemirror";
 import { json } from "@codemirror/lang-json";
@@ -26,9 +26,8 @@ import {
 import { autocompletion, CompletionContext } from "@codemirror/autocomplete";
 
 import { vscodeDark } from "@uiw/codemirror-themes-all";
-import { CORE_EXTENSIONS } from "../extensions/registry";
-import ThemeToggle from "./library/ThemeToggle";
-
+import { CORE_EXTENSIONS } from "../../extensions/registry";
+import ThemeToggle from "../library/ThemeToggle";
 
 function myCompletions(context: CompletionContext) {
   let word = context.matchBefore(/\w*/);
@@ -45,8 +44,6 @@ function myCompletions(context: CompletionContext) {
   };
 }
 
-
-
 const Editor: React.FC = () => {
   const { siteConfig, setSiteConfig, saveConfig, loading, projectSlug } =
     useSite();
@@ -57,10 +54,13 @@ const Editor: React.FC = () => {
   const [editorTheme, setEditorTheme] = useState<any>(vscodeDark);
   const [activeThemeId, setActiveThemeId] = useState<string>("vscodeDark");
   const [viewportWidth, setViewportWidth] = useState<number | "full">("full");
-  const [activeExtensionId, setActiveExtensionId] = useState<string>("appearance");
+  const [activeExtensionId, setActiveExtensionId] =
+    useState<string>("appearance");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const activeExtension = CORE_EXTENSIONS.find(ext => ext.id === activeExtensionId) || CORE_EXTENSIONS[0];
+  const activeExtension =
+    CORE_EXTENSIONS.find((ext) => ext.id === activeExtensionId) ||
+    CORE_EXTENSIONS[0];
 
   const toggleExtension = (id: string) => {
     if (activeExtensionId === id) {
@@ -81,7 +81,7 @@ const Editor: React.FC = () => {
           if (JSON.stringify(JSON.parse(prev)) === JSON.stringify(siteConfig)) {
             return prev;
           }
-        } catch (e) { }
+        } catch (e) {}
         return currentJson;
       });
     }
@@ -153,49 +153,52 @@ const Editor: React.FC = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [jsonInput]);
 
-  const contentStyle = React.useMemo(() => ({
-    fontFamily: siteConfig.site_settings?.theme?.font || "Inter",
-    paddingTop: siteConfig.site_settings?.layout?.paddingTop
-      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingTop)
-        ? `${siteConfig.site_settings.layout.paddingTop}px`
-        : siteConfig.site_settings.layout.paddingTop
-      : undefined,
-    paddingRight: siteConfig.site_settings?.layout?.paddingRight
-      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingRight)
-        ? `${siteConfig.site_settings.layout.paddingRight}px`
-        : siteConfig.site_settings.layout.paddingRight
-      : undefined,
-    paddingBottom: siteConfig.site_settings?.layout?.paddingBottom
-      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingBottom)
-        ? `${siteConfig.site_settings.layout.paddingBottom}px`
-        : siteConfig.site_settings.layout.paddingBottom
-      : undefined,
-    paddingLeft: siteConfig.site_settings?.layout?.paddingLeft
-      ? /^\d+$/.test(siteConfig.site_settings.layout.paddingLeft)
-        ? `${siteConfig.site_settings.layout.paddingLeft}px`
-        : siteConfig.site_settings.layout.paddingLeft
-      : undefined,
-    marginTop: siteConfig.site_settings?.layout?.marginTop
-      ? /^\d+$/.test(siteConfig.site_settings.layout.marginTop)
-        ? `${siteConfig.site_settings.layout.marginTop}px`
-        : siteConfig.site_settings.layout.marginTop
-      : undefined,
-    marginRight: siteConfig.site_settings?.layout?.marginRight
-      ? /^\d+$/.test(siteConfig.site_settings.layout.marginRight)
-        ? `${siteConfig.site_settings.layout.marginRight}px`
-        : siteConfig.site_settings.layout.marginRight
-      : undefined,
-    marginBottom: siteConfig.site_settings?.layout?.marginBottom
-      ? /^\d+$/.test(siteConfig.site_settings.layout.marginBottom)
-        ? `${siteConfig.site_settings.layout.marginBottom}px`
-        : siteConfig.site_settings.layout.marginBottom
-      : undefined,
-    marginLeft: siteConfig.site_settings?.layout?.marginLeft
-      ? /^\d+$/.test(siteConfig.site_settings.layout.marginLeft)
-        ? `${siteConfig.site_settings.layout.marginLeft}px`
-        : siteConfig.site_settings.layout.marginLeft
-      : undefined,
-  }), [siteConfig.site_settings?.theme?.font, siteConfig.site_settings?.layout]);
+  const contentStyle = React.useMemo(
+    () => ({
+      fontFamily: siteConfig.site_settings?.theme?.font || "Inter",
+      paddingTop: siteConfig.site_settings?.layout?.paddingTop
+        ? /^\d+$/.test(siteConfig.site_settings.layout.paddingTop)
+          ? `${siteConfig.site_settings.layout.paddingTop}px`
+          : siteConfig.site_settings.layout.paddingTop
+        : undefined,
+      paddingRight: siteConfig.site_settings?.layout?.paddingRight
+        ? /^\d+$/.test(siteConfig.site_settings.layout.paddingRight)
+          ? `${siteConfig.site_settings.layout.paddingRight}px`
+          : siteConfig.site_settings.layout.paddingRight
+        : undefined,
+      paddingBottom: siteConfig.site_settings?.layout?.paddingBottom
+        ? /^\d+$/.test(siteConfig.site_settings.layout.paddingBottom)
+          ? `${siteConfig.site_settings.layout.paddingBottom}px`
+          : siteConfig.site_settings.layout.paddingBottom
+        : undefined,
+      paddingLeft: siteConfig.site_settings?.layout?.paddingLeft
+        ? /^\d+$/.test(siteConfig.site_settings.layout.paddingLeft)
+          ? `${siteConfig.site_settings.layout.paddingLeft}px`
+          : siteConfig.site_settings.layout.paddingLeft
+        : undefined,
+      marginTop: siteConfig.site_settings?.layout?.marginTop
+        ? /^\d+$/.test(siteConfig.site_settings.layout.marginTop)
+          ? `${siteConfig.site_settings.layout.marginTop}px`
+          : siteConfig.site_settings.layout.marginTop
+        : undefined,
+      marginRight: siteConfig.site_settings?.layout?.marginRight
+        ? /^\d+$/.test(siteConfig.site_settings.layout.marginRight)
+          ? `${siteConfig.site_settings.layout.marginRight}px`
+          : siteConfig.site_settings.layout.marginRight
+        : undefined,
+      marginBottom: siteConfig.site_settings?.layout?.marginBottom
+        ? /^\d+$/.test(siteConfig.site_settings.layout.marginBottom)
+          ? `${siteConfig.site_settings.layout.marginBottom}px`
+          : siteConfig.site_settings.layout.marginBottom
+        : undefined,
+      marginLeft: siteConfig.site_settings?.layout?.marginLeft
+        ? /^\d+$/.test(siteConfig.site_settings.layout.marginLeft)
+          ? `${siteConfig.site_settings.layout.marginLeft}px`
+          : siteConfig.site_settings.layout.marginLeft
+        : undefined,
+    }),
+    [siteConfig.site_settings?.theme?.font, siteConfig.site_settings?.layout],
+  );
 
   if (loading) {
     return (
@@ -297,10 +300,11 @@ const Editor: React.FC = () => {
                 )}
                 <button
                   onClick={() => toggleExtension(ext.id)}
-                  className={`p-2 rounded transition-all active:scale-90 ${isActive && isSidebarOpen
-                    ? "bg-white text-black shadow-lg shadow-white/5"
-                    : "text-gray-500 hover:text-white hover:bg-white/[0.04]"
-                    }`}
+                  className={`p-2 rounded transition-all active:scale-90 ${
+                    isActive && isSidebarOpen
+                      ? "bg-white text-black shadow-lg shadow-white/5"
+                      : "text-gray-500 hover:text-white hover:bg-white/[0.04]"
+                  }`}
                   title={ext.name}
                 >
                   <Icon size={20} />
@@ -369,10 +373,11 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth(375);
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 375
-                      ? "bg-white text-black"
-                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
-                      }`}
+                    className={`p-1.5 rounded transition-colors select-none ${
+                      viewportWidth === 375
+                        ? "bg-white text-black"
+                        : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
+                    }`}
                     title="Mobile (375px)"
                   >
                     <Smartphone size={16} />
@@ -382,10 +387,11 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth(768);
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 768
-                      ? "bg-white text-black"
-                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
-                      }`}
+                    className={`p-1.5 rounded transition-colors select-none ${
+                      viewportWidth === 768
+                        ? "bg-white text-black"
+                        : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
+                    }`}
                     title="Tablet (768px)"
                   >
                     <Tablet size={16} />
@@ -395,10 +401,11 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth("full");
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === "full"
-                      ? "bg-white text-black"
-                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
-                      }`}
+                    className={`p-1.5 rounded transition-colors select-none ${
+                      viewportWidth === "full"
+                        ? "bg-white text-black"
+                        : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
+                    }`}
                     title="Desktop (Full Width)"
                   >
                     <Monitor size={16} />
@@ -423,7 +430,8 @@ const Editor: React.FC = () => {
                       height: "100%",
                       borderRadius: "0",
                     }}
-                    contentStyle={contentStyle}                  >
+                    contentStyle={contentStyle}
+                  >
                     <div className="min-h-full ">
                       <SectionRenderer sections={siteConfig.sections} />
                       {siteConfig.site_settings?.theme?.showThemeToggle && (

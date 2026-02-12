@@ -1,10 +1,10 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from 'convex/react';
-import { api } from '../../convex/_generated/api';
+import { api } from '../../../convex/_generated/api';
 import { ArrowLeft, TrendingUp, Users, Clock, Globe } from 'lucide-react';
-import Header from './Header';
-import { useAuth } from '../hooks/useAuth';
+import Header from '../Header';
+import { useAuth } from '../../hooks/useAuth';
 
 const Analytics: React.FC = () => {
     const { projectId } = useParams();
@@ -30,7 +30,7 @@ const Analytics: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#0b0b0b] text-white font-sans">
             <Header />
-            <div className="max-w-4xl mx-auto space-y-12 pt-32 pb-12 px-6">
+            <div className="max-w-6xl mx-auto space-y-12 pt-32 pb-12 px-6">
 
                 {/* Header */}
                 <div className="flex items-center justify-between">

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X, User as UserIcon, Mail, Book } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
@@ -7,6 +7,7 @@ const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -22,6 +23,11 @@ const Header: React.FC = () => {
     navigate("/message");
     setIsMenuOpen(false);
   };
+
+  const handleDocs = () => {
+    navigate("/docs");
+    setIsMenuOpen(false);
+  }
 
   if (!user) return null;
 
@@ -39,31 +45,84 @@ const Header: React.FC = () => {
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center gap-6">
-        <button
-          className="text-xs font-semibold tracking-widest text-gray-400 hover:text-white transition-colors"
-          onClick={handleMessage}
-        >
-          Messages
-        </button>
 
-        <button
-          className="w-10 h-10 overflow-hidden border border-white/10 rounded-full hover:border-white/40 duration-100 transition-all active:scale-95"
-          onClick={handleProfile}
-        >
-          <img
-            src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.name}`}
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-        </button>
+        <div className="relative">
+          <button
+            className="w-10 h-10 overflow-hidden border border-white/10 rounded-full hover:border-white/40 duration-100 transition-all active:scale-95"
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+          >
+            <img
+              src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.name}`}
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          </button>
 
-        <button
-          onClick={handleLogout}
-          className="p-2 text-gray-500 hover:text-red-400 transition-colors"
-          title="Logout"
-        >
-          <LogOut size={18} />
-        </button>
+          {isProfileOpen && (
+            <div className="absolute top-15 right-0 w-64 p-4 bg-[#161616] border border-white/[0.08] rounded-2xl flex flex-col gap-2 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
+              <div className="flex items-center gap-3 pb-4 mb-2 border-b border-white/[0.06]">
+                <div className="w-10 h-10 overflow-hidden border border-white/10 rounded-full">
+                  <img
+                    src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user?.name}`}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="font-bold text-white text-sm">{user.name}</p>
+                  <p className="text-[10px] text-gray-400 font-mono">
+                    @{user.name.toLowerCase().replace(/\s+/g, "")}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                className="flex items-center gap-3 p-2 text-xs font-bold text-gray-400 hover:text-white hover:bg-white/[0.04] rounded-lg transition-all"
+                onClick={() => {
+                  handleProfile();
+                  setIsProfileOpen(false);
+                }}
+              >
+                <UserIcon size={14} />
+                Profile
+              </button>
+              <button
+                className="flex items-center gap-3 p-2 text-xs font-bold text-gray-400 hover:text-white hover:bg-white/[0.04] rounded-lg transition-all"
+                onClick={() => {
+                  handleMessage();
+                  setIsProfileOpen(false);
+                }}
+              >
+                <Mail size={14} />
+                Messages
+              </button>
+              <button
+                className="flex items-center gap-3 p-2 text-xs font-bold text-gray-400 hover:text-white hover:bg-white/[0.04] rounded-lg transition-all"
+
+                onClick={() => {
+                  handleDocs();
+                  setIsProfileOpen(false);
+                }}
+              >
+                <Book size={14} />
+                Documentation
+              </button>
+
+              <div className="h-px bg-white/[0.06] my-1" />
+
+              <button
+                onClick={() => {
+                  handleLogout();
+                  setIsProfileOpen(false);
+                }}
+                className="flex items-center gap-3 p-2 text-xs font-bold text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
+              >
+                <LogOut size={14} />
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Mobile Menu Toggle */}

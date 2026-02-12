@@ -10,7 +10,7 @@ const StatsSection: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
           <StatCard
             icon={Users}
-            number="10"
+            number="20"
             unit="+"
             title="Active Creators"
             description="Founders building the next wave of aesthetic web spaces."
@@ -18,7 +18,7 @@ const StatsSection: React.FC = () => {
           />
           <StatCard
             icon={Zap}
-            number="30"
+            number="20"
             unit="+"
             title="Sites Deployed"
             description="Instantly published sites served with sub-second performance."

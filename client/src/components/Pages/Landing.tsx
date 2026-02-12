@@ -36,12 +36,13 @@ const Landing: React.FC = () => {
           <div className="space-y-6 max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.85] animate-in fade-in slide-in-from-bottom-6 duration-1000">
               Build your digital <br />
-              <span className="text-indigo-600 italic">presence</span> <span className="text-gray-400 font-medium">at scale.</span>
+              <span className="text-indigo-600 italic">presence</span>{" "}
+              <span className="text-gray-400 font-medium">at scale.</span>
             </h1>
 
             <p className="max-w-xl mx-auto text-gray-400 font-medium leading-relaxed md:text-xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-              A block-based rendering engine for founders and teams.
-              Zero complexity, just clean JSON blocks and instant global deployment.
+              A block-based rendering engine for founders and teams. Zero
+              complexity, just clean JSON blocks and instant global deployment.
             </p>
           </div>
 
@@ -63,10 +64,10 @@ const Landing: React.FC = () => {
         </div>
 
         {/* Mockup Presentation */}
-        <div className="mt-32 max-w-7xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500">
+        <div className="md:mt-32 mt-10 md:max-w-7xl w-full md:mx-auto md:px-4 p-1 animate-in fade-in zoom-in-95 duration-1000 delay-500">
           <div className="relative p-2 bg-white/[0.02] rounded-xl border border-white/[0.06] group shadow-inner">
             <div className="bg-[#161616] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 overflow-hidden relative">
-              <div className="w-full h-11 bg-[#1a1a1a] border-b border-white/[0.06] text-start px-6 items-center flex gap-2">
+              <div className="w-full h-11 bg-[#1a1a1a] border-b border-white/[0.06] text-start md:px-6 px-1 items-center flex gap-2">
                 <div className="flex gap-2.5">
                   <div className="h-3 w-3 rounded-full bg-white/[0.03]"></div>
                   <div className="h-3 w-3 rounded-full bg-white/[0.03]"></div>
@@ -74,15 +75,17 @@ const Landing: React.FC = () => {
                 </div>
                 <div className="mx-auto flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/[0.04] rounded-lg">
                   <div className="h-2 w-2 rounded-full bg-green-500/80 shadow-[0_0_8px_rgba(34,197,94,0.3)]"></div>
-                  <span className="text-[10px] font-mono text-gray-300">preview.nekoneko.app</span>
+                  <span className="text-[10px] font-mono text-gray-300">
+                    preview.nekoneko.space
+                  </span>
                 </div>
               </div>
-              <div className="relative overflow-hidden group">
+              <div className="relative  overflow-hidden group">
                 <img
                   src="/assets/mockup.png"
                   alt="Nekoneko Editor Preview"
                   fetchPriority="high"
-                  className="w-full h-auto opacity-80 group-hover:opacity-100 transition-all duration-1000 scale-100 group-hover:scale-[1.02]"
+                  className="w-full h-auto  opacity-80 group-hover:opacity-100 transition-all duration-1000 scale-100 group-hover:scale-[1.02]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-0 transition-opacity duration-700"></div>
               </div>
@@ -159,8 +162,8 @@ const Landing: React.FC = () => {
             <span className="text-indigo-500 italic">next presence?</span>
           </h2>
           <p className="text-gray-300 font-medium max-w-md mx-auto text-lg leading-relaxed">
-            Join creators building the simplest, fastest sites on the web.
-            Free to start, forever.
+            Join creators building the simplest, fastest sites on the web. Free
+            to start, forever.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">

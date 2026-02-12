@@ -79,8 +79,12 @@ const ProfilePage: React.FC = () => {
         </button>
 
         <div className="mb-12">
-          <h1 className="text-3xl font-bold tracking-tight text-white">Profile</h1>
-          <p className="text-gray-500 mt-2 font-medium">Manage your account details.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-white">
+            Profile
+          </h1>
+          <p className="text-gray-500 mt-2 font-medium">
+            Manage your account details.
+          </p>
         </div>
 
         <div className="max-w-2xl border border-white/[0.08] rounded-xl p-8 space-y-10 bg-[#161616] shadow-2xl shadow-black/40">
@@ -143,10 +147,11 @@ const ProfilePage: React.FC = () => {
 
             {message && (
               <div
-                className={`p-4 rounded-lg text-xs font-bold uppercase tracking-wider ${message.type === "success"
-                  ? "bg-green-50 text-green-700 border border-green-100"
-                  : "bg-red-50 text-red-700 border border-red-100"
-                  }`}
+                className={`p-4 rounded-lg text-xs font-bold uppercase tracking-wider ${
+                  message.type === "success"
+                    ? "bg-green-50 text-green-700 border border-green-100"
+                    : "bg-red-50 text-red-700 border border-red-100"
+                }`}
               >
                 {message.text}
               </div>
@@ -156,7 +161,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isUpdating || name === user.name}
-                className="bg-white text-black px-8 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-gray-200 transition-all active:scale-95 disabled:bg-white/[0.02] disabled:text-gray-700 disabled:active:scale-100 disabled:cursor-not-allowed shadow-xl shadow-white/5"
+                className="bg-white text-black px-8 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-gray-200 transition-all active:scale-95 disabled:bg-white/[0.02] disabled:text-gray-700 disabled:active:scale-100 disabled:cursor-not-allowed "
               >
                 {isUpdating ? (
                   <Loader2 size={16} className="animate-spin" />

@@ -6,7 +6,7 @@ const NavigationBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="h-16 border-b border-white/[0.06] flex items-center justify-between px-6 md:px-8 bg-[#0b0b0b]/80 backdrop-blur-md fixed top-0 w-full z-50">
+    <nav className=" h-16 border-b border-white/[0.06] flex items-center justify-between px-6 md:px-40 bg-[#0b0b0b]/80 backdrop-blur-md fixed top-0 w-full z-50">
       <Link
         to="/"
         className="font-black text-xl tracking-tighter cursor-pointer text-white"

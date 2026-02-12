@@ -1,20 +1,34 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { api } from "../../../convex/_generated/api";
 import { useNavigate } from "react-router-dom";
-import { Plus, Globe, Settings, Check, TrendingUp, MessageSquare, Star } from "lucide-react";
-import { TEMPLATES, Template } from "../data/templates";
-import Header from "./Header";
-import { NotificationContainer, NotificationType } from "./Notification";
+import {
+  Plus,
+  Globe,
+  Settings,
+  Check,
+  TrendingUp,
+  MessageSquare,
+  Star,
+} from "lucide-react";
+import { TEMPLATES, Template } from "../../data/templates";
+import Header from "../Header";
+import { NotificationContainer, NotificationType } from "../Notification";
 
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 const Dashboard: React.FC = () => {
   const { user, token, isAuthenticated, isLoading, isConvexAuth } = useAuth();
   const navigate = useNavigate();
 
-  const projects = useQuery(api.config.listProjects, (token || isConvexAuth) ? { token: token || undefined } : "skip");
-  const dashStats = useQuery(api.stats.getUserStats, (token || isConvexAuth) ? { token: token || undefined } : "skip");
+  const projects = useQuery(
+    api.config.listProjects,
+    token || isConvexAuth ? { token: token || undefined } : "skip",
+  );
+  const dashStats = useQuery(
+    api.stats.getUserStats,
+    token || isConvexAuth ? { token: token || undefined } : "skip",
+  );
   const createProject = useMutation(api.config.createProject);
   const deleteProject = useMutation(api.config.deleteProject);
   const sendFeedback = useMutation(api.feedback.sendFeedback);
@@ -22,16 +36,22 @@ const Dashboard: React.FC = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [newName, setNewName] = useState("");
   const [newSlug, setNewSlug] = useState("");
-  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(TEMPLATES[0]);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(
+    TEMPLATES[0],
+  );
   const [projectToDelete, setProjectToDelete] = useState<any>(null);
   const [projectToEdit, setProjectToEdit] = useState<any>(null);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
-  const [feedbackType, setFeedbackType] = useState<"problem" | "rating">("problem");
+  const [feedbackType, setFeedbackType] = useState<"problem" | "rating">(
+    "problem",
+  );
   const [feedbackRating, setFeedbackRating] = useState(5);
   const [isSendingFeedback, setIsSendingFeedback] = useState(false);
   const [debouncedSlug, setDebouncedSlug] = useState("");
-  const [notifications, setNotifications] = useState<{ id: string; message: string; type: NotificationType }[]>([]);
+  const [notifications, setNotifications] = useState<
+    { id: string; message: string; type: NotificationType }[]
+  >([]);
 
   const notify = (type: NotificationType, message: string) => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -49,7 +69,9 @@ const Dashboard: React.FC = () => {
     return () => clearTimeout(timer);
   }, [newSlug]);
 
-  const isAvailable = useQuery(api.config.checkSlugAvailable, { slug: debouncedSlug });
+  const isAvailable = useQuery(api.config.checkSlugAvailable, {
+    slug: debouncedSlug,
+  });
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -82,7 +104,9 @@ const Dashboard: React.FC = () => {
         token: token || undefined,
         name: newName,
         slug: newSlug.toLowerCase().replace(/[^a-z0-9]/g, "-"),
-        site_settings: selectedTemplate?.site_settings ? { ...selectedTemplate.site_settings, name: newName } : undefined,
+        site_settings: selectedTemplate?.site_settings
+          ? { ...selectedTemplate.site_settings, name: newName }
+          : undefined,
         sections: selectedTemplate?.sections || undefined,
       });
       navigate(`/editor/${id}`);
@@ -116,7 +140,10 @@ const Dashboard: React.FC = () => {
   const handleDelete = async () => {
     if (!projectToDelete) return;
     try {
-      await deleteProject({ token: token || undefined, id: projectToDelete._id });
+      await deleteProject({
+        token: token || undefined,
+        id: projectToDelete._id,
+      });
       setProjectToDelete(null);
       setProjectToEdit(null); // Close the edit actions menu too
       notify("info", "Project deleted successfully");
@@ -133,11 +160,12 @@ const Dashboard: React.FC = () => {
       />
       <Header />
 
-
       <main className="pt-24 md:pt-32 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 mb-8">
           <div className="space-y-1">
-            <h1 className="text-3xl font-bold tracking-tight text-white">Your Projects</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-white">
+              Your Projects
+            </h1>
             <p className="text-gray-400 text-sm">
               Manage and view your static sites.
             </p>
@@ -169,25 +197,34 @@ const Dashboard: React.FC = () => {
                   label: "Asset Storage",
                   used: `${Math.round((dashStats.storage.used / (1024 * 1024)) * 10) / 10}MB`,
                   limit: "40MB",
-                  percent: (dashStats.storage.used / dashStats.storage.limit) * 100,
-                  icon: <Star size={14} className="text-indigo-400" />
+                  percent:
+                    (dashStats.storage.used / dashStats.storage.limit) * 100,
+                  icon: <Star size={14} className="text-indigo-400" />,
                 },
                 {
                   label: "Web Analytics Events",
-                  used: dashStats.analytics.used >= 1000 ? `${(dashStats.analytics.used / 1000).toFixed(1)}k` : dashStats.analytics.used,
+                  used:
+                    dashStats.analytics.used >= 1000
+                      ? `${(dashStats.analytics.used / 1000).toFixed(1)}k`
+                      : dashStats.analytics.used,
                   limit: "10k",
-                  percent: (dashStats.analytics.used / dashStats.analytics.limit) * 100,
-                  icon: <TrendingUp size={14} className="text-green-400" />
+                  percent:
+                    (dashStats.analytics.used / dashStats.analytics.limit) *
+                    100,
+                  icon: <TrendingUp size={14} className="text-green-400" />,
                 },
                 {
                   label: "Site Engine Awesome",
                   used: "27k",
                   limit: "1M",
                   percent: 2.7,
-                  icon: <Globe size={14} className="text-pink-400" />
-                }
+                  icon: <Globe size={14} className="text-pink-400" />,
+                },
               ].map((stat, i) => (
-                <div key={i} className="bg-[#111] border border-white/[0.04] p-4 rounded-xl flex items-center gap-4 group hover:border-white/[0.1] transition-all">
+                <div
+                  key={i}
+                  className="bg-[#111] border border-white/[0.04] p-4 rounded-xl flex items-center gap-4 group hover:border-white/[0.1] transition-all"
+                >
                   <div className="relative w-10 h-10 flex items-center justify-center">
                     <svg className="w-full h-full -rotate-90">
                       <circle
@@ -222,7 +259,10 @@ const Dashboard: React.FC = () => {
                         {stat.label}
                       </h3>
                       <span className="text-[10px] font-bold text-white whitespace-nowrap">
-                        {stat.used} <span className="text-gray-600 font-medium">/ {stat.limit}</span>
+                        {stat.used}{" "}
+                        <span className="text-gray-600 font-medium">
+                          / {stat.limit}
+                        </span>
                       </span>
                     </div>
                     <div className="h-0.5 w-full bg-white/[0.02] rounded-full overflow-hidden">
@@ -236,8 +276,11 @@ const Dashboard: React.FC = () => {
               ))}
             </>
           ) : (
-            [1, 2, 3].map(i => (
-              <div key={i} className="h-20 bg-white/[0.02] animate-pulse rounded-xl border border-white/[0.04]" />
+            [1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-20 bg-white/[0.02] animate-pulse rounded-xl border border-white/[0.04]"
+              />
             ))
           )}
         </div>
@@ -265,7 +308,9 @@ const Dashboard: React.FC = () => {
                 className="group border border-white/[0.08] rounded-xl p-6 hover:border-white/[0.2] transition-all flex flex-col justify-between h-48 relative bg-[#161616]"
               >
                 <div>
-                  <h3 className="font-bold text-lg mb-1 text-white">{project.name}</h3>
+                  <h3 className="font-bold text-lg mb-1 text-white">
+                    {project.name}
+                  </h3>
                   <p className="text-xs text-gray-400 font-mono">
                     /{project.slug}
                   </p>
@@ -286,7 +331,10 @@ const Dashboard: React.FC = () => {
                     onClick={() => {
                       const protocol = window.location.protocol;
                       const host = window.location.host;
-                      window.open(`${protocol}//${project.slug}.${host}`, "_blank");
+                      window.open(
+                        `${protocol}//${project.slug}.${host}`,
+                        "_blank",
+                      );
                     }}
                     className="flex-1 bg-white/[0.04] py-1.5 rounded-lg text-xs font-bold hover:bg-white/[0.08] transition-colors flex items-center justify-center gap-1.5 text-white"
                   >
@@ -344,7 +392,9 @@ const Dashboard: React.FC = () => {
       {projectToDelete && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-[#161616] border border-white/[0.08] w-full max-w-sm p-6 md:p-8 rounded-xl shadow-2xl animate-in zoom-in-95 duration-200">
-            <h2 className="text-xl font-bold mb-2 text-white">Delete Project?</h2>
+            <h2 className="text-xl font-bold mb-2 text-white">
+              Delete Project?
+            </h2>
             <p className="text-gray-400 text-sm mb-8 font-medium">
               Are you sure you want to delete{" "}
               <span className="font-bold text-white">
@@ -379,7 +429,9 @@ const Dashboard: React.FC = () => {
             className="bg-[#0b0b0b] w-full max-w-2xl my-auto flex flex-col border border-white/[0.08] rounded-xl shadow-2xl shadow-black/80 animate-in zoom-in-95 duration-200 overflow-hidden"
           >
             <div className="p-6 md:p-10 flex-1">
-              <h2 className="text-2xl font-bold mb-8 tracking-tight text-white">Create New Project</h2>
+              <h2 className="text-2xl font-bold mb-8 tracking-tight text-white">
+                Create New Project
+              </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-6">
@@ -393,8 +445,16 @@ const Dashboard: React.FC = () => {
                         value={newName}
                         onChange={(e) => {
                           setNewName(e.target.value);
-                          if (!newSlug || newSlug === newName.toLowerCase().replace(/[^a-z0-9]/g, "-")) {
-                            setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "-"));
+                          if (
+                            !newSlug ||
+                            newSlug ===
+                              newName.toLowerCase().replace(/[^a-z0-9]/g, "-")
+                          ) {
+                            setNewSlug(
+                              e.target.value
+                                .toLowerCase()
+                                .replace(/[^a-z0-9]/g, "-"),
+                            );
                           }
                         }}
                         className="w-full px-4 py-2 bg-[#161616] border border-white/[0.08] rounded-lg focus:border-indigo-500 outline-none font-medium text-sm transition-all text-white placeholder:text-gray-700"
@@ -412,7 +472,7 @@ const Dashboard: React.FC = () => {
                           type="text"
                           value={newSlug}
                           onChange={(e) => setNewSlug(e.target.value)}
-                          className={`flex-1 px-4 py-2 bg-[#161616] border rounded-lg focus:border-indigo-500 outline-none font-mono text-xs transition-all ${isAvailable === false ? 'border-red-500/50 text-red-400 bg-red-500/10' : 'border-white/[0.08] text-white'}`}
+                          className={`flex-1 px-4 py-2 bg-[#161616] border rounded-lg focus:border-indigo-500 outline-none font-mono text-xs transition-all ${isAvailable === false ? "border-red-500/50 text-red-400 bg-red-500/10" : "border-white/[0.08] text-white"}`}
                           placeholder="portfolio-24"
                           required
                         />
@@ -426,8 +486,14 @@ const Dashboard: React.FC = () => {
                           ) : (
                             <div className="w-2 h-2 rounded-full bg-red-500" />
                           )}
-                          <span className={`text-[10px] font-bold uppercase tracking-wider ${isAvailable === undefined ? 'text-gray-600' : isAvailable ? 'text-green-500' : 'text-red-500'}`}>
-                            {isAvailable === undefined ? 'Checking availability...' : isAvailable ? 'Available' : 'Already taken'}
+                          <span
+                            className={`text-[10px] font-bold uppercase tracking-wider ${isAvailable === undefined ? "text-gray-600" : isAvailable ? "text-green-500" : "text-red-500"}`}
+                          >
+                            {isAvailable === undefined
+                              ? "Checking availability..."
+                              : isAvailable
+                                ? "Available"
+                                : "Already taken"}
                           </span>
                         </div>
                       )}
@@ -436,27 +502,38 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-500">Select Template</h3>
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+                    Select Template
+                  </h3>
                   <div className="grid grid-cols-1 gap-2">
                     {TEMPLATES.map((tmpl) => (
                       <button
                         key={tmpl.id}
                         type="button"
                         onClick={() => setSelectedTemplate(tmpl)}
-                        className={`relative flex items-center gap-3 text-left p-3 rounded-lg border transition-all ${selectedTemplate?.id === tmpl.id
-                          ? "border-white/[0.1] bg-white/[0.04]"
-                          : "border-white/[0.04] hover:border-white/[0.08]"
-                          }`}
+                        className={`relative flex items-center gap-3 text-left p-3 rounded-lg border transition-all ${
+                          selectedTemplate?.id === tmpl.id
+                            ? "border-white/[0.1] bg-white/[0.04]"
+                            : "border-white/[0.04] hover:border-white/[0.08]"
+                        }`}
                       >
-                        <div className={`w-2 h-2 rounded-full ${tmpl.style === 'Modern' ? 'bg-indigo-500' :
-                          tmpl.style === 'Minimal' ? 'bg-white' :
-                            tmpl.style === 'Aesthetic' ? 'bg-pink-500' :
-                              'bg-amber-500'
-                          }`} />
+                        <div
+                          className={`w-2 h-2 rounded-full ${
+                            tmpl.style === "Modern"
+                              ? "bg-indigo-500"
+                              : tmpl.style === "Minimal"
+                                ? "bg-white"
+                                : tmpl.style === "Aesthetic"
+                                  ? "bg-pink-500"
+                                  : "bg-amber-500"
+                          }`}
+                        />
                         <div className="flex-1">
-                          <h4 className="font-bold text-xs text-white leading-tight">{tmpl.name}</h4>
+                          <h4 className="font-bold text-xs text-white leading-tight">
+                            {tmpl.name}
+                          </h4>
                           <p className="text-[10px] text-gray-500 leading-tight mt-0.5">
-                            {tmpl.description.split('.')[0]}
+                            {tmpl.description.split(".")[0]}
                           </p>
                         </div>
                         {selectedTemplate?.id === tmpl.id && (
@@ -480,7 +557,7 @@ const Dashboard: React.FC = () => {
               <button
                 type="submit"
                 disabled={isAvailable === false}
-                className={`flex-1 py-2 rounded-lg font-bold text-sm transition-all active:scale-95 ${isAvailable === false ? 'bg-white/[0.02] text-gray-700 cursor-not-allowed border border-white/[0.04]' : 'bg-white text-black hover:bg-gray-200'}`}
+                className={`flex-1 py-2 rounded-lg font-bold text-sm transition-all active:scale-95 ${isAvailable === false ? "bg-white/[0.02] text-gray-700 cursor-not-allowed border border-white/[0.04]" : "bg-white text-black hover:bg-gray-200"}`}
               >
                 Create Project
               </button>
@@ -496,7 +573,9 @@ const Dashboard: React.FC = () => {
             onSubmit={handleFeedbackSubmit}
             className="bg-[#161616] w-full max-w-md my-auto p-6 md:p-10 rounded-xl border border-white/[0.08] shadow-2xl animate-in zoom-in-95 duration-200 shadow-black/50"
           >
-            <h2 className="text-2xl font-bold mb-2 tracking-tight text-white">Send Feedback</h2>
+            <h2 className="text-2xl font-bold mb-2 tracking-tight text-white">
+              Send Feedback
+            </h2>
             <p className="text-gray-500 text-sm mb-6 font-medium">
               Found a bug or have a suggestion? Let us know!
             </p>
@@ -510,20 +589,22 @@ const Dashboard: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setFeedbackType("problem")}
-                    className={`flex-1 py-2.5 rounded-lg text-xs font-bold border transition-all ${feedbackType === "problem"
-                      ? "border-red-500/50 bg-red-500/10 text-red-500 shadow-sm"
-                      : "border-white/[0.04] text-gray-500 hover:border-white/[0.08]"
-                      }`}
+                    className={`flex-1 py-2.5 rounded-lg text-xs font-bold border transition-all ${
+                      feedbackType === "problem"
+                        ? "border-red-500/50 bg-red-500/10 text-red-500 shadow-sm"
+                        : "border-white/[0.04] text-gray-500 hover:border-white/[0.08]"
+                    }`}
                   >
                     Report Bug
                   </button>
                   <button
                     type="button"
                     onClick={() => setFeedbackType("rating")}
-                    className={`flex-1 py-2.5 rounded-lg text-xs font-bold border transition-all ${feedbackType === "rating"
-                      ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-400 shadow-sm"
-                      : "border-white/[0.04] text-gray-500 hover:border-white/[0.08]"
-                      }`}
+                    className={`flex-1 py-2.5 rounded-lg text-xs font-bold border transition-all ${
+                      feedbackType === "rating"
+                        ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-400 shadow-sm"
+                        : "border-white/[0.04] text-gray-500 hover:border-white/[0.08]"
+                    }`}
                   >
                     Site Rating
                   </button>
@@ -545,10 +626,11 @@ const Dashboard: React.FC = () => {
                       >
                         <Star
                           size={24}
-                          className={`transition-all ${star <= feedbackRating
-                            ? "fill-amber-400 text-amber-400 scale-110"
-                            : "text-gray-800 group-hover:text-amber-500/20"
-                            }`}
+                          className={`transition-all ${
+                            star <= feedbackRating
+                              ? "fill-amber-400 text-amber-400 scale-110"
+                              : "text-gray-800 group-hover:text-amber-500/20"
+                          }`}
                         />
                       </button>
                     ))}

@@ -1,16 +1,17 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SiteProvider } from "./context/SiteContext";
+import Landing from "./components/Pages/Landing";
 
 // Lazy load components
-const Login = lazy(() => import("./components/Login"));
-const Signup = lazy(() => import("./components/Signup"));
-const Dashboard = lazy(() => import("./components/Dashboard"));
-const Editor = lazy(() => import("./components/Editor"));
+const Login = lazy(() => import("./components/Pages/Login"));
+const Signup = lazy(() => import("./components/Pages/Signup"));
+const Dashboard = lazy(() => import("./components/Pages/Dashboard"));
+const Editor = lazy(() => import("./components/Pages/Editor"));
 const Site = lazy(() => import("./components/Site"));
 const Docs = lazy(() => import("./components/Docs"));
-const Analytics = lazy(() => import("./components/Analytics"));
-const Landing = lazy(() => import("./components/Pages/Landing"));
+const Analytics = lazy(() => import("./components/Pages/Analytics"));
+// const Landing = lazy(() => import("./components/Pages/Landing"));
 const PrivacyPolicy = lazy(() => import("./components/Pages/PrivacyPolicy"));
 const Showcase = lazy(() => import("./components/Pages/Showcase"));
 
