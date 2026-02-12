@@ -77,14 +77,14 @@ const SpacingInput = ({
   onChange: (val: string) => void;
 }) => (
   <div className="flex flex-col gap-1">
-    <label className="text-[9px] font-black text-slate-400 uppercase tracking-wider text-center">
+    <label className="text-[9px] font-black text-gray-500 uppercase tracking-wider text-center">
       {label}
     </label>
     <input
       type="text"
       value={value || ""}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full bg-slate-50 border border-slate-200 rounded-lg py-1.5 text-center text-xs font-bold focus:outline-none focus:border-slate-900 transition-colors"
+      className="w-full bg-white/[0.02] border border-white/[0.04] rounded-lg py-1.5 text-center text-xs font-bold text-white focus:outline-none focus:border-white transition-colors"
       placeholder="-"
     />
   </div>
@@ -143,16 +143,16 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
   ];
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-[#0b0b0b]">
       {/* Header */}
-      <div className="p-3 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
-        <h2 className="font-bold text-gray-900 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em]">
+      <div className="p-3 border-b border-white/[0.04] flex justify-between items-center bg-[#0b0b0b] shrink-0">
+        <h2 className="font-bold text-white flex items-center gap-2 text-[10px] uppercase tracking-[0.2em]">
           Appearance
         </h2>
         <button
           type="button"
           onClick={() => setShowPlugins(false)}
-          className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
+          className="w-6 h-6 flex items-center justify-center rounded-md hover:bg-white/[0.04] text-gray-500 hover:text-white transition-colors cursor-pointer"
         >
           <X size={14} />
         </button>
@@ -162,7 +162,7 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
       <div className="flex-1 overflow-y-auto p-4 space-y-6 custom-scrollbar pb-20">
         {/* Theme Presets */}
         <section className="space-y-3">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] flex items-center gap-2">
             <Sparkles size={10} /> Presets
           </h3>
           <div className="grid grid-cols-2 gap-2">
@@ -180,8 +180,8 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                     handleApplyPreset(preset);
                   }}
                   className={`flex flex-col items-center gap-2 p-3 rounded-xl border transition-all group cursor-pointer select-none ${isActive
-                      ? "border-slate-900 bg-slate-50 shadow-sm"
-                      : "border-slate-100 hover:border-slate-200 hover:bg-slate-50/30"
+                    ? "border-white bg-white/[0.04] shadow-xl"
+                    : "border-white/[0.04] hover:border-white/[0.1] hover:bg-white/[0.02]"
                     }`}
                 >
                   <div
@@ -190,7 +190,7 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                   >
                     <Icon size={16} />
                   </div>
-                  <span className="text-[9px] font-black text-slate-600 uppercase tracking-widest">
+                  <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">
                     {preset.name}
                   </span>
                 </button>
@@ -200,8 +200,8 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
         </section>
 
         {/* Theme Options */}
-        <section className="space-y-3 pt-3 border-t border-slate-50">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+        <section className="space-y-3 pt-3 border-t border-white/[0.04]">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] flex items-center gap-2">
             <Sparkles size={10} /> Mode
           </h3>
           <div className="space-y-2">
@@ -211,16 +211,16 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                 e.preventDefault();
                 updateSiteSettings("theme.darkMode", !theme.darkMode);
               }}
-              className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.darkMode ? "border-slate-900 bg-slate-50" : "border-slate-100 hover:border-slate-200"}`}
+              className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.darkMode ? "border-white bg-white/[0.04]" : "border-white/[0.04] hover:border-white/[0.1]"}`}
             >
-              <span className="text-[11px] font-bold text-slate-700">
+              <span className="text-[11px] font-bold text-gray-300">
                 Dark Mode
               </span>
               <div
-                className={`w-8 h-4 rounded-full transition-colors relative ${theme.darkMode ? "bg-slate-900" : "bg-slate-200"}`}
+                className={`w-8 h-4 rounded-full transition-colors relative ${theme.darkMode ? "bg-white" : "bg-white/[0.08]"}`}
               >
                 <div
-                  className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${theme.darkMode ? "left-4.5" : "left-0.5"}`}
+                  className={`absolute top-0.5 w-3 h-3 rounded-full ${theme.darkMode ? "bg-black" : "bg-gray-500"} transition-all ${theme.darkMode ? "left-4.5" : "left-0.5"}`}
                 />
               </div>
             </button>
@@ -234,16 +234,16 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                   !theme.showThemeToggle,
                 );
               }}
-              className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.showThemeToggle ? "border-slate-900 bg-slate-50" : "border-slate-100 hover:border-slate-200"}`}
+              className={`w-full flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer select-none ${theme.showThemeToggle ? "border-white bg-white/[0.04]" : "border-white/[0.04] hover:border-white/[0.1]"}`}
             >
-              <span className="text-[11px] font-bold text-slate-700">
+              <span className="text-[11px] font-bold text-gray-300">
                 Floating Toggle
               </span>
               <div
-                className={`w-8 h-4 rounded-full transition-colors relative ${theme.showThemeToggle ? "bg-slate-900" : "bg-slate-200"}`}
+                className={`w-8 h-4 rounded-full transition-colors relative ${theme.showThemeToggle ? "bg-white" : "bg-white/[0.08]"}`}
               >
                 <div
-                  className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${theme.showThemeToggle ? "left-4.5" : "left-0.5"}`}
+                  className={`absolute top-0.5 w-3 h-3 rounded-full ${theme.showThemeToggle ? "bg-black" : "bg-gray-500"} transition-all ${theme.showThemeToggle ? "left-4.5" : "left-0.5"}`}
                 />
               </div>
             </button>
@@ -251,8 +251,8 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
         </section>
 
         {/* Accent Color */}
-        <section className="space-y-3 pt-3 border-t border-slate-50">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+        <section className="space-y-3 pt-3 border-t border-white/[0.04]">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] flex items-center gap-2">
             <Palette size={10} /> Accent
           </h3>
           <div className="grid grid-cols-6 gap-2">
@@ -265,8 +265,8 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                   updateSiteSettings("theme.primary", color);
                 }}
                 className={`aspect-square rounded-full border transition-all flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95 select-none ${theme.primary === color
-                    ? "border-slate-900 scale-110 shadow-md"
-                    : "border-slate-100"
+                  ? "border-white scale-110 shadow-xl"
+                  : "border-white/[0.04]"
                   }`}
                 style={{ backgroundColor: color }}
               >
@@ -279,8 +279,8 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
         </section>
 
         {/* Editor Appearance */}
-        <section className="space-y-3 pt-3 border-t border-slate-50">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+        <section className="space-y-3 pt-3 border-t border-white/[0.04]">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] flex items-center gap-2">
             <Monitor size={10} /> Editor
           </h3>
           <div className="space-y-1">
@@ -293,13 +293,13 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                   handleThemeClick(t.id);
                 }}
                 className={`w-full flex items-center justify-between p-2 text-left text-[11px] font-bold rounded-lg transition-all cursor-pointer select-none ${activeThemeId === t.id
-                    ? "bg-slate-900 text-white shadow-md"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-900 border border-transparent hover:border-slate-100"
+                  ? "bg-white text-black shadow-xl"
+                  : "text-gray-400 hover:bg-white/[0.04] hover:text-white border border-transparent hover:border-white/[0.08]"
                   }`}
               >
                 <span className="flex items-center gap-2">
                   <div
-                    className={`w-1.5 h-1.5 rounded-full ${activeThemeId === t.id ? "bg-white" : "bg-slate-300"}`}
+                    className={`w-1.5 h-1.5 rounded-full ${activeThemeId === t.id ? "bg-black" : "bg-white/[0.08]"}`}
                   />
                   {t.name}
                 </span>
@@ -310,8 +310,8 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
         </section>
 
         {/* Typography */}
-        <section className="space-y-3 pt-3 border-t border-slate-50">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+        <section className="space-y-3 pt-3 border-t border-white/[0.04]">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">
             Font
           </h3>
           <div className="space-y-2">
@@ -321,16 +321,21 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
                 onChange={(e) =>
                   updateSiteSettings("theme.font", e.target.value)
                 }
-                className="w-full appearance-none bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3 text-sm font-bold text-slate-900 focus:outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900 transition-colors cursor-pointer"
+                className="w-full appearance-none bg-white/[0.04] border border-white/[0.08] rounded-xl py-2.5 px-3 text-sm font-bold text-white focus:outline-none focus:border-white transition-colors cursor-pointer"
                 style={{ fontFamily: theme.font }}
               >
                 {FONTS.map((font) => (
-                  <option key={font} value={font} style={{ fontFamily: font }}>
+                  <option
+                    key={font}
+                    value={font}
+                    style={{ fontFamily: font }}
+                    className="bg-[#0b0b0b] text-white"
+                  >
                     {font}
                   </option>
                 ))}
               </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-gray-500">
                 <Check size={14} className="opacity-0" /> {/* Spacer */}
                 <svg
                   className="w-4 h-4"
@@ -351,14 +356,14 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
         </section>
 
         {/* Layout Settings - Granular */}
-        <section className="space-y-4 pt-3 border-t border-slate-50">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+        <section className="space-y-4 pt-3 border-t border-white/[0.04]">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em] flex items-center gap-2">
             <Layout size={10} /> Global Layout
           </h3>
 
           {/* Padding Controls */}
           <div className="space-y-2">
-            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest pl-1">
+            <div className="text-[9px] font-bold text-gray-500 uppercase tracking-widest pl-1">
               Padding
             </div>
             <div className="grid grid-cols-4 gap-2">
@@ -387,7 +392,7 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
 
           {/* Margin Controls */}
           <div className="space-y-2">
-            <div className="text-[9px] font-bold text-slate-500 uppercase tracking-widest pl-1">
+            <div className="text-[9px] font-bold text-gray-500 uppercase tracking-widest pl-1">
               Margin
             </div>
             <div className="grid grid-cols-4 gap-2">
@@ -416,20 +421,20 @@ const ThemePlugin: React.FC<ThemePluginProps> = ({
         </section>
 
         {/* Site Identity */}
-        <section className="space-y-3 pt-3 border-t border-slate-50">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+        <section className="space-y-3 pt-3 border-t border-white/[0.04]">
+          <h3 className="text-[10px] font-black text-gray-500 uppercase tracking-[0.2em]">
             Data
           </h3>
           <div className="space-y-3">
             <div className="space-y-1">
-              <label className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] px-1">
+              <label className="text-[9px] font-black text-gray-500 uppercase tracking-[0.2em] px-1">
                 Name
               </label>
               <input
                 type="text"
                 value={siteConfig.site_settings.name}
                 onChange={(e) => updateSiteSettings("name", e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-slate-900 font-bold transition-colors"
+                className="w-full bg-white/[0.02] border border-white/[0.04] rounded-lg py-2 px-3 text-xs focus:outline-none focus:border-white font-bold transition-colors text-white"
                 placeholder="Site Name"
               />
             </div>

@@ -96,26 +96,26 @@ const Signup: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col md:flex-row bg-white font-sans text-gray-900">
+        <div className="min-h-screen flex flex-col md:flex-row bg-[#0b0b0b] font-sans text-white">
             {/* Left Side: Branding & Info */}
-            <div className="hidden md:flex flex-1 bg-gray-50 border-r border-gray-100 flex-col p-16 justify-between relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+            <div className="hidden md:flex flex-1 bg-[#111] border-r border-white/[0.04] flex-col p-16 justify-between relative overflow-hidden">
+                <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.03]"></div>
                 <div className="relative z-10">
                     <div
-                        className="font-black text-3xl tracking-tighter cursor-pointer flex items-center gap-2"
+                        className="font-black text-3xl tracking-tighter cursor-pointer flex items-center gap-2 text-white"
                         onClick={() => navigate('/')}
                     >
-                        <div className="w-8 h-8 bg-gray-900 rounded-sm flex items-center justify-center">
-                            <span className="text-white text-xs">n</span>
+                        <div className="w-8 h-8 bg-white rounded-sm flex items-center justify-center">
+                            <span className="text-black text-xs">n</span>
                         </div>
                         nekoneko
                     </div>
                 </div>
 
                 <div className="relative z-10 space-y-6 max-w-sm">
-                    <h2 className="text-4xl font-black tracking-tight leading-[1.1]">
+                    <h2 className="text-3xl font-black tracking-tight leading-[1.1] text-white">
                         Build your personal <br />
-                        <span className="text-gray-400">space in seconds.</span>
+                        <span className="text-gray-700">space in seconds.</span>
                     </h2>
                     <p className="text-gray-500 font-medium leading-relaxed">
                         Start your journey with our modular block system. pick a theme, add your content, and publish instantly.
@@ -123,15 +123,15 @@ const Signup: React.FC = () => {
                     <div className="flex items-center gap-4 pt-4">
                         <div className="flex -space-x-2">
                             {[1, 2, 3, 4].map(i => (
-                                <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-gray-200" />
+                                <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-white/[0.04]" />
                             ))}
                         </div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">Join 10+ creators</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-600">Join 10+ creators</span>
                     </div>
                 </div>
 
                 <div className="relative z-10">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">© 2026 Nekoneko Studio</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-800">© 2026 Nekoneko Studio</p>
                 </div>
             </div>
 
@@ -141,21 +141,21 @@ const Signup: React.FC = () => {
                     {/* Back Link Mobile */}
                     <button
                         onClick={() => navigate('/')}
-                        className="md:hidden flex items-center gap-2 text-gray-400 hover:text-gray-900 transition-colors mb-12 group"
+                        className="md:hidden flex items-center gap-2 text-gray-600 hover:text-white transition-colors mb-12 group"
                     >
                         <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                         <span className="text-xs font-black uppercase tracking-widest">Back</span>
                     </button>
 
                     <div className="mb-10 block md:hidden">
-                        <div className="font-black text-2xl tracking-tighter">nekoneko</div>
+                        <div className="font-black text-2xl tracking-tighter text-white">nekoneko</div>
                     </div>
 
                     <div className="space-y-1">
-                        <h1 className="text-2xl font-black tracking-tight">
+                        <h1 className="text-xl font-black tracking-tight text-white">
                             {step === 'verification' ? 'Verify Email' : 'Create Account'}
                         </h1>
-                        <p className="text-sm font-medium text-gray-400">
+                        <p className="text-sm font-medium text-gray-500">
                             {step === 'verification'
                                 ? `We sent a code to ${email}`
                                 : 'Start building your professional site today.'}
@@ -171,14 +171,14 @@ const Signup: React.FC = () => {
                         {step === 'credentials' && (
                             <>
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Full Name</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-600 mb-2 px-1">Full Name</label>
                                     <div className="relative">
-                                        <User className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <User className="absolute left-3 top-3 text-gray-700" size={16} />
                                         <input
                                             type="text"
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            className="w-full pl-10 pr-4 py-3 border border-white/[0.08] rounded-lg focus:border-indigo-500 outline-none transition-all font-medium text-sm bg-[#111] focus:bg-[#111] text-white placeholder:text-gray-800"
                                             placeholder="John Doe"
                                             required
                                         />
@@ -186,14 +186,14 @@ const Signup: React.FC = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Email Address</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-600 mb-2 px-1">Email Address</label>
                                     <div className="relative">
-                                        <Mail className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <Mail className="absolute left-3 top-3 text-gray-700" size={16} />
                                         <input
                                             type="email"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            className="w-full pl-10 pr-4 py-3 border border-white/[0.08] rounded-lg focus:border-indigo-500 outline-none transition-all font-medium text-sm bg-[#111] focus:bg-[#111] text-white placeholder:text-gray-800"
                                             placeholder="name@example.com"
                                             required
                                         />
@@ -201,14 +201,14 @@ const Signup: React.FC = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Password</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-600 mb-2 px-1">Password</label>
                                     <div className="relative">
-                                        <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <Lock className="absolute left-3 top-3 text-gray-700" size={16} />
                                         <input
                                             type="password"
                                             value={password}
                                             onChange={handlePasswordChange}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm bg-gray-50/30 focus:bg-white"
+                                            className="w-full pl-10 pr-4 py-3 border border-white/[0.08] rounded-lg focus:border-indigo-500 outline-none transition-all font-medium text-sm bg-[#111] focus:bg-[#111] text-white placeholder:text-gray-800"
                                             placeholder="••••••••"
                                             required
                                         />
@@ -221,26 +221,26 @@ const Signup: React.FC = () => {
                                                 <div
                                                     key={i}
                                                     className={`h-1 flex-1 rounded-full transition-all duration-500 ${i < passwordStrength
-                                                        ? passwordStrength <= 2 ? 'bg-red-400' : passwordStrength <= 4 ? 'bg-yellow-400' : 'bg-green-400'
-                                                        : 'bg-gray-100'
+                                                        ? passwordStrength <= 2 ? 'bg-red-500' : passwordStrength <= 4 ? 'bg-amber-500' : 'bg-emerald-500'
+                                                        : 'bg-white/[0.04]'
                                                         }`}
                                                 />
                                             ))}
                                         </div>
                                         <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${password.length >= 8 ? 'text-green-500' : 'text-gray-300'}`}>
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${password.length >= 8 ? 'text-emerald-500' : 'text-gray-800'}`}>
                                                 {password.length >= 8 ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
                                                 8+ Characters
                                             </div>
-                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[A-Z]/.test(password) ? 'text-green-500' : 'text-gray-300'}`}>
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[A-Z]/.test(password) ? 'text-emerald-500' : 'text-gray-800'}`}>
                                                 {/[A-Z]/.test(password) ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
                                                 Uppercase
                                             </div>
-                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[0-9]/.test(password) ? 'text-green-500' : 'text-gray-300'}`}>
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[0-9]/.test(password) ? 'text-emerald-500' : 'text-gray-800'}`}>
                                                 {/[0-9]/.test(password) ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
                                                 Number
                                             </div>
-                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[!@#$%^&*()]/.test(password) ? 'text-green-500' : 'text-gray-300'}`}>
+                                            <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider ${/[!@#$%^&*()]/.test(password) ? 'text-emerald-500' : 'text-gray-800'}`}>
                                                 {/[!@#$%^&*()]/.test(password) ? <Check size={10} /> : <div className="w-2.5 h-2.5" />}
                                                 Special
                                             </div>
@@ -252,22 +252,22 @@ const Signup: React.FC = () => {
 
                         {step === 'verification' && (
                             <div className="space-y-6">
-                                <div className="p-4 bg-gray-50 border border-gray-100 rounded-lg flex items-start gap-3">
-                                    <AlertCircle className="text-gray-400 shrink-0" size={18} />
+                                <div className="p-4 bg-white/[0.02] border border-white/[0.04] rounded-lg flex items-start gap-3">
+                                    <AlertCircle className="text-gray-600 shrink-0" size={18} />
                                     <p className="text-xs font-medium text-gray-500 leading-relaxed">
-                                        We've sent a 6-digit verification code to <span className="text-gray-900 font-bold">{email}</span>. Please enter it below to complete your registration.
+                                        We've sent a 6-digit verification code to <span className="text-white font-bold">{email}</span>. Please enter it below to complete your registration.
                                     </p>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 px-1">Verification Code</label>
+                                    <label className="block text-[10px] font-black uppercase tracking-widest text-gray-600 mb-2 px-1">Verification Code</label>
                                     <div className="relative">
-                                        <Lock className="absolute left-3 top-3 text-gray-300" size={16} />
+                                        <Lock className="absolute left-3 top-3 text-gray-700" size={16} />
                                         <input
                                             type="text"
                                             value={code}
                                             onChange={(e) => setCode(e.target.value)}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium bg-gray-50/30 focus:bg-white text-center tracking-[0.5em] font-mono text-lg"
+                                            className="w-full pl-10 pr-4 py-3 border border-white/[0.08] rounded-lg focus:border-indigo-500 outline-none transition-all font-medium bg-[#111] focus:bg-[#111] text-center tracking-[0.5em] font-mono text-lg text-white placeholder:text-gray-800"
                                             placeholder="••••••"
                                             maxLength={6}
                                             required
@@ -276,7 +276,7 @@ const Signup: React.FC = () => {
                                     <button
                                         type="button"
                                         onClick={() => setStep('credentials')}
-                                        className="mt-2 text-[10px] font-bold text-gray-400 hover:text-gray-900 uppercase tracking-widest transition-colors"
+                                        className="mt-2 text-[10px] font-bold text-gray-400 hover:text-white uppercase tracking-widest transition-colors"
                                     >
                                         Edit Details
                                     </button>
@@ -285,7 +285,7 @@ const Signup: React.FC = () => {
                         )}
 
                         {error && (
-                            <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-[10px] font-bold uppercase tracking-wider text-center">
+                            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-[10px] font-bold uppercase tracking-wider text-center">
                                 {error}
                             </div>
                         )}
@@ -293,7 +293,7 @@ const Signup: React.FC = () => {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className={`w-full bg-gray-900 text-white py-4 rounded-lg font-bold hover:bg-black transition-all active:scale-[0.98] shadow-lg shadow-gray-100 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            className={`w-full bg-white text-black py-4 rounded-lg font-bold hover:bg-gray-200 transition-all active:scale-[0.98] shadow-xl shadow-white/5 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             {isLoading ? 'Processing...' :
                                 step === 'credentials' ? 'Create Account' : 'Verify & Continue'}
@@ -301,26 +301,26 @@ const Signup: React.FC = () => {
 
                         <div className="relative my-8">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-100"></div>
+                                <div className="w-full border-t border-white/[0.04]"></div>
                             </div>
                             <div className="relative flex justify-center text-[10px] font-black uppercase tracking-[0.2em]">
-                                <span className="bg-white px-4 text-gray-300">Or continue with</span>
+                                <span className="bg-[#0b0b0b] px-4 text-gray-700">Or continue with</span>
                             </div>
                         </div>
 
                         <button
                             type="button"
                             onClick={() => signIn("github", { redirectTo: "/dashboard" })}
-                            className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-900 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all active:scale-[0.98] shadow-sm"
+                            className="w-full flex items-center justify-center gap-3 bg-white/[0.02] border border-white/[0.08] text-white py-4 rounded-lg font-bold hover:bg-white/[0.04] transition-all active:scale-[0.98] shadow-sm"
                         >
                             <Github size={20} />
                             GitHub
                         </button>
                     </form>
 
-                    <div className="mt-8 pt-8 border-t border-gray-50 text-center">
-                        <p className="text-sm text-gray-400 font-medium">
-                            Already have an account? <Link to="/login" className="text-gray-900 font-bold hover:underline underline-offset-4">Sign in</Link>
+                    <div className="mt-8 pt-8 border-t border-white/[0.04] text-center">
+                        <p className="text-sm text-gray-500 font-medium">
+                            Already have an account? <Link to="/login" className="text-white font-bold hover:underline underline-offset-4">Sign in</Link>
                         </p>
                     </div>
                 </div>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Box, Zap, Share2, MousePointer2, Cat } from "lucide-react";
 import { getUser } from "../../utils/authUtils";
 import Footer from "../Footer";
-import TemplateShowcase from "../TemplateShowcase";
+import PremiumFeatures from "../PremiumFeatures";
 import NavigationBar from "../NavigationBar";
 import HowItWorks from "../HowItWorks";
 import { SEO } from "../SEO";
@@ -13,7 +13,7 @@ const Landing: React.FC = () => {
   const user = getUser();
 
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#0b0b0b] text-white font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
       <SEO
         title="Nekoneko - Build and Deploy Premium Websites Instantly"
         description="Nekoneko is the ultimate platform for building modern, premium websites with ease. Explore our JSON-based editor and instant deployment."
@@ -21,54 +21,71 @@ const Landing: React.FC = () => {
       {/* Minimal Nav */}
       <NavigationBar />
       {/* Hero Section */}
-      <main className="pt-40 pb-20 px-6">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded-lg text-indigo-700 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <Zap size={14} className="fill-indigo-600" />
+      <main className="pt-32 pb-20 px-6 relative overflow-hidden">
+        {/* Dotted Texture Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.03] pointer-events-none"></div>
+
+        <div className="max-w-5xl mx-auto text-center space-y-10 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/20 rounded-lg text-indigo-400 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <Zap size={14} className="fill-indigo-500" />
             <span className="text-[10px] font-black uppercase tracking-[0.2em]">
-              The No-Code Era is Here
+              The Next Evolution of Site Building
             </span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-1000">
-            Build your personal <br />
-            <span className="text-gray-500">space in seconds.</span>
-          </h1>
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.85] animate-in fade-in slide-in-from-bottom-6 duration-1000">
+              Build your digital <br />
+              <span className="text-indigo-600 italic">presence</span> <span className="text-gray-400 font-medium">at scale.</span>
+            </h1>
 
-          <p className="max-w-xl mx-auto text-gray-700 font-medium leading-relaxed md:text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            A minimal, high-performance site builder for developers and
-            creatives. No bloated editors, just clean JSON blocks and instant
-            deployment.
-          </p>
+            <p className="max-w-xl mx-auto text-gray-500 font-medium leading-relaxed md:text-xl animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
+              A block-based rendering engine for founders and teams.
+              Zero complexity, just clean JSON blocks and instant global deployment.
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300">
             <Link
               to={user ? "/dashboard" : "/login"}
-              className="w-full sm:w-auto bg-gray-900 text-white px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-200"
+              className="w-full sm:w-auto bg-white text-black px-10 py-5 rounded-lg font-black flex items-center justify-center gap-3 hover:bg-gray-200 transition-all active:scale-95 shadow-2xl shadow-white/5"
             >
-              Start Building Now
-              <ArrowRight size={18} />
+              Get Started for Free
+              <ArrowRight size={20} />
             </Link>
             <Link
               to="/docs"
-              className="w-full sm:w-auto px-8 py-4 rounded-lg border border-gray-100 font-bold hover:bg-gray-50 transition-all text-center text-gray-900"
+              className="w-full sm:w-auto px-10 py-5 rounded-lg border border-white/[0.08] bg-[#161616] text-white font-black hover:bg-[#1a1a1a] transition-all text-center"
             >
-              View Library
+              Core Library
             </Link>
           </div>
         </div>
-        <div className="mt-24 max-w-7xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500 ">
-          <div className="bg-white border border-gray-100 rounded-xl shadow-2xl shadow-gray-200/50 overflow-hidden group">
-            <div className="w-full h-12 bg-slate-950 text-start px-5 items-center flex gap-2">
-              <div className=" h-3 w-3 rounded-full bg-red-500"></div>
-              <div className=" h-3 w-3 rounded-full bg-yellow-500"></div>
-              <div className=" h-3 w-3 rounded-full bg-green-500"></div>
+
+        {/* Mockup Presentation */}
+        <div className="mt-32 max-w-7xl mx-auto px-4 animate-in fade-in zoom-in-95 duration-1000 delay-500">
+          <div className="relative p-2 bg-white/[0.02] rounded-xl border border-white/[0.06] group shadow-inner">
+            <div className="bg-[#161616] border border-white/[0.08] rounded-lg shadow-2xl shadow-black/50 overflow-hidden relative">
+              <div className="w-full h-11 bg-[#1a1a1a] border-b border-white/[0.06] text-start px-6 items-center flex gap-2">
+                <div className="flex gap-2.5">
+                  <div className="h-3 w-3 rounded-full bg-white/[0.03]"></div>
+                  <div className="h-3 w-3 rounded-full bg-white/[0.03]"></div>
+                  <div className="h-3 w-3 rounded-full bg-white/[0.03]"></div>
+                </div>
+                <div className="mx-auto flex items-center gap-2 px-3 py-1 bg-white/[0.02] border border-white/[0.04] rounded-lg">
+                  <div className="h-2 w-2 rounded-full bg-green-500/80 shadow-[0_0_8px_rgba(34,197,94,0.3)]"></div>
+                  <span className="text-[10px] font-mono text-gray-500">preview.nekoneko.app</span>
+                </div>
+              </div>
+              <div className="relative overflow-hidden group">
+                <img
+                  src="/assets/mockup.png"
+                  alt="Nekoneko Editor Preview"
+                  className="w-full h-auto opacity-80 group-hover:opacity-100 transition-all duration-1000 scale-100 group-hover:scale-[1.02]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-0 transition-opacity duration-700"></div>
+              </div>
             </div>
-            <img
-              src="/assets/mockup.png"
-              alt="Nekoneko Editor Preview"
-              className="w-full h-auto grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
-            />
           </div>
         </div>
       </main>
@@ -79,49 +96,52 @@ const Landing: React.FC = () => {
       {/* How it Works */}
       <HowItWorks />
 
-      {/* Template Showcase */}
-      <TemplateShowcase />
+      {/* Premium Features Section */}
+      <PremiumFeatures />
 
       {/* Features Grid */}
-      <section className="py-24 bg-gray-50/50 border-t border-gray-100">
-        <div className="max-w-6xl mx-auto px-8">
-          <h2 className="sr-only">Features</h2>
+      <section className="py-24 bg-[#0b0b0b] border-t border-white/[0.06]">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <FeatureCard
               icon={<Box size={24} />}
-              title="JSON Block-based Editor"
-              description="Assemble your site with modular, beautifully designed JSON blocks. Zero learning curve."
+              title="JSON-First Architecture"
+              description="Assemble your site with modular, beautifully designed JSON blocks. Logic-driven, zero bloating."
             />
             <FeatureCard
               icon={<Share2 size={24} />}
-              title="Instant Publishing"
-              description="Deploy to your own subdomain with one click. Blazing fast global delivery."
+              title="Edge-Speed Delivery"
+              description="Deploy to your own subdomain with one click. Served globally with blazing sub-second latency."
             />
             <FeatureCard
               icon={<MousePointer2 size={24} />}
-              title="Interactive Analytics"
-              description="Track your performance with our minimal built-in analytics dashboard."
+              title="Integrated Analytics"
+              description="Track your performance with our minimal built-in telemetry dashboard. Real-time insights."
             />
           </div>
         </div>
       </section>
 
       {/* Support Nekoneko */}
-      <section className="py-12 bg-gray-50/50 border-y border-gray-100">
-        <div className="max-w-4xl mx-auto items-center flex justify-center flex-col px-8 text-center space-y-5">
-          <Cat size={40} />
-          <h2 className="text-3xl font-black tracking-tight">
-            Support Nekoneko
-          </h2>
-          <p className="text-gray-600 font-medium max-w-md mx-auto">
-            If Nekoneko helped you build your dream site, consider fueling the
-            next update with a coffee!
-          </p>
+      <section className="py-24 bg-[#0b0b0b] border-t border-white/[0.06]">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-8">
+          <div className="w-16 h-16 bg-[#161616] border border-white/[0.08] rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+            <Cat size={32} className="text-white" />
+          </div>
+          <div className="space-y-4">
+            <h2 className="text-4xl font-black tracking-tight text-white">
+              Support the Project
+            </h2>
+            <p className="text-[#a1a1aa] font-medium max-w-md mx-auto leading-relaxed text-lg">
+              If Nekoneko helped you build your dream site, consider fueling the
+              next update with a coffee!
+            </p>
+          </div>
           <a
             href="https://buymeacoffee.com/urkidden/nekoneko-support"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gray-900 text-white flex justify-center items-center gap-3 px-8 py-3 rounded-lg font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-200/50"
+            className="inline-flex items-center gap-3 bg-white text-black px-10 py-4 rounded-xl font-black hover:bg-gray-200 transition-all active:scale-95 shadow-2xl shadow-white/5"
           >
             <Cat size={20} />
             Buy Nekoneko a coffee
@@ -130,30 +150,33 @@ const Landing: React.FC = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 bg-white">
-        <div className="max-w-4xl mx-auto px-8 text-center space-y-8 ">
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
-            Ready to build your <br /> next project?
+      <section className="py-32 bg-[#0b0b0b] border-t border-white/[0.06] overflow-hidden relative">
+        <div className="max-w-4xl mx-auto px-6 text-center space-y-10 relative">
+          <h2 className="text-4xl md:text-6xl font-black tracking-tight leading-[0.85] text-white">
+            Ready to build your <br />
+            <span className="text-indigo-500 italic">next presence?</span>
           </h2>
-          <p className="text-gray-600 font-medium max-w-md mx-auto">
-            Join creators building the simplest sites on the web. Free to start,
-            forever.
+          <p className="text-[#a1a1aa] font-medium max-w-md mx-auto text-lg leading-relaxed">
+            Join creators building the simplest, fastest sites on the web.
+            Free to start, forever.
           </p>
 
-          <Link
-            to="/signup"
-            className="inline-block bg-gray-900 text-white px-10 py-4 rounded-lg font-bold hover:bg-black transition-all active:scale-95 shadow-xl shadow-gray-200"
-          >
-            Create Your Site
-          </Link>
-          <a
-            href="https://github.com/urkiddennn/Nekoneko"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block mr-0 md:ml-3 bg-white border border-gray-100 text-gray-900 px-10 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all active:scale-95 shadow-sm"
-          >
-            Contribute
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+            <Link
+              to="/signup"
+              className="w-full sm:w-auto bg-white text-black px-12 py-5 rounded-xl font-black hover:bg-gray-200 transition-all active:scale-95 shadow-2xl shadow-white/5"
+            >
+              Create Your Space
+            </Link>
+            <a
+              href="https://github.com/urkiddennn/Nekoneko"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto bg-[#161616] border border-white/[0.08] text-white px-12 py-5 rounded-xl font-black hover:bg-[#1a1a1a] transition-all active:scale-95 text-center"
+            >
+              Contribute
+            </a>
+          </div>
         </div>
       </section>
 
@@ -172,14 +195,16 @@ const FeatureCard = ({
   title: string;
   description: string;
 }) => (
-  <div className="space-y-4 group">
-    <div className="w-12 h-12 flex items-center justify-center bg-white border border-gray-100 rounded-lg text-gray-900 group-hover:scale-110 transition-transform duration-500 shadow-sm shadow-indigo-50/50 group-hover:bg-indigo-50/10 group-hover:border-indigo-100">
+  <div className="space-y-6 group bg-[#161616] p-8 rounded-xl border border-white/[0.04] hover:border-white/[0.1] transition-all duration-300">
+    <div className="w-12 h-12 flex items-center justify-center bg-[#1a1a1a] border border-white/[0.08] rounded-xl text-white group-hover:bg-indigo-500 group-hover:border-indigo-500 transition-all duration-500">
       {icon}
     </div>
-    <h3 className="font-bold text-lg">{title}</h3>
-    <p className="text-sm text-gray-500 leading-relaxed font-medium">
-      {description}
-    </p>
+    <div className="space-y-3">
+      <h3 className="font-black text-xl text-white tracking-tight">{title}</h3>
+      <p className="text-sm text-[#a1a1aa] leading-relaxed font-medium">
+        {description}
+      </p>
+    </div>
   </div>
 );
 

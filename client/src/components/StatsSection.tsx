@@ -4,24 +4,15 @@ import { Users, Zap, Star } from "lucide-react";
 // stats sections
 const StatsSection: React.FC = () => {
   return (
-    <section className="py-24 bg-white border-y border-gray-100 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-8">
-        <div className="text-center mb-16 space-y-4 animate-in fade-in slide-in-from-bottom-5 duration-700">
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight text-slate-900">
-            Our results in numbers
-          </h2>
-          <p className="text-gray-500 font-medium max-w-lg mx-auto">
-            Powering modern production sites with speed, reliability, and
-            precision.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
+    <section className="py-24 bg-[#0b0b0b] border-t border-white/[0.06] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
           <StatCard
             icon={Users}
             number="10"
             unit="+"
             title="Active Creators"
+            description="Founders building the next wave of aesthetic web spaces."
             index={0}
           />
           <StatCard
@@ -29,13 +20,15 @@ const StatsSection: React.FC = () => {
             number="30"
             unit="+"
             title="Sites Deployed"
+            description="Instantly published sites served with sub-second performance."
             index={1}
           />
           <StatCard
             icon={Star}
             number="99"
             unit="%"
-            title="Customer Satisfaction"
+            title="Uptime Guarantee"
+            description="Global edge infrastructure ensuring your presence is always live."
             index={2}
           />
         </div>
@@ -51,6 +44,7 @@ interface StatCardProps {
   number: string;
   unit: string;
   title: string;
+  description: string;
   index: number;
 }
 
@@ -59,28 +53,33 @@ const StatCard: React.FC<StatCardProps> = ({
   number,
   unit,
   title,
+  description,
   index,
 }) => (
   <div
-    className="group relative p-8 bg-gray-50/50 rounded border border-gray-100 hover:border-gray-400 hover:bg-white transition-all animate-in fade-in slide-in-from-bottom-8 duration-1000"
+    className="group relative space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000"
     style={{ animationDelay: `${index * 150}ms` }}
   >
-    <div className="space-y-6">
-      <div className="w-12 h-12 flex items-center justify-center bg-white border border-gray-100 rounded text-gray-600 group-hover:scale-110 transition-all duration-500">
-        <Icon size={24} />
+    <div className="flex items-center gap-4">
+      <div className="w-10 h-10 flex items-center justify-center bg-[#161616] border border-white/[0.08] text-indigo-400 rounded-lg group-hover:bg-indigo-500 group-hover:text-white group-hover:scale-110 transition-all duration-500">
+        <Icon size={20} />
       </div>
+      <div className="h-px flex-1 bg-white/[0.04]"></div>
+    </div>
 
-      <div className="space-y-1">
-        <div className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 flex items-baseline gap-1 leading-none">
-          {number}
-          <span className="text-gray-600/30 group-hover:text-gray-600 transition-colors duration-500">
-            {unit}
-          </span>
-        </div>
-        <h3 className="font-black text-lg tracking-tight text-slate-600 group-hover:text-slate-900 transition-colors duration-300">
-          {title}
-        </h3>
+    <div className="space-y-2">
+      <div className="text-5xl font-black tracking-tighter text-white flex items-baseline gap-1 leading-none">
+        {number}
+        <span className="text-indigo-500 italic">
+          {unit}
+        </span>
       </div>
+      <h3 className="font-black text-lg tracking-tight text-white">
+        {title}
+      </h3>
+      <p className="text-sm text-[#a1a1aa] font-medium leading-relaxed max-w-[240px]">
+        {description}
+      </p>
     </div>
   </div>
 );

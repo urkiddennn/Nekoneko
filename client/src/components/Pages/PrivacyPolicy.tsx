@@ -6,7 +6,7 @@ import { SEO } from "../SEO";
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#0b0b0b] text-white font-sans selection:bg-white/10 selection:text-white">
       <SEO
         title="Privacy Policy"
         description="Read our privacy policy to understand how we handle your data."
@@ -16,7 +16,7 @@ const PrivacyPolicy: React.FC = () => {
         <div className="max-w-3xl mx-auto">
           {/* Header Section */}
           <div className="text-center mb-16 space-y-6">
-            <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-1000">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-[0.9] animate-in fade-in slide-in-from-bottom-6 duration-1000 text-white">
               Privacy Policy
             </h1>
             <p className="max-w-2xl mx-auto text-gray-500 font-medium leading-relaxed text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
@@ -28,9 +28,9 @@ const PrivacyPolicy: React.FC = () => {
           </div>
 
           {/* Contact Us Section */}
-          <div className="mt-20 pt-16 border-t border-gray-100">
+          <div className="mt-20 pt-16 border-t border-white/[0.04]">
             <div className="text-center mb-12">
-              <h2 className="font-black text-4xl mb-4">
+              <h2 className="font-black text-3xl mb-4 text-white">
                 Contact Us
               </h2>
               <p className="text-gray-500 font-medium text-lg">
@@ -44,22 +44,22 @@ const PrivacyPolicy: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Name"
-                  className="w-full outline-none border-b-2 border-gray-200 focus:border-gray-900 p-3 transition-colors bg-transparent"
+                  className="w-full outline-none border-b-2 border-white/[0.08] focus:border-white p-3 transition-colors bg-transparent text-white placeholder:text-gray-700"
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full outline-none border-b-2 border-gray-200 focus:border-gray-900 p-3 transition-colors bg-transparent"
+                  className="w-full outline-none border-b-2 border-white/[0.08] focus:border-white p-3 transition-colors bg-transparent text-white placeholder:text-gray-700"
                 />
                 <textarea
                   placeholder="Message"
                   rows={4}
-                  className="w-full outline-none border-b-2 border-gray-200 focus:border-gray-900 p-3 transition-colors bg-transparent resize-none"
+                  className="w-full outline-none border-b-2 border-white/[0.08] focus:border-white p-3 transition-colors bg-transparent resize-none text-white placeholder:text-gray-700"
                 />
               </div>
               <button
                 type="submit"
-                className="w-full bg-gray-900 text-white px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-black transition-all active:scale-95 shadow-lg shadow-gray-200"
+                className="w-full bg-white text-black px-8 py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-gray-200 transition-all active:scale-95 shadow-xl shadow-white/5"
               >
                 Submit
                 <SendHorizontal size={16} />

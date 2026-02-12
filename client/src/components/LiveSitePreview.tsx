@@ -49,13 +49,13 @@ const LiveSitePreview: React.FC<LiveSitePreviewProps> = ({ slug, name }) => {
     return (
         <div
             ref={containerRef}
-            className="w-full h-full overflow-hidden bg-gray-50 relative group-hover:shadow-inner transition-all"
+            className="w-full h-full overflow-hidden bg-black relative group-hover:shadow-inner transition-all"
         >
             {/* Loading Skeleton */}
             {loading && (
-                <div className="absolute inset-0 z-10 bg-gray-100 animate-pulse flex items-center justify-center">
+                <div className="absolute inset-0 z-10 bg-[#0b0b0b] animate-pulse flex items-center justify-center border border-white/[0.04]">
                     <div className="flex flex-col items-center gap-2">
-                        <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+                        <div className="w-8 h-8 border-2 border-white/[0.08] border-t-white rounded-full animate-spin" />
                     </div>
                 </div>
             )}

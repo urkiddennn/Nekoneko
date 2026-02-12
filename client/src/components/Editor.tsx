@@ -199,18 +199,18 @@ const Editor: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-white font-sans overflow-hidden">
+      <div className="flex h-screen items-center justify-center bg-[#0b0b0b] font-sans overflow-hidden">
         <div className="flex flex-col items-center gap-10">
           <div className="relative">
-            <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none">
+            <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none text-white">
               nekoneko
             </div>
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 bg-gray-900 rounded-full animate-in slide-in-from-left-full duration-1000 iteration-infinite" />
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-1 bg-white rounded-full animate-in slide-in-from-left-full duration-1000 iteration-infinite" />
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
-            <div className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400">
+            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            <div className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">
               LOADING_WORKSPACE
             </div>
           </div>
@@ -220,26 +220,26 @@ const Editor: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white text-gray-900 font-sans overflow-hidden">
+    <div className="flex flex-col h-screen bg-[#0b0b0b] text-white font-sans overflow-hidden">
       {/* Header */}
-      <div className="h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-white shrink-0 z-40">
+      <div className="h-14 border-b border-white/[0.04] flex items-center justify-between px-4 bg-[#0b0b0b] shrink-0 z-40">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate("/dashboard")}
-            className="text-gray-400 hover:text-gray-900 transition-colors p-1"
+            className="text-gray-500 hover:text-white transition-colors p-1"
             title="Back to Dashboard"
           >
             <ArrowLeft size={20} />
           </button>
-          <div className="font-black tracking-tighter text-lg select-none mr-4">
+          <div className="font-black tracking-tighter text-lg select-none mr-4 text-white">
             nekoneko
           </div>
 
           {/* Actions Group - Moved to Left */}
-          <div className="flex gap-2 items-center border-l border-gray-200 pl-4 h-8">
+          <div className="flex gap-2 items-center border-l border-white/[0.04] pl-4 h-8">
             <button
               onClick={handleFormat}
-              className="px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 text-gray-600"
+              className="px-3 py-1.5 rounded border border-white/[0.08] hover:bg-white/[0.04] text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 text-gray-400"
               title="Format JSON (Shift+Alt+F)"
             >
               <Sparkles size={14} />
@@ -248,7 +248,7 @@ const Editor: React.FC = () => {
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className={`px-4 py-1.5 rounded bg-gray-900 hover:bg-black text-white text-xs font-bold transition-all active:scale-95 flex items-center gap-2 min-w-[80px] justify-center ${isSaving ? "opacity-70 cursor-not-allowed" : ""}`}
+              className={`px-4 py-1.5 rounded bg-white hover:bg-gray-200 text-black text-xs font-bold transition-all active:scale-95 flex items-center gap-2 min-w-[80px] justify-center ${isSaving ? "opacity-70 cursor-not-allowed" : ""}`}
               title="Save Project (Ctrl+S)"
             >
               {isSaving ? (
@@ -275,7 +275,7 @@ const Editor: React.FC = () => {
                 const newUrl = `${protocol}//${projectSlug}.${host}`;
                 window.open(newUrl, "_blank");
               }}
-              className="px-3 py-1.5 rounded border hover:bg-gray-50 text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 text-indigo-600 border-indigo-100 bg-indigo-50"
+              className="px-3 py-1.5 rounded border hover:bg-white/[0.04] text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 text-white border-white/[0.08] bg-white/[0.02]"
             >
               <Globe size={14} />
               View Live
@@ -286,20 +286,20 @@ const Editor: React.FC = () => {
 
       <div className="flex-1 flex overflow-hidden">
         {/* Side Nav (Activity Bar) */}
-        <div className="w-14 border-r border-gray-200 bg-white flex flex-col items-center py-6 gap-6 shrink-0 z-30">
+        <div className="w-14 border-r border-white/[0.04] bg-[#0b0b0b] flex flex-col items-center py-6 gap-6 shrink-0 z-30">
           {CORE_EXTENSIONS.map((ext) => {
             const Icon = ext.icon;
             const isActive = activeExtensionId === ext.id;
             return (
               <div key={ext.id} className="relative group">
                 {isActive && isSidebarOpen && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-gray-900 rounded-r-full" />
+                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 bg-white rounded-r-full" />
                 )}
                 <button
                   onClick={() => toggleExtension(ext.id)}
                   className={`p-2 rounded transition-all active:scale-90 ${isActive && isSidebarOpen
-                    ? "bg-gray-900 text-white shadow-lg shadow-gray-200"
-                    : "text-gray-400 hover:text-gray-900 hover:bg-gray-50"
+                    ? "bg-white text-black shadow-lg shadow-white/5"
+                    : "text-gray-500 hover:text-white hover:bg-white/[0.04]"
                     }`}
                   title={ext.name}
                 >
@@ -314,7 +314,7 @@ const Editor: React.FC = () => {
               href="/docs"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded transition-colors text-gray-400 hover:text-gray-900 cursor-pointer"
+              className="p-2 rounded transition-colors text-gray-500 hover:text-white cursor-pointer"
               title="Component Docs"
             >
               <BookOpen size={20} />
@@ -358,20 +358,20 @@ const Editor: React.FC = () => {
               </div>
             </Panel>
 
-            <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
+            <PanelResizeHandle className="w-px bg-white/[0.04] hover:bg-white/[0.08] transition-colors" />
 
             <Panel defaultSize={isSidebarOpen ? 50 : 60} minSize={25}>
-              <div className="h-full bg-gray-50 overflow-y-auto relative no-scrollbar cursor-default">
+              <div className="h-full bg-[#111] overflow-y-auto relative no-scrollbar cursor-default">
                 {/* Viewport Controls */}
-                <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-white border border-gray-200 rounded-lg shadow-sm p-1">
+                <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-[#161616] border border-white/[0.04] rounded-lg shadow-xl p-1">
                   <button
                     onMouseDown={(e) => {
                       e.preventDefault();
                       setViewportWidth(375);
                     }}
                     className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 375
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      ? "bg-white text-black"
+                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
                       }`}
                     title="Mobile (375px)"
                   >
@@ -383,8 +383,8 @@ const Editor: React.FC = () => {
                       setViewportWidth(768);
                     }}
                     className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 768
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      ? "bg-white text-black"
+                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
                       }`}
                     title="Tablet (768px)"
                   >
@@ -396,15 +396,15 @@ const Editor: React.FC = () => {
                       setViewportWidth("full");
                     }}
                     className={`p-1.5 rounded transition-colors select-none ${viewportWidth === "full"
-                      ? "bg-gray-900 text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      ? "bg-white text-black"
+                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
                       }`}
                     title="Desktop (Full Width)"
                   >
                     <Monitor size={16} />
                   </button>
                   {viewportWidth !== "full" && (
-                    <span className="text-xs font-bold text-gray-600 ml-1">
+                    <span className="text-[10px] font-black tracking-widest text-[#a1a1aa] ml-1">
                       {viewportWidth}px
                     </span>
                   )}
@@ -437,9 +437,9 @@ const Editor: React.FC = () => {
 
             {isSidebarOpen && (
               <>
-                <PanelResizeHandle className="w-px bg-gray-100 hover:bg-gray-300 transition-colors" />
+                <PanelResizeHandle className="w-px bg-white/[0.04] hover:bg-white/[0.08] transition-colors" />
                 <Panel defaultSize={20} minSize={15} maxSize={40}>
-                  <div className="h-full overflow-hidden border-l border-gray-100 bg-white shadow-sm">
+                  <div className="h-full overflow-hidden border-l border-white/[0.04] bg-[#0b0b0b] shadow-xl">
                     <activeExtension.panel
                       activeThemeId={activeThemeId}
                       handleThemeChange={handleThemeChange}

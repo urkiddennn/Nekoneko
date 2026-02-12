@@ -22,14 +22,14 @@ const ProfilePage = lazy(() => import("./components/Pages/ProfilePage"));
 
 // Minimal Loading Fallback
 const LoadingFallback = () => (
-  <div className="flex h-screen items-center justify-center bg-white font-sans overflow-hidden">
-    <div className="flex flex-col items-center gap-10 text-gray-900">
+  <div className="flex h-screen items-center justify-center bg-[#0b0b0b] font-sans overflow-hidden">
+    <div className="flex flex-col items-center gap-10 text-white">
       <div className="relative">
-        <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none">
+        <div className="font-black text-3xl tracking-tighter animate-pulse duration-[2000ms] select-none text-white">
           nekoneko
         </div>
       </div>
-      <div className="w-4 h-4 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
+      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
     </div>
   </div>
 );

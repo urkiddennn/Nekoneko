@@ -34,8 +34,8 @@ const ProfilePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="animate-spin text-gray-400" size={32} />
+      <div className="min-h-screen bg-[#0b0b0b] flex items-center justify-center">
+        <Loader2 className="animate-spin text-gray-500" size={32} />
       </div>
     );
   }
@@ -66,26 +66,26 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
+    <div className="min-h-screen bg-[#0b0b0b] font-sans text-white">
       <Header />
 
       <main className="pt-32 pb-20 px-8 max-w-6xl mx-auto">
         <button
           onClick={() => navigate("/dashboard")}
-          className="flex items-center gap-2 text-sm font-bold text-gray-400 hover:text-gray-900 transition-colors mb-6"
+          className="flex items-center gap-2 text-sm font-bold text-gray-500 hover:text-white transition-colors mb-6"
         >
           <ArrowLeft size={16} />
           Back
         </button>
 
         <div className="mb-12">
-          <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
-          <p className="text-gray-500 mt-2">Manage your account details.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-white">Profile</h1>
+          <p className="text-gray-500 mt-2 font-medium">Manage your account details.</p>
         </div>
 
-        <div className="max-w-2xl border border-gray-100 rounded-xl p-8 space-y-10 shadow-sm">
-          <div className="flex items-center gap-6 pb-10 border-b border-gray-100">
-            <div className="w-20 h-20 rounded-full border border-gray-200 overflow-hidden">
+        <div className="max-w-2xl border border-white/[0.08] rounded-xl p-8 space-y-10 bg-[#161616] shadow-2xl shadow-black/40">
+          <div className="flex items-center gap-6 pb-10 border-b border-white/[0.04]">
+            <div className="w-20 h-20 rounded-full border border-white/[0.08] overflow-hidden bg-[#1a1a1a]">
               <img
                 src={`https://api.dicebear.com/9.x/adventurer/svg?seed=${user.name}`}
                 alt={user.name}
@@ -93,8 +93,8 @@ const ProfilePage: React.FC = () => {
               />
             </div>
             <div>
-              <h2 className="font-bold text-xl">{user.name}</h2>
-              <p className="text-xs text-gray-400 font-mono italic">
+              <h2 className="font-bold text-xl text-white">{user.name}</h2>
+              <p className="text-xs text-gray-500 font-mono italic">
                 /{user.name.toLowerCase().replace(/\s+/g, "-")}
               </p>
             </div>
@@ -103,19 +103,19 @@ const ProfilePage: React.FC = () => {
           <form onSubmit={handleUpdateName} className="space-y-8">
             <div className="space-y-6">
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
                   Display Name
                 </label>
                 <div className="relative">
                   <User
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600"
                     size={14}
                   />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2 bg-gray-50/50 border border-gray-100 rounded-lg focus:border-gray-900 outline-none transition-all font-medium text-sm text-gray-900"
+                    className="w-full pl-9 pr-4 py-2 bg-[#0b0b0b] border border-white/[0.08] rounded-lg focus:border-indigo-500 outline-none transition-all font-medium text-sm text-white placeholder:text-gray-700"
                     placeholder="Your Name"
                     required
                   />
@@ -123,19 +123,19 @@ const ProfilePage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
                   <Mail
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-700"
                     size={14}
                   />
                   <input
                     type="email"
                     value={user.email}
                     disabled
-                    className="w-full pl-9 pr-4 py-2 border border-gray-100 bg-gray-50/30 rounded-lg text-gray-400 cursor-not-allowed font-medium text-sm"
+                    className="w-full pl-9 pr-4 py-2 border border-white/[0.04] bg-white/[0.02] rounded-lg text-gray-500 cursor-not-allowed font-medium text-sm"
                   />
                 </div>
               </div>
@@ -144,8 +144,8 @@ const ProfilePage: React.FC = () => {
             {message && (
               <div
                 className={`p-4 rounded-lg text-xs font-bold uppercase tracking-wider ${message.type === "success"
-                    ? "bg-green-50 text-green-700 border border-green-100"
-                    : "bg-red-50 text-red-700 border border-red-100"
+                  ? "bg-green-50 text-green-700 border border-green-100"
+                  : "bg-red-50 text-red-700 border border-red-100"
                   }`}
               >
                 {message.text}
@@ -156,7 +156,7 @@ const ProfilePage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isUpdating || name === user.name}
-                className="bg-gray-900 text-white px-8 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-black transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 disabled:cursor-not-allowed shadow-lg shadow-gray-200"
+                className="bg-white text-black px-8 py-2.5 rounded-lg font-bold text-sm flex items-center gap-2 hover:bg-gray-200 transition-all active:scale-95 disabled:bg-white/[0.02] disabled:text-gray-700 disabled:active:scale-100 disabled:cursor-not-allowed shadow-xl shadow-white/5"
               >
                 {isUpdating ? (
                   <Loader2 size={16} className="animate-spin" />

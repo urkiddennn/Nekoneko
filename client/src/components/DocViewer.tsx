@@ -73,38 +73,38 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
       case "hex":
       case "color":
         return (
-          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-50 text-amber-600 text-[10px] font-black uppercase ring-1 ring-amber-200/50">
+          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-500/10 text-amber-500 text-[10px] font-black uppercase border border-amber-500/20">
             <Hash size={10} /> Color
           </span>
         );
       case "tailwind":
         return (
-          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase ring-1 ring-indigo-200/50">
+          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 text-[10px] font-black uppercase border border-indigo-500/20">
             <Box size={10} /> Style
           </span>
         );
       case "boolean":
         return (
-          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase ring-1 ring-emerald-200/50">
+          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-green-500/10 text-green-500 text-[10px] font-black uppercase border border-green-500/20">
             <Settings size={10} /> Logic
           </span>
         );
       case "string":
       case "url":
         return (
-          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-50 text-slate-600 text-[10px] font-black uppercase ring-1 ring-slate-200/50">
+          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-white/[0.04] text-gray-400 text-[10px] font-black uppercase border border-white/[0.08]">
             <Type size={10} /> Text
           </span>
         );
       default:
         if (type.includes("|"))
           return (
-            <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-purple-50 text-purple-600 text-[10px] font-black uppercase ring-1 ring-purple-200/50">
+            <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 text-[10px] font-black uppercase border border-purple-500/20">
               <Ghost size={10} /> Enum
             </span>
           );
         return (
-          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-gray-50 text-gray-500 text-[10px] font-black uppercase ring-1 ring-gray-200/50">
+          <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-white/[0.04] text-gray-500 text-[10px] font-black uppercase border border-white/[0.08]">
             Component
           </span>
         );
@@ -118,13 +118,13 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
         className={`space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 ${className}`}
       >
         {/* Header */}
-        <div className="space-y-4 border-b border-gray-100 pb-8">
+        <div className="space-y-4 border-b border-white/[0.04] pb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="px-3 py-1 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-emerald-200">
+            <div className="px-3 py-1 bg-green-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-green-900/20">
               {schema.category}
             </div>
           </div>
-          <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-gray-900 leading-[0.9]">
+          <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-white leading-[0.9]">
             {schema.type.replace(/_/g, " ")}
           </h1>
           <p className="text-xl md:text-2xl text-gray-500 font-medium max-w-3xl leading-relaxed">
@@ -136,10 +136,10 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
         <div className="space-y-16 max-w-4xl">
           {schema.documentation.sections.map((section, idx) => (
             <div key={idx} className="space-y-6">
-              <h2 className="text-2xl font-black tracking-tight text-gray-900 flex items-center gap-3">
+              <h2 className="text-2xl font-black tracking-tight text-white flex items-center gap-3">
                 {section.title}
               </h2>
-              <div className="prose prose-lg prose-indigo text-gray-600 leading-loose">
+              <div className="prose prose-lg prose-invert text-gray-500 leading-loose">
                 <p>{section.content}</p>
               </div>
 
@@ -188,10 +188,10 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
       {/* Header */}
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <h1 className="text-5xl font-black tracking-tighter text-gray-900">
+          <h1 className="text-5xl font-black tracking-tighter text-white">
             {schema.type}
           </h1>
-          <div className="px-3 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-indigo-200">
+          <div className="px-3 py-1 bg-indigo-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-indigo-900/20">
             {schema.category}
           </div>
         </div>
@@ -199,9 +199,9 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
           {currentDescription}
         </p>
         {schema.details && (
-          <div className="p-4 bg-indigo-50/50 rounded-xl border border-indigo-100/50 flex items-start gap-3">
-            <Terminal size={18} className="text-indigo-600 mt-1 shrink-0" />
-            <p className="text-sm text-indigo-900/70 font-medium leading-relaxed italic">
+          <div className="p-4 bg-indigo-500/10 rounded-xl border border-indigo-500/20 flex items-start gap-3">
+            <Terminal size={18} className="text-indigo-400 mt-1 shrink-0" />
+            <p className="text-sm text-indigo-100/70 font-medium leading-relaxed italic">
               {schema.details}
             </p>
           </div>
@@ -215,11 +215,10 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
             <button
               key={variant.name}
               onClick={() => setSelectedVariantIndex(idx)}
-              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${
-                selectedVariantIndex === idx
-                  ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-200"
-                  : "bg-white text-gray-500 border-gray-200 hover:border-gray-300 hover:text-gray-700"
-              }`}
+              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${selectedVariantIndex === idx
+                  ? "bg-white text-black border-white shadow-xl shadow-white/5"
+                  : "bg-white/[0.02] text-gray-500 border-white/[0.08] hover:border-white/[0.2] hover:text-white"
+                }`}
             >
               {variant.name}
             </button>
@@ -229,53 +228,51 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
 
       {/* Config & Example with Tabs */}
       <div className="space-y-4">
-        <div className="flex items-center gap-1 border-b border-gray-100 px-2">
+        <div className="flex items-center gap-1 border-b border-white/[0.04] px-2">
           <button
             onClick={() => setActiveTab("preview")}
-            className={`px-4 py-2.5 text-xs font-black uppercase tracking-widest transition-all relative ${
-              activeTab === "preview"
-                ? "text-gray-900"
-                : "text-gray-400 hover:text-gray-600"
-            }`}
+            className={`px-4 py-2.5 text-xs font-black uppercase tracking-widest transition-all relative ${activeTab === "preview"
+                ? "text-white"
+                : "text-gray-500 hover:text-gray-300"
+              }`}
           >
             <div className="flex items-center gap-2">
               <Eye size={14} />
               Preview
             </div>
             {activeTab === "preview" && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 animate-in fade-in" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white animate-in shadow-[0_0_8px_white]" />
             )}
           </button>
           <button
             onClick={() => setActiveTab("json")}
-            className={`px-4 py-2.5 text-xs font-black uppercase tracking-widest transition-all relative ${
-              activeTab === "json"
-                ? "text-gray-900"
-                : "text-gray-400 hover:text-gray-600"
-            }`}
+            className={`px-4 py-2.5 text-xs font-black uppercase tracking-widest transition-all relative ${activeTab === "json"
+                ? "text-white"
+                : "text-gray-500 hover:text-gray-300"
+              }`}
           >
             <div className="flex items-center gap-2">
               <Code size={14} />
               JSON
             </div>
             {activeTab === "json" && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 animate-in fade-in" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white animate-in shadow-[0_0_8px_white]" />
             )}
           </button>
         </div>
 
         {activeTab === "preview" ? (
-          <div className="relative bg-gray-50/50 rounded-xl border border-gray-100 overflow-hidden ring-1 ring-black/5 min-h-[300px] flex items-center justify-center p-12">
+          <div className="relative bg-[#0b0b0b] rounded-xl border border-white/[0.08] overflow-hidden shadow-2xl shadow-black/50 min-h-[300px] flex items-center justify-center p-12">
             {/* Diagonal pattern background to mimic reference */}
             <div
               className="absolute inset-0 opacity-[0.03] pointer-events-none"
               style={{
-                backgroundImage: "radial-gradient(#000 1px, transparent 1px)",
+                backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
                 backgroundSize: "20px 20px",
               }}
             />
 
-            <div className="w-full max-w-4xl relative z-10 bg-white p-8 rounded-lg shadow-2xl shadow-indigo-500/10 border border-white ring-1 ring-black/5">
+            <div className="w-full max-w-4xl relative z-10 bg-[#0b0b0b] p-8 rounded-lg shadow-2xl shadow-white/5 border border-white/[0.06]">
               <SectionRenderer sections={[currentExample]} />
             </div>
           </div>
@@ -324,32 +321,32 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
 
       {/* Properties Table */}
       <div className="space-y-6">
-        <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">
+        <h2 className="text-xs font-black uppercase tracking-[0.2em] text-gray-600">
           Structure & Props
         </h2>
-        <div className="overflow-hidden bg-white border border-gray-100 rounded-xl shadow-sm">
+        <div className="overflow-hidden bg-[#161616] border border-white/[0.08] rounded-xl shadow-2xl shadow-black/40">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-gray-50/50 border-b border-gray-100">
-                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">
+              <tr className="bg-white/[0.02] border-b border-white/[0.04]">
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-500">
                   Property
                 </th>
-                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-500">
                   Type
                 </th>
-                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                <th className="px-8 py-5 text-[10px] font-black uppercase tracking-widest text-gray-500">
                   Description
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-white/[0.02]">
               {schema.props &&
                 schema.props.map((prop) => (
                   <tr
                     key={prop.name}
-                    className="group hover:bg-gray-50/30 transition-colors"
+                    className="group hover:bg-white/[0.01] transition-colors"
                   >
-                    <td className="px-8 py-5 font-mono text-xs font-black text-indigo-600">
+                    <td className="px-8 py-5 font-mono text-xs font-black text-indigo-400">
                       "{prop.name}"
                     </td>
                     <td className="px-8 py-5">{getBadge(prop.type)}</td>
@@ -366,18 +363,18 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
       {/* Common Styles Table */}
       {schema.common_styles && schema.common_styles.length > 0 && (
         <div className="space-y-6">
-          <h1 className="text-xs font-black uppercase tracking-[0.2em] text-gray-400">
+          <h1 className="text-xs font-black uppercase tracking-[0.2em] text-gray-600">
             Visual Modifiers
           </h1>
-          <div className="overflow-hidden bg-white border border-gray-100 rounded-xl shadow-sm">
+          <div className="overflow-hidden bg-[#161616] border border-white/[0.08] rounded-xl shadow-2xl shadow-black/40">
             <table className="w-full text-left border-collapse">
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-white/[0.02]">
                 {schema.common_styles.map((style) => (
                   <tr
                     key={style.name}
-                    className="group hover:bg-gray-50/30 transition-colors"
+                    className="group hover:bg-white/[0.01] transition-colors"
                   >
-                    <td className="px-8 py-5 font-mono text-xs font-black text-slate-400">
+                    <td className="px-8 py-5 font-mono text-xs font-black text-gray-600">
                       "{style.name}"
                     </td>
                     <td className="px-8 py-5">{getBadge(style.type)}</td>
