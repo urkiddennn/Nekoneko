@@ -1,4 +1,5 @@
 import { ExternalLink } from 'lucide-react';
+import { useSite } from '../../context/useSite';
 
 interface ProjectItem {
     title: string;
@@ -37,6 +38,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     columns = 2,
     variant = 'card'
 }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
     const gridClass = columns === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
     const displayItems = items.length > 0 ? items : [{ title, description, stacks, link, image: '', tags: stacks }];
 
@@ -47,7 +50,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                     <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter italic">
                         Projects
                     </h2>
-                    <div className="h-2 w-32 bg-[#ff5a5f] border-2 border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)]" />
+                    <div className="h-2 w-32 border-2 border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)]" style={{ backgroundColor: primaryColor }} />
                 </div>
                 <div className={`grid ${gridClass} gap-8`}>
                     {displayItems.map((item, idx) => (
@@ -70,7 +73,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                                 )}
                                 <div className="flex flex-wrap gap-2">
                                     {item.tags?.map((tag, tIdx) => (
-                                        <span key={tIdx} className="px-3 py-1 border-2 border-slate-950 dark:border-white text-[10px] font-black uppercase tracking-widest bg-[#ff5a5f] text-white">
+                                        <span key={tIdx} className="px-3 py-1 border-2 border-slate-950 dark:border-white text-[10px] font-black uppercase tracking-widest text-white"
+                                            style={{ backgroundColor: primaryColor }}>
                                             {tag}
                                         </span>
                                     ))}
@@ -134,11 +138,11 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                 <div className="space-y-16">
                     <div className="flex flex-col items-start gap-4">
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-1 bg-indigo-600" />
+                            <div className="w-12 h-1" style={{ backgroundColor: primaryColor }} />
                             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">PORTFOLIO</span>
                         </div>
                         <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
-                            Featured <span className="text-indigo-600">Work</span>
+                            Featured <span style={{ color: primaryColor }}>Work</span>
                         </h2>
                     </div>
 
@@ -149,7 +153,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                                 href={item.link}
                                 className="group block space-y-6 transition-all duration-700"
                             >
-                                <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-gray-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 shadow-sm group-hover:shadow-2xl group-hover:shadow-indigo-500/20 transition-all duration-700">
+                                <div className="relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-gray-50 dark:bg-slate-900 border border-slate-100 dark:border-white/5 shadow-sm transition-all duration-700 hover:shadow-2xl"
+                                    style={{ boxShadow: '' }}
+                                    onMouseOver={(e: React.MouseEvent<HTMLDivElement>) => e.currentTarget.style.boxShadow = `0 25px 50px -12px ${primaryColor}33`}
+                                    onMouseOut={(e: React.MouseEvent<HTMLDivElement>) => e.currentTarget.style.boxShadow = ''}>
                                     <img
                                         src={optimizeImageUrl(item.image, 800)}
                                         alt={item.title}
@@ -158,19 +165,22 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-8">
                                         <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                                            <span className="text-white text-xs font-black uppercase tracking-widest bg-indigo-600 px-4 py-2 rounded-none">View Case Study</span>
+                                            <span className="text-white text-xs font-black uppercase tracking-widest px-4 py-2 rounded-none" style={{ backgroundColor: primaryColor }}>View Case Study</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="space-y-4 px-2">
                                     <div className="flex flex-wrap gap-2">
                                         {item.tags?.map((tag, tIdx) => (
-                                            <span key={tIdx} className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+                                            <span key={tIdx} className="text-[10px] font-black uppercase tracking-widest" style={{ color: primaryColor }}>
                                                 {tag}
                                             </span>
                                         ))}
                                     </div>
-                                    <h3 className="text-2xl md:text-3xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none group-hover:text-indigo-600 transition-colors">
+                                    <h3 className="text-2xl md:text-3xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none transition-colors"
+                                        style={{ color: '' }}
+                                        onMouseOver={(e: React.MouseEvent<HTMLHeadingElement>) => e.currentTarget.style.color = primaryColor}
+                                        onMouseOut={(e: React.MouseEvent<HTMLHeadingElement>) => e.currentTarget.style.color = ''}>
                                         {item.title}
                                     </h3>
                                 </div>
@@ -183,7 +193,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
         return (
             <div>
-                {title && <h2 className="text-3xl font-black mb-12 text-slate-950 dark:text-white border-l-8 border-indigo-600 dark:border-indigo-400 pl-6 uppercase italic tracking-tighter">{title}</h2>}
+                {title && <h2 className="text-3xl font-black mb-12 text-slate-950 dark:text-white border-l-8 pl-6 uppercase italic tracking-tighter" style={{ borderColor: primaryColor }}>{title}</h2>}
                 <div className={`grid ${gridClass} gap-8`}>
                     {displayItems.map((item, idx) => (
                         <a key={idx} href={item.link} className="group block overflow-hidden rounded-2xl bg-gray-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 hover:shadow-2xl transition-all duration-500">
@@ -194,7 +204,8 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                                 <h3 className="text-xl font-bold mb-3 text-slate-950 dark:text-white">{item.title}</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {item.tags?.map((tag, tIdx) => (
-                                        <span key={tIdx} className="px-3 py-1 bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase rounded-full">
+                                        <span key={tIdx} className="px-3 py-1 bg-gray-100 dark:bg-slate-800 text-[10px] font-black uppercase rounded-full"
+                                            style={{ color: primaryColor }}>
                                             {tag}
                                         </span>
                                     ))}
@@ -257,41 +268,44 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     if (variant === 'pixel') {
         const pixelFont = "'Press Start 2P', monospace";
         return (
-            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
-                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
-                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+            <div className="relative bg-[#0a0a2e] border-[3px] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
+                <span className="absolute top-2 left-3 text-xs select-none" style={{ fontFamily: pixelFont, color: `${primaryColor}66` }}>+</span>
+                <span className="absolute top-2 right-3 text-xs select-none" style={{ fontFamily: pixelFont, color: `${primaryColor}66` }}>+</span>
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
-                        <ExternalLink size={14} className="text-[#00ff41]" />
+                    <div className="w-8 h-8 border-2 flex items-center justify-center" style={{ borderColor: primaryColor, backgroundColor: `${primaryColor}33` }}>
+                        <ExternalLink size={14} style={{ color: primaryColor }} />
                     </div>
-                    <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                    <h2 className="text-xs md:text-sm uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>
                         Projects
                     </h2>
                 </div>
                 <div className={`grid ${gridClass} gap-4`}>
                     {displayItems.map((item, idx) => (
                         <a key={idx} href={item.link || '#'} target="_blank" rel="noopener noreferrer"
-                            className="border-2 border-[#00ff41]/30 bg-[#1a1a4e] p-5 hover:border-[#00ff41] transition-colors group block">
+                            className="border-2 bg-[#1a1a4e] p-5 transition-colors group block"
+                            style={{ borderColor: `${primaryColor}4d` }}
+                            onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => e.currentTarget.style.borderColor = primaryColor}
+                            onMouseOut={(e: React.MouseEvent<HTMLAnchorElement>) => e.currentTarget.style.borderColor = `${primaryColor}4d`}>
                             {item.image && (
                                 <div className="w-full h-32 mb-4 overflow-hidden border-2 border-[#00ff41]/20" style={{ imageRendering: 'pixelated' }}>
                                     <img src={optimizeImageUrl(item.image, 400)} alt={item.title} className="w-full h-full object-cover" />
                                 </div>
                             )}
-                            <h3 className="text-[9px] text-[#00ff41] uppercase tracking-wider mb-2" style={{ fontFamily: pixelFont }}>{item.title}</h3>
+                            <h3 className="text-[9px] uppercase tracking-wider mb-2" style={{ fontFamily: pixelFont, color: primaryColor }}>{item.title}</h3>
                             {item.description && (
-                                <p className="text-[7px] text-[#00ff41]/40 leading-relaxed mb-3" style={{ fontFamily: pixelFont }}>{item.description}</p>
+                                <p className="text-[7px] leading-relaxed mb-3" style={{ fontFamily: pixelFont, color: `${primaryColor}66` }}>{item.description}</p>
                             )}
                             <div className="flex flex-wrap gap-2">
                                 {item.tags?.map((tag, tIdx) => (
-                                    <span key={tIdx} className="px-2 py-1 border border-[#00ff41]/30 text-[6px] text-[#00ff41]/50 uppercase tracking-wider" style={{ fontFamily: pixelFont }}>{tag}</span>
+                                    <span key={tIdx} className="px-2 py-1 border text-[6px] uppercase tracking-wider" style={{ fontFamily: pixelFont, borderColor: `${primaryColor}4d`, color: `${primaryColor}80` }}>{tag}</span>
                                 ))}
                             </div>
                         </a>
                     ))}
                 </div>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+                    style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
             </div>
         );
     }
@@ -326,7 +340,10 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-900 dark:text-white hover:text-black dark:hover:text-indigo-400 transition-colors group/link"
+                        className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-900 dark:text-white transition-colors group/link"
+                        style={{ color: '' }}
+                        onMouseOver={(e: React.MouseEvent<HTMLAnchorElement>) => e.currentTarget.style.color = primaryColor}
+                        onMouseOut={(e: React.MouseEvent<HTMLAnchorElement>) => e.currentTarget.style.color = ''}
                     >
                         Visit Link
                         <ExternalLink size={12} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />

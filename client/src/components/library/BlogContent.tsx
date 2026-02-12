@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSite } from '../../context/useSite';
 
 interface BlogContentProps {
     title?: string;
@@ -19,6 +20,9 @@ const BlogContent: React.FC<BlogContentProps> = ({
     image,
     variant = 'editorial'
 }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary;
+
     const serifFont = "'Playfair Display', 'Georgia', serif";
     const bodyFont = "'Lora', 'Georgia', serif";
     const pixelFont = "'Press Start 2P', monospace";
@@ -52,23 +56,23 @@ const BlogContent: React.FC<BlogContentProps> = ({
 
     if (variant === 'pixel_reader') {
         return (
-            <div className="bg-[#0a0a2e] border-4 border-[#00ff41] p-12 text-[#00ff41] relative overflow-hidden shadow-[0_0_30px_rgba(0,255,65,0.2)]">
-                <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+            <div className="border-4 p-12 relative overflow-hidden bg-[#0a0a2e]" style={{ borderColor: primaryColor, boxShadow: `0 0 30px ${primaryColor}33` }}>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
                 <div className="max-w-4xl mx-auto space-y-12 relative z-10">
-                    <div className="flex items-center gap-4 text-[10px] opacity-60" style={{ fontFamily: pixelFont }}>
-                        <span>READING: {title}</span>
+                    <div className="flex items-center gap-4 text-[10px] opacity-60" style={{ fontFamily: pixelFont, color: primaryColor }}>
+                        <span>READING: {title || 'UNTITLED DATA'}</span>
                         <span className="animate-pulse">_</span>
                     </div>
-                    <div className="space-y-8 leading-[2] tracking-wide text-xs md:text-sm border-l-2 border-[#00ff41]/20 pl-8" style={{ fontFamily: pixelFont }}>
+                    <div className="space-y-8 leading-[2] tracking-wide text-xs md:text-sm border-l-2 pl-8" style={{ fontFamily: pixelFont, color: primaryColor, borderColor: `${primaryColor}33` }}>
                         <p>{content}</p>
                     </div>
                     <div className="pt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
                         {tags.map((tag, i) => (
-                            <div key={i} className="bg-[#00ff41]/10 border border-[#00ff41] p-3 text-center text-[8px] uppercase">{tag}</div>
+                            <div key={i} className="border p-3 text-center text-[8px] uppercase" style={{ backgroundColor: `${primaryColor}1a`, borderColor: primaryColor, color: primaryColor }}>{tag}</div>
                         ))}
                     </div>
                     <div className="text-center pt-8">
-                        <span className="text-[8px] opacity-40 uppercase" style={{ fontFamily: pixelFont }}>End of Data Transmission</span>
+                        <span className="text-[8px] opacity-40 uppercase" style={{ fontFamily: pixelFont, color: primaryColor }}>End of Data Transmission</span>
                     </div>
                 </div>
             </div>

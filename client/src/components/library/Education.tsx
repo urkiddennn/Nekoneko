@@ -45,12 +45,12 @@ const Education: React.FC<EducationProps> = ({ title, items = [], variant = 'tim
             <div className="space-y-16 py-12">
                 <div className="flex flex-col items-center text-center space-y-4">
                     <div className="flex items-center justify-center gap-4">
-                        <div className="w-12 h-1 bg-indigo-600" />
+                        <div className="w-12 h-1" style={{ backgroundColor: primaryColor }} />
                         <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">ACADEMICS</span>
-                        <div className="w-12 h-1 bg-indigo-600" />
+                        <div className="w-12 h-1" style={{ backgroundColor: primaryColor }} />
                     </div>
                     <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
-                        Education <span className="text-indigo-600">Background</span>
+                        Education <span style={{ color: primaryColor }}>Background</span>
                     </h2>
                 </div>
 
@@ -58,10 +58,13 @@ const Education: React.FC<EducationProps> = ({ title, items = [], variant = 'tim
                     {items.map((item, index) => (
                         <div
                             key={index}
-                            className="group p-8 md:p-12 bg-white dark:bg-slate-900 border-[3px] border-slate-100 dark:border-white/5 rounded-none hover:border-indigo-600 dark:hover:border-indigo-600 transition-all duration-500 flex flex-col justify-between"
+                            className="group p-8 md:p-12 bg-white dark:bg-slate-900 border-[3px] border-slate-100 dark:border-white/5 rounded-none transition-all duration-500 flex flex-col justify-between"
+                            style={{ borderColor: '' }}
+                            onMouseOver={(e) => e.currentTarget.style.borderColor = primaryColor || ''}
+                            onMouseOut={(e) => e.currentTarget.style.borderColor = ''}
                         >
                             <div className="space-y-6">
-                                <div className="text-lg font-black uppercase tracking-widest text-indigo-600">
+                                <div className="text-lg font-black uppercase tracking-widest" style={{ color: primaryColor }}>
                                     {item.period}
                                 </div>
                                 <div className="space-y-2">
@@ -161,18 +164,18 @@ const Education: React.FC<EducationProps> = ({ title, items = [], variant = 'tim
     if (variant === 'pixel') {
         const pixelFont = "'Press Start 2P', monospace";
         return (
-            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
-                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+            <div className="relative bg-[#0a0a2e] border-[3px] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
                 {/* Corner markers */}
-                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <span className="absolute top-2 left-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+                <span className="absolute top-2 right-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
 
                 {/* Section header */}
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
-                        <GraduationCap size={14} className="text-[#00ff41]" />
+                    <div className="w-8 h-8 border-2 bg-transparent flex items-center justify-center" style={{ borderColor: primaryColor, backgroundColor: `${primaryColor}33` }}>
+                        <GraduationCap size={14} style={{ color: primaryColor }} />
                     </div>
-                    <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                    <h2 className="text-xs md:text-sm uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>
                         {title}
                     </h2>
                 </div>
@@ -183,21 +186,21 @@ const Education: React.FC<EducationProps> = ({ title, items = [], variant = 'tim
                         <div key={index} className="relative">
                             {/* Dashed connector */}
                             {index > 0 && (
-                                <div className="w-px h-4 border-l-2 border-dashed border-[#00ff41]/30 ml-[15px]" />
+                                <div className="w-px h-4 border-l-2 border-dashed ml-[15px]" style={{ borderColor: `${primaryColor}4d` }} />
                             )}
                             <div className="flex items-start gap-4 group">
                                 {/* Year badge */}
-                                <div className="w-[32px] h-[32px] border-2 border-[#00ff41] bg-[#1a1a4e] flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#00ff41]">
-                                    <span className="text-[6px] text-[#00ff41] font-bold" style={{ fontFamily: pixelFont }}>
+                                <div className="w-[32px] h-[32px] border-2 bg-[#1a1a4e] flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px] transition-shadow" style={{ borderColor: primaryColor, boxShadow: `2px 2px 0px 0px ${primaryColor}` }} onMouseOver={(e) => e.currentTarget.style.boxShadow = `3px 3px 0px 0px ${primaryColor}`} onMouseOut={(e) => e.currentTarget.style.boxShadow = `2px 2px 0px 0px ${primaryColor}`}>
+                                    <span className="text-[6px] font-bold" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                         {item.period.match(/\d{4}/)?.[0] || item.period.slice(0, 4)}
                                     </span>
                                 </div>
                                 {/* Content */}
                                 <div className="pt-1">
-                                    <h3 className="text-[10px] md:text-xs text-[#00ff41] uppercase tracking-wide leading-relaxed" style={{ fontFamily: pixelFont }}>
+                                    <h3 className="text-[10px] md:text-xs uppercase tracking-wide leading-relaxed" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                         {item.school}
                                     </h3>
-                                    <p className="text-[8px] md:text-[10px] text-[#00ff41]/50 uppercase tracking-wider mt-1" style={{ fontFamily: pixelFont }}>
+                                    <p className="text-[8px] md:text-[10px] uppercase tracking-wider mt-1" style={{ fontFamily: pixelFont, color: `${primaryColor}80` }}>
                                         {item.degree}
                                     </p>
                                 </div>
@@ -208,7 +211,7 @@ const Education: React.FC<EducationProps> = ({ title, items = [], variant = 'tim
 
                 {/* Scanline */}
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }}
+                    style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }}
                 />
             </div>
         );

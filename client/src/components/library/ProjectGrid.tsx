@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSite } from '../../context/useSite';
 
 interface ProjectItem {
     title: string;
@@ -16,6 +17,8 @@ interface ProjectGridProps {
 }
 
 const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items, projects, variant = 'default' }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary;
     const displayItems = items || projects || [];
     const gridClass = columns === 2 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
 
@@ -24,11 +27,11 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items, projec
             <div className="space-y-16">
                 <div className="flex flex-col items-start gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-12 h-1 bg-indigo-600" />
+                        <div className="w-12 h-1" style={{ backgroundColor: primaryColor }} />
                         <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">PORTFOLIO</span>
                     </div>
                     <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
-                        Featured <span className="text-indigo-600">Work</span>
+                        Featured <span style={{ color: primaryColor }}>Work</span>
                     </h2>
                 </div>
 
@@ -47,19 +50,22 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items, projec
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-end p-8">
                                     <div className="translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
-                                        <span className="text-white text-xs font-black uppercase tracking-widest bg-indigo-600 px-4 py-2 rounded-none">View Case Study</span>
+                                        <span className="text-white text-xs font-black uppercase tracking-widest px-4 py-2 rounded-none" style={{ backgroundColor: primaryColor }}>View Case Study</span>
                                     </div>
                                 </div>
                             </div>
                             <div className="space-y-4 px-2">
                                 <div className="flex flex-wrap gap-2">
                                     {item.tags?.map((tag, tIdx) => (
-                                        <span key={tIdx} className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+                                        <span key={tIdx} className="text-[10px] font-black uppercase tracking-widest" style={{ color: primaryColor }}>
                                             {tag}
                                         </span>
                                     ))}
                                 </div>
-                                <h3 className="text-2xl md:text-3xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none group-hover:text-indigo-600 transition-colors">
+                                <h3 className="text-2xl md:text-3xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none transition-colors group-hover:text-inherit"
+                                    style={{ color: '' }}
+                                    onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                    onMouseOut={(e) => e.currentTarget.style.color = ''}>
                                     {item.title}
                                 </h3>
                             </div>
@@ -72,7 +78,7 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items, projec
 
     return (
         <div>
-            <h2 className="text-3xl font-black mb-12 text-slate-950 dark:text-white border-l-8 border-indigo-600 dark:border-indigo-400 pl-6 uppercase italic tracking-tighter">{title}</h2>
+            <h2 className="text-3xl font-black mb-12 text-slate-950 dark:text-white border-l-8 pl-6 uppercase italic tracking-tighter" style={{ borderColor: primaryColor }}>{title}</h2>
             <div className={`grid ${gridClass} gap-8`}>
                 {displayItems.map((item, idx) => (
                     <a key={idx} href={item.link} className="group block overflow-hidden rounded-2xl bg-gray-50 dark:bg-slate-900 border border-transparent dark:border-slate-800 hover:shadow-2xl transition-all duration-500">
@@ -83,7 +89,8 @@ const ProjectGrid: React.FC<ProjectGridProps> = ({ title, columns, items, projec
                             <h3 className="text-xl font-bold mb-3 text-slate-950 dark:text-white">{item.title}</h3>
                             <div className="flex flex-wrap gap-2">
                                 {item.tags?.map((tag, tIdx) => (
-                                    <span key={tIdx} className="px-3 py-1 bg-indigo-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase rounded-full">
+                                    <span key={tIdx} className="px-3 py-1 text-[10px] font-black uppercase rounded-full"
+                                        style={{ backgroundColor: `${primaryColor}1a`, color: primaryColor }}>
                                         {tag}
                                     </span>
                                 ))}

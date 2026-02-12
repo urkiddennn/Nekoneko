@@ -25,6 +25,7 @@ const BlogHero = React.lazy(() => import("./library/BlogHero"));
 const BlogList = React.lazy(() => import("./library/BlogList"));
 const BlogContent = React.lazy(() => import("./library/BlogContent"));
 const BlogNewsletter = React.lazy(() => import("./library/BlogNewsletter"));
+const Subscribe = React.lazy(() => import("./library/Subscribe"));
 const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
 const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
@@ -59,6 +60,7 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   blog_list: BlogList,
   blog_content: BlogContent,
   blog_newsletter: BlogNewsletter,
+  subscribe: Subscribe,
   live_site_preview: LiveSitePreview,
 };
 

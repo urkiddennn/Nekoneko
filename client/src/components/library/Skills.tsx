@@ -138,11 +138,11 @@ const Skills: React.FC<SkillsProps> = ({
       <div className="space-y-16 py-12">
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="flex items-center justify-center gap-4">
-            <div className="w-12 h-1 bg-indigo-600" />
+            <div className="w-12 h-1" style={{ backgroundColor: primaryColor }} />
             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">
               EXPERTISE
             </span>
-            <div className="w-12 h-1 bg-indigo-600" />
+            <div className="w-12 h-1" style={{ backgroundColor: primaryColor }} />
           </div>
           <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter leading-none">
             {title}
@@ -155,11 +155,14 @@ const Skills: React.FC<SkillsProps> = ({
             return (
               <div
                 key={index}
-                className="group relative px-8 py-5 bg-white dark:bg-slate-900 border-[3px] border-slate-100 dark:border-white/5 rounded-none hover:border-indigo-600 dark:hover:border-indigo-600 transition-all duration-300 transform hover:-translate-y-1"
+                className="group relative px-8 py-5 bg-white dark:bg-slate-900 border-[3px] border-slate-100 dark:border-white/5 rounded-none transition-all duration-300 transform hover:-translate-y-1"
+                style={{ borderColor: '' }}
+                onMouseOver={(e) => e.currentTarget.style.borderColor = primaryColor}
+                onMouseOut={(e) => e.currentTarget.style.borderColor = ''}
               >
                 <div
-                  className="absolute bottom-0 left-0 h-1 bg-indigo-600 transition-all duration-300 group-hover:w-full"
-                  style={{ width: "0%", backgroundColor: effectiveColor }}
+                  className="absolute bottom-0 left-0 h-1 transition-all duration-300 group-hover:w-full"
+                  style={{ width: "0%", backgroundColor: effectiveColor || primaryColor }}
                 />
                 <span className="text-lg md:text-xl font-black text-slate-950 dark:text-white uppercase tracking-widest break-words">
                   {skill.name}
@@ -376,15 +379,15 @@ const Skills: React.FC<SkillsProps> = ({
   if (variant === "pixel") {
     const pixelFont = "'Press Start 2P', monospace";
     return (
-      <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
-        style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
-        <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-        <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+      <div className="relative bg-[#0a0a2e] border-[3px] p-6 md:p-8 overflow-hidden"
+        style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
+        <span className="absolute top-2 left-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+        <span className="absolute top-2 right-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
         <div className="flex items-center gap-3 mb-8">
-          <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
-            <Layers size={14} className="text-[#00ff41]" />
+          <div className="w-8 h-8 border-2 bg-transparent flex items-center justify-center" style={{ borderColor: primaryColor, backgroundColor: `${primaryColor}33` }}>
+            <Layers size={14} style={{ color: primaryColor }} />
           </div>
-          <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+          <h2 className="text-xs md:text-sm uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>
             {title}
           </h2>
         </div>
@@ -395,19 +398,23 @@ const Skills: React.FC<SkillsProps> = ({
             const blocks = Math.round(level / 10);
             return (
               <div key={index} className="flex items-center gap-4">
-                <span className="text-[8px] md:text-[10px] text-[#00ff41] uppercase tracking-wider w-28 md:w-36 flex-shrink-0 truncate" style={{ fontFamily: pixelFont }}>
+                <span className="text-[8px] md:text-[10px] uppercase tracking-wider w-28 md:w-36 flex-shrink-0 truncate" style={{ fontFamily: pixelFont, color: primaryColor }}>
                   {skillName}
                 </span>
                 <div className="flex-1 flex gap-[3px]">
                   {Array.from({ length: 10 }).map((_, i) => (
                     <div
                       key={i}
-                      className={`h-3 flex-1 border border-[#00ff41]/30 ${i < blocks ? 'bg-[#00ff41]' : 'bg-[#00ff41]/10'}`}
+                      className={`h-3 flex-1 border`}
+                      style={{
+                        borderColor: `${primaryColor}4d`,
+                        backgroundColor: i < blocks ? primaryColor : `${primaryColor}1a`
+                      }}
                     />
                   ))}
                 </div>
-                <div className="w-7 h-7 border-2 border-[#00ff41] bg-[#1a1a4e] flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px_#00ff41]">
-                  <span className="text-[6px] text-[#00ff41]" style={{ fontFamily: pixelFont }}>
+                <div className="w-7 h-7 border-2 bg-[#1a1a4e] flex items-center justify-center flex-shrink-0 shadow-[2px_2px_0px_0px]" style={{ borderColor: primaryColor, boxShadow: `2px 2px 0px 0px ${primaryColor}` }}>
+                  <span className="text-[6px]" style={{ fontFamily: pixelFont, color: primaryColor }}>
                     {skillName.substring(0, 2).toUpperCase()}
                   </span>
                 </div>
@@ -416,7 +423,7 @@ const Skills: React.FC<SkillsProps> = ({
           })}
         </div>
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }}
+          style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }}
         />
       </div>
     );

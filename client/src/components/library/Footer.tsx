@@ -1,9 +1,10 @@
 import React from "react";
+import { useSite } from "../../context/useSite";
 import {
     Github,
     Twitter,
-    Linkedin,
     Instagram,
+    Linkedin,
     Mail,
     ArrowUpRight
 } from "lucide-react";
@@ -43,6 +44,8 @@ const Footer: React.FC<FooterProps> = ({
     socials = [],
     variant = "default",
 }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary;
     const isBrutalist = variant === "brutalist";
     const isGlassmorphism = variant === "glassmorphism";
     const isMinimal = variant === "minimal";
@@ -67,7 +70,10 @@ const Footer: React.FC<FooterProps> = ({
                             <ul className="space-y-3">
                                 {links.map((link, idx) => (
                                     <li key={idx}>
-                                        <a href={link.url} className="text-lg font-black uppercase hover:text-[#ff5a5f] transition-colors flex items-center gap-1 group">
+                                        <a href={link.url} className="text-lg font-black uppercase transition-colors flex items-center gap-1 group hover:text-inherit"
+                                            style={{ color: '' }}
+                                            onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                            onMouseOut={(e) => e.currentTarget.style.color = ''}>
                                             {link.label}
                                             <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                                         </a>
@@ -85,7 +91,8 @@ const Footer: React.FC<FooterProps> = ({
                                         <a
                                             key={idx}
                                             href={social.url}
-                                            className="w-12 h-12 flex items-center justify-center border-[3px] border-slate-950 dark:border-white bg-[#ff5a5f] text-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+                                            className="w-12 h-12 flex items-center justify-center border-[3px] border-slate-950 dark:border-white text-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+                                            style={{ backgroundColor: primaryColor }}
                                         >
                                             <Icon size={24} />
                                         </a>
@@ -98,8 +105,8 @@ const Footer: React.FC<FooterProps> = ({
                     <div className="pt-12 border-t-[3px] border-slate-950 dark:border-white flex flex-col md:flex-row justify-between items-center gap-6">
                         <p className="font-black uppercase text-sm tracking-tight">{copyright}</p>
                         <div className="flex gap-8">
-                            <span className="text-xs font-black uppercase cursor-help underline underline-offset-4 decoration-2 decoration-[#ff5a5f]">Privacy Policy</span>
-                            <span className="text-xs font-black uppercase cursor-help underline underline-offset-4 decoration-2 decoration-[#ff5a5f]">Terms of Service</span>
+                            <span className="text-xs font-black uppercase cursor-help underline underline-offset-4 decoration-2" style={{ textDecorationColor: primaryColor }}>Privacy Policy</span>
+                            <span className="text-xs font-black uppercase cursor-help underline underline-offset-4 decoration-2" style={{ textDecorationColor: primaryColor }}>Terms of Service</span>
                         </div>
                     </div>
                 </div>
@@ -110,7 +117,7 @@ const Footer: React.FC<FooterProps> = ({
     if (isGlassmorphism) {
         return (
             <footer className="relative py-24 -mx-4 px-4 overflow-hidden">
-                <div className="absolute inset-x-0 bottom-0 h-96 bg-gradient-to-t from-[#ff5a5f]/10 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 h-96 pointer-events-none" style={{ backgroundImage: `linear-gradient(to top, ${primaryColor}1a, transparent)` }} />
                 <div className="max-w-7xl mx-auto backdrop-blur-2xl bg-white/5 border border-white/10 p-12 md:p-20 rounded-[4rem] shadow-2xl relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
                         <div className="space-y-8">
@@ -123,8 +130,14 @@ const Footer: React.FC<FooterProps> = ({
                             <ul className="space-y-4">
                                 {links.map((link, idx) => (
                                     <li key={idx}>
-                                        <a href={link.url} className="text-slate-300 hover:text-[#ff5a5f] transition-all flex items-center gap-2 group">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#ff5a5f] transition-colors" />
+                                        <a href={link.url} className="text-slate-300 transition-all flex items-center gap-2 group hover:text-inherit"
+                                            style={{ color: '' }}
+                                            onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                            onMouseOut={(e) => e.currentTarget.style.color = ''}>
+                                            <span className="w-1.5 h-1.5 rounded-full bg-white/20 transition-colors group-hover:bg-inherit"
+                                                style={{ backgroundColor: '' }}
+                                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = primaryColor}
+                                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = ''} />
                                             {link.label}
                                         </a>
                                     </li>
@@ -141,7 +154,10 @@ const Footer: React.FC<FooterProps> = ({
                                         <a
                                             key={idx}
                                             href={social.url}
-                                            className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white hover:bg-[#ff5a5f] hover:border-[#ff5a5f] transition-all hover:scale-110"
+                                            className="w-12 h-12 flex items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-white transition-all hover:scale-110"
+                                            style={{ borderColor: '', backgroundColor: '' }}
+                                            onMouseOver={(e) => { e.currentTarget.style.backgroundColor = primaryColor; e.currentTarget.style.borderColor = primaryColor }}
+                                            onMouseOut={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.borderColor = '' }}
                                         >
                                             <Icon size={20} />
                                         </a>
@@ -215,11 +231,14 @@ const Footer: React.FC<FooterProps> = ({
 
                         <div className="grid grid-cols-2 gap-20">
                             <div className="space-y-8">
-                                <span className="text-[#ff5a5f] text-xs font-black uppercase tracking-[0.4em]">Index</span>
+                                <span className="text-xs font-black uppercase tracking-[0.4em]" style={{ color: primaryColor }}>Index</span>
                                 <ul className="space-y-4">
                                     {links.map((link, idx) => (
                                         <li key={idx}>
-                                            <a href={link.url} className="text-2xl font-black text-white hover:text-[#ff5a5f] transition-all block">
+                                            <a href={link.url} className="text-2xl font-black text-white transition-all block"
+                                                style={{ color: '' }}
+                                                onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                                onMouseOut={(e) => e.currentTarget.style.color = ''}>
                                                 {link.label}
                                             </a>
                                         </li>
@@ -227,11 +246,14 @@ const Footer: React.FC<FooterProps> = ({
                                 </ul>
                             </div>
                             <div className="space-y-8">
-                                <span className="text-[#ff5a5f] text-xs font-black uppercase tracking-[0.4em]">Follow</span>
+                                <span className="text-xs font-black uppercase tracking-[0.4em]" style={{ color: primaryColor }}>Follow</span>
                                 <ul className="space-y-4">
                                     {socials.map((social, idx) => (
                                         <li key={idx}>
-                                            <a href={social.url} className="text-2xl font-black text-white hover:text-[#ff5a5f] transition-all capitalize">
+                                            <a href={social.url} className="text-2xl font-black text-white transition-all capitalize"
+                                                style={{ color: '' }}
+                                                onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                                onMouseOut={(e) => e.currentTarget.style.color = ''}>
                                                 {social.platform}
                                             </a>
                                         </li>
@@ -243,12 +265,13 @@ const Footer: React.FC<FooterProps> = ({
 
                     <div className="pt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
                         <div className="flex gap-4 items-center">
-                            <div className="w-12 h-1 bg-[#ff5a5f]" />
+                            <div className="w-12 h-1" style={{ backgroundColor: primaryColor }} />
                             <p className="text-white font-black uppercase tracking-widest text-sm">{copyright}</p>
                         </div>
                         <button
                             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                            className="text-[#ff5a5f] font-black uppercase text-sm tracking-widest flex items-center gap-2 hover:translate-x-2 transition-transform"
+                            className="font-black uppercase text-sm tracking-widest flex items-center gap-2 transition-transform hover:translate-x-2"
+                            style={{ color: primaryColor }}
                         >
                             Back to start <ArrowUpRight size={18} />
                         </button>
@@ -261,21 +284,21 @@ const Footer: React.FC<FooterProps> = ({
     if (variant === "pixel") {
         const pixelFont = "'Press Start 2P', monospace";
         return (
-            <footer className="relative bg-[#0a0a2e] border-t-[3px] border-[#00ff41] py-12 -mx-4 px-4 overflow-hidden">
+            <footer className="relative bg-[#0a0a2e] border-t-[3px] py-12 -mx-4 px-4 overflow-hidden" style={{ borderTopColor: primaryColor }}>
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                         <div className="space-y-4">
-                            <h2 className="text-xs text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                            <h2 className="text-xs uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                 {logo || 'LOGO'}
                             </h2>
-                            {tagline && <p className="text-[7px] text-[#00ff41]/40 leading-relaxed" style={{ fontFamily: pixelFont }}>{tagline}</p>}
+                            {tagline && <p className="text-[7px] leading-relaxed opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>{tagline}</p>}
                         </div>
                         <div className="space-y-4">
-                            <h3 className="text-[7px] text-[#00ff41]/50 uppercase tracking-widest" style={{ fontFamily: pixelFont }}>Navigation</h3>
+                            <h3 className="text-[7px] uppercase tracking-widest opacity-50" style={{ fontFamily: pixelFont, color: primaryColor }}>Navigation</h3>
                             <ul className="space-y-2">
                                 {links.map((link, idx) => (
                                     <li key={idx}>
-                                        <a href={link.url} className="text-[7px] text-[#00ff41]/60 uppercase tracking-wider hover:text-[#00ff41] transition-colors" style={{ fontFamily: pixelFont }}>
+                                        <a href={link.url} className="text-[7px] uppercase tracking-wider transition-colors hover:opacity-100 opacity-60" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                             {link.label}
                                         </a>
                                     </li>
@@ -283,26 +306,29 @@ const Footer: React.FC<FooterProps> = ({
                             </ul>
                         </div>
                         <div className="space-y-4">
-                            <h3 className="text-[7px] text-[#00ff41]/50 uppercase tracking-widest" style={{ fontFamily: pixelFont }}>Connect</h3>
+                            <h3 className="text-[7px] uppercase tracking-widest opacity-50" style={{ fontFamily: pixelFont, color: primaryColor }}>Connect</h3>
                             <div className="flex gap-3">
                                 {socials.map((social, idx) => {
                                     const Icon = socialIconMap[social.platform];
                                     return (
                                         <a key={idx} href={social.url}
-                                            className="w-9 h-9 border-2 border-[#00ff41]/30 bg-[#1a1a4e] flex items-center justify-center hover:border-[#00ff41] hover:bg-[#00ff41]/20 transition-all">
-                                            <Icon size={14} className="text-[#00ff41]" />
+                                            className="w-9 h-9 border-2 bg-[#1a1a4e] flex items-center justify-center transition-all"
+                                            style={{ borderColor: `${primaryColor}4d` }}
+                                            onMouseOver={(e) => { e.currentTarget.style.borderColor = primaryColor; e.currentTarget.style.backgroundColor = `${primaryColor}33` }}
+                                            onMouseOut={(e) => { e.currentTarget.style.borderColor = `${primaryColor}4d`; e.currentTarget.style.backgroundColor = '#1a1a4e' }}>
+                                            <Icon size={14} style={{ color: primaryColor }} />
                                         </a>
                                     );
                                 })}
                             </div>
                         </div>
                     </div>
-                    <div className="pt-6 border-t-2 border-[#00ff41]/20 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-[6px] text-[#00ff41]/30 uppercase tracking-widest" style={{ fontFamily: pixelFont }}>{copyright}</p>
+                    <div className="pt-6 border-t-2 flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderTopColor: `${primaryColor}33` }}>
+                        <p className="text-[6px] uppercase tracking-widest opacity-30" style={{ fontFamily: pixelFont, color: primaryColor }}>{copyright}</p>
                     </div>
                 </div>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+                    style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
             </footer>
         );
     }
@@ -362,7 +388,10 @@ const Footer: React.FC<FooterProps> = ({
                         <ul className="space-y-4">
                             {links.map((link, idx) => (
                                 <li key={idx}>
-                                    <a href={link.url} className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors font-medium">
+                                    <a href={link.url} className="text-slate-600 dark:text-slate-400 transition-colors font-medium hover:text-inherit"
+                                        style={{ color: '' }}
+                                        onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                        onMouseOut={(e) => e.currentTarget.style.color = ''}>
                                         {link.label}
                                     </a>
                                 </li>
@@ -373,8 +402,14 @@ const Footer: React.FC<FooterProps> = ({
                     <div>
                         <h4 className="font-black uppercase text-xs tracking-widest text-slate-400 mb-8">Resources</h4>
                         <ul className="space-y-4">
-                            <li><a href="#" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors font-medium">Docs</a></li>
-                            <li><a href="#" className="text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors font-medium">Release Notes</a></li>
+                            <li><a href="#" className="text-slate-600 dark:text-slate-400 transition-colors font-medium hover:text-inherit"
+                                style={{ color: '' }}
+                                onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                onMouseOut={(e) => e.currentTarget.style.color = ''}>Docs</a></li>
+                            <li><a href="#" className="text-slate-600 dark:text-slate-400 transition-colors font-medium hover:text-inherit"
+                                style={{ color: '' }}
+                                onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                onMouseOut={(e) => e.currentTarget.style.color = ''}>Release Notes</a></li>
                         </ul>
                     </div>
 
@@ -384,7 +419,10 @@ const Footer: React.FC<FooterProps> = ({
                             {socials.map((social, idx) => {
                                 const Icon = socialIconMap[social.platform];
                                 return (
-                                    <a key={idx} href={social.url} className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200 dark:bg-white/10 hover:bg-indigo-600 hover:text-white transition-all">
+                                    <a key={idx} href={social.url} className="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200 dark:bg-white/10 transition-all hover:text-white"
+                                        style={{ backgroundColor: '' }}
+                                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = primaryColor}
+                                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = ''}>
                                         <Icon size={18} />
                                     </a>
                                 );

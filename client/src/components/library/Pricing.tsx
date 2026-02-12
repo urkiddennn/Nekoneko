@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSite } from '../../context/useSite';
 
 interface PricingTier {
     name: string;
@@ -15,6 +16,8 @@ interface PricingProps {
 }
 
 const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid' }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
     const displayPlans = plans || tiers || [];
 
     if (variant === 'list') {
@@ -209,32 +212,32 @@ const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid'
     if (variant === 'pixel') {
         const pixelFont = "'Press Start 2P', monospace";
         return (
-            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
-                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
-                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-                <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider mb-8" style={{ fontFamily: pixelFont }}>{title}</h2>
+            <div className="relative bg-[#0a0a2e] border-[3px] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
+                <span className="absolute top-2 left-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+                <span className="absolute top-2 right-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+                <h2 className="text-xs md:text-sm uppercase tracking-wider mb-8" style={{ fontFamily: pixelFont, color: primaryColor }}>{title}</h2>
                 <div className={`grid ${gridCols} gap-4`}>
                     {displayPlans.map((tier, idx) => (
-                        <div key={idx} className={`border-2 ${tier.isPopular ? 'border-[#00ff41]' : 'border-[#00ff41]/40'} bg-[#1a1a4e] p-6 shadow-[3px_3px_0px_0px_#00ff41] flex flex-col gap-6`}>
+                        <div key={idx} className={`border-2 bg-[#1a1a4e] p-6 shadow-[3px_3px_0px_0px] flex flex-col gap-6`} style={{ borderColor: tier.isPopular ? primaryColor : `${primaryColor}66`, boxShadow: `3px 3px 0px 0px ${primaryColor}` }}>
                             <div>
-                                <h3 className="text-[8px] text-[#00ff41]/50 uppercase tracking-widest mb-2" style={{ fontFamily: pixelFont }}>{tier.name}</h3>
-                                <div className="text-lg text-[#00ff41] font-bold" style={{ fontFamily: pixelFont }}>{tier.price}</div>
+                                <h3 className="text-[8px] uppercase tracking-widest mb-2" style={{ fontFamily: pixelFont, color: `${primaryColor}80` }}>{tier.name}</h3>
+                                <div className="text-lg font-bold" style={{ fontFamily: pixelFont, color: primaryColor }}>{tier.price}</div>
                             </div>
                             <ul className="flex-1 space-y-3">
                                 {tier.features?.map((f, i) => (
-                                    <li key={i} className="text-[7px] text-[#00ff41]/60 uppercase tracking-wider flex items-center gap-2" style={{ fontFamily: pixelFont }}>
-                                        <span className="text-[#00ff41]">►</span> {f}
+                                    <li key={i} className="text-[7px] uppercase tracking-wider flex items-center gap-2" style={{ fontFamily: pixelFont, color: `${primaryColor}99` }}>
+                                        <span style={{ color: primaryColor }}>►</span> {f}
                                     </li>
                                 ))}
                             </ul>
-                            <button className="w-full py-3 text-[7px] uppercase tracking-widest border-2 border-[#00ff41] bg-[#00ff41] text-[#0a0a2e] hover:bg-transparent hover:text-[#00ff41] transition-all"
-                                style={{ fontFamily: pixelFont, cursor: 'pointer' }}>Select</button>
+                            <button className="w-full py-3 text-[7px] uppercase tracking-widest border-2 transition-all"
+                                style={{ fontFamily: pixelFont, cursor: 'pointer', backgroundColor: primaryColor, color: '#0a0a2e', borderColor: primaryColor }}>Select</button>
                         </div>
                     ))}
                 </div>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+                    style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
             </div>
         );
     }
@@ -292,7 +295,7 @@ const Pricing: React.FC<PricingProps> = ({ title, plans, tiers, variant = 'grid'
                                 </li>
                             ))}
                         </ul>
-                        <button className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] border-[3px] border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] bg-indigo-600 text-white hover:bg-indigo-700 active:scale-95 transition-all">Select Plan</button>
+                        <button className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] border-[3px] border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] text-white hover:opacity-90 active:scale-95 transition-all" style={{ backgroundColor: primaryColor }}>Select Plan</button>
                     </div>
                 ))}
             </div>

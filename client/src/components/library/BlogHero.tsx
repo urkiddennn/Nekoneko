@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSite } from '../../context/useSite';
 
 interface BlogHeroProps {
     title?: string;
@@ -19,6 +20,9 @@ const BlogHero: React.FC<BlogHeroProps> = ({
     image = "https://images.unsplash.com/photo-1499750310107-5fef28a66643",
     variant = 'default'
 }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary;
+
     const serifFont = "'Playfair Display', 'Georgia', serif";
     const bodyFont = "'Lora', 'Georgia', serif";
     const pixelFont = "'Press Start 2P', monospace";
@@ -48,24 +52,24 @@ const BlogHero: React.FC<BlogHeroProps> = ({
 
     if (variant === 'pixel') {
         return (
-            <div className="bg-[#0a0a2e] border-4 border-[#00ff41] p-12 text-[#00ff41] relative overflow-hidden shadow-[0_0_30px_rgba(0,255,65,0.2)]">
-                <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+            <div className="border-4 p-12 relative overflow-hidden bg-[#0a0a2e]" style={{ borderColor: primaryColor, boxShadow: `0 0 30px ${primaryColor}33` }}>
+                <div className="absolute inset-0 pointer-events-none opacity-[0.05]" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
                 <div className="relative z-10 space-y-8">
                     <div className="flex items-center gap-3">
-                        <span className="px-2 py-1 border border-[#00ff41] text-[8px] uppercase animate-pulse" style={{ fontFamily: pixelFont }}>{category}</span>
-                        <span className="text-[8px]" style={{ fontFamily: pixelFont }}>[{date}]</span>
+                        <span className="px-2 py-1 border text-[8px] uppercase animate-pulse" style={{ fontFamily: pixelFont, borderColor: primaryColor, color: primaryColor }}>{category}</span>
+                        <span className="text-[8px]" style={{ fontFamily: pixelFont, color: primaryColor }}>[{date}]</span>
                     </div>
-                    <h1 className="text-3xl md:text-5xl uppercase tracking-wider leading-tight" style={{ fontFamily: pixelFont }}>
+                    <h1 className="text-3xl md:text-5xl uppercase tracking-wider leading-tight" style={{ fontFamily: pixelFont, color: primaryColor }}>
                         {title}
                     </h1>
-                    <p className="text-sm md:text-lg opacity-80 leading-relaxed max-w-3xl" style={{ fontFamily: pixelFont }}>
+                    <p className="text-sm md:text-lg opacity-80 leading-relaxed max-w-3xl" style={{ fontFamily: pixelFont, color: primaryColor }}>
                         {subtitle}
                     </p>
                     <div className="pt-6 flex items-center gap-4">
-                        <div className="w-12 h-12 bg-[#00ff41] border-2 border-[#00ff41] flex items-center justify-center">
+                        <div className="w-12 h-12 border-2 flex items-center justify-center" style={{ backgroundColor: primaryColor, borderColor: primaryColor }}>
                             <span className="text-[#0a0a2e] text-lg font-bold">?</span>
                         </div>
-                        <span className="text-[10px] uppercase" style={{ fontFamily: pixelFont }}>AUTHOR: {author}</span>
+                        <span className="text-[10px] uppercase" style={{ fontFamily: pixelFont, color: primaryColor }}>AUTHOR: {author}</span>
                     </div>
                 </div>
             </div>
@@ -127,7 +131,7 @@ const BlogHero: React.FC<BlogHeroProps> = ({
     return (
         <div className="space-y-12">
             <div className="text-center space-y-6 max-w-4xl mx-auto">
-                <span className="text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-4 py-2 rounded-full">
+                <span className="text-xs font-black uppercase tracking-[0.3em] px-4 py-2 rounded-full" style={{ backgroundColor: `${primaryColor}1a`, color: primaryColor }}>
                     {category}
                 </span>
                 <h1 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white tracking-tighter leading-[1.1]">

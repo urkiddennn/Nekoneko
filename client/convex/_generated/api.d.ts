@@ -21,8 +21,10 @@ import type * as schema_analytics from "../schema/analytics.js";
 import type * as schema_feedback from "../schema/feedback.js";
 import type * as schema_messages from "../schema/messages.js";
 import type * as schema_projects from "../schema/projects.js";
+import type * as schema_subscribe from "../schema/subscribe.js";
 import type * as schema_unverified_users from "../schema/unverified_users.js";
 import type * as schema_users from "../schema/users.js";
+import type * as subscriber from "../subscriber.js";
 import type * as utils from "../utils.js";
 import type * as validation from "../validation.js";
 
@@ -46,8 +48,10 @@ declare const fullApi: ApiFromModules<{
   "schema/feedback": typeof schema_feedback;
   "schema/messages": typeof schema_messages;
   "schema/projects": typeof schema_projects;
+  "schema/subscribe": typeof schema_subscribe;
   "schema/unverified_users": typeof schema_unverified_users;
   "schema/users": typeof schema_users;
+  subscriber: typeof subscriber;
   utils: typeof utils;
   validation: typeof validation;
 }>;

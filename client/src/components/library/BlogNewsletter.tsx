@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSite } from '../../context/useSite';
 
 interface BlogNewsletterProps {
     title?: string;
@@ -13,6 +14,9 @@ const BlogNewsletter: React.FC<BlogNewsletterProps> = ({
     button_text = "Subscribe Now",
     variant = 'default'
 }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary;
+
     const serifFont = "'Playfair Display', 'Georgia', serif";
     const bodyFont = "'Lora', 'Georgia', serif";
     const pixelFont = "'Press Start 2P', monospace";
@@ -43,21 +47,25 @@ const BlogNewsletter: React.FC<BlogNewsletterProps> = ({
 
     if (variant === 'pixel') {
         return (
-            <div className="bg-[#0a0a2e] border-[3px] border-[#00ff41] p-10 text-[#00ff41] relative shadow-[8px_8px_0px_0px_rgba(0,255,101,1)]">
+            <div className="border-[3px] p-10 relative bg-[#0a0a2e]" style={{ borderColor: primaryColor, boxShadow: `8px 8px 0px 0px ${primaryColor}` }}>
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <h2 className="text-lg md:text-2xl uppercase tracking-tighter bg-[#00ff41] text-[#0a0a2e] inline-block px-4 py-1" style={{ fontFamily: pixelFont }}>{title}</h2>
-                        <p className="text-xs md:text-sm leading-relaxed opacity-80" style={{ fontFamily: pixelFont }}>{description}</p>
+                        <h2 className="text-lg md:text-2xl uppercase tracking-tighter inline-block px-4 py-1" style={{ fontFamily: pixelFont, backgroundColor: primaryColor, color: '#0a0a2e' }}>{title}</h2>
+                        <p className="text-xs md:text-sm leading-relaxed opacity-80" style={{ fontFamily: pixelFont, color: primaryColor }}>{description}</p>
                     </div>
                     <div className="flex flex-col gap-4">
                         <input
                             type="email"
                             placeholder="ENTER EMAIL ADDRESS"
-                            className="bg-[#1a1a4e] border-2 border-[#00ff41]/50 px-6 py-4 outline-none text-[10px] placeholder:opacity-30 text-[#00ff41] focus:border-[#00ff41]"
-                            style={{ fontFamily: pixelFont }}
+                            className="bg-[#1a1a4e] border-2 px-6 py-4 outline-none text-[10px] placeholder:opacity-30"
+                            style={{ fontFamily: pixelFont, borderColor: `${primaryColor}80`, color: primaryColor }}
+                            onFocus={(e) => e.currentTarget.style.borderColor = primaryColor}
+                            onBlur={(e) => e.currentTarget.style.borderColor = `${primaryColor}80`}
                         />
-                        <button className="w-full bg-[#00ff41] text-[#0a0a2e] py-4 text-[10px] uppercase font-bold hover:shadow-[0_0_20px_rgba(0,255,101,0.5)] transition-all"
-                            style={{ fontFamily: pixelFont }}>
+                        <button className="w-full py-4 text-[10px] uppercase font-bold transition-all"
+                            style={{ fontFamily: pixelFont, backgroundColor: primaryColor, color: '#0a0a2e' }}
+                            onMouseOver={(e) => e.currentTarget.style.boxShadow = `0 0 20px ${primaryColor}80`}
+                            onMouseOut={(e) => e.currentTarget.style.boxShadow = 'none'}>
                             &gt; {button_text}
                         </button>
                     </div>
@@ -68,7 +76,7 @@ const BlogNewsletter: React.FC<BlogNewsletterProps> = ({
 
     if (variant === 'glassmorphism') {
         return (
-            <div className="relative p-12 md:p-20 rounded-[4rem] bg-indigo-600 overflow-hidden shadow-2xl">
+            <div className="relative p-12 md:p-20 rounded-[4rem] overflow-hidden shadow-2xl" style={{ backgroundColor: primaryColor }}>
                 <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/30 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4" />
                 <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-400/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4" />
 
@@ -84,7 +92,8 @@ const BlogNewsletter: React.FC<BlogNewsletterProps> = ({
                                 placeholder="email@example.com"
                                 className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none text-white font-bold placeholder:text-white/30 focus:bg-white/10 transition-all"
                             />
-                            <button className="w-full bg-white text-indigo-600 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-indigo-950/20">
+                            <button className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-indigo-950/20"
+                                style={{ backgroundColor: 'white', color: primaryColor }}>
                                 {button_text}
                             </button>
                         </div>
@@ -104,9 +113,15 @@ const BlogNewsletter: React.FC<BlogNewsletterProps> = ({
                 <input
                     type="email"
                     placeholder="Enter your email"
-                    className="w-full sm:w-80 bg-slate-900 dark:bg-slate-50 border border-slate-800 dark:border-slate-200 rounded-2xl px-6 py-4 outline-none text-white dark:text-slate-950 font-bold focus:border-indigo-500 dark:focus:border-indigo-400 transition-all"
+                    className="w-full sm:w-80 bg-slate-900 dark:bg-slate-50 border border-slate-800 dark:border-slate-200 rounded-2xl px-6 py-4 outline-none text-white dark:text-slate-950 font-bold transition-all"
+                    style={{ borderColor: '' }}
+                    onFocus={(e) => e.currentTarget.style.borderColor = primaryColor}
+                    onBlur={(e) => e.currentTarget.style.borderColor = ''}
                 />
-                <button className="bg-indigo-600 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-600/20">
+                <button className="px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-xs transition-all shadow-xl"
+                    style={{ backgroundColor: primaryColor, color: 'white', boxShadow: `0 10px 20px -10px ${primaryColor}66` }}
+                    onMouseOver={(e) => e.currentTarget.style.filter = 'brightness(1.1)'}
+                    onMouseOut={(e) => e.currentTarget.style.filter = 'none'}>
                     {button_text}
                 </button>
             </div>

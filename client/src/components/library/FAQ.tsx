@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSite } from '../../context/useSite';
 import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 
 interface FAQItem {
@@ -19,6 +20,8 @@ const FAQ: React.FC<FAQProps> = ({
     items = [],
     variant = 'accordion',
 }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary;
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     const toggleAccordion = (index: number) => {
@@ -49,11 +52,11 @@ const FAQ: React.FC<FAQProps> = ({
                             onClick={() => toggleAccordion(index)}
                             className="w-full text-left px-6 py-5 flex items-center justify-between group"
                         >
-                            <span className={`font-bold transition-colors ${isOpen ? 'text-indigo-600' : 'text-slate-950'} ${isGlass && 'text-white'}`}>
+                            <span className={`font-bold transition-colors ${isGlass && 'text-white'}`} style={{ color: isOpen ? primaryColor : (isGlass ? 'white' : 'inherit') }}>
                                 {item.question}
                             </span>
                             <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                                {isOpen ? <ChevronUp size={20} className="text-indigo-600" /> : <ChevronDown size={20} className="text-slate-400 group-hover:text-slate-950" />}
+                                {isOpen ? <ChevronUp size={20} style={{ color: primaryColor }} /> : <ChevronDown size={20} className="text-slate-400 group-hover:text-slate-950" />}
                             </div>
                         </button>
                         <div
@@ -97,7 +100,7 @@ const FAQ: React.FC<FAQProps> = ({
                         `}
                         style={{ animationDelay: `${index * 100}ms` }}
                     >
-                        <div className={`p-3 rounded-xl w-fit ${isGlass ? 'bg-white/10' : 'bg-indigo-50 text-indigo-600'}`}>
+                        <div className={`p-3 rounded-xl w-fit ${isGlass ? 'bg-white/10' : ''}`} style={{ backgroundColor: isGlass ? '' : `${primaryColor}1a`, color: isGlass ? '' : primaryColor }}>
                             <HelpCircle size={24} />
                         </div>
                         <h3 className={`text-lg font-black tracking-tight ${isGlass ? 'text-white' : 'text-slate-900 uppercase italic'}`}>
@@ -146,16 +149,16 @@ const FAQ: React.FC<FAQProps> = ({
     if (variant === 'pixel') {
         const pixelFont = "'Press Start 2P', monospace";
         return (
-            <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
-                style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
-                <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-                <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+            <div className="relative bg-[#0a0a2e] border-[3px] p-6 md:p-8 overflow-hidden"
+                style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
+                <span className="absolute top-2 left-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+                <span className="absolute top-2 right-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
                 {title && (
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
-                            <HelpCircle size={14} className="text-[#00ff41]" />
+                        <div className="w-8 h-8 border-2 flex items-center justify-center" style={{ borderColor: primaryColor, backgroundColor: `${primaryColor}33` }}>
+                            <HelpCircle size={14} style={{ color: primaryColor }} />
                         </div>
-                        <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                        <h2 className="text-xs md:text-sm uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>
                             {title}
                         </h2>
                     </div>
@@ -164,18 +167,18 @@ const FAQ: React.FC<FAQProps> = ({
                     {items.map((item, index) => {
                         const isOpen = openIndex === index;
                         return (
-                            <div key={index} className="border-2 border-[#00ff41]/30 bg-[#1a1a4e]">
+                            <div key={index} className="border-2 bg-[#1a1a4e]" style={{ borderColor: `${primaryColor}4d` }}>
                                 <button onClick={() => toggleAccordion(index)}
                                     className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 group">
-                                    <span className="text-[8px] md:text-[10px] text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                                    <span className="text-[8px] md:text-[10px] uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                         {item.question}
                                     </span>
-                                    <span className="text-[#00ff41]/60 text-xs" style={{ fontFamily: pixelFont }}>
+                                    <span className="text-xs opacity-60" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                         {isOpen ? '[-]' : '[+]'}
                                     </span>
                                 </button>
-                                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 py-4 px-5 border-t border-[#00ff41]/20' : 'max-h-0'}`}>
-                                    <p className="text-[8px] text-[#00ff41]/50 leading-relaxed" style={{ fontFamily: pixelFont }}>
+                                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96 py-4 px-5 border-t' : 'max-h-0'}`} style={{ borderTopColor: `${primaryColor}33` }}>
+                                    <p className="text-[8px] leading-relaxed opacity-50" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                         {item.answer}
                                     </p>
                                 </div>
@@ -184,7 +187,7 @@ const FAQ: React.FC<FAQProps> = ({
                     })}
                 </div>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+                    style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
             </div>
         );
     }
@@ -214,11 +217,17 @@ const FAQ: React.FC<FAQProps> = ({
                                 onClick={() => toggleAccordion(index)}
                                 className="w-full text-left py-12 flex flex-col md:flex-row md:items-center justify-between gap-8 group"
                             >
-                                <span className="text-[#ff5a5f] text-xs font-black uppercase tracking-[0.5em]">0{index + 1}</span>
-                                <span className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter group-hover:text-[#ff5a5f] transition-colors flex-1">
+                                <span className="text-xs font-black uppercase tracking-[0.5em]" style={{ color: primaryColor }}>0{index + 1}</span>
+                                <span className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter transition-colors flex-1 group-hover:text-inherit"
+                                    style={{ color: '' }}
+                                    onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                    onMouseOut={(e) => e.currentTarget.style.color = ''}>
                                     {item.question}
                                 </span>
-                                <div className={`w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white transition-all ${openIndex === index ? 'bg-[#ff5a5f] border-[#ff5a5f] rotate-180' : 'group-hover:border-[#ff5a5f]'}`}>
+                                <div className={`w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white transition-all ${openIndex === index ? 'rotate-180' : ''}`}
+                                    style={{ backgroundColor: openIndex === index ? primaryColor : '', borderColor: openIndex === index ? primaryColor : '' }}
+                                    onMouseOver={(e) => { if (openIndex !== index) e.currentTarget.style.borderColor = primaryColor }}
+                                    onMouseOut={(e) => { if (openIndex !== index) e.currentTarget.style.borderColor = '' }}>
                                     <ChevronDown size={24} />
                                 </div>
                             </button>
@@ -236,7 +245,7 @@ const FAQ: React.FC<FAQProps> = ({
                     {items.map((item, index) => (
                         <div key={index} className="p-10 bg-white dark:bg-white/5 backdrop-blur-md border border-slate-100 dark:border-white/10 rounded-[3rem] shadow-xl hover:-translate-y-2 transition-all duration-300">
                             <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-4">
-                                <span className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-[10px]">{index + 1}</span>
+                                <span className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[10px]" style={{ backgroundImage: `linear-gradient(to bottom right, ${primaryColor}, #7c3bed)` }}>{index + 1}</span>
                                 {item.question}
                             </h3>
                             <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed">{item.answer}</p>
@@ -249,8 +258,11 @@ const FAQ: React.FC<FAQProps> = ({
                     <div className="max-w-4xl mx-auto space-y-12">
                         {items.map((item, index) => (
                             <div key={index} className="relative pl-12 group">
-                                <div className="absolute left-[-45px] top-4 w-2.5 h-2.5 rounded-full bg-[#ff5a5f] shadow-[0_0_10px_#ff5a5f] hidden md:block" />
-                                <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4 group-hover:text-[#ff5a5f] transition-colors">{item.question}</h3>
+                                <div className="absolute left-[-45px] top-4 w-2.5 h-2.5 rounded-full hidden md:block" style={{ backgroundColor: primaryColor, boxShadow: `0 0 10px ${primaryColor}` }} />
+                                <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-4 transition-colors group-hover:text-inherit"
+                                    style={{ color: '' }}
+                                    onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                    onMouseOut={(e) => e.currentTarget.style.color = ''}>{item.question}</h3>
                                 <p className="text-slate-400 font-medium leading-relaxed max-w-2xl">{item.answer}</p>
                             </div>
                         ))}

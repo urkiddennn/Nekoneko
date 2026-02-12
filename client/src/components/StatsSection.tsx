@@ -1,10 +1,7 @@
 import React from "react";
 import { Users, Zap, Star } from "lucide-react";
 
-/**
- * StatsSection component for the landing page.
- * Displays key metrics with icons, animations, and a premium aesthetic.
- */
+// stats sections
 const StatsSection: React.FC = () => {
   return (
     <section className="py-24 bg-white border-y border-gray-100 overflow-hidden">
@@ -14,7 +11,8 @@ const StatsSection: React.FC = () => {
             Our results in numbers
           </h2>
           <p className="text-gray-500 font-medium max-w-lg mx-auto">
-            Powering modern production sites with speed, reliability, and precision.
+            Powering modern production sites with speed, reliability, and
+            precision.
           </p>
         </div>
 
@@ -61,7 +59,7 @@ const StatCard: React.FC<StatCardProps> = ({
   number,
   unit,
   title,
-  index
+  index,
 }) => (
   <div
     className="group relative p-8 bg-gray-50/50 rounded border border-gray-100 hover:border-gray-400 hover:bg-white transition-all animate-in fade-in slide-in-from-bottom-8 duration-1000"
@@ -75,7 +73,9 @@ const StatCard: React.FC<StatCardProps> = ({
       <div className="space-y-1">
         <div className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 flex items-baseline gap-1 leading-none">
           {number}
-          <span className="text-gray-600/30 group-hover:text-gray-600 transition-colors duration-500">{unit}</span>
+          <span className="text-gray-600/30 group-hover:text-gray-600 transition-colors duration-500">
+            {unit}
+          </span>
         </div>
         <h3 className="font-black text-lg tracking-tight text-slate-600 group-hover:text-slate-900 transition-colors duration-300">
           {title}

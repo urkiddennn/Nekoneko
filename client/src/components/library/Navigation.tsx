@@ -1,4 +1,5 @@
 import React from "react";
+import { useSite } from "../../context/useSite";
 
 interface Link {
   label: string;
@@ -41,6 +42,8 @@ const Navigation: React.FC<NavigationProps> = ({
   styles,
   variant = "default",
 }) => {
+  const { siteConfig } = useSite();
+  const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
   const isBrutalist = variant === "brutalist";
   const isOutlineMinimal = variant === "outline_minimal";
   const isImpact = variant === "impact";
@@ -64,21 +67,19 @@ const Navigation: React.FC<NavigationProps> = ({
 
   // Determine button styles - Button should generally keep its own contrast
   const buttonTextColorClass = "text-white";
-
-  // Allow user to override button background
   const buttonBackgroundColorClass =
     styles?.buttonBackgroundColor &&
       !isDirectCssColorValue(styles.buttonBackgroundColor)
       ? styles.buttonBackgroundColor
-      : !styles?.buttonBackgroundColor
-        ? "bg-indigo-600 hover:bg-indigo-700"
-        : "";
+      : "";
 
-  const buttonBackgroundColorStyle =
+  const buttonBackgroundColorStyle: React.CSSProperties =
     styles?.buttonBackgroundColor &&
       isDirectCssColorValue(styles.buttonBackgroundColor)
       ? { backgroundColor: styles.buttonBackgroundColor }
-      : {};
+      : !styles?.buttonBackgroundColor
+        ? { backgroundColor: primaryColor }
+        : {};
 
   const buttonBorderClass =
     styles?.borderColor && !isDirectCssColorValue(styles.borderColor)
@@ -137,13 +138,13 @@ const Navigation: React.FC<NavigationProps> = ({
   if (variant === "pixel") {
     const pixelFont = "'Press Start 2P', monospace";
     return (
-      <nav className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] px-6 py-3 overflow-hidden"
-        style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
-        <span className="absolute top-1 left-2 text-[#00ff41]/40 text-[8px] select-none" style={{ fontFamily: pixelFont }}>+</span>
-        <span className="absolute top-1 right-2 text-[#00ff41]/40 text-[8px] select-none" style={{ fontFamily: pixelFont }}>+</span>
+      <nav className="relative bg-[#0a0a2e] border-[3px] px-6 py-3 overflow-hidden"
+        style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
+        <span className="absolute top-1 left-2 text-[8px] select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+        <span className="absolute top-1 right-2 text-[8px] select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
         <div className="flex items-center justify-between">
-          <div className="text-xs text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>Portfolio</div>
-          <button className="md:hidden p-2 text-[#00ff41]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <div className="text-xs uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>Portfolio</div>
+          <button className="md:hidden p-2" style={{ color: primaryColor }} onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               {isMenuOpen ? <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></> : <><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>}
             </svg>
@@ -151,14 +152,14 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="hidden md:flex items-center gap-6">
             {links.map((link, idx) => (
               <a key={idx} href={getLinkUrl(link)} onClick={(e) => handleLinkClick(e, link.url || link.href)}
-                className="text-[8px] text-[#00ff41]/70 uppercase tracking-widest hover:text-[#00ff41] transition-colors"
-                style={{ fontFamily: pixelFont }}>
+                className="text-[8px] uppercase tracking-widest transition-colors"
+                style={{ fontFamily: pixelFont, color: `${primaryColor}b3` }}>
                 {link.label}
               </a>
             ))}
             {showResumeButton && (
-              <button className="px-4 py-2 text-[8px] uppercase tracking-widest border-2 border-[#00ff41] bg-[#00ff41] text-[#0a0a2e] hover:bg-transparent hover:text-[#00ff41] transition-all"
-                style={{ fontFamily: pixelFont, cursor: 'pointer' }}>Resume</button>
+              <button className="px-4 py-2 text-[8px] uppercase tracking-widest border-2 bg-transparent transition-all"
+                style={{ fontFamily: pixelFont, cursor: 'pointer', backgroundColor: primaryColor, color: '#0a0a2e', borderColor: primaryColor }}>Resume</button>
             )}
           </div>
         </div>
@@ -166,13 +167,13 @@ const Navigation: React.FC<NavigationProps> = ({
           <div className="md:hidden pt-4 pb-2 flex flex-col gap-3">
             {links.map((link, idx) => (
               <a key={idx} href={getLinkUrl(link)} onClick={(e) => handleLinkClick(e, link.url || link.href)}
-                className="text-[8px] text-[#00ff41]/70 uppercase tracking-widest hover:text-[#00ff41] block py-1"
-                style={{ fontFamily: pixelFont }}>{link.label}</a>
+                className="text-[8px] uppercase tracking-widest block py-1"
+                style={{ fontFamily: pixelFont, color: `${primaryColor}b3` }}>{link.label}</a>
             ))}
           </div>
         )}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+          style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
       </nav>
     );
   }
@@ -287,7 +288,10 @@ const Navigation: React.FC<NavigationProps> = ({
                 key={idx}
                 href={linkUrl}
                 onClick={(e) => handleLinkClick(e, link.url || link.href)}
-                className={`text-sm tracking-widest transition-colors hover:text-indigo-600 opacity-80 hover:opacity-100 text-inherit ${isImpact || variant === "connected_line" ? "font-black uppercase tracking-[0.2em]" : variant === "creative_gradient" ? "font-bold" : "font-medium"}`}
+                className={`text-sm tracking-widest transition-colors opacity-80 hover:opacity-100 text-inherit ${isImpact || variant === "connected_line" ? "font-black uppercase tracking-[0.2em]" : variant === "creative_gradient" ? "font-bold" : "font-medium"}`}
+                style={{}}
+                onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                onMouseOut={(e) => e.currentTarget.style.color = ''}
               >
                 {link.label}
               </a>
@@ -317,7 +321,10 @@ const Navigation: React.FC<NavigationProps> = ({
               <a
                 key={idx}
                 href={linkUrl}
-                className="block py-2 text-base font-medium transition-colors hover:text-indigo-600 text-inherit"
+                className="block py-2 text-base font-medium transition-colors text-inherit"
+                style={{ color: '' }}
+                onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                onMouseOut={(e) => e.currentTarget.style.color = ''}
                 onClick={(e) => handleLinkClick(e, link.url || link.href)}
               >
                 {link.label}

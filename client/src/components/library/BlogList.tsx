@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSite } from '../../context/useSite';
 
 interface Post {
     title: string;
@@ -21,6 +22,9 @@ const BlogList: React.FC<BlogListProps> = ({
     posts = [],
     variant = 'grid'
 }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary;
+
     const serifFont = "'Playfair Display', 'Georgia', serif";
     const bodyFont = "'Lora', 'Georgia', serif";
     const pixelFont = "'Press Start 2P', monospace";
@@ -56,22 +60,22 @@ const BlogList: React.FC<BlogListProps> = ({
 
     if (variant === 'pixel_list') {
         return (
-            <div className="bg-[#0a0a2e] border-4 border-[#00ff41] p-10 space-y-12 shadow-[0_0_30px_rgba(0,255,65,0.1)]">
-                <h2 className="text-lg md:text-2xl text-[#00ff41] uppercase tracking-[0.2em] border-b-2 border-[#00ff41] pb-6" style={{ fontFamily: pixelFont }}>{title}</h2>
+            <div className="border-4 p-10 space-y-12 bg-[#0a0a2e]" style={{ borderColor: primaryColor, boxShadow: `0 0 30px ${primaryColor}1a` }}>
+                <h2 className="text-lg md:text-2xl uppercase tracking-[0.2em] border-b-2 pb-6" style={{ fontFamily: pixelFont, color: primaryColor, borderColor: primaryColor }}>{title}</h2>
                 <div className="space-y-8">
                     {posts.map((post, idx) => (
-                        <article key={idx} className="border-2 border-[#00ff41]/30 p-6 flex flex-col md:flex-row gap-8 hover:border-[#00ff41] transition-all group relative overflow-hidden">
-                            <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
-                            <div className="w-full md:w-32 h-32 flex-shrink-0 border-2 border-[#00ff41]/40 overflow-hidden bg-[#1a1a4e]" style={{ imageRendering: 'pixelated' }}>
+                        <article key={idx} className="border-2 p-6 flex flex-col md:flex-row gap-8 transition-all group relative overflow-hidden" style={{ borderColor: `${primaryColor}4d` }} onMouseOver={(e) => e.currentTarget.style.borderColor = primaryColor} onMouseOut={(e) => e.currentTarget.style.borderColor = `${primaryColor}4d`}>
+                            <div className="absolute inset-0 pointer-events-none opacity-[0.03]" style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
+                            <div className="w-full md:w-32 h-32 flex-shrink-0 border-2 overflow-hidden bg-[#1a1a4e]" style={{ imageRendering: 'pixelated', borderColor: `${primaryColor}66` }}>
                                 <img src={post.image} alt={post.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" />
                             </div>
                             <div className="flex-1 space-y-4 relative z-10">
-                                <div className="flex items-center gap-4 text-[8px] opacity-60" style={{ fontFamily: pixelFont }}>
+                                <div className="flex items-center gap-4 text-[8px] opacity-60" style={{ fontFamily: pixelFont, color: primaryColor }}>
                                     <span>{post.date}</span>
                                     <span>#{post.author}</span>
                                 </div>
-                                <h3 className="text-sm md:text-lg text-[#00ff41] uppercase leading-relaxed tracking-wider group-hover:translate-x-2 transition-transform" style={{ fontFamily: pixelFont }}>{post.title}</h3>
-                                <p className="text-[10px] text-[#00ff41]/70 leading-relaxed max-w-2xl" style={{ fontFamily: pixelFont }}>{post.summary}</p>
+                                <h3 className="text-sm md:text-lg uppercase leading-relaxed tracking-wider group-hover:translate-x-2 transition-transform" style={{ fontFamily: pixelFont, color: primaryColor }}>{post.title}</h3>
+                                <p className="text-[10px] leading-relaxed max-w-2xl" style={{ fontFamily: pixelFont, color: `${primaryColor}b3` }}>{post.summary}</p>
                             </div>
                         </article>
                     ))}
@@ -118,12 +122,16 @@ const BlogList: React.FC<BlogListProps> = ({
                             <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                         <div className="flex-1 space-y-4 pt-2">
-                            <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">
+                            <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest" style={{ color: primaryColor }}>
                                 <span>{post.category || 'ARTICLE'}</span>
                                 <span className="w-1 h-1 bg-slate-200 dark:bg-slate-800 rounded-full" />
                                 <span className="text-slate-400">{post.date}</span>
                             </div>
-                            <h3 className="text-2xl font-black text-slate-950 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors">{post.title}</h3>
+                            <h3 className="text-2xl font-black text-slate-950 dark:text-white tracking-tight group-hover:text-indigo-600 transition-colors"
+                                style={{ color: '' }}
+                                onMouseOver={(e) => e.currentTarget.style.color = primaryColor}
+                                onMouseOut={(e) => e.currentTarget.style.color = ''}
+                            >{post.title}</h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed line-clamp-2">{post.summary}</p>
                             <div className="flex items-center gap-3 pt-2">
                                 <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700" />

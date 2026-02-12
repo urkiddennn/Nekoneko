@@ -14,16 +14,20 @@ interface ConnectWithMeProps {
     showLineDecoration?: boolean;
 }
 
-const DecorativeLine = ({ position = "right" }: { position?: "left" | "right" }) => (
-    <div className={`absolute ${position === "right" ? "right-0 md:right-10" : "left-0 md:left-10"} top-0 bottom-0 flex flex-col items-center justify-center pointer-events-none opacity-40 md:opacity-100`}>
-        <div className="w-[1px] h-full bg-slate-400 dark:bg-slate-700 relative flex flex-col items-center py-20 gap-20">
-            <div className="w-3 h-3 rounded-full bg-[#ff5a5f] shadow-[0_0_10px_#ff5a5f]" />
-            <div className="w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 bg-transparent" />
-            <div className="w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 bg-transparent" />
-            <div className="w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 bg-transparent" />
+const DecorativeLine = ({ position = "right" }: { position?: "left" | "right" }) => {
+    const { siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
+    return (
+        <div className={`absolute ${position === "right" ? "right-0 md:right-10" : "left-0 md:left-10"} top-0 bottom-0 flex flex-col items-center justify-center pointer-events-none opacity-40 md:opacity-100`}>
+            <div className="w-[1px] h-full bg-slate-400 dark:bg-slate-700 relative flex flex-col items-center py-20 gap-20">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: primaryColor, boxShadow: `0 0 10px ${primaryColor}` }} />
+                <div className="w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 bg-transparent" />
+                <div className="w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 bg-transparent" />
+                <div className="w-3 h-3 rounded-full border border-slate-400 dark:border-slate-500 bg-transparent" />
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
     title,
@@ -34,7 +38,8 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
     variant = "default",
     showLineDecoration = true,
 }) => {
-    const { projectId } = useSite();
+    const { projectId, siteConfig } = useSite();
+    const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
     const sendMessage = useMutation(api.messages.sendMessage);
 
     const [email, setEmail] = useState("");
@@ -95,7 +100,7 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                         <h2 className="text-5xl md:text-7xl font-black text-slate-950 dark:text-white uppercase tracking-tighter italic">
                             {title}
                         </h2>
-                        <div className="h-2 w-32 bg-[#ff5a5f] border-2 border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)]" />
+                        <div className="h-2 w-32 border-2 border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)]" style={{ backgroundColor: primaryColor }} />
                     </div>
 
                     <form className="space-y-6" onSubmit={handleSubmit}>
@@ -106,7 +111,10 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder={emailPlaceholder}
                                 required
-                                className="w-full px-6 py-4 bg-white dark:bg-slate-900 border-[3px] border-slate-950 dark:border-white text-lg font-bold placeholder:text-slate-400 focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(255,90,95,1)] transition-all"
+                                className="w-full px-6 py-4 bg-white dark:bg-slate-900 border-[3px] border-slate-950 dark:border-white text-lg font-bold placeholder:text-slate-400 focus:outline-none transition-all"
+                                style={{ boxShadow: '' }}
+                                onFocus={(e) => e.currentTarget.style.boxShadow = `6px 6px 0px 0px ${primaryColor}`}
+                                onBlur={(e) => e.currentTarget.style.boxShadow = 'none'}
                             />
                             <textarea
                                 value={message}
@@ -114,14 +122,18 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                                 placeholder={messagePlaceholder}
                                 rows={4}
                                 required
-                                className="w-full px-6 py-4 bg-white dark:bg-slate-900 border-[3px] border-slate-950 dark:border-white text-lg font-bold placeholder:text-slate-400 focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(255,90,95,1)] transition-all resize-none"
+                                className="w-full px-6 py-4 bg-white dark:bg-slate-900 border-[3px] border-slate-950 dark:border-white text-lg font-bold placeholder:text-slate-400 focus:outline-none transition-all resize-none"
+                                style={{ boxShadow: '' }}
+                                onFocus={(e) => e.currentTarget.style.boxShadow = `6px 6px 0px 0px ${primaryColor}`}
+                                onBlur={(e) => e.currentTarget.style.boxShadow = 'none'}
                             />
                         </div>
                         <div className="flex flex-col gap-4">
                             <button
                                 type="submit"
                                 disabled={status === "loading"}
-                                className="px-10 py-5 bg-[#ff5a5f] text-white text-xl font-black uppercase tracking-widest border-[3px] border-slate-950 dark:border-white shadow-[6px_6px_0px_0px_rgba(2,6,23,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-3 group disabled:opacity-50"
+                                className="px-10 py-5 text-white text-xl font-black uppercase tracking-widest border-[3px] border-slate-950 dark:border-white shadow-[6px_6px_0px_0px_rgba(2,6,23,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center gap-3 group disabled:opacity-50"
+                                style={{ backgroundColor: primaryColor }}
                             >
                                 {status === "loading" ? <Loader2 className="animate-spin" /> : buttonText}
                                 <ArrowRight className="group-hover:translate-x-2 transition-transform" />
@@ -153,7 +165,10 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder={emailPlaceholder}
                             required
-                            className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#ff5a5f]/50 transition-all"
+                            className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-slate-500 focus:outline-none transition-all"
+                            style={{ boxShadow: 'none' }}
+                            onFocus={(e) => e.currentTarget.style.boxShadow = `0 0 0 2px ${primaryColor}80`}
+                            onBlur={(e) => e.currentTarget.style.boxShadow = 'none'}
                         />
                         <textarea
                             value={message}
@@ -161,13 +176,17 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                             placeholder={messagePlaceholder}
                             rows={4}
                             required
-                            className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#ff5a5f]/50 transition-all resize-none"
+                            className="w-full px-8 py-5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-slate-500 focus:outline-none transition-all resize-none"
+                            style={{ boxShadow: 'none' }}
+                            onFocus={(e) => e.currentTarget.style.boxShadow = `0 0 0 2px ${primaryColor}80`}
+                            onBlur={(e) => e.currentTarget.style.boxShadow = 'none'}
                         />
                         <div className="space-y-4">
                             <button
                                 type="submit"
                                 disabled={status === "loading"}
-                                className="w-full py-5 bg-gradient-to-r from-[#ff5a5f] to-rose-600 text-white font-black uppercase tracking-[0.2em] rounded-2xl shadow-lg shadow-rose-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
+                                className="w-full py-5 text-white font-black uppercase tracking-[0.2em] rounded-2xl transition-all flex items-center justify-center gap-3 group disabled:opacity-50"
+                                style={{ backgroundImage: `linear-gradient(to right, ${primaryColor}, #e11d48)`, boxShadow: `0 10px 15px -3px ${primaryColor}33` }}
                             >
                                 {status === "loading" ? <Loader2 className="animate-spin" size={20} /> : buttonText}
                                 <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -232,44 +251,48 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
         const pixelFont = "'Press Start 2P', monospace";
         return (
             <section className="relative overflow-hidden">
-                <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-6 md:p-8 overflow-hidden"
-                    style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
-                    <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-                    <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+                <div className="relative bg-[#0a0a2e] border-[3px] p-6 md:p-8 overflow-hidden"
+                    style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
+                    <span className="absolute top-2 left-3 text-[xs] select-none" style={{ fontFamily: pixelFont, color: `${primaryColor}66` }}>+</span>
+                    <span className="absolute top-2 right-3 text-[xs] select-none" style={{ fontFamily: pixelFont, color: `${primaryColor}66` }}>+</span>
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="w-8 h-8 border-2 border-[#00ff41] bg-[#00ff41]/20 flex items-center justify-center">
-                            <Send size={14} className="text-[#00ff41]" />
+                        <div className="w-8 h-8 border-2 flex items-center justify-center" style={{ borderColor: primaryColor, backgroundColor: `${primaryColor}33` }}>
+                            <Send size={14} style={{ color: primaryColor }} />
                         </div>
-                        <h2 className="text-xs md:text-sm text-[#00ff41] uppercase tracking-wider" style={{ fontFamily: pixelFont }}>
+                        <h2 className="text-xs md:text-sm uppercase tracking-wider" style={{ fontFamily: pixelFont, color: primaryColor }}>
                             {title}
                         </h2>
                     </div>
                     <form className="space-y-4" onSubmit={handleSubmit}>
                         <div>
-                            <label className="text-[7px] text-[#00ff41]/50 uppercase tracking-widest block mb-2" style={{ fontFamily: pixelFont }}>Email</label>
+                            <label className="text-[7px] uppercase tracking-widest block mb-2" style={{ fontFamily: pixelFont, color: `${primaryColor}80` }}>Email</label>
                             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                                 placeholder={emailPlaceholder} required
-                                className="w-full px-4 py-3 bg-[#1a1a4e] border-2 border-[#00ff41]/30 text-[#00ff41] text-[10px] placeholder:text-[#00ff41]/30 focus:outline-none focus:border-[#00ff41]"
-                                style={{ fontFamily: pixelFont }} />
+                                className="w-full px-4 py-3 bg-[#1a1a4e] border-2 text-[10px] focus:outline-none"
+                                style={{ fontFamily: pixelFont, borderColor: `${primaryColor}4d`, color: primaryColor }}
+                                onFocus={(e) => e.currentTarget.style.borderColor = primaryColor}
+                                onBlur={(e) => e.currentTarget.style.borderColor = `${primaryColor}4d`} />
                         </div>
                         <div>
-                            <label className="text-[7px] text-[#00ff41]/50 uppercase tracking-widest block mb-2" style={{ fontFamily: pixelFont }}>Message</label>
+                            <label className="text-[7px] uppercase tracking-widest block mb-2" style={{ fontFamily: pixelFont, color: `${primaryColor}80` }}>Message</label>
                             <textarea value={message} onChange={(e) => setMessage(e.target.value)}
                                 placeholder={messagePlaceholder} rows={4} required
-                                className="w-full px-4 py-3 bg-[#1a1a4e] border-2 border-[#00ff41]/30 text-[#00ff41] text-[10px] placeholder:text-[#00ff41]/30 focus:outline-none focus:border-[#00ff41] resize-none"
-                                style={{ fontFamily: pixelFont }} />
+                                className="w-full px-4 py-3 bg-[#1a1a4e] border-2 text-[10px] focus:outline-none resize-none"
+                                style={{ fontFamily: pixelFont, borderColor: `${primaryColor}4d`, color: primaryColor }}
+                                onFocus={(e) => e.currentTarget.style.borderColor = primaryColor}
+                                onBlur={(e) => e.currentTarget.style.borderColor = `${primaryColor}4d`} />
                         </div>
                         <div className="space-y-3">
                             <button type="submit" disabled={status === "loading"}
-                                className="px-6 py-3 text-[8px] uppercase tracking-widest border-2 border-[#00ff41] bg-[#00ff41] text-[#0a0a2e] hover:bg-transparent hover:text-[#00ff41] transition-all shadow-[3px_3px_0px_0px_#00ff41] disabled:opacity-50 flex items-center gap-2"
-                                style={{ fontFamily: pixelFont, cursor: 'pointer' }}>
+                                className="px-6 py-3 text-[8px] uppercase tracking-widest border-2 transition-all hover:-translate-y-0.5 disabled:opacity-50 flex items-center gap-2"
+                                style={{ fontFamily: pixelFont, cursor: 'pointer', borderColor: primaryColor, backgroundColor: primaryColor, color: '#0a0a2e', boxShadow: `3px 3px 0px 0px ${primaryColor}` }}>
                                 {status === "loading" ? <Loader2 className="animate-spin" size={14} /> : buttonText}
                             </button>
                             {renderFeedback()}
                         </div>
                     </form>
                     <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                        style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }} />
+                        style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
                 </div>
             </section>
         );
@@ -347,7 +370,7 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                         <h2 className="text-5xl md:text-6xl font-black text-white tracking-tight">
                             {title}
                         </h2>
-                        <div className="h-[3px] w-24 bg-[#ff5a5f]" />
+                        <div className="h-[3px] w-24" style={{ backgroundColor: primaryColor }} />
                     </div>
 
                     <form className="space-y-6 max-w-lg" onSubmit={handleSubmit}>
@@ -358,7 +381,10 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder={emailPlaceholder}
                                 required
-                                className="w-full px-6 py-5 bg-[#1a1a2e] border-none rounded-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-[#ff5a5f]/30"
+                                className="w-full px-6 py-5 bg-[#1a1a2e] border-none rounded-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-1"
+                                style={{ boxShadow: 'none' }}
+                                onFocus={(e) => e.currentTarget.style.boxShadow = `0 0 0 1px ${primaryColor}4d`}
+                                onBlur={(e) => e.currentTarget.style.boxShadow = 'none'}
                             />
                             <textarea
                                 value={message}
@@ -366,14 +392,18 @@ const ConnectWithMe: React.FC<ConnectWithMeProps> = ({
                                 placeholder={messagePlaceholder}
                                 rows={4}
                                 required
-                                className="w-full px-6 py-5 bg-[#1a1a2e] border-none rounded-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-[#ff5a5f]/30 resize-none"
+                                className="w-full px-6 py-5 bg-[#1a1a2e] border-none rounded-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 resize-none"
+                                style={{ boxShadow: 'none' }}
+                                onFocus={(e) => e.currentTarget.style.boxShadow = `0 0 0 1px ${primaryColor}4d`}
+                                onBlur={(e) => e.currentTarget.style.boxShadow = 'none'}
                             />
                         </div>
                         <div className="space-y-4">
                             <button
                                 type="submit"
                                 disabled={status === "loading"}
-                                className="px-8 py-4 bg-[#ff5a5f] text-white font-black uppercase tracking-widest text-sm flex items-center gap-3 transition-transform hover:scale-105 disabled:opacity-50 min-w-[180px] justify-center"
+                                className="px-8 py-4 text-white font-black uppercase tracking-widest text-sm flex items-center gap-3 transition-transform hover:scale-105 disabled:opacity-50 min-w-[180px] justify-center"
+                                style={{ backgroundColor: primaryColor }}
                             >
                                 {status === "loading" ? <Loader2 className="animate-spin" size={18} /> : (
                                     <>

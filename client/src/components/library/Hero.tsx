@@ -1,4 +1,5 @@
 import React from "react";
+import { useSite } from "../../context/useSite";
 
 interface BadgeItem {
   label: string;
@@ -63,6 +64,8 @@ const Hero: React.FC<HeroProps> = ({
   ctaButtons = [],
   style,
 }) => {
+  const { siteConfig } = useSite();
+  const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
   const optimizedAvatar = React.useMemo(() => optimizeImageUrl(avatarUrl, 1000), [avatarUrl]);
   const optimizedBg = React.useMemo(() => backgroundImageUrl ? optimizeImageUrl(backgroundImageUrl, 1920) : undefined, [backgroundImageUrl]);
 
@@ -77,7 +80,7 @@ const Hero: React.FC<HeroProps> = ({
     return (
       <div className="flex flex-col md:flex-row items-center gap-12 md:gap-24 text-slate-950 dark:text-white py-16 md:py-24 relative overflow-hidden">
         {/* Subtle background blob */}
-        <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-[40%] h-[80%] bg-indigo-500/10 blur-[120px] rounded-full -z-10" />
+        <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-[40%] h-[80%] blur-[120px] rounded-full -z-10" style={{ backgroundColor: `${primaryColor}1a` }} />
 
         <div className="flex-1 space-y-8 md:space-y-10 w-full animate-in fade-in slide-in-from-left-12 duration-1000">
           <div className="flex items-center gap-4">
@@ -95,7 +98,7 @@ const Hero: React.FC<HeroProps> = ({
                 key={i}
                 style={
                   i === 1
-                    ? { color: style?.titleColor || "#ef4444" }
+                    ? { color: style?.titleColor || primaryColor }
                     : { color: style?.titleColor ? undefined : undefined }
                 }
               >
@@ -229,9 +232,12 @@ const Hero: React.FC<HeroProps> = ({
                 key={idx}
                 href={btn.url}
                 className={`px-6 py-3 md:px-8 md:py-4 rounded-xl text-base md:text-lg font-black transition-all active:scale-95 border-[3px] border-slate-950 dark:border-white shadow-[4px_4px_0px_0px_rgba(2,6,23,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] w-full md:w-auto text-center ${btn.variant === "primary"
-                  ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                  ? "text-white"
                   : "bg-white dark:bg-slate-900 text-slate-950 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
                   }`}
+                style={{ backgroundColor: btn.variant === "primary" ? primaryColor : '' }}
+                onMouseOver={(e) => { if (btn.variant === "primary") e.currentTarget.style.filter = 'brightness(1.1)' }}
+                onMouseOut={(e) => { if (btn.variant === "primary") e.currentTarget.style.filter = 'none' }}
               >
                 {btn.label}
               </a>
@@ -424,7 +430,7 @@ const Hero: React.FC<HeroProps> = ({
     return (
       <div className="relative overflow-hidden py-12 md:py-24">
         {/* Decorative background glow for the whole section */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-indigo-500/5 blur-[120px] rounded-full -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] blur-[120px] rounded-full -z-10" style={{ backgroundColor: `${primaryColor}1a` }} />
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-12 md:gap-24 relative z-10 container mx-auto px-4">
           {/* Content Side */}
@@ -432,8 +438,9 @@ const Hero: React.FC<HeroProps> = ({
 
             {/* Gradient Pill Title */}
             <div className="inline-block relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 blur-sm opacity-50 rounded-full"></div>
-              <h1 className="relative z-10 px-6 py-2 md:px-8 md:py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full text-2xl md:text-5xl font-black text-white uppercase tracking-tight shadow-lg whitespace-nowrap md:whitespace-normal">
+              <div className="absolute inset-0 blur-sm opacity-50 rounded-full" style={{ backgroundImage: `linear-gradient(to right, ${primaryColor}, #8b5cf6, #ec4899)` }}></div>
+              <h1 className="relative z-10 px-6 py-2 md:px-8 md:py-3 rounded-full text-2xl md:text-5xl font-black text-white uppercase tracking-tight shadow-lg whitespace-nowrap md:whitespace-normal"
+                style={{ backgroundImage: `linear-gradient(to right, ${primaryColor}, #7c3bed)` }}>
                 {heading}
               </h1>
             </div>
@@ -476,7 +483,7 @@ const Hero: React.FC<HeroProps> = ({
             />
 
             {/* Floating Decorative Elements */}
-            <div className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-16 h-16 md:w-24 md:h-24 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full blur-2xl opacity-40"></div>
+            <div className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-16 h-16 md:w-24 md:h-24 rounded-full blur-2xl opacity-40" style={{ backgroundImage: `linear-gradient(to bottom right, #9333ea, ${primaryColor})` }}></div>
           </div>
         </div>
       </div>
@@ -487,15 +494,16 @@ const Hero: React.FC<HeroProps> = ({
     const isVibrant = variant === "glassmorphism_vibrant";
 
     return (
-      <div className="relative overflow-hidden py-16 md:py-24 px-8 md:px-12 rounded-[2rem] bg-clip-padding backdrop-filter backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500 hover:shadow-indigo-500/10"
+      <div className="relative overflow-hidden py-16 md:py-24 px-8 md:px-12 rounded-[2rem] bg-clip-padding backdrop-filter backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500"
         style={{
-          backgroundColor: isVibrant ? 'rgba(99, 102, 241, 0.05)' : 'rgba(15, 23, 42, 0.4)',
-          borderColor: isVibrant ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)'
+          backgroundColor: isVibrant ? `${primaryColor}0d` : 'rgba(15, 23, 42, 0.4)',
+          borderColor: isVibrant ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+          boxShadow: isVibrant ? `0 25px 50px -12px ${primaryColor}1a` : ''
         }}>
 
         {/* Dynamic Background Effects */}
-        <div className={`absolute -top-24 -left-24 w-96 h-96 rounded-full blur-[100px] -z-10 animate-pulse ${isVibrant ? 'bg-indigo-500/20' : 'bg-slate-800/30'}`} />
-        <div className={`absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-[100px] -z-10 animate-pulse delay-700 ${isVibrant ? 'bg-purple-500/20' : 'bg-indigo-900/20'}`} />
+        <div className={`absolute -top-24 -left-24 w-96 h-96 rounded-full blur-[100px] -z-10 animate-pulse ${isVibrant ? '' : 'bg-slate-800/30'}`} style={{ backgroundColor: isVibrant ? `${primaryColor}33` : '' }} />
+        <div className={`absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-[100px] -z-10 animate-pulse delay-700 ${isVibrant ? '' : 'bg-indigo-900/20'}`} style={{ backgroundColor: isVibrant ? `${primaryColor}33` : '' }} />
 
         <div className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 relative z-10 ${alignClass}`}>
           <div className="flex-1 space-y-6 md:space-y-8 w-full">
@@ -503,8 +511,8 @@ const Hero: React.FC<HeroProps> = ({
               style={{ color: style?.titleColor }}>
               {heading}
             </h1>
-            <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl break-words ${isVibrant ? 'text-indigo-100/80' : 'text-slate-400'}`}
-              style={{ color: style?.subtitleColor }}>
+            <p className={`text-lg md:text-xl font-medium leading-relaxed max-w-2xl break-words ${isVibrant ? '' : 'text-slate-400'}`}
+              style={{ color: style?.subtitleColor || (isVibrant ? `${primaryColor}cc` : '') }}>
               {subheading}
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
@@ -523,7 +531,8 @@ const Hero: React.FC<HeroProps> = ({
             </div>
           </div>
           <div className="flex-shrink-0 relative group">
-            <div className={`absolute -inset-1 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200 ${isVibrant ? 'bg-gradient-to-r from-indigo-500 to-purple-600' : 'bg-white'}`} />
+            <div className={`absolute -inset-1 rounded-[2.5rem] blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200`}
+              style={{ backgroundImage: isVibrant ? `linear-gradient(to right, ${primaryColor}, #9333ea)` : 'linear-gradient(to right, white, white)' }} />
             <img
               src={optimizedAvatar}
               alt="Avatar"
@@ -541,18 +550,18 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "pixel") {
     const pixelFont = "'Press Start 2P', monospace";
     return (
-      <div className="relative bg-[#0a0a2e] border-[3px] border-[#00ff41] p-8 md:p-12 overflow-hidden"
-        style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)' }}>
+      <div className="relative bg-[#0a0a2e] border-[3px] p-8 md:p-12 overflow-hidden"
+        style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)', borderColor: primaryColor }}>
         {/* Corner decorations */}
-        <span className="absolute top-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-        <span className="absolute top-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-        <span className="absolute bottom-2 left-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
-        <span className="absolute bottom-2 right-3 text-[#00ff41]/40 text-xs select-none" style={{ fontFamily: pixelFont }}>+</span>
+        <span className="absolute top-2 left-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+        <span className="absolute top-2 right-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+        <span className="absolute bottom-2 left-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
+        <span className="absolute bottom-2 right-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
 
         <div className="flex flex-col items-center gap-8 relative z-10">
           {/* Avatar */}
           <div className="relative">
-            <div className="w-28 h-28 md:w-36 md:h-36 border-[3px] border-[#00ff41] bg-[#1a1a4e] p-1 shadow-[4px_4px_0px_0px_#00ff41]">
+            <div className="w-28 h-28 md:w-36 md:h-36 border-[3px] bg-[#1a1a4e] p-1 shadow-[4px_4px_0px_0px]" style={{ borderColor: primaryColor, boxShadow: `4px 4px 0px 0px ${primaryColor}` }}>
               <img
                 src={optimizedAvatar}
                 alt="Avatar"
@@ -568,14 +577,14 @@ const Hero: React.FC<HeroProps> = ({
           {/* Name */}
           <div className="text-center space-y-4">
             <h1
-              className="text-lg md:text-2xl text-[#00ff41] uppercase leading-relaxed tracking-wider"
-              style={{ fontFamily: pixelFont, color: style?.titleColor || '#00ff41' }}
+              className="text-lg md:text-2xl uppercase leading-relaxed tracking-wider"
+              style={{ fontFamily: pixelFont, color: style?.titleColor || primaryColor }}
             >
               {heading}
             </h1>
             <p
-              className="text-[10px] md:text-xs text-[#00ff41]/60 uppercase tracking-[0.3em]"
-              style={{ fontFamily: pixelFont, color: style?.subtitleColor }}
+              className="text-[10px] md:text-xs uppercase tracking-[0.3em]"
+              style={{ fontFamily: pixelFont, color: `${primaryColor}99` }}
             >
               {subheading}
             </p>
@@ -588,11 +597,16 @@ const Hero: React.FC<HeroProps> = ({
                 <a
                   key={idx}
                   href={btn.url}
-                  className={`px-6 py-3 text-[8px] md:text-[10px] uppercase tracking-widest border-2 border-[#00ff41] transition-all hover:-translate-y-0.5 ${btn.variant === "primary"
-                    ? "bg-[#00ff41] text-[#0a0a2e]"
-                    : "bg-transparent text-[#00ff41] hover:bg-[#00ff41]/10"
+                  className={`px-6 py-3 text-[8px] md:text-[10px] uppercase tracking-widest border-2 transition-all hover:-translate-y-0.5 ${btn.variant === "primary"
+                    ? ""
+                    : "bg-transparent hover:bg-opacity-10"
                     }`}
-                  style={{ fontFamily: pixelFont }}
+                  style={{
+                    fontFamily: pixelFont,
+                    backgroundColor: btn.variant === "primary" ? primaryColor : "transparent",
+                    color: btn.variant === "primary" ? "#0a0a2e" : primaryColor,
+                    borderColor: primaryColor
+                  }}
                 >
                   {btn.label}
                 </a>
@@ -603,7 +617,7 @@ const Hero: React.FC<HeroProps> = ({
 
         {/* Scanline effect */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,65,0.3) 2px, rgba(0,255,65,0.3) 4px)' }}
+          style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }}
         />
       </div>
     );
@@ -637,8 +651,8 @@ const Hero: React.FC<HeroProps> = ({
                     key={idx}
                     href={btn.url}
                     className={`px-8 py-3 text-xs uppercase tracking-[0.2em] font-black border border-[#2c2c2c] transition-all ${btn.variant === "primary"
-                        ? "bg-[#1a1a1a] text-[#faf7f2]"
-                        : "bg-transparent text-[#1a1a1a] hover:bg-[#1a1a1a]/5"
+                      ? "bg-[#1a1a1a] text-[#faf7f2]"
+                      : "bg-transparent text-[#1a1a1a] hover:bg-[#1a1a1a]/5"
                       }`}
                     style={{ fontFamily: serifFont }}
                   >
