@@ -105,7 +105,7 @@ const Background: React.FC<BackgroundProps> = ({
 
     return (
         <div
-            className={cn("relative w-full overflow-hidden min-h-[400px] group", className)}
+            className={cn("relative w-full overflow-hidden min-h-[400px] h-full group", className)}
             style={styles}
             onMouseMove={handleMouseMove}
         >

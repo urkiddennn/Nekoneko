@@ -71,12 +71,18 @@ interface SectionRendererProps {
   isPreview?: boolean;
 }
 
-export const renderSection = (section: any, index: number) => {
+interface SectionComponentProps {
+  section: any;
+  index: number;
+  isPreview?: boolean;
+}
+
+const SectionComponent: React.FC<SectionComponentProps> = ({ section, index: _index, isPreview }) => {
   const Component = componentRegistry[section.type];
   const extraProps = React.useMemo(() =>
     section.type === "layout" || section.type === "features" || section.type === "section" || section.type === "background"
-      ? { renderItem: renderSection }
-      : {}, [section.type]);
+      ? { renderItem: (s: any, i: number) => renderSection(s, i, isPreview) }
+      : {}, [section.type, isPreview]);
 
   const styles = section.styles || {};
 
@@ -84,21 +90,20 @@ export const renderSection = (section: any, index: number) => {
     "relative group/section",
     section.type === "layout" ? "" : "w-full",
     styles.backgroundColor || "",
-    styles.padding || (section.type === "background" || section.type === "footer" ? "py-0" : "py-2"),
+    styles.padding || (section.type === "background" || section.type === "footer" || isPreview ? "py-0" : "py-2"),
     styles.margin || "my-0",
     styles.textAlign ? `text-${styles.textAlign}` : "",
     section.props?.anchorId ? "scroll-mt-20" : "",
-  ].filter(Boolean).join(" "), [section.type, styles, section.props?.anchorId]);
+  ].filter(Boolean).join(" "), [section.type, styles, section.props?.anchorId, isPreview]);
 
   const innerClasses = React.useMemo(() => [
-    (section.type === "background" || section.type === "footer") ? "w-full" : "mx-auto px-4",
-    styles.maxWidth || ((section.type === "background" || section.type === "footer") ? "max-w-full" : "max-w-8xl"),
+    (section.type === "background" || section.type === "footer" || isPreview) ? "w-full" : "mx-auto px-4",
+    styles.maxWidth || ((section.type === "background" || section.type === "footer" || isPreview) ? "max-w-full" : "max-w-8xl"),
     styles.borderRadius || "",
-  ].filter(Boolean).join(" "), [styles.maxWidth, styles.borderRadius]);
+  ].filter(Boolean).join(" "), [styles.maxWidth, styles.borderRadius, isPreview, section.type]);
 
   return Component ? (
     <div
-      key={section.id || index}
       id={section.props?.anchorId}
       className={containerClasses}
     >
@@ -110,7 +115,6 @@ export const renderSection = (section: any, index: number) => {
     </div>
   ) : (
     <div
-      key={section.id || index}
       className="p-24 bg-[#0a0a0c] text-indigo-400 m-10 rounded-[40px] border-4 border-dashed border-indigo-500/20 text-center animate-pulse shadow-inner relative overflow-hidden"
     >
       <div className="text-4xl font-black italic tracking-tighter uppercase mb-2">
@@ -123,11 +127,13 @@ export const renderSection = (section: any, index: number) => {
   );
 };
 
+export const renderSection = (section: any, index: number, isPreview?: boolean) => {
+  return <SectionComponent key={section.id || index} section={section} index={index} isPreview={isPreview} />;
+};
+
 const MemoizedSection = React.memo(({ section, index }: { section: any; index: number }) => {
   return renderSection(section, index);
 }, (prevProps, nextProps) => {
-  // Simple deep compare to prevent re-renders if the section data hasn't changed
-  // This is cheaper than re-rendering the entire component tree
   return JSON.stringify(prevProps.section) === JSON.stringify(nextProps.section);
 });
 

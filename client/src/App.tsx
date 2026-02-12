@@ -14,6 +14,7 @@ const Analytics = lazy(() => import("./components/Pages/Analytics"));
 // const Landing = lazy(() => import("./components/Pages/Landing"));
 const PrivacyPolicy = lazy(() => import("./components/Pages/PrivacyPolicy"));
 const Showcase = lazy(() => import("./components/Pages/Showcase"));
+const Resources = lazy(() => import("./components/Pages/Resources"))
 
 // Message page
 const MessagePage = lazy(() => import("./components/Pages/MessagePage"));
@@ -104,6 +105,7 @@ function App() {
             />
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/showcase" element={<Showcase />} />
+            <Route path="/resources" element={<Resources />} />
             <Route path="/" element={<Landing />} />
             <Route
               path="*"

@@ -23,6 +23,12 @@ const NavigationBar: React.FC = () => {
           Showcase
         </Link>
         <Link
+          to="/resources"
+          className="text-xs font-semibold tracking-widest text-gray-400 hover:text-white transition-colors"
+        >
+          Resources
+        </Link>
+        <Link
           to="/docs"
           className="text-xs font-semibold tracking-widest text-gray-400 hover:text-white transition-colors"
         >
@@ -60,6 +66,13 @@ const NavigationBar: React.FC = () => {
             className="text-sm font-bold tracking-widest text-gray-400 hover:text-white transition-colors text-left"
           >
             Showcase
+          </Link>
+          <Link
+            to="/resources"
+            onClick={() => setIsMenuOpen(false)}
+            className="text-sm font-bold tracking-widest text-gray-400 hover:text-white transition-colors text-left"
+          >
+            Resources
           </Link>
           <Link
             to="/docs"
