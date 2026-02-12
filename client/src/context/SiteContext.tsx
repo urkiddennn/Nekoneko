@@ -209,6 +209,56 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, []);
 
+  // Simple ID generator
+  const generateId = () => Math.random().toString(36).substring(2, 9) + Date.now().toString(36);
+
+  // Recursively ensure all items have IDs
+  const ensureIds = (items: any[]): any[] => {
+    if (!Array.isArray(items)) return items;
+    return items.map((item) => {
+      const newItem = { ...item };
+      if (!newItem.id) {
+        newItem.id = generateId();
+      }
+
+      if (newItem.props) {
+        // Deep copy props to avoid mutating state
+        newItem.props = { ...newItem.props };
+
+        // Handle nested children props (e.g. Background component)
+        if (newItem.props.children) {
+          if (Array.isArray(newItem.props.children)) {
+            newItem.props.children = ensureIds(newItem.props.children);
+          } else if (typeof newItem.props.children === 'object' && newItem.props.children !== null) {
+            // Single child object
+            const child = { ...newItem.props.children };
+            if (!child.id) {
+              child.id = generateId();
+            }
+            // Check if child has children (deep recursion for single child)
+            if (child.props && child.props.children) {
+              // Make a temp array to use existing recursion logic
+              const wrapped = ensureIds([child]);
+              newItem.props.children = wrapped[0];
+            } else {
+              newItem.props.children = child;
+            }
+          }
+        }
+
+        // Handle items arrays if they exist in props (e.g. Layout)
+        if (Array.isArray(newItem.props.items)) {
+          const areComponents = newItem.props.items.some((i: any) => i.type && typeof i.type === 'string');
+          if (areComponents) {
+            newItem.props.items = ensureIds(newItem.props.items);
+          }
+        }
+      }
+
+      return newItem;
+    });
+  };
+
   const saveConfig = React.useCallback(async () => {
     if (!projectId) return;
     const token = getToken() || "";
@@ -217,7 +267,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({
         token: token || undefined,
         projectId: projectId as any,
         site_settings: siteConfig.site_settings,
-        sections: siteConfig.sections,
+        sections: ensureIds(siteConfig.sections),
       });
       console.log("Successfully saved project");
     } catch (error) {

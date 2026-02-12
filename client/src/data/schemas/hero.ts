@@ -63,6 +63,7 @@ export const hero = {
             type: "array",
             desc: "List of {platform, url} for contact icons (creative_gradient).",
         },
+        { name: "padding", type: "string", desc: "Vertical padding (e.g. py-20)." },
     ],
     variants: [
         {
@@ -300,5 +301,10 @@ export const hero = {
                 },
             },
         },
+    ],
+    common_styles: [
+        { name: "padding", type: "spacing", desc: "Wrapper padding." },
+        { name: "maxWidth", type: "maxWidth", desc: "Content max width." },
+        { name: "backgroundColor", type: "color", desc: "Background color." },
     ],
 };

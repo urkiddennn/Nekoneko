@@ -36,13 +36,14 @@ const socialIconMap = {
     email: Mail,
 };
 
-const Footer: React.FC<FooterProps> = ({
+const Footer: React.FC<FooterProps & { padding?: string }> = ({
     logo,
     tagline,
     copyright = `© ${new Date().getFullYear()} All rights reserved.`,
     links = [],
     socials = [],
     variant = "default",
+    padding,
 }) => {
     const { siteConfig } = useSite();
     const primaryColor = siteConfig.site_settings.theme.primary;
@@ -53,7 +54,7 @@ const Footer: React.FC<FooterProps> = ({
 
     if (isBrutalist) {
         return (
-            <footer className="border-t-[4px] border-slate-950 dark:border-white bg-white dark:bg-slate-950 py-16 -mx-4 px-4 overflow-hidden">
+            <footer className={`${padding || 'py-16'} border-t-[4px] border-slate-950 dark:border-white bg-white dark:bg-slate-950 -mx-4 px-4 overflow-hidden`}>
                 <div className="max-w-7xl mx-auto space-y-16">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                         <div className="space-y-6">
@@ -116,7 +117,7 @@ const Footer: React.FC<FooterProps> = ({
 
     if (isGlassmorphism) {
         return (
-            <footer className="relative py-24 -mx-4 px-4 overflow-hidden">
+            <footer className={`relative ${padding || 'py-24'} -mx-4 px-4 overflow-hidden`}>
                 <div className="absolute inset-x-0 bottom-0 h-96 pointer-events-none" style={{ backgroundImage: `linear-gradient(to top, ${primaryColor}1a, transparent)` }} />
                 <div className="max-w-7xl mx-auto backdrop-blur-2xl bg-white/5 border border-white/10 p-12 md:p-20 rounded-[4rem] shadow-2xl relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
@@ -181,7 +182,7 @@ const Footer: React.FC<FooterProps> = ({
 
     if (isMinimal) {
         return (
-            <footer className="py-16 -mx-4 px-4 border-t border-slate-100 dark:border-white/5">
+            <footer className={`${padding || 'py-16'} -mx-4 px-4 border-t border-slate-100 dark:border-white/5`}>
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-center md:text-left">
                     <div className="space-y-4">
                         <h2 className="text-xl font-black tracking-tight dark:text-white uppercase">{logo}</h2>
@@ -217,7 +218,7 @@ const Footer: React.FC<FooterProps> = ({
 
     if (isImpact) {
         return (
-            <footer className="py-32 bg-[#13131f] -mx-4 px-4 overflow-hidden relative">
+            <footer className={`${padding || 'py-32'} bg-[#13131f] -mx-4 px-4 overflow-hidden relative`}>
                 <div className="max-w-7xl mx-auto space-y-24 relative z-10">
                     <div className="flex flex-col lg:flex-row justify-between items-start gap-16">
                         <div className="space-y-10 max-w-2xl">
@@ -284,7 +285,7 @@ const Footer: React.FC<FooterProps> = ({
     if (variant === "pixel") {
         const pixelFont = "'Press Start 2P', monospace";
         return (
-            <footer className="relative bg-[#0a0a2e] border-t-[3px] py-12 -mx-4 px-4 overflow-hidden" style={{ borderTopColor: primaryColor }}>
+            <footer className={`relative bg-[#0a0a2e] border-t-[3px] ${padding || 'py-12'} -mx-4 px-4 overflow-hidden`} style={{ borderTopColor: primaryColor }}>
                 <div className="max-w-7xl mx-auto relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                         <div className="space-y-4">
@@ -336,7 +337,7 @@ const Footer: React.FC<FooterProps> = ({
     if (variant === "newspaper") {
         const serifFont = "'Playfair Display', 'Georgia', serif";
         return (
-            <footer className="bg-[#faf7f2] border-t-4 border-double border-[#2c2c2c] py-16 px-8 relative overflow-hidden">
+            <footer className={`bg-[#faf7f2] border-t-4 border-double border-[#2c2c2c] ${padding || 'py-16'} px-8 relative overflow-hidden`}>
                 <div className="max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-12 pb-12 border-b border-[#2c2c2c]">
                         <div className="space-y-4 text-center md:text-left">
@@ -375,7 +376,7 @@ const Footer: React.FC<FooterProps> = ({
         );
     }
     return (
-        <footer className="border-t border-slate-200 dark:border-white/5 py-20 bg-slate-50 dark:bg-slate-900/50 -mx-4 px-4 mt-20">
+        <footer className={`border-t border-slate-200 dark:border-white/5 ${padding || 'py-20'} bg-slate-50 dark:bg-slate-900/50 -mx-4 px-4 mt-20`}>
             <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                     <div className="space-y-6">

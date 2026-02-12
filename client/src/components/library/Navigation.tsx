@@ -26,6 +26,7 @@ interface NavigationProps {
   | "creative_gradient"
   | "pixel"
   | "newspaper";
+  padding?: string;
 }
 
 // Helper function to determine if a string is a direct CSS color value
@@ -41,6 +42,7 @@ const Navigation: React.FC<NavigationProps> = ({
   showResumeButton,
   styles,
   variant = "default",
+  padding,
 }) => {
   const { siteConfig } = useSite();
   const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
@@ -138,7 +140,7 @@ const Navigation: React.FC<NavigationProps> = ({
   if (variant === "pixel") {
     const pixelFont = "'Press Start 2P', monospace";
     return (
-      <nav className="relative bg-[#0a0a2e] border-[3px] px-6 py-3 overflow-hidden"
+      <nav className={`relative bg-[#0a0a2e] border-[3px] px-6 ${padding || 'py-3'} overflow-hidden`}
         style={{ boxShadow: `0 0 20px ${primaryColor}26`, borderColor: primaryColor }}>
         <span className="absolute top-1 left-2 text-[8px] select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
         <span className="absolute top-1 right-2 text-[8px] select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
@@ -181,7 +183,7 @@ const Navigation: React.FC<NavigationProps> = ({
   if (variant === "newspaper") {
     const serifFont = "'Playfair Display', 'Georgia', serif";
     return (
-      <nav className="bg-[#faf7f2] border-y border-[#2c2c2c] px-6 py-4">
+      <nav className={`bg-[#faf7f2] border-y border-[#2c2c2c] px-6 ${padding || 'py-4'}`}>
         <div className="flex flex-col items-center gap-4">
           <div className="text-3xl font-black uppercase tracking-tighter text-[#1a1a1a]" style={{ fontFamily: serifFont, borderBottom: '3px double #2c2c2c', paddingBottom: '4px' }}>
             Portfolio
@@ -234,7 +236,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 : variant === "creative_gradient"
                   ? "bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full px-12 py-4 my-4 mx-auto max-w-fit"
                   : ""
-        }`}
+        } ${padding || ''}`}
       style={navTextStyle}
     >
       <div className="flex items-center justify-between">

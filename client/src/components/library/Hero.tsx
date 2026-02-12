@@ -42,6 +42,7 @@ interface HeroProps {
     subtitleColor?: string;
     titleSize?: string;
   };
+  padding?: string;
 }
 
 const optimizeImageUrl = (url: string, width: number = 800) => {
@@ -63,6 +64,7 @@ const Hero: React.FC<HeroProps> = ({
   topBadgeItems = [],
   ctaButtons = [],
   style,
+  padding,
 }) => {
   const { siteConfig } = useSite();
   const primaryColor = siteConfig.site_settings.theme.primary || "#6366f1";
@@ -78,7 +80,7 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "impact") {
     const titleParts = heading.split(" ");
     return (
-      <div className="flex flex-col md:flex-row items-center gap-12 md:gap-24 text-slate-950 dark:text-white py-16 md:py-24 relative overflow-hidden">
+      <div className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 text-slate-950 dark:text-white ${padding || 'py-16 md:py-24'} relative overflow-hidden`}>
         {/* Subtle background blob */}
         <div className="absolute right-[10%] top-1/2 -translate-y-1/2 w-[40%] h-[80%] blur-[120px] rounded-full -z-10" style={{ backgroundColor: `${primaryColor}1a` }} />
 
@@ -160,7 +162,7 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "outline_minimal") {
     return (
       <div
-        className={`flex flex-col md:flex-row items-center gap-8 md:gap-16 text-slate-950 dark:text-white py-12 md:py-20 border-b border-slate-950 dark:border-white shadow-none`}
+        className={`flex flex-col md:flex-row items-center gap-8 md:gap-16 text-slate-950 dark:text-white ${padding || 'py-12 md:py-20'} border-b border-slate-950 dark:border-white shadow-none`}
       >
         <div className="flex-1 space-y-6 md:space-y-10 w-full">
           <h1
@@ -209,7 +211,7 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "brutalist") {
     return (
       <div
-        className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 text-slate-950 dark:text-white py-8 md:py-12`}
+        className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 text-slate-950 dark:text-white ${padding || 'py-8 md:py-12'}`}
       >
         <div className="flex-1 space-y-6 md:space-y-8 animate-in fade-in slide-in-from-left-8 duration-700 w-full">
           <h1
@@ -261,7 +263,7 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "invest") {
     return (
       <div
-        className="relative min-h-[500px] md:min-h-[600px] flex flex-col justify-center px-4 md:px-8 py-12 md:py-20 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden"
+        className={`relative min-h-[500px] md:min-h-[600px] flex flex-col justify-center px-4 md:px-8 ${padding || 'py-12 md:py-20'} rounded-[1.5rem] md:rounded-[2rem] overflow-hidden`}
         style={{
           backgroundImage: optimizedBg
             ? `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${optimizedBg})`
@@ -371,7 +373,7 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "glassmorphism") {
     return (
       <div
-        className={`p-10 bg-gray-200 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 flex flex-col md:flex-row items-center gap-8 md:gap-12
+        className={`px-10 ${padding || 'py-10'} bg-gray-200 rounded-3xl bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100 flex flex-col md:flex-row items-center gap-8 md:gap-12
 `}
       >
         <div className="flex-1 space-y-4 md:space-y-6 w-full">
@@ -428,7 +430,7 @@ const Hero: React.FC<HeroProps> = ({
     };
 
     return (
-      <div className="relative overflow-hidden py-12 md:py-24">
+      <div className={`relative overflow-hidden ${padding || 'py-12 md:py-24'}`}>
         {/* Decorative background glow for the whole section */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] blur-[120px] rounded-full -z-10" style={{ backgroundColor: `${primaryColor}1a` }} />
 
@@ -494,7 +496,7 @@ const Hero: React.FC<HeroProps> = ({
     const isVibrant = variant === "glassmorphism_vibrant";
 
     return (
-      <div className="relative overflow-hidden py-16 md:py-24 px-8 md:px-12 rounded-[2rem] bg-clip-padding backdrop-filter backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500"
+      <div className={`relative overflow-hidden ${padding || 'py-16 md:py-24'} px-8 md:px-12 rounded-[2rem] bg-clip-padding backdrop-filter backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-500`}
         style={{
           backgroundColor: isVibrant ? `${primaryColor}0d` : 'rgba(15, 23, 42, 0.4)',
           borderColor: isVibrant ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
@@ -550,7 +552,7 @@ const Hero: React.FC<HeroProps> = ({
   if (variant === "pixel") {
     const pixelFont = "'Press Start 2P', monospace";
     return (
-      <div className="relative bg-[#0a0a2e] border-[3px] p-8 md:p-12 overflow-hidden"
+      <div className={`relative bg-[#0a0a2e] border-[3px] px-8 md:px-12 ${padding || 'py-8 md:py-12'} overflow-hidden`}
         style={{ boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)', borderColor: primaryColor }}>
         {/* Corner decorations */}
         <span className="absolute top-2 left-3 text-xs select-none opacity-40" style={{ fontFamily: pixelFont, color: primaryColor }}>+</span>
@@ -627,7 +629,7 @@ const Hero: React.FC<HeroProps> = ({
     const serifFont = "'Playfair Display', 'Georgia', serif";
     const bodyFont = "'Lora', 'Georgia', serif";
     return (
-      <div className="bg-[#faf7f2] border border-[#2c2c2c] p-8 md:p-12 relative">
+      <div className={`bg-[#faf7f2] border border-[#2c2c2c] px-8 md:px-12 ${padding || 'py-8 md:py-12'} relative`}>
         <div className="absolute top-4 left-4 text-[10px] text-[#2c2c2c]/60 font-medium uppercase tracking-widest" style={{ fontFamily: bodyFont }}>
           ESTABLISHED 2024 • EDITION NO. 1
         </div>

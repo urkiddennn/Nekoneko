@@ -81,7 +81,7 @@ const Editor: React.FC = () => {
           if (JSON.stringify(JSON.parse(prev)) === JSON.stringify(siteConfig)) {
             return prev;
           }
-        } catch (e) {}
+        } catch (e) { }
         return currentJson;
       });
     }
@@ -122,6 +122,8 @@ const Editor: React.FC = () => {
       await saveConfig();
       setShowSaveFeedback(true);
       setTimeout(() => setShowSaveFeedback(false), 2000);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to save");
     } finally {
       setTimeout(() => setIsSaving(false), 500);
     }
@@ -300,11 +302,10 @@ const Editor: React.FC = () => {
                 )}
                 <button
                   onClick={() => toggleExtension(ext.id)}
-                  className={`p-2 rounded transition-all active:scale-90 ${
-                    isActive && isSidebarOpen
-                      ? "bg-white text-black shadow-lg shadow-white/5"
-                      : "text-gray-500 hover:text-white hover:bg-white/[0.04]"
-                  }`}
+                  className={`p-2 rounded transition-all active:scale-90 ${isActive && isSidebarOpen
+                    ? "bg-white text-black shadow-lg shadow-white/5"
+                    : "text-gray-500 hover:text-white hover:bg-white/[0.04]"
+                    }`}
                   title={ext.name}
                 >
                   <Icon size={20} />
@@ -373,11 +374,10 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth(375);
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${
-                      viewportWidth === 375
-                        ? "bg-white text-black"
-                        : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
-                    }`}
+                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 375
+                      ? "bg-white text-black"
+                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
+                      }`}
                     title="Mobile (375px)"
                   >
                     <Smartphone size={16} />
@@ -387,11 +387,10 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth(768);
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${
-                      viewportWidth === 768
-                        ? "bg-white text-black"
-                        : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
-                    }`}
+                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === 768
+                      ? "bg-white text-black"
+                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
+                      }`}
                     title="Tablet (768px)"
                   >
                     <Tablet size={16} />
@@ -401,11 +400,10 @@ const Editor: React.FC = () => {
                       e.preventDefault();
                       setViewportWidth("full");
                     }}
-                    className={`p-1.5 rounded transition-colors select-none ${
-                      viewportWidth === "full"
-                        ? "bg-white text-black"
-                        : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
-                    }`}
+                    className={`p-1.5 rounded transition-colors select-none ${viewportWidth === "full"
+                      ? "bg-white text-black"
+                      : "text-gray-400 hover:bg-white/[0.04] hover:text-white"
+                      }`}
                     title="Desktop (Full Width)"
                   >
                     <Monitor size={16} />

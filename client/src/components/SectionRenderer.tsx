@@ -26,6 +26,7 @@ const BlogList = React.lazy(() => import("./library/BlogList"));
 const BlogContent = React.lazy(() => import("./library/BlogContent"));
 const BlogNewsletter = React.lazy(() => import("./library/BlogNewsletter"));
 const Subscribe = React.lazy(() => import("./library/Subscribe"));
+const Background = React.lazy(() => import("./library/Background"));
 const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
 const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
@@ -61,6 +62,7 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   blog_content: BlogContent,
   blog_newsletter: BlogNewsletter,
   subscribe: Subscribe,
+  background: Background,
   live_site_preview: LiveSitePreview,
 };
 
@@ -72,7 +74,7 @@ interface SectionRendererProps {
 export const renderSection = (section: any, index: number) => {
   const Component = componentRegistry[section.type];
   const extraProps = React.useMemo(() =>
-    section.type === "layout" || section.type === "features" || section.type === "section"
+    section.type === "layout" || section.type === "features" || section.type === "section" || section.type === "background"
       ? { renderItem: renderSection }
       : {}, [section.type]);
 
@@ -82,15 +84,15 @@ export const renderSection = (section: any, index: number) => {
     "relative group/section",
     section.type === "layout" ? "" : "w-full",
     styles.backgroundColor || "",
-    styles.padding || "py-2",//padding in every components
+    styles.padding || (section.type === "background" || section.type === "footer" ? "py-0" : "py-2"),
     styles.margin || "my-0",
     styles.textAlign ? `text-${styles.textAlign}` : "",
     section.props?.anchorId ? "scroll-mt-20" : "",
   ].filter(Boolean).join(" "), [section.type, styles, section.props?.anchorId]);
 
   const innerClasses = React.useMemo(() => [
-    "mx-auto px-4",
-    styles.maxWidth || "max-w-8xl",
+    (section.type === "background" || section.type === "footer") ? "w-full" : "mx-auto px-4",
+    styles.maxWidth || ((section.type === "background" || section.type === "footer") ? "max-w-full" : "max-w-8xl"),
     styles.borderRadius || "",
   ].filter(Boolean).join(" "), [styles.maxWidth, styles.borderRadius]);
 
@@ -132,7 +134,7 @@ const MemoizedSection = React.memo(({ section, index }: { section: any; index: n
 const SectionRenderer: React.FC<SectionRendererProps> = ({ sections }) => {
   return (
     <div className="bg-transparent text-slate-950 dark:text-white min-h-full mx-auto w-full">
-      {sections.map((section, idx) => (
+      {sections?.filter(Boolean).map((section, idx) => (
         <MemoizedSection key={section.id || idx} section={section} index={idx} />
       ))}
     </div>

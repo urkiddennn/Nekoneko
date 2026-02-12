@@ -185,6 +185,7 @@ export const navigation = {
             type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel" | "newspaper"',
             desc: "Visual style.",
         },
+        { name: "padding", type: "string", desc: "Vertical padding (e.g. py-4)." },
     ],
     common_styles: [
         {
@@ -202,5 +203,7 @@ export const navigation = {
             type: "tailwind",
             desc: "Border color for the container.",
         },
+        { name: "padding", type: "spacing", desc: "Wrapper padding." },
+        { name: "maxWidth", type: "maxWidth", desc: "Content max width." },
     ],
 };

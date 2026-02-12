@@ -21,13 +21,78 @@ const AssetLibrary: React.FC<AssetLibraryProps> = ({ onSelect, onClose }) => {
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    const compressImage = async (file: File): Promise<File> => {
+        return new Promise((resolve, reject) => {
+            // Skip compression for small images or non-images if needed, but we'll compress all for consistency
+            if (!file.type.startsWith('image/')) {
+                resolve(file);
+                return;
+            }
+
+            const maxWidth = 1920;
+            const maxHeight = 1920;
+            const quality = 0.8;
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target?.result as string;
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Calculate new dimensions
+                    if (width > maxWidth || height > maxHeight) {
+                        if (width > height) {
+                            height = Math.round((height *= maxWidth / width));
+                            width = maxWidth;
+                        } else {
+                            width = Math.round((width *= maxHeight / height));
+                            height = maxHeight;
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    if (!ctx) {
+                        reject(new Error("Could not get canvas context"));
+                        return;
+                    }
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob((blob) => {
+                        if (!blob) {
+                            reject(new Error("Could not compress image"));
+                            return;
+                        }
+                        // Change extension to .webp
+                        const newName = file.name.replace(/\.[^/.]+$/, "") + ".webp";
+                        const newFile = new File([blob], newName, {
+                            type: 'image/webp',
+                            lastModified: Date.now(),
+                        });
+                        resolve(newFile);
+                    }, 'image/webp', quality);
+                };
+                img.onerror = (error) => reject(error);
+            };
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+        const originalFile = e.target.files?.[0];
+        if (!originalFile) return;
 
         setIsUploading(true);
 
         try {
+            // 0. Compress Image
+            const file = await compressImage(originalFile);
+
             // 1. Get upload URL
             const postUrl = await generateUploadUrl({ token: token || undefined });
 

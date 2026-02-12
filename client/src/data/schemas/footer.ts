@@ -9,7 +9,13 @@ export const footer = {
         { name: "copyright", type: "string", desc: "Copyright notice." },
         { name: "links", type: "array", desc: "List of {label, url} navigation links." },
         { name: "socials", type: "array", desc: "List of {platform, url} social links." },
+        { name: "padding", type: "string", desc: "Vertical padding (e.g. py-12)." },
         { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel" | "newspaper"', desc: "Visual style." }
+    ],
+    common_styles: [
+        { name: "padding", type: "spacing", desc: "Wrapper padding." },
+        { name: "maxWidth", type: "maxWidth", desc: "Content max width." },
+        { name: "backgroundColor", type: "color", desc: "Background color." },
     ],
     variants: [
         {
