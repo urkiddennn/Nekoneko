@@ -18,7 +18,6 @@ const AssetLibrary: React.FC<AssetLibraryProps> = ({ onSelect, onClose }) => {
     const deleteAsset = useMutation(api.assets.deleteAsset);
 
     const [isUploading, setIsUploading] = useState(false);
-    const [uploadProgress, setUploadProgress] = useState(0);
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,7 +26,6 @@ const AssetLibrary: React.FC<AssetLibraryProps> = ({ onSelect, onClose }) => {
         if (!file) return;
 
         setIsUploading(true);
-        setUploadProgress(0);
 
         try {
             // 1. Get upload URL
@@ -58,7 +56,6 @@ const AssetLibrary: React.FC<AssetLibraryProps> = ({ onSelect, onClose }) => {
             alert("Failed to upload image.");
         } finally {
             setIsUploading(false);
-            setUploadProgress(0);
             if (fileInputRef.current) fileInputRef.current.value = '';
         }
     };
