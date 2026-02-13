@@ -14,6 +14,7 @@ const GradientCircles = React.lazy(() => import("./backgrounds/GradientCircles")
 const Plasma = React.lazy(() => import("./backgrounds/Plasma"));
 const BackgroundGrid = React.lazy(() => import("./backgrounds/BackgroundGrid"));
 const Aurora = React.lazy(() => import("./backgrounds/Aurora"));
+const RetroGrid = React.lazy(() => import("./backgrounds/RetroGrid"));
 
 // --- Main Component ---
 
@@ -28,7 +29,8 @@ type BackgroundVariant =
     | 'gradient_circles'
     | 'plasma'
     | 'background_grid'
-    | 'aurora';
+    | 'aurora'
+    | 'retro_grid';
 
 interface BackgroundProps {
     variant: BackgroundVariant;
@@ -81,6 +83,7 @@ const Background: React.FC<BackgroundProps> = ({
             case 'plasma': return <Plasma />;
             case 'background_grid': return <BackgroundGrid />;
             case 'aurora': return <Aurora color1={color1} color2={color2} color3={color3} />;
+            case 'retro_grid': return <RetroGrid color1={color1} />;
             default: return <AnimatedPolka color1={color1} />;
         }
     };

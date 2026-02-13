@@ -3,7 +3,7 @@ export const background = {
     type: "background",
     label: "Background",
     category: "Layout",
-    description: "A versatile background component with multiple animated variants including polka dots, gradients, space themes, and more.",
+    description: "A versatile background component with multiple animated variants including polka dots, gradients, space themes, 3D grids, and more.",
     example: {
         id: "background-1",
         type: "background",
@@ -125,6 +125,16 @@ export const background = {
             }
         },
         {
+            name: "Retro 3D Grid",
+            description: "A 3D perspective grid with a scrolling synthwave feel.",
+            example: {
+                id: "bg-retro-grid",
+                type: "background",
+                props: { variant: "retro_grid" },
+                styles: { height: "400px" }
+            }
+        },
+        {
             name: "Spotlight",
             description: "A dark background with a moving spotlight effect that follows the cursor.",
             example: {
@@ -152,6 +162,7 @@ export const background = {
                 { label: "Plasma", value: "plasma" },
                 { label: "Background Grid", value: "background_grid" },
                 { label: "Aurora", value: "aurora" },
+                { label: "Retro 3D Grid", value: "retro_grid" },
             ],
             defaultValue: "animated_polka",
             desc: "Select the visual style of the background.",
