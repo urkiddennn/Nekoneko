@@ -26,9 +26,16 @@ const BlogList = React.lazy(() => import("./library/BlogList"));
 const BlogContent = React.lazy(() => import("./library/BlogContent"));
 const BlogNewsletter = React.lazy(() => import("./library/BlogNewsletter"));
 const Subscribe = React.lazy(() => import("./library/Subscribe"));
+
 const Background = React.lazy(() => import("./library/Background"));
+const Text = React.lazy(() => import("./library/Text"));
 const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
+/**
+ * Component Registry
+ * Maps section type strings from the database/schema to their corresponding React components.
+ * Components are lazy-loaded to optimize bundle size and only load what's actually rendered.
+ */
 const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
   navigation: Navigation,
   navigation_minimal: Navigation,
@@ -62,7 +69,9 @@ const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>
   blog_content: BlogContent,
   blog_newsletter: BlogNewsletter,
   subscribe: Subscribe,
+
   background: Background,
+  text: Text,
   live_site_preview: LiveSitePreview,
 };
 
@@ -77,8 +86,19 @@ interface SectionComponentProps {
   isPreview?: boolean;
 }
 
+/**
+ * SectionComponent
+ * The core wrapper for every site section. 
+ * Handles:
+ * 1. Component lookup from registry
+ * 2. Dynamic class generation (padding, bg, width, etc.)
+ * 3. Recursive rendering for nested layouts
+ * 4. Suspense fallback for lazy loading
+ */
 const SectionComponent: React.FC<SectionComponentProps> = ({ section, index: _index, isPreview }) => {
   const Component = componentRegistry[section.type];
+
+  // Provide a recursive render function for components that can nest other sections (e.g., Layout, Section)
   const extraProps = React.useMemo(() =>
     section.type === "layout" || section.type === "features" || section.type === "section" || section.type === "background"
       ? { renderItem: (s: any, i: number) => renderSection(s, i, isPreview) }
@@ -86,16 +106,19 @@ const SectionComponent: React.FC<SectionComponentProps> = ({ section, index: _in
 
   const styles = section.styles || {};
 
+  // Compute container-level utility classes based on section styles
   const containerClasses = React.useMemo(() => [
     "relative group/section",
     section.type === "layout" ? "" : "w-full",
     styles.backgroundColor || "",
+    // Fallback py-0 for specific types or preview mode, otherwise py-2 default
     styles.padding || (section.type === "background" || section.type === "footer" || isPreview ? "py-0" : "py-2"),
     styles.margin || "my-0",
     styles.textAlign ? `text-${styles.textAlign}` : "",
-    section.props?.anchorId ? "scroll-mt-20" : "",
+    section.props?.anchorId ? "scroll-mt-20" : "", // Offset for navigation links
   ].filter(Boolean).join(" "), [section.type, styles, section.props?.anchorId, isPreview]);
 
+  // Compute inner content classes (max-width and centering)
   const innerClasses = React.useMemo(() => [
     (section.type === "background" || section.type === "footer" || isPreview) ? "w-full" : "mx-auto px-4",
     styles.maxWidth || ((section.type === "background" || section.type === "footer" || isPreview) ? "max-w-full" : "max-w-8xl"),
@@ -114,6 +137,7 @@ const SectionComponent: React.FC<SectionComponentProps> = ({ section, index: _in
       </div>
     </div>
   ) : (
+    /* Error fallback for missing or corrupted module types */
     <div
       className="p-24 bg-[#0a0a0c] text-indigo-400 m-10 rounded-[40px] border-4 border-dashed border-indigo-500/20 text-center animate-pulse shadow-inner relative overflow-hidden"
     >
@@ -127,16 +151,30 @@ const SectionComponent: React.FC<SectionComponentProps> = ({ section, index: _in
   );
 };
 
+/**
+ * Utility to render a section component. 
+ * Exported so it can be used recursively within nested components.
+ */
 export const renderSection = (section: any, index: number, isPreview?: boolean) => {
   return <SectionComponent key={section.id || index} section={section} index={index} isPreview={isPreview} />;
 };
 
+/**
+ * MemoizedSection
+ * Optimizes performance by preventing re-renders if the section data hasn't changed.
+ * Deep comparison via JSON.stringify is used for nested section properties.
+ */
 const MemoizedSection = React.memo(({ section, index }: { section: any; index: number }) => {
   return renderSection(section, index);
 }, (prevProps, nextProps) => {
   return JSON.stringify(prevProps.section) === JSON.stringify(nextProps.section);
 });
 
+/**
+ * SectionRenderer
+ * The top-level component that maps over an array of sections and renders them.
+ * This is the entry point for dynamic page building.
+ */
 const SectionRenderer: React.FC<SectionRendererProps> = ({ sections }) => {
   return (
     <div className="bg-transparent text-slate-950 dark:text-white min-h-full mx-auto w-full">
@@ -148,3 +186,4 @@ const SectionRenderer: React.FC<SectionRendererProps> = ({ sections }) => {
 };
 
 export default React.memo(SectionRenderer);
+

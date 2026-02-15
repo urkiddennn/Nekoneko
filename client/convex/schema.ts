@@ -8,6 +8,7 @@ import { feedback } from "./schema/feedback";
 import { messages } from "./schema/messages";
 import { subscribe } from "./schema/subscribe";
 import { assets } from "./schema/assets";
+import { community_resources } from "./schema/community_resources";
 
 export default defineSchema({
     ...authTables,
@@ -19,4 +20,5 @@ export default defineSchema({
     messages,
     subscribe,
     assets,
+    community_resources,
 });

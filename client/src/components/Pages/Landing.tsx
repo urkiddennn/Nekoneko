@@ -81,11 +81,11 @@ const Landing: React.FC = () => {
                 </div>
               </div>
               <div className="relative  overflow-hidden group">
-                <img
-                  src="/assets/mockup.png"
-                  alt="Nekoneko Editor Preview"
-                  fetchPriority="high"
-                  className="w-full h-auto  opacity-80 group-hover:opacity-100 transition-all duration-1000 scale-100 group-hover:scale-[1.02]"
+                <iframe
+                  src="https://player.mux.com/JTSkbtpRMYkOsPpxBd4DlYzzJebJSuq1BS9xV5rdclM?metadata-video-title=hero&video-title=hero&autoplay=true&muted=true&loop=true"
+                  style={{ width: "100%", border: "none", aspectRatio: "16/9" }}
+                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60 group-hover:opacity-0 transition-opacity duration-700"></div>
               </div>

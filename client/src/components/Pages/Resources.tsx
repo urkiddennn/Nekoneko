@@ -6,14 +6,22 @@ import {
     Sparkles,
     Search,
     Filter,
-    X
+    X,
+    Heart,
+    Download,
+    Copy,
+    Check,
+    Users
 } from "lucide-react";
 import { SEO } from "../../components/SEO";
 import { SCHEMAS } from "../../data/schemas";
 import { renderSection } from "../../components/SectionRenderer";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 
 const Resources: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState("");
+    const [activeTab, setActiveTab] = useState<"library" | "community">("library");
     const [activeFilters, setActiveFilters] = useState({
         pricing: "All",
         type: "All",
@@ -22,8 +30,14 @@ const Resources: React.FC = () => {
     const [isPricingOpen, setIsPricingOpen] = useState(false);
     const [isTypeOpen, setIsTypeOpen] = useState(false);
     const [visibleCount, setVisibleCount] = useState(12);
+    const [copiedId, setCopiedId] = useState<string | null>(null);
 
-    // Flatten SCHEMAS into actual variants/items
+    // Community resources from Convex
+    const communityResources = useQuery(api.communityResources.list, activeTab === "community" ? {} : "skip");
+    const likeMutation = useMutation(api.communityResources.like);
+    const downloadMutation = useMutation(api.communityResources.incrementDownloads);
+
+    // Flatten SCHEMAS into actual variants/items (Library tab)
     const resources = useMemo(() => {
         const items: any[] = [];
         (SCHEMAS as any[]).forEach(schema => {
@@ -77,6 +91,7 @@ const Resources: React.FC = () => {
         return items;
     }, []);
 
+    // Filter logic for Library tab
     const filteredResources = useMemo(() => {
         return resources.filter(item => {
             const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -87,16 +102,47 @@ const Resources: React.FC = () => {
         });
     }, [resources, searchQuery, activeFilters]);
 
-    const resourceTypes = useMemo(() => {
-        return ["All", ...Array.from(new Set(resources.map(r => r.type)))];
-    }, [resources]);
+    // Filter logic for Community tab
+    const filteredCommunity = useMemo(() => {
+        if (!communityResources) return [];
+        return communityResources.filter(item => {
+            const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.componentType.toLowerCase().includes(searchQuery.toLowerCase());
+            const matchesType = activeFilters.type === "All" || item.componentType === activeFilters.type;
+            return matchesSearch && matchesType;
+        });
+    }, [communityResources, searchQuery, activeFilters]);
 
+    const resourceTypes = useMemo(() => {
+        if (activeTab === "community" && communityResources) {
+            return ["All", ...Array.from(new Set(communityResources.map(r => r.componentType)))];
+        }
+        return ["All", ...Array.from(new Set(resources.map(r => r.type)))];
+    }, [resources, communityResources, activeTab]);
+
+    const currentItems = activeTab === "library" ? filteredResources : filteredCommunity;
     const visibleResources = useMemo(() => {
-        return filteredResources.slice(0, visibleCount);
-    }, [filteredResources, visibleCount]);
+        return currentItems.slice(0, visibleCount);
+    }, [currentItems, visibleCount]);
 
     const handleShowMore = () => {
         setVisibleCount(prev => prev + 12);
+    };
+
+    const handleCopySection = async (resource: any) => {
+        const sectionJson = JSON.stringify(resource.sectionConfig, null, 2);
+        await navigator.clipboard.writeText(sectionJson);
+        setCopiedId(resource._id);
+        try {
+            await downloadMutation({ resourceId: resource._id });
+        } catch { /* user might not be logged in */ }
+        setTimeout(() => setCopiedId(null), 2000);
+    };
+
+    const handleLike = async (resourceId: any) => {
+        try {
+            await likeMutation({ resourceId });
+        } catch { /* user might not be logged in */ }
     };
 
     return (
@@ -115,7 +161,7 @@ const Resources: React.FC = () => {
                                 Library <span className="text-gray-500">& Resources</span>
                             </h1>
                             <p className="max-w-2xl text-gray-400 font-medium text-lg leading-relaxed">
-                                Explore {resources.length} handcrafted components and variants ready for your next project.
+                                Explore {activeTab === "library" ? resources.length : (communityResources?.length || 0)} {activeTab === "library" ? "handcrafted components" : "community-published sections"} ready for your next project.
                             </p>
                         </div>
 
@@ -140,33 +186,52 @@ const Resources: React.FC = () => {
                         </div>
                     </div>
 
+                    {/* Tab Toggle */}
+                    <div className="flex items-center gap-1 mb-8 bg-[#161616] border border-white/[0.08] rounded-xl p-1 w-fit">
+                        <button
+                            onClick={() => { setActiveTab("library"); setVisibleCount(12); setActiveFilters({ pricing: "All", type: "All", sort: "Popular" }); }}
+                            className={`px-6 py-3 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === "library" ? "bg-white text-black" : "text-gray-400 hover:text-white"}`}
+                        >
+                            Library
+                        </button>
+                        <button
+                            onClick={() => { setActiveTab("community"); setVisibleCount(12); setActiveFilters({ pricing: "All", type: "All", sort: "Popular" }); }}
+                            className={`px-6 py-3 rounded-lg text-[11px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${activeTab === "community" ? "bg-white text-black" : "text-gray-400 hover:text-white"}`}
+                        >
+                            <Users size={14} />
+                            Community
+                        </button>
+                    </div>
+
                     {/* Filter Controls */}
                     <div className="flex flex-wrap items-center justify-between gap-6 mb-12 border-b border-white/[0.06] pb-8">
                         <div className="flex items-center gap-3">
-                            {/* Pricing Dropdown */}
-                            <div className="relative">
-                                <button
-                                    onClick={() => { setIsPricingOpen(!isPricingOpen); setIsTypeOpen(false); }}
-                                    className="flex items-center gap-2 px-5 py-2.5 bg-[#161616] border border-white/[0.08] rounded-full text-[10px] font-black uppercase tracking-widest hover:border-white/20 transition-all group"
-                                >
-                                    <span className="text-gray-400 group-hover:text-white transition-colors">Pricing:</span>
-                                    <span>{activeFilters.pricing}</span>
-                                    <ChevronDown size={14} className={`text-gray-500 group-hover:text-white transition-transform ${isPricingOpen ? "rotate-180" : ""}`} />
-                                </button>
-                                {isPricingOpen && (
-                                    <div className="absolute top-full left-0 mt-2 w-40 bg-[#161616] border border-white/[0.08] rounded-xl overflow-hidden z-20 shadow-2xl">
-                                        {["All", "Free", "Premium"].map(p => (
-                                            <button
-                                                key={p}
-                                                onClick={() => { setActiveFilters({ ...activeFilters, pricing: p }); setIsPricingOpen(false); setVisibleCount(12); }}
-                                                className={`w-full text-left px-4 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-colors ${activeFilters.pricing === p ? "text-indigo-400" : "text-gray-400"}`}
-                                            >
-                                                {p}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            {/* Pricing Dropdown (Library only) */}
+                            {activeTab === "library" && (
+                                <div className="relative">
+                                    <button
+                                        onClick={() => { setIsPricingOpen(!isPricingOpen); setIsTypeOpen(false); }}
+                                        className="flex items-center gap-2 px-5 py-2.5 bg-[#161616] border border-white/[0.08] rounded-full text-[10px] font-black uppercase tracking-widest hover:border-white/20 transition-all group"
+                                    >
+                                        <span className="text-gray-400 group-hover:text-white transition-colors">Pricing:</span>
+                                        <span>{activeFilters.pricing}</span>
+                                        <ChevronDown size={14} className={`text-gray-500 group-hover:text-white transition-transform ${isPricingOpen ? "rotate-180" : ""}`} />
+                                    </button>
+                                    {isPricingOpen && (
+                                        <div className="absolute top-full left-0 mt-2 w-40 bg-[#161616] border border-white/[0.08] rounded-xl overflow-hidden z-20 shadow-2xl">
+                                            {["All", "Free", "Premium"].map(p => (
+                                                <button
+                                                    key={p}
+                                                    onClick={() => { setActiveFilters({ ...activeFilters, pricing: p }); setIsPricingOpen(false); setVisibleCount(12); }}
+                                                    className={`w-full text-left px-4 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-colors ${activeFilters.pricing === p ? "text-indigo-400" : "text-gray-400"}`}
+                                                >
+                                                    {p}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
 
                             {/* Type Dropdown */}
                             <div className="relative">
@@ -196,7 +261,7 @@ const Resources: React.FC = () => {
 
                         <div className="flex items-center gap-4">
                             <span className="text-[10px] font-black text-gray-500 tracking-widest uppercase">
-                                {filteredResources.length} Results
+                                {currentItems.length} Results
                             </span>
                             <div className="flex items-center gap-2 px-5 py-2.5 bg-[#161616] border border-white/[0.08] rounded-full text-[10px] font-black uppercase tracking-widest hover:border-white/20 transition-all cursor-pointer group">
                                 <Filter size={14} className="text-gray-500 group-hover:text-white transition-colors" />
@@ -207,15 +272,15 @@ const Resources: React.FC = () => {
 
                     {/* Resource Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-8 gap-y-12">
-                        {visibleResources.map((resource, idx) => (
+                        {activeTab === "library" && visibleResources.map((resource: any, idx: number) => (
                             <div key={idx} className="group space-y-4 flex flex-col">
                                 <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-[#0d0d0d] border border-white/[0.04] group-hover:border-white/[0.12] transition-all relative cursor-pointer ring-1 ring-white/5 active:scale-[0.98]">
                                     {/* Live Preview Container */}
-                                    <div className="absolute inset-0 scale-[0.3] origin-top-left w-[333.33%] h-[333.33%] pointer-events-none opacity-40 group-hover:opacity-100 group-hover:scale-[0.31] transition-all duration-700 bg-black/20">
+                                    <div className="absolute inset-0 scale-[0.5] origin-top-left w-[200%] h-[200%] pointer-events-none opacity-70 group-hover:opacity-100 group-hover:scale-[0.51] transition-all duration-700">
                                         {renderSection(resource.section, idx, true)}
                                     </div>
 
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity pointer-events-none" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity pointer-events-none" />
 
                                     {/* Overlay for Premium tag */}
                                     {resource.pricing === "Premium" && (
@@ -241,10 +306,97 @@ const Resources: React.FC = () => {
                                 </div>
                             </div>
                         ))}
+
+                        {activeTab === "community" && visibleResources.map((resource: any, idx: number) => {
+                            const previewSection = {
+                                ...resource.sectionConfig,
+                                styles: {
+                                    ...(resource.sectionConfig?.styles || {}),
+                                    padding: "py-0",
+                                    maxWidth: "none",
+                                    width: "100%",
+                                    minHeight: "500px",
+                                }
+                            };
+
+                            return (
+                                <div key={resource._id || idx} className="group space-y-4 flex flex-col">
+                                    <div className="aspect-[16/10] rounded-2xl overflow-hidden bg-[#0d0d0d] border border-white/[0.04] group-hover:border-white/[0.12] transition-all relative cursor-pointer ring-1 ring-white/5 active:scale-[0.98]">
+                                        {/* Live Preview Container */}
+                                        <div className="absolute inset-0 scale-[0.5] origin-top-left w-[200%] h-[200%] pointer-events-none opacity-70 group-hover:opacity-100 group-hover:scale-[0.51] transition-all duration-700">
+                                            {renderSection(previewSection, idx, true)}
+                                        </div>
+
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity pointer-events-none" />
+
+                                        {/* Action Buttons Overlay */}
+                                        <div className="absolute bottom-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); handleLike(resource._id); }}
+                                                className="p-2 bg-black/60 backdrop-blur-md rounded-lg border border-white/[0.1] hover:border-white/30 transition-all"
+                                                title="Like"
+                                            >
+                                                <Heart size={14} className="text-white" />
+                                            </button>
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); handleCopySection(resource); }}
+                                                className="flex items-center gap-1.5 px-3 py-2 bg-white text-black rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-gray-200 transition-all"
+                                                title="Copy section JSON to clipboard"
+                                            >
+                                                {copiedId === resource._id
+                                                    ? <><Check size={12} /> Copied</>
+                                                    : <><Copy size={12} /> Use</>
+                                                }
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-1.5 px-1">
+                                        <h3 className="font-bold text-lg tracking-tight group-hover:text-white transition-colors line-clamp-1">
+                                            {resource.title}
+                                        </h3>
+                                        <div className="flex items-center gap-2.5">
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-400/80">
+                                                {resource.componentType}
+                                            </span>
+                                            <span className="h-0.5 w-0.5 rounded-full bg-white/20" />
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+                                                by {resource.authorName}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center gap-4 pt-1">
+                                            <span className="flex items-center gap-1.5 text-[10px] font-bold text-gray-500">
+                                                <Heart size={11} /> {resource.likes}
+                                            </span>
+                                            <span className="flex items-center gap-1.5 text-[10px] font-bold text-gray-500">
+                                                <Download size={11} /> {resource.downloads}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
 
+                    {/* Community Empty State */}
+                    {activeTab === "community" && communityResources && communityResources.length === 0 && (
+                        <div className="py-32 text-center border border-dashed border-white/[0.06] rounded-3xl">
+                            <div className="w-16 h-16 bg-[#161616] border border-white/[0.08] rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <Users size={24} className="text-gray-600" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-2">No community resources yet</h3>
+                            <p className="text-gray-500 font-medium">Be the first to publish a section from the Editor!</p>
+                        </div>
+                    )}
+
+                    {/* Community Loading State */}
+                    {activeTab === "community" && !communityResources && (
+                        <div className="py-32 text-center">
+                            <div className="w-8 h-8 border-2 border-white/[0.08] border-t-white rounded-full animate-spin mx-auto" />
+                        </div>
+                    )}
+
                     {/* Show More Button */}
-                    {filteredResources.length > visibleCount && (
+                    {currentItems.length > visibleCount && (
                         <div className="mt-16 text-center">
                             <button
                                 onClick={handleShowMore}
@@ -256,7 +408,7 @@ const Resources: React.FC = () => {
                     )}
 
                     {/* No Results Fallback */}
-                    {filteredResources.length === 0 && (
+                    {currentItems.length === 0 && activeTab === "library" && (
                         <div className="py-32 text-center border border-dashed border-white/[0.06] rounded-3xl">
                             <div className="w-16 h-16 bg-[#161616] border border-white/[0.08] rounded-2xl flex items-center justify-center mx-auto mb-6">
                                 <Search size={24} className="text-gray-600" />

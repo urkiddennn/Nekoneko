@@ -11,7 +11,11 @@ import {
   ArrowLeft,
   Save,
   Check,
+  Share2,
+  X,
 } from "lucide-react";
+import { useMutation } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import SectionRenderer from "../SectionRenderer";
 import IframePreview from "../IframePreview";
@@ -115,6 +119,40 @@ const Editor: React.FC = () => {
 
   const [isSaving, setIsSaving] = useState(false);
   const [showSaveFeedback, setShowSaveFeedback] = useState(false);
+
+  // Publish to Community
+  const publishMutation = useMutation(api.communityResources.publish);
+  const [showPublishModal, setShowPublishModal] = useState(false);
+  const [publishForm, setPublishForm] = useState({ title: "", description: "", tags: "", sectionIndex: 0 });
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishSuccess, setPublishSuccess] = useState(false);
+
+  const handlePublish = async () => {
+    const section = siteConfig.sections[publishForm.sectionIndex] as any;
+    if (!section) return;
+    setIsPublishing(true);
+    try {
+      await publishMutation({
+        title: publishForm.title || section.type,
+        description: publishForm.description || undefined,
+        componentType: section.type,
+        sectionConfig: {
+          id: section.id || `community_${Date.now()}`,
+          type: section.type,
+          props: section.props,
+          styles: section.styles || undefined,
+          order: section.order || undefined,
+        },
+        tags: publishForm.tags ? publishForm.tags.split(",").map((t: string) => t.trim()).filter(Boolean) : undefined,
+      });
+      setPublishSuccess(true);
+      setTimeout(() => { setShowPublishModal(false); setPublishSuccess(false); setPublishForm({ title: "", description: "", tags: "", sectionIndex: 0 }); }, 1500);
+    } catch (e: any) {
+      setError(e.message || "Failed to publish");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
 
   const handleSave = async () => {
     setIsSaving(true);
@@ -264,6 +302,14 @@ const Editor: React.FC = () => {
                 <Save size={14} />
               )}
               {isSaving ? "Saving..." : showSaveFeedback ? "Saved!" : "Save"}
+            </button>
+            <button
+              onClick={() => setShowPublishModal(true)}
+              className="px-3 py-1.5 rounded border border-indigo-500/30 hover:bg-indigo-500/10 text-xs font-bold transition-all active:scale-95 flex items-center gap-1.5 text-indigo-400"
+              title="Publish section to community"
+            >
+              <Share2 size={14} />
+              Publish
             </button>
           </div>
         </div>
@@ -468,6 +514,89 @@ const Editor: React.FC = () => {
                 .cm-scroller { overflow: auto !important; }
                 .cm-content { font-family: 'JetBrains Mono', 'Fira Code', monospace !important; }
             `}</style>
+
+      {/* Publish to Community Modal */}
+      {showPublishModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-[#161616] border border-white/[0.08] rounded-2xl w-full max-w-md p-8 space-y-6 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-black tracking-tight">Publish to Community</h2>
+              <button onClick={() => setShowPublishModal(false)} className="text-gray-500 hover:text-white transition-colors"><X size={18} /></button>
+            </div>
+
+            {publishSuccess ? (
+              <div className="text-center py-8 space-y-4">
+                <div className="w-12 h-12 bg-green-500/10 border border-green-500/20 rounded-xl flex items-center justify-center mx-auto"><Check size={24} className="text-green-400" /></div>
+                <p className="font-bold text-green-400">Published successfully!</p>
+              </div>
+            ) : (
+              <>
+                {/* Section Picker */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Section</label>
+                  <select
+                    value={publishForm.sectionIndex}
+                    onChange={(e) => setPublishForm({ ...publishForm, sectionIndex: Number(e.target.value) })}
+                    className="w-full bg-[#0d0d0d] border border-white/[0.08] rounded-lg px-4 py-3 text-sm font-medium focus:outline-none focus:border-white/20 transition-all"
+                  >
+                    {siteConfig.sections.map((s: any, i: number) => (
+                      <option key={i} value={i}>{s.type} — {s.props?.heading || s.props?.title || s.props?.variant || `Section ${i + 1}`}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Title */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Title</label>
+                  <input
+                    type="text"
+                    value={publishForm.title}
+                    onChange={(e) => setPublishForm({ ...publishForm, title: e.target.value })}
+                    placeholder={siteConfig.sections[publishForm.sectionIndex]?.type || "My Section"}
+                    className="w-full bg-[#0d0d0d] border border-white/[0.08] rounded-lg px-4 py-3 text-sm font-medium focus:outline-none focus:border-white/20 transition-all placeholder:text-gray-600"
+                  />
+                </div>
+
+                {/* Description */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Description <span className="text-gray-600">(optional)</span></label>
+                  <textarea
+                    value={publishForm.description}
+                    onChange={(e) => setPublishForm({ ...publishForm, description: e.target.value })}
+                    placeholder="A brief description of your section..."
+                    rows={2}
+                    className="w-full bg-[#0d0d0d] border border-white/[0.08] rounded-lg px-4 py-3 text-sm font-medium focus:outline-none focus:border-white/20 transition-all placeholder:text-gray-600 resize-none"
+                  />
+                </div>
+
+                {/* Tags */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Tags <span className="text-gray-600">(comma-separated)</span></label>
+                  <input
+                    type="text"
+                    value={publishForm.tags}
+                    onChange={(e) => setPublishForm({ ...publishForm, tags: e.target.value })}
+                    placeholder="portfolio, dark, minimal"
+                    className="w-full bg-[#0d0d0d] border border-white/[0.08] rounded-lg px-4 py-3 text-sm font-medium focus:outline-none focus:border-white/20 transition-all placeholder:text-gray-600"
+                  />
+                </div>
+
+                <button
+                  onClick={handlePublish}
+                  disabled={isPublishing}
+                  className={`w-full py-4 rounded-xl bg-white text-black font-black text-sm uppercase tracking-widest hover:bg-gray-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 ${isPublishing ? "opacity-70 cursor-not-allowed" : ""}`}
+                >
+                  {isPublishing ? (
+                    <><div className="w-3 h-3 border-2 border-black border-t-transparent rounded-full animate-spin" /> Publishing...</>
+                  ) : (
+                    <><Share2 size={14} /> Publish to Community</>
+                  )}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

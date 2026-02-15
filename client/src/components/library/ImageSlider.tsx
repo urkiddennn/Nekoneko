@@ -124,7 +124,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
 
     if (isFullscreen) {
         return (
-            <div className="relative w-full overflow-hidden -mx-4 px-0">
+            <div className="relative w-full overflow-hidden px-0">
                 <div className="relative aspect-video min-h-[500px] w-full overflow-hidden bg-slate-950">
                     {images.map((image, index) => {
                         const isActive = index === currentIndex;

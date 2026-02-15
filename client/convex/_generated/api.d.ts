@@ -11,6 +11,7 @@
 import type * as analytics from "../analytics.js";
 import type * as assets from "../assets.js";
 import type * as auth from "../auth.js";
+import type * as communityResources from "../communityResources.js";
 import type * as config from "../config.js";
 import type * as crons from "../crons.js";
 import type * as feedback from "../feedback.js";
@@ -20,6 +21,7 @@ import type * as rateLimiter from "../rateLimiter.js";
 import type * as resend from "../resend.js";
 import type * as schema_analytics from "../schema/analytics.js";
 import type * as schema_assets from "../schema/assets.js";
+import type * as schema_community_resources from "../schema/community_resources.js";
 import type * as schema_feedback from "../schema/feedback.js";
 import type * as schema_messages from "../schema/messages.js";
 import type * as schema_projects from "../schema/projects.js";
@@ -41,6 +43,7 @@ declare const fullApi: ApiFromModules<{
   analytics: typeof analytics;
   assets: typeof assets;
   auth: typeof auth;
+  communityResources: typeof communityResources;
   config: typeof config;
   crons: typeof crons;
   feedback: typeof feedback;
@@ -50,6 +53,7 @@ declare const fullApi: ApiFromModules<{
   resend: typeof resend;
   "schema/analytics": typeof schema_analytics;
   "schema/assets": typeof schema_assets;
+  "schema/community_resources": typeof schema_community_resources;
   "schema/feedback": typeof schema_feedback;
   "schema/messages": typeof schema_messages;
   "schema/projects": typeof schema_projects;

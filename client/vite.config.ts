@@ -68,8 +68,8 @@ export default defineConfig(({ command }) => {
         // Content Security Policy - helps prevent XSS attacks
         // Allow Google Fonts in dev so they work when self-hosting is disabled
         'Content-Security-Policy': command === 'serve'
-          ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.convex.cloud wss://*.convex.cloud; frame-src 'self' http://*.localhost:5173 http://*.localhost:5174; frame-ancestors 'self' http://localhost:5173 http://*.localhost:5173;"
-          : "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.convex.cloud wss://*.convex.cloud; frame-src 'self';",
+          ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.convex.cloud wss://*.convex.cloud; frame-src 'self' https://player.mux.com http://*.localhost:5173 http://*.localhost:5174; frame-ancestors 'self' http://localhost:5173 http://*.localhost:5173;"
+          : "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.convex.cloud wss://*.convex.cloud; frame-src 'self' https://player.mux.com;",
         // Prevent MIME type sniffing
         'X-Content-Type-Options': 'nosniff',
         // Prevent clickjacking - allow framing in dev for live preview
