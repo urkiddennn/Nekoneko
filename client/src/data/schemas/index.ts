@@ -1,4 +1,8 @@
 import { getting_started } from "./getting_started";
+import { architecture } from "./architecture";
+import { rendering_engine } from "./rendering_engine";
+import { icons_guide } from "./icons_guide";
+import { community } from "./community";
 import { site_settings } from "./site_settings";
 import { navigation } from "./navigation";
 import { theme_toggle } from "./theme_toggle";
@@ -33,6 +37,10 @@ import { text } from "./text";
 
 export const SCHEMAS = [
     getting_started,
+    architecture,
+    rendering_engine,
+    icons_guide,
+    community,
     site_settings,
     navigation,
     theme_toggle,

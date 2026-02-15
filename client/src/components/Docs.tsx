@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Layers, Box, Terminal, Globe, Menu, X } from 'lucide-react';
+import { ArrowLeft, Search, Layers, Box, Terminal, Globe, Menu, X, BookOpen } from 'lucide-react';
 import { SCHEMAS } from '../data/schemas';
 import DocViewer from './DocViewer';
 import { SEO } from './SEO';
@@ -36,6 +36,7 @@ const Docs: React.FC = () => {
 
     const getIcon = (category: string) => {
         switch (category) {
+            case 'Guides': return <BookOpen size={14} />;
             case 'Core': return <Terminal size={14} />;
             case 'Layout': return <Layers size={14} />;
             case 'Content': return <Box size={14} />;

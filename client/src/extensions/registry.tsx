@@ -1,17 +1,21 @@
 import React from "react";
-import { Palette, Files, LayoutGrid, LucideIcon, Image as ImageIcon } from "lucide-react";
+import { Palette, Files, LayoutGrid, LucideIcon, Image as ImageIcon, Shapes } from "lucide-react";
 import ThemePlugin from "../components/ThemePlugin";
 import ExtensionsPanel from "../components/ExtensionsPanel";
 import AssetLibrary from "../components/AssetLibrary";
+import IconBrowserPanel from "../components/IconBrowserPanel";
 
 
 export interface EditorExtension {
     id: string;
     name: string;
+    description?: string;
     icon: LucideIcon;
     panel: React.FC<any>;
+    isOptional?: boolean;
 }
 
+/** Core extensions — always visible in the sidebar */
 export const CORE_EXTENSIONS: EditorExtension[] = [
     {
         id: "explorer",
@@ -45,5 +49,17 @@ export const CORE_EXTENSIONS: EditorExtension[] = [
         name: "Extensions",
         icon: LayoutGrid,
         panel: ExtensionsPanel,
+    },
+];
+
+/** Optional extensions — can be toggled on/off */
+export const OPTIONAL_EXTENSIONS: EditorExtension[] = [
+    {
+        id: "icons",
+        name: "Icon Browser",
+        description: "Browse and copy 1400+ Lucide icons",
+        icon: Shapes,
+        panel: IconBrowserPanel,
+        isOptional: true,
     },
 ];

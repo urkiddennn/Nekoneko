@@ -30,7 +30,7 @@ import {
 import { autocompletion, CompletionContext } from "@codemirror/autocomplete";
 
 import { vscodeDark } from "@uiw/codemirror-themes-all";
-import { CORE_EXTENSIONS } from "../../extensions/registry";
+import { CORE_EXTENSIONS, OPTIONAL_EXTENSIONS } from "../../extensions/registry";
 import ThemeToggle from "../library/ThemeToggle";
 
 function myCompletions(context: CompletionContext) {
@@ -62,9 +62,34 @@ const Editor: React.FC = () => {
     useState<string>("appearance");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
+  // Enabled optional extensions (persisted in localStorage)
+  const [enabledExtIds, setEnabledExtIds] = useState<string[]>(() => {
+    try {
+      const stored = localStorage.getItem("nekoneko_enabled_extensions");
+      return stored ? JSON.parse(stored) : [];
+    } catch { return []; }
+  });
+
+  // Sync when ExtensionsPanel toggles (same-tab custom event)
+  useEffect(() => {
+    const handler = () => {
+      try {
+        const stored = localStorage.getItem("nekoneko_enabled_extensions");
+        setEnabledExtIds(stored ? JSON.parse(stored) : []);
+      } catch { /* ignore */ }
+    };
+    window.addEventListener("extensions-changed", handler);
+    return () => window.removeEventListener("extensions-changed", handler);
+  }, []);
+
+  const allExtensions = React.useMemo(
+    () => [...CORE_EXTENSIONS, ...OPTIONAL_EXTENSIONS.filter((e) => enabledExtIds.includes(e.id))],
+    [enabledExtIds]
+  );
+
   const activeExtension =
-    CORE_EXTENSIONS.find((ext) => ext.id === activeExtensionId) ||
-    CORE_EXTENSIONS[0];
+    allExtensions.find((ext) => ext.id === activeExtensionId) ||
+    allExtensions[0];
 
   const toggleExtension = (id: string) => {
     if (activeExtensionId === id) {
@@ -338,7 +363,7 @@ const Editor: React.FC = () => {
       <div className="flex-1 flex overflow-hidden">
         {/* Side Nav (Activity Bar) */}
         <div className="w-14 border-r border-white/[0.04] bg-[#0b0b0b] flex flex-col items-center py-6 gap-6 shrink-0 z-30">
-          {CORE_EXTENSIONS.map((ext) => {
+          {allExtensions.map((ext) => {
             const Icon = ext.icon;
             const isActive = activeExtensionId === ext.id;
             return (

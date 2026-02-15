@@ -111,7 +111,128 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
     }
   };
 
-  // Guide/Documentation View
+  // ── Content Rendering Helpers ──────────────────────────────────────
+
+  /** Render inline `code` spans */
+  const renderInlineCode = (text: string) => {
+    const parts = text.split(/(`[^`]+`)/g);
+    return parts.map((part: string, i: number) => {
+      if (part.startsWith("`") && part.endsWith("`")) {
+        return (
+          <code
+            key={i}
+            className="px-1.5 py-0.5 bg-white/[0.06] border border-white/[0.08] rounded text-[13px] font-mono text-indigo-400"
+          >
+            {part.slice(1, -1)}
+          </code>
+        );
+      }
+      return <span key={i}>{part}</span>;
+    });
+  };
+
+  /** Detect flowchart / ASCII art blocks */
+  const isFlowchart = (text: string) =>
+    text.includes("┌") ||
+    text.includes("└") ||
+    text.includes("│") ||
+    text.includes("▼");
+
+  /** Parse content string into paragraphs, lists, and flowcharts */
+  const renderContent = (content: string) => {
+    const blocks = content.split(/\n\n+/);
+
+    return blocks.map((block: string, blockIdx: number) => {
+      const trimmed = block.trim();
+
+      // Flowchart / ASCII art → <pre>
+      if (isFlowchart(trimmed)) {
+        return (
+          <pre
+            key={blockIdx}
+            className="bg-[#161616] border border-white/[0.08] rounded-xl p-6 text-sm font-mono text-gray-400 leading-relaxed overflow-x-auto whitespace-pre"
+          >
+            {trimmed}
+          </pre>
+        );
+      }
+
+      const lines = trimmed.split("\n");
+
+      // Numbered list (1. 2. 3. …)
+      const isNumberedList = lines.every(
+        (l: string) => /^\d+\.\s/.test(l.trim()) || l.trim() === ""
+      );
+      if (
+        isNumberedList &&
+        lines.some((l: string) => /^\d+\.\s/.test(l.trim()))
+      ) {
+        return (
+          <ol key={blockIdx} className="list-none space-y-2 pl-0">
+            {lines
+              .filter((l: string) => l.trim())
+              .map((l: string, li: number) => {
+                const match = l.trim().match(/^\d+\.\s(.*)/);
+                return (
+                  <li
+                    key={li}
+                    className="flex gap-3 text-gray-500 text-[15px] leading-relaxed"
+                  >
+                    <span className="text-indigo-400 font-black shrink-0">
+                      {li + 1}.
+                    </span>
+                    <span>
+                      {renderInlineCode(match ? match[1] : l)}
+                    </span>
+                  </li>
+                );
+              })}
+          </ol>
+        );
+      }
+
+      // Bullet list (• or -)
+      const isBulletList = lines.every(
+        (l: string) => /^[•\-]\s/.test(l.trim()) || l.trim() === ""
+      );
+      if (
+        isBulletList &&
+        lines.some((l: string) => /^[•\-]\s/.test(l.trim()))
+      ) {
+        return (
+          <ul key={blockIdx} className="list-none space-y-2 pl-0">
+            {lines
+              .filter((l: string) => l.trim())
+              .map((l: string, li: number) => {
+                const text = l.trim().replace(/^[•\-]\s/, "");
+                return (
+                  <li
+                    key={li}
+                    className="flex gap-3 text-gray-500 text-[15px] leading-relaxed"
+                  >
+                    <span className="text-white/20 shrink-0">•</span>
+                    <span>{renderInlineCode(text)}</span>
+                  </li>
+                );
+              })}
+          </ul>
+        );
+      }
+
+      // Regular paragraph
+      return (
+        <p
+          key={blockIdx}
+          className="text-gray-500 text-[15px] leading-loose"
+        >
+          {renderInlineCode(trimmed)}
+        </p>
+      );
+    });
+  };
+
+  // ── Guide / Documentation View ─────────────────────────────────────
+
   if (schema.documentation) {
     return (
       <div
@@ -139,8 +260,8 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
               <h2 className="text-2xl font-black tracking-tight text-white flex items-center gap-3">
                 {section.title}
               </h2>
-              <div className="prose prose-lg prose-invert text-gray-500 leading-loose">
-                <p>{section.content}</p>
+              <div className="space-y-4">
+                {renderContent(section.content)}
               </div>
 
               {section.code && (
@@ -181,6 +302,8 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
     );
   }
 
+  // ── Component Schema View ──────────────────────────────────────────
+
   return (
     <div
       className={`space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-500 ${className}`}
@@ -216,8 +339,8 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
               key={variant.name}
               onClick={() => setSelectedVariantIndex(idx)}
               className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border ${selectedVariantIndex === idx
-                  ? "bg-white text-black border-white shadow-xl shadow-white/5"
-                  : "bg-white/[0.02] text-gray-500 border-white/[0.08] hover:border-white/[0.2] hover:text-white"
+                ? "bg-white text-black border-white shadow-xl shadow-white/5"
+                : "bg-white/[0.02] text-gray-500 border-white/[0.08] hover:border-white/[0.2] hover:text-white"
                 }`}
             >
               {variant.name}
@@ -232,8 +355,8 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
           <button
             onClick={() => setActiveTab("preview")}
             className={`px-4 py-2.5 text-xs font-black uppercase tracking-widest transition-all relative ${activeTab === "preview"
-                ? "text-white"
-                : "text-gray-500 hover:text-gray-300"
+              ? "text-white"
+              : "text-gray-500 hover:text-gray-300"
               }`}
           >
             <div className="flex items-center gap-2">
@@ -247,8 +370,8 @@ const DocViewer: React.FC<DocViewerProps> = ({ schema, className = "" }) => {
           <button
             onClick={() => setActiveTab("json")}
             className={`px-4 py-2.5 text-xs font-black uppercase tracking-widest transition-all relative ${activeTab === "json"
-                ? "text-white"
-                : "text-gray-500 hover:text-gray-300"
+              ? "text-white"
+              : "text-gray-500 hover:text-gray-300"
               }`}
           >
             <div className="flex items-center gap-2">
