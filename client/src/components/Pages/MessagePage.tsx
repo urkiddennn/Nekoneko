@@ -19,6 +19,7 @@ const MessagePage: React.FC = () => {
   const { token, isConvexAuth } = useAuth();
 
   const [filterStatus, setFilterStatus] = useState<"all" | "unread" | "read">("all");
+  const [filterType, setFilterType] = useState<"all" | "contact" | "subscription">("all");
 
   const messages = useQuery(api.messages.listMessages, (token || isConvexAuth) ? {
     token: token || undefined
@@ -47,8 +48,17 @@ const MessagePage: React.FC = () => {
   };
 
   const filteredMessages = messages?.filter(m => {
-    if (filterStatus === "all") return true;
-    return m.status === filterStatus;
+    // Filter by Status
+    if (filterStatus !== "all" && m.status !== filterStatus) return false;
+
+    // Filter by Type
+    if (filterType !== "all") {
+      if (filterType === "subscription" && m.type !== "subscription") return false;
+      // Explicitly handle contact type (including undefined/legacy)
+      if (filterType === "contact" && m.type !== "contact" && m.type !== undefined) return false;
+    }
+
+    return true;
   });
 
   const unreadCount = messages?.filter(m => m.status === "unread").length || 0;
@@ -74,6 +84,8 @@ const MessagePage: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
           {/* Filter Sidebar - Sticky on desktop, horizontal scroll on mobile */}
           <aside className="w-full md:w-48 lg:w-64 md:sticky md:top-32 h-auto flex flex-col gap-6">
+
+            {/* Status Filter */}
             <div className="space-y-4">
               <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 flex items-center gap-2">
                 <Filter size={12} />
@@ -95,6 +107,28 @@ const MessagePage: React.FC = () => {
                         {unreadCount}
                       </span>
                     )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Type Filter */}
+            <div className="space-y-4">
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-500 flex items-center gap-2">
+                <Inbox size={12} />
+                Message Type
+              </label>
+              <div className="flex md:flex-col overflow-x-auto md:overflow-visible pb-2 md:pb-0 gap-2 no-scrollbar">
+                {(["all", "contact", "subscription"] as const).map((t) => (
+                  <button
+                    key={t}
+                    onClick={() => setFilterType(t)}
+                    className={`whitespace-nowrap px-4 py-2.5 rounded-lg text-xs font-bold capitalize flex items-center justify-between gap-4 transition-all border ${filterType === t
+                      ? "bg-white text-black border-white shadow-xl shadow-white/5"
+                      : "text-gray-500 hover:bg-white/[0.04] border-transparent hover:text-white"
+                      }`}
+                  >
+                    <span className="capitalize">{t}</span>
                   </button>
                 ))}
               </div>
@@ -140,7 +174,7 @@ const MessagePage: React.FC = () => {
                     <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
                       <div className="flex items-center gap-4">
                         <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-white border border-white/[0.08] ${message.status === "unread" ? "bg-white text-black" : "bg-white/[0.04]"}`}>
-                          <User size={18} />
+                          {message.type === 'subscription' ? <Inbox size={18} /> : <User size={18} />}
                         </div>
                         <div className="min-w-0">
                           <h3 className="font-black text-sm tracking-tight truncate max-w-[200px] sm:max-w-none">
@@ -155,6 +189,11 @@ const MessagePage: React.FC = () => {
                               <span className="flex items-center gap-1 text-indigo-400">
                                 <div className="w-1 h-1 rounded-full bg-indigo-400 animate-pulse" />
                                 New
+                              </span>
+                            )}
+                            {message.type === 'subscription' && (
+                              <span className="bg-emerald-500/10 text-emerald-500 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                                Subscribed
                               </span>
                             )}
                           </div>

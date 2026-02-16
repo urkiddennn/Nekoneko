@@ -33,7 +33,9 @@ import { blog_content } from "./blog_content";
 import { blog_newsletter } from "./blog_newsletter";
 import { subscribe } from "./subscribe";
 import { background } from "./background";
+
 import { text } from "./text";
+import { waitlist } from "./waitlist";
 
 export const SCHEMAS = [
     getting_started,
@@ -73,4 +75,5 @@ export const SCHEMAS = [
     subscribe,
     background,
     text,
+    waitlist,
 ];

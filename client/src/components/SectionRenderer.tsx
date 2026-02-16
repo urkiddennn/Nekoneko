@@ -29,6 +29,7 @@ const Subscribe = React.lazy(() => import("./library/Subscribe"));
 
 const Background = React.lazy(() => import("./library/Background"));
 const Text = React.lazy(() => import("./library/Text"));
+const Waitlist = React.lazy(() => import("./library/Waitlist"));
 const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
 
 /**
@@ -75,6 +76,7 @@ const componentRegistry: Record<
 
   background: Background,
   text: Text,
+  waitlist: Waitlist,
   live_site_preview: LiveSitePreview,
 };
 
@@ -109,9 +111,9 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
   const extraProps = React.useMemo(
     () =>
       section.type === "layout" ||
-      section.type === "features" ||
-      section.type === "section" ||
-      section.type === "background"
+        section.type === "features" ||
+        section.type === "section" ||
+        section.type === "background"
         ? { renderItem: (s: any, i: number) => renderSection(s, i, isPreview) }
         : {},
     [section.type, isPreview],
@@ -128,11 +130,11 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
         styles.backgroundColor || "",
         // Fallback py-0 for specific types or preview mode, otherwise py-2 default
         styles.padding ||
-          (section.type === "background" ||
+        (section.type === "background" ||
           section.type === "footer" ||
           isPreview
-            ? "py-0"
-            : "py-2"),
+          ? "py-0"
+          : "py-0"),
         styles.margin || "my-0",
         styles.textAlign ? `text-${styles.textAlign}` : "",
         section.props?.anchorId ? "scroll-mt-20" : "", // Offset for navigation links
@@ -148,13 +150,13 @@ const SectionComponent: React.FC<SectionComponentProps> = ({
       [
         section.type === "background" || section.type === "footer" || isPreview
           ? "w-full"
-          : "mx-auto px-4",
+          : "mx-auto",
         styles.maxWidth ||
-          (section.type === "background" ||
+        (section.type === "background" ||
           section.type === "footer" ||
           isPreview
-            ? "max-w-full"
-            : "max-w-8xl"),
+          ? "max-w-full"
+          : "max-w-8xl"),
         styles.borderRadius || "",
       ]
         .filter(Boolean)

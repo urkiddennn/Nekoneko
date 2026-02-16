@@ -75,8 +75,8 @@ const Site: React.FC = () => {
 
       {showToggle && <ThemeToggle variant="floating" />}
 
-      <footer className="py-5 flex justify-center bg-transparent">
-        <div className="flex items-center gap-2 opacity-20 hover:opacity-100 transition-opacity cursor-default">
+      <footer className="py-1 flex justify-center bg-slate-950">
+        <div className="flex items-center gap-2 opacity-20 hover:opacity-100 transition-opacity cursor-default text-white">
           <span className="text-[10px] font-black tracking-[0.3em] uppercase">
             Powered by
           </span>

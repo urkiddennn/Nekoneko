@@ -1,4 +1,4 @@
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 /**
@@ -32,8 +32,25 @@ export const subscribeNow = mutation({
       content: `New subscription request from: ${args.subscriberEmail}`,
       timestamp,
       status: "unread",
+      type: "subscription",
     });
 
     return { success: true };
   },
 });
+
+export const getSubscriberCount = query({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    // Count how many entries in 'subscribe' table for this project
+    const count = await ctx.db
+      .query("subscribe")
+      .withIndex("by_project", (q) => q.eq("projectId", args.projectId))
+      .collect();
+
+    return count.length;
+  },
+});
+

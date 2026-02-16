@@ -25,6 +25,7 @@ export const sendMessage = mutation({
       content: args.content,
       timestamp: Date.now(),
       status: "unread",
+      type: "contact",
     });
   },
 });
