@@ -58,6 +58,7 @@ const FONTS = [
   "Merriweather",
   "Press Start 2P",
   "Pixelify Sans",
+  "Geist",
   "Doto",
 ];
 

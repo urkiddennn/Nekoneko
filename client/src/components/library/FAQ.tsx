@@ -11,7 +11,7 @@ interface FAQProps {
     title?: string;
     description?: string;
     items?: FAQItem[];
-    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper';
+    variant?: 'accordion' | 'grid' | 'minimal_cards' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper' | 'bento';
 }
 
 const FAQ: React.FC<FAQProps> = ({
@@ -188,6 +188,56 @@ const FAQ: React.FC<FAQProps> = ({
                 </div>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
                     style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
+            </div>
+        );
+    }
+    if (variant === 'bento') {
+        return (
+            <div className="bg-[#EBEAE5] p-4 md:p-8 -mx-4">
+                {title && (
+                    <h2 className="text-4xl md:text-5xl font-black italic tracking-tighter uppercase text-slate-950 text-center mb-12">
+                        {title}
+                    </h2>
+                )}
+                <div className="grid grid-cols-1 border-t border-l max-w-4xl mx-auto items-center border-[#2c2c2c] border-dashed">
+                    {items.map((item, index) => {
+                        const isOpen = openIndex === index;
+                        return (
+                            <div
+                                key={index}
+                                className="bg-[#EBEAE5] border-b border-r border-[#2c2c2c] border-dashed transition-all duration-300 hover:bg-white group"
+                            >
+                                <button
+                                    onClick={() => toggleAccordion(index)}
+                                    className="w-full text-left p-6 md:p-8 flex items-start justify-between gap-6"
+                                >
+                                    <div className="flex-1">
+                                        <h3 className="text-lg md:text-xl font-bold text-[#1a1a1a] mb-2 group-hover:text-[#FF6B00] transition-colors">
+                                            {item.question}
+                                        </h3>
+                                        <div
+                                            className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
+                                                }`}
+                                        >
+                                            <div className="overflow-hidden">
+                                                <p className="text-slate-600 leading-relaxed font-medium">
+                                                    {item.answer}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={`
+                                        flex-shrink-0 w-8 h-8 flex items-center justify-center border border-[#2c2c2c] border-dashed
+                                        transition-all duration-300
+                                        ${isOpen ? 'bg-[#FF6B00] border-[#FF6B00] text-white rotate-45' : 'text-[#2c2c2c] group-hover:border-[#FF6B00] group-hover:text-[#FF6B00]'}
+                                    `}>
+                                        <span className="text-xl leading-none block mt-[-2px]">+</span>
+                                    </div>
+                                </button>
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         );
     }

@@ -31,7 +31,7 @@ export const faq = {
             type: "array",
             desc: "List of {question, answer}.",
         },
-        { name: "variant", type: '"accordion" | "grid" | "minimal_cards" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper"', desc: "Visual style." },
+        { name: "variant", type: '"accordion" | "grid" | "minimal_cards" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper" | "bento"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -176,6 +176,24 @@ export const faq = {
                     items: [
                         { question: "Q: Is this a real newspaper?", answer: "A: It is a design variant that emulates the classic editorial feel." },
                         { question: "Q: Can I use it for my blog?", answer: "A: Absolutely, it's perfect for long-form content." },
+                    ],
+                },
+            },
+        },
+
+        {
+            name: "Bento",
+            description: "Clean grid-based accordion with dashed borders.",
+            example: {
+                id: "faq-bento",
+                type: "faq",
+                props: {
+                    title: "Common Questions",
+                    description: "Learn more about our platform and services.",
+                    variant: "bento",
+                    items: [
+                        { question: "How does the pricing work?", answer: "We define our pricing based on usage and feature access." },
+                        { question: "Can I cancel anytime?", answer: "Yes, you can cancel your subscription at any time without penalties." },
                     ],
                 },
             },

@@ -10,7 +10,7 @@ export const footer = {
         { name: "links", type: "array", desc: "List of {label, url} navigation links." },
         { name: "socials", type: "array", desc: "List of {platform, url} social links." },
         { name: "padding", type: "string", desc: "Vertical padding (e.g. py-12)." },
-        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel" | "newspaper"', desc: "Visual style." }
+        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel" | "newspaper" | "bento"', desc: "Visual style." }
     ],
     common_styles: [
         { name: "padding", type: "spacing", desc: "Wrapper padding." },
@@ -119,6 +119,21 @@ export const footer = {
                     variant: "newspaper",
                     links: [{ label: "Archives", url: "#" }],
                     socials: [{ platform: "github", url: "#" }]
+                }
+            }
+        },
+        {
+            name: "Bento",
+            description: "Dark grid layout with massive typography.",
+            example: {
+                id: "footer-bento",
+                type: "footer",
+                props: {
+                    logo: "ClOura.",
+                    tagline: "",
+                    variant: "bento",
+                    links: [{ label: "Privacy", url: "#" }, { label: "Terms", url: "#" }],
+                    copyright: "@ 2025"
                 }
             }
         }

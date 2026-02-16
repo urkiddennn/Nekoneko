@@ -38,5 +38,10 @@ export const layout = {
             type: "string",
             desc: "Inner padding (1-12).",
         },
+        {
+            name: "variant",
+            type: '"default" | "bento"',
+            desc: "Layout style.",
+        },
     ],
 };

@@ -1,5 +1,7 @@
 /* Self-host common fonts via vite-plugin-webfont-dl */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap");
+@import "https://cdn.jsdelivr.net/npm/geist@1.0.0/dist/fonts/geist-sans/style.css";
+@import "https://cdn.jsdelivr.net/npm/geist@1.0.0/dist/fonts/geist-mono/style.css";
 
 @tailwind base;
 @tailwind components;
@@ -17,9 +19,14 @@ html {
   --text-primary: #ffffff;
   --text-secondary: #a1a1aa;
   --text-muted: #71717a;
-  --accent-primary: #6366f1; /* Indigo-500 */
-  --accent-secondary: #4f46e5; /* Indigo-600 */
-  
+  --accent-primary: #6366f1;
+  /* Indigo-500 */
+  --accent-secondary: #4f46e5;
+  /* Indigo-600 */
+
+  --font-geist-sans: 'Geist', 'Geist Sans', 'Inter', system-ui, sans-serif;
+  --font-geist-mono: 'Geist Mono', monospace;
+
   line-height: 1.5;
   font-weight: 400;
   color-scheme: dark;

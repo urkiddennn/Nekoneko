@@ -11,7 +11,7 @@ interface WaitlistProps {
     buttonText?: string;
     placeholderText?: string;
     backgroundImage?: string;
-    variant?: 'default' | 'split_left' | 'split_right' | 'minimal' | 'glassmorphism' | 'pixel' | 'newspaper' | 'brutalist' | 'gradient' | 'glow';
+    variant?: 'default' | 'split_left' | 'split_right' | 'minimal' | 'glassmorphism' | 'pixel' | 'newspaper' | 'brutalist' | 'gradient' | 'glow' | 'bento';
     showCount?: boolean;
     styles?: {
         backgroundColor?: string;
@@ -493,6 +493,65 @@ const Waitlist: React.FC<WaitlistProps> = ({
         );
     }
 
+
+    // --- VARIANT: BENTO ---
+    if (variant === 'bento') {
+        return (
+            <div className="min-h-screen bg-[#EBEAE5] flex items-center justify-center p-4 md:p-12 font-geist-sans relative overflow-hidden">
+                {/* Background Grid Lines */}
+                <div className="absolute inset-0 pointer-events-none flex justify-between max-w-7xl mx-auto px-6 md:px-12">
+                    <div className="border-l border-[#2c2c2c] border-dashed h-full opacity-20" />
+                    <div className="border-r border-[#2c2c2c] border-dashed h-full opacity-20" />
+                </div>
+
+                <div className="max-w-xl w-full relative z-10">
+                    <div className="bg-[#EBEAE5] border border-[#2c2c2c] border-dashed p-8 md:p-12 shadow-sm relative">
+                        {/* Decorative corners */}
+                        <div className="absolute -top-1 -left-1 w-2 h-2 bg-[#2c2c2c]" />
+                        <div className="absolute -top-1 -right-1 w-2 h-2 bg-[#2c2c2c]" />
+                        <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-[#2c2c2c]" />
+                        <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-[#2c2c2c]" />
+
+                        {/* Optional tiny top label */}
+                        <div className="text-center mb-6">
+                            <span className="text-xs font-bold tracking-widest uppercase text-slate-500">
+                                Join the movement
+                            </span>
+                        </div>
+
+                        <h1 className="text-4xl md:text-5xl font-bold text-[#1a1a1a] tracking-tight text-center mb-4 font-geist-sans leading-tight">
+                            {title}
+                        </h1>
+                        <p className="text-slate-600 text-center mb-10 font-medium leading-relaxed">
+                            {description}
+                        </p>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <input
+                                    type="email"
+                                    required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    placeholder={placeholderText}
+                                    className="w-full px-5 py-4 bg-white border border-[#2c2c2c] border-dashed focus:border-solid focus:border-[#FF6B00] outline-none transition-all placeholder:text-slate-400 text-slate-900 font-medium"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={status === 'loading'}
+                                className="w-full py-4 bg-[#FF6B00] text-white font-bold uppercase tracking-wider hover:bg-[#FF6B00]/90 transition-colors border border-transparent shadow-[4px_4px_0px_0px_rgba(0,0,0,0.1)] active:shadow-none active:translate-x-[1px] active:translate-y-[1px]"
+                            >
+                                {status === 'loading' ? <Loader2 className="animate-spin mx-auto" /> : buttonText}
+                            </button>
+                            {renderFeedback('minimal')}
+                            {renderCount('minimal')}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     // --- DEFAULT VARIANT ---
     return (

@@ -32,7 +32,13 @@ export default {
     },
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        geist: ['var(--font-geist-sans)'],
+        'geist-sans': ['var(--font-geist-sans)'],
+        'geist-mono': ['var(--font-geist-mono)'],
+      },
+    },
   },
   plugins: [],
 }

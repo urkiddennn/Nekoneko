@@ -35,7 +35,7 @@ export const features = {
         },
         {
             name: "variant",
-            type: '"default" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper"',
+            type: '"default" | "brutalist" | "outline_minimal" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper" | "bento"',
             desc: "Visual style.",
         },
     ],
@@ -151,6 +151,24 @@ export const features = {
                     items: [
                         { title: "EDITORIAL", description: "Deep dive into design systems." },
                         { title: "OP-ED", description: "The future of JSON logic." },
+                    ],
+                },
+            },
+        },
+        {
+            name: "Bento",
+            description: "Grid layout with large number indices and minimal text.",
+            example: {
+                id: "feat-bento",
+                type: "features",
+                props: {
+                    title: "Fast",
+                    variant: "bento",
+                    columns: 3,
+                    items: [
+                        { title: "Fast", description: "Engineered for speed." },
+                        { title: "Fast", description: "No manual HTML." },
+                        { title: "Fast", description: "Optimized for performance." },
                     ],
                 },
             },

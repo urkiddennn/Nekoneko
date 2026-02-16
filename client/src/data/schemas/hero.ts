@@ -40,7 +40,7 @@ export const hero = {
         { name: "alignment", type: '"left" | "center"', desc: "Text alignment." },
         {
             name: "variant",
-            type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "glassmorphism_vibrant" | "glassmorphism_dark" | "creative_gradient" | "connected_line" | "pixel" | "newspaper"',
+            type: '"stack" | "split" | "invest" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "glassmorphism_vibrant" | "glassmorphism_dark" | "creative_gradient" | "connected_line" | "pixel" | "newspaper" | "bento"',
             desc: "Layout style.",
         },
         {
@@ -298,6 +298,23 @@ export const hero = {
                     subheading: "LATEST UPDATES IN MODERN WEB ARCHITECTURE",
                     avatarUrl: "https://images.unsplash.com/photo-1504711434969-e33886168f5c",
                     variant: "newspaper",
+                },
+            },
+        },
+        {
+            name: "Bento",
+            description: "Modern grid layout with Geist typography and orange accents.",
+            example: {
+                id: "hero-bento",
+                type: "hero",
+                props: {
+                    heading: "ClOura.",
+                    subheading: "Zest is now available",
+                    variant: "bento",
+                    ctaButtons: [
+                        { label: "Signup", url: "#", variant: "primary" },
+                        { label: "Documentation", url: "#", variant: "outline" },
+                    ],
                 },
             },
         },

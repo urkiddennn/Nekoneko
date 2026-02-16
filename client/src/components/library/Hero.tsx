@@ -32,7 +32,8 @@ interface HeroProps {
   | "creative_gradient"
   | "connected_line"
   | "pixel"
-  | "newspaper";
+  | "newspaper"
+  | "bento";
   backgroundImageUrl?: string;
   topBadgeItems?: BadgeItem[];
   ctaButtons?: CTAButton[];
@@ -683,6 +684,56 @@ const Hero: React.FC<HeroProps> = ({
         </div>
         <div className="mt-12 border-t border-[#2c2c2c] pt-4 text-[10px] text-[#2c2c2c]/40 font-medium uppercase tracking-[0.3em] text-center">
           © {new Date().getFullYear()} ALL THE CODE THAT'S FIT TO SHIP
+        </div>
+      </div>
+    );
+  }
+
+  if (variant === "bento") {
+    return (
+      <div className={`flex flex-col items-center justify-center text-center ${padding || 'py-16'} relative overflow-hidden`}>
+        {/* Grid Guidelines - Vertical */}
+        <div className="absolute inset-0 pointer-events-none flex justify-between max-w-7xl mx-auto px-6 md:px-12">
+          <div className="border-l border-[#2c2c2c] border-dashed h-full opacity-30" />
+          <div className="border-r border-[#2c2c2c] border-dashed h-full opacity-30" />
+        </div>
+
+        <div className="z-10 w-full max-w-7xl mx-auto border-b border-[#2c2c2c] border-dashed opacity-30 absolute bottom-0 left-0 right-0" />
+
+        {/* Top Badge */}
+        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 relative z-10">
+          <span className="inline-flex items-center gap-2 px-1 py-1 pr-3 bg-white/50 backdrop-blur-sm border border-slate-200/50 rounded-full">
+            <span className="bg-[#FF6B00] text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">New</span>
+            <span className="text-sm font-medium text-slate-600">Zest is now available</span>
+          </span>
+        </div>
+
+        {/* Huge Typography */}
+        <h1 className="text-[15vw] leading-[0.8] font-medium tracking-tight text-slate-900 mb-8 font-geist-sans relative z-10"
+          style={{ color: style?.titleColor || '#000' }}>
+          {heading}
+        </h1>
+
+        {/* Bottom Actions */}
+        <div className="flex items-center gap-4 mt-8 relative z-10">
+          {ctaButtons.map((btn, idx) => (
+            <a
+              key={idx}
+              href={btn.url}
+              className={`
+                              h-12 px-8 flex items-center justify-center rounded-full text-sm font-medium transition-all
+                              ${btn.variant === 'primary'
+                  ? 'bg-[#FF6B00] text-white hover:bg-[#FF6B00]/90 shadow-lg shadow-orange-500/20'
+                  : 'border border-dashed border-slate-900/30 text-slate-900 hover:bg-slate-50'
+                }
+                          `}
+            >
+              {btn.label}
+              {btn.variant !== 'primary' && (
+                <svg className="w-4 h-4 ml-2 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+              )}
+            </a>
+          ))}
         </div>
       </div>
     );

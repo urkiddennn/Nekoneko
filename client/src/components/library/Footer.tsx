@@ -25,7 +25,7 @@ interface FooterProps {
     copyright?: string;
     links?: FooterLink[];
     socials?: SocialLink[];
-    variant?: "default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel" | "newspaper";
+    variant?: "default" | "brutalist" | "glassmorphism" | "minimal" | "impact" | "pixel" | "newspaper" | "bento";
 }
 
 const socialIconMap = {
@@ -375,6 +375,56 @@ const Footer: React.FC<FooterProps & { padding?: string }> = ({
             </footer>
         );
     }
+
+    if (variant === "bento") {
+        return (
+            <footer className={`bg-[#2c2c2c] border-t border-white/20 border-dashed ${padding || 'py-0'} relative overflow-hidden text-[#EBEAE5]`}>
+                {/* Grid Guidelines - Vertical */}
+                <div className="absolute inset-0 pointer-events-none flex justify-between max-w-7xl mx-auto px-6 md:px-12">
+                    <div className="border-l border-white/20 border-dashed h-full" />
+                    <div className="border-r border-white/20 border-dashed h-full" />
+                </div>
+
+                <div className="max-w-7xl mx-auto relative z-10">
+                    {/* Top Section */}
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-12 py-12 md:py-16 gap-8 border-b border-white/20 border-dashed">
+                        {/* Brand / Logo */}
+                        <div className="text-2xl font-bold font-geist-sans tracking-tight">
+                            {logo || "ClOura."}
+                        </div>
+
+                        {/* Navigation & Utilities */}
+                        <div className="flex flex-wrap gap-8 md:gap-16 text-sm font-medium font-geist-sans text-[#EBEAE5]/80">
+                            <div className="flex gap-6">
+                                {links.map((link, idx) => (
+                                    <a key={idx} href={link.url} className="hover:text-white transition-colors">
+                                        {link.label}
+                                    </a>
+                                ))}
+                            </div>
+                            <div className="flex gap-6">
+                                <a href="#" className="hover:text-white transition-colors">Discord</a>
+                                <a href="#" className="hover:text-white transition-colors">Privacy</a>
+                                <a href="#" className="hover:text-white transition-colors">About</a>
+                            </div>
+                            <div>
+                                {copyright}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Bottom Section - Massive Text */}
+                    <div className="px-6 md:px-12 pt-24 pb-12 overflow-hidden flex justify-center">
+                        <h1 className="text-[18vw] leading-[0.8] font-bold font-geist-sans tracking-tighter text-white select-none whitespace-nowrap relative">
+                            {logo || "ClOura."}
+                            <div className="absolute -bottom-4 left-0 w-full h-2 md:h-4 bg-[#FF6B00]" />
+                        </h1>
+                    </div>
+                </div>
+            </footer>
+        );
+    }
+
     return (
         <footer className={`border-t border-slate-200 dark:border-white/5 ${padding || 'py-20'} bg-slate-50 dark:bg-slate-900/50 px-4 mt-20`}>
             <div className="max-w-7xl mx-auto">

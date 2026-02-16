@@ -172,6 +172,23 @@ export const navigation = {
                 },
             },
         },
+        {
+            name: "Bento",
+            description: "High-contrast header with Geist typography and dashed borders.",
+            example: {
+                id: "nav-bento",
+                type: "navigation",
+                props: {
+                    links: [
+                        { label: "Overview", url: "#" },
+                        { label: "Specs", url: "#" },
+                        { label: "Pricing", url: "#" }
+                    ],
+                    showResumeButton: true,
+                    variant: "bento",
+                },
+            },
+        },
     ],
     props: [
         { name: "links", type: "array", desc: "List of {label, url}." },
@@ -182,7 +199,7 @@ export const navigation = {
         },
         {
             name: "variant",
-            type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel" | "newspaper"',
+            type: '"default" | "minimal" | "brutalist" | "outline_minimal" | "impact" | "glassmorphism" | "connected_line" | "creative_gradient" | "pixel" | "newspaper" | "bento"',
             desc: "Visual style.",
         },
         { name: "padding", type: "string", desc: "Vertical padding (e.g. py-4)." },

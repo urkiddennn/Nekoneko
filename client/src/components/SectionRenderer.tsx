@@ -26,6 +26,7 @@ const BlogList = React.lazy(() => import("./library/BlogList"));
 const BlogContent = React.lazy(() => import("./library/BlogContent"));
 const BlogNewsletter = React.lazy(() => import("./library/BlogNewsletter"));
 const Subscribe = React.lazy(() => import("./library/Subscribe"));
+const Integrations = React.lazy(() => import("./library/Integrations"));
 
 const Background = React.lazy(() => import("./library/Background"));
 const Text = React.lazy(() => import("./library/Text"));
@@ -73,6 +74,7 @@ const componentRegistry: Record<
   blog_content: BlogContent,
   blog_newsletter: BlogNewsletter,
   subscribe: Subscribe,
+  integrations: Integrations,
 
   background: Background,
   text: Text,

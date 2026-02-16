@@ -25,7 +25,8 @@ interface NavigationProps {
   | "connected_line"
   | "creative_gradient"
   | "pixel"
-  | "newspaper";
+  | "newspaper"
+  | "bento";
   padding?: string;
 }
 
@@ -215,6 +216,68 @@ const Navigation: React.FC<NavigationProps> = ({
               <a key={idx} href={getLinkUrl(link)} onClick={(e) => handleLinkClick(e, link.url || link.href)}
                 className="text-[10px] text-[#1a1a1a] uppercase tracking-[0.2em] font-bold py-1"
               >{link.label}</a>
+            ))}
+          </div>
+        )}
+      </nav>
+    );
+  }
+
+  if (variant === "bento") {
+    return (
+      <nav className={`w-full bg-white/80 backdrop-blur-md border-b border-[#2c2c2c] border-dashed px-6 md:px-12 ${padding || 'py-4'} sticky top-0 z-50`}>
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          {/* Logo / Brand */}
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-[#FF6B00] rounded-lg flex items-center justify-center text-white font-bold text-lg font-geist-sans">
+              C
+            </div>
+            <span className="text-lg font-bold tracking-tight text-slate-900 font-geist-sans hidden md:block">ClOura.</span>
+          </div>
+
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-8">
+            {links.map((link, idx) => (
+              <a
+                key={idx}
+                href={getLinkUrl(link)}
+                onClick={(e) => handleLinkClick(e, link.url || link.href)}
+                className="text-[13px] font-medium text-slate-600 hover:text-[#FF6B00] transition-colors font-geist-sans"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-4">
+            {showResumeButton && (
+              <button className="px-5 py-2 text-[12px] font-bold uppercase tracking-wider bg-[#1a1a1a] text-white rounded-full hover:bg-[#FF6B00] transition-colors shadow-sm">
+                Get App
+              </button>
+            )}
+
+            {/* Mobile Menu Toggle */}
+            <button className="md:hidden p-2 text-slate-900" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                {isMenuOpen ? <><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></> : <><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>}
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-[#2c2c2c] border-dashed p-6 flex flex-col gap-4 animate-in slide-in-from-top-2">
+            {links.map((link, idx) => (
+              <a
+                key={idx}
+                href={getLinkUrl(link)}
+                onClick={(e) => handleLinkClick(e, link.url || link.href)}
+                className="text-lg font-medium text-slate-900 font-geist-sans"
+              >
+                {link.label}
+              </a>
             ))}
           </div>
         )}

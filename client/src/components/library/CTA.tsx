@@ -4,7 +4,7 @@ import { useSite } from '../../context/useSite';
 interface CTAProps {
     title: string;
     buttonText: string;
-    variant?: 'default' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper';
+    variant?: 'default' | 'brutalist' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper' | 'bento';
 }
 
 const CTA: React.FC<CTAProps> = ({ title, buttonText, variant = 'default' }) => {
@@ -114,6 +114,27 @@ const CTA: React.FC<CTAProps> = ({ title, buttonText, variant = 'default' }) => 
                 </button>
                 <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
                     style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${primaryColor}4d 2px, ${primaryColor}4d 4px)` }} />
+            </div>
+        );
+    }
+
+    if (variant === 'bento') {
+        return (
+            <div className="relative h-full py-15 md:py-20 bg-[#FF6B00] flex flex-col items-center text-center justify-center overflow-hidden">
+                {/* Grid Guidelines - Vertical */}
+                <div className="absolute inset-0 pointer-events-none flex justify-between max-w-7xl mx-auto px-6 md:px-12">
+                    <div className="border-l border-black/10 border-dashed h-full" />
+                    <div className="border-r border-black/10 border-dashed h-full" />
+                </div>
+                {/* Dashed lines extension simulation - assuming this component is placed within a grid or we create pseudo-elements */}
+                <div className="absolute top-0 left-0 w-full border-t border-dashed border-black/10"></div>
+                <div className="absolute bottom-0 left-0 w-full border-b border-dashed border-black/10"></div>
+
+                <div className="relative z-10 h-full w-full max-w-7xl px-6 md:px-12">
+                    <button className="w-full py-6 bg-[#333333] text-white rounded-full font-medium text-xl tracking-wide hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all uppercase">
+                        {buttonText}
+                    </button>
+                </div>
             </div>
         );
     }

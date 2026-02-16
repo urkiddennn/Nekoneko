@@ -25,7 +25,7 @@ export const waitlist = {
         { name: "backgroundImage", type: "image", desc: "Background image URL." },
         {
             name: "variant",
-            type: '"default" | "split_left" | "split_right" | "minimal" | "glassmorphism" | "pixel" | "newspaper" | "brutalist" | "gradient" | "glow"',
+            type: '"default" | "split_left" | "split_right" | "minimal" | "glassmorphism" | "pixel" | "newspaper" | "brutalist" | "gradient" | "glow" | "bento"',
             desc: "Layout and style variant."
         }
     ],
@@ -118,6 +118,20 @@ export const waitlist = {
                 id: "waitlist-glow",
                 type: "waitlist",
                 props: { variant: "glow" }
+            }
+        },
+        {
+            name: "Bento",
+            description: "Oura-style beige grid layout.",
+            example: {
+                id: "waitlist-bento",
+                type: "waitlist",
+                props: {
+                    variant: "bento",
+                    title: "Join the Waitlist",
+                    description: "Get early access to our platform. We're launching soon.",
+                    buttonText: "Sign Up Now"
+                }
             }
         }
     ]

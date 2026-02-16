@@ -16,7 +16,7 @@ export const cta = {
     props: [
         { name: "title", type: "string", desc: "Direct message." },
         { name: "buttonText", type: "string", desc: "Text for the button." },
-        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper"', desc: "Visual style." },
+        { name: "variant", type: '"default" | "brutalist" | "glassmorphism" | "connected_line" | "impact" | "creative_gradient" | "pixel" | "newspaper" | "bento"', desc: "Visual style." },
     ],
     variants: [
         {
@@ -80,6 +80,15 @@ export const cta = {
                 id: "cta-newspaper",
                 type: "cta",
                 props: { title: "JOIN THE DAILY EDITION", buttonText: "SUBSCRIBE", variant: "newspaper" },
+            },
+        },
+        {
+            name: "Bento",
+            description: "Large orange block with centered button and dashed accents.",
+            example: {
+                id: "cta-bento",
+                type: "cta",
+                props: { title: "", buttonText: "Start Using Oura Now", variant: "bento" },
             },
         },
     ],

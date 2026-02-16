@@ -7,7 +7,7 @@ interface FeaturesProps {
     items: any[];
     columns?: number;
     renderItem?: (item: any, index: number) => React.ReactNode;
-    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper';
+    variant?: 'default' | 'brutalist' | 'outline_minimal' | 'glassmorphism' | 'connected_line' | 'impact' | 'creative_gradient' | 'pixel' | 'newspaper' | 'bento';
 }
 
 const Features: React.FC<FeaturesProps> = ({
@@ -153,6 +153,26 @@ const Features: React.FC<FeaturesProps> = ({
                             </div>
                         ))}
                     </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (variant === 'bento') {
+        return (
+            <div className={`text-center ${gridClass === 'grid-cols-1 md:grid-cols-2' ? 'max-w-4xl mx-auto' : ''}`}>
+                <div className={`grid ${gridClass} gap-0 border-l border-t border-[#2c2c2c] border-dashed`}>
+                    {items?.map((item, idx) => (
+                        <div key={idx} className="relative p-12 md:p-16 border-r border-b border-[#2c2c2c] border-dashed flex flex-col items-center justify-center space-y-8 group hover:bg-[#2c2c2c]/5 transition-colors">
+                            <span className="text-[120px] leading-[0.8] font-medium tracking-tighter text-slate-900 font-geist-sans">
+                                {idx + 1}
+                            </span>
+                            <div className="space-y-4 max-w-xs ">
+                                <h3 className="text-2xl font-bold text-slate-900">{item.title}</h3>
+                                <p className="text-slate-600 font-medium leading-relaxed text-left">{item.description}</p>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         );
