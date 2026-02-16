@@ -36,7 +36,10 @@ const LiveSitePreview = React.lazy(() => import("./LiveSitePreview"));
  * Maps section type strings from the database/schema to their corresponding React components.
  * Components are lazy-loaded to optimize bundle size and only load what's actually rendered.
  */
-const componentRegistry: Record<string, React.LazyExoticComponent<React.FC<any>>> = {
+const componentRegistry: Record<
+  string,
+  React.LazyExoticComponent<React.FC<any>>
+> = {
   navigation: Navigation,
   navigation_minimal: Navigation,
   hero: Hero,
@@ -88,59 +91,94 @@ interface SectionComponentProps {
 
 /**
  * SectionComponent
- * The core wrapper for every site section. 
+ * The core wrapper for every site section.
  * Handles:
  * 1. Component lookup from registry
  * 2. Dynamic class generation (padding, bg, width, etc.)
  * 3. Recursive rendering for nested layouts
  * 4. Suspense fallback for lazy loading
  */
-const SectionComponent: React.FC<SectionComponentProps> = ({ section, index: _index, isPreview }) => {
+const SectionComponent: React.FC<SectionComponentProps> = ({
+  section,
+  index: _index,
+  isPreview,
+}) => {
   const Component = componentRegistry[section.type];
 
   // Provide a recursive render function for components that can nest other sections (e.g., Layout, Section)
-  const extraProps = React.useMemo(() =>
-    section.type === "layout" || section.type === "features" || section.type === "section" || section.type === "background"
-      ? { renderItem: (s: any, i: number) => renderSection(s, i, isPreview) }
-      : {}, [section.type, isPreview]);
+  const extraProps = React.useMemo(
+    () =>
+      section.type === "layout" ||
+      section.type === "features" ||
+      section.type === "section" ||
+      section.type === "background"
+        ? { renderItem: (s: any, i: number) => renderSection(s, i, isPreview) }
+        : {},
+    [section.type, isPreview],
+  );
 
   const styles = section.styles || {};
 
   // Compute container-level utility classes based on section styles
-  const containerClasses = React.useMemo(() => [
-    "relative group/section",
-    section.type === "layout" ? "" : "w-full",
-    styles.backgroundColor || "",
-    // Fallback py-0 for specific types or preview mode, otherwise py-2 default
-    styles.padding || (section.type === "background" || section.type === "footer" || isPreview ? "py-0" : "py-2"),
-    styles.margin || "my-0",
-    styles.textAlign ? `text-${styles.textAlign}` : "",
-    section.props?.anchorId ? "scroll-mt-20" : "", // Offset for navigation links
-  ].filter(Boolean).join(" "), [section.type, styles, section.props?.anchorId, isPreview]);
+  const containerClasses = React.useMemo(
+    () =>
+      [
+        "relative group/section",
+        section.type === "layout" ? "" : "w-full",
+        styles.backgroundColor || "",
+        // Fallback py-0 for specific types or preview mode, otherwise py-2 default
+        styles.padding ||
+          (section.type === "background" ||
+          section.type === "footer" ||
+          isPreview
+            ? "py-0"
+            : "py-2"),
+        styles.margin || "my-0",
+        styles.textAlign ? `text-${styles.textAlign}` : "",
+        section.props?.anchorId ? "scroll-mt-20" : "", // Offset for navigation links
+      ]
+        .filter(Boolean)
+        .join(" "),
+    [section.type, styles, section.props?.anchorId, isPreview],
+  );
 
   // Compute inner content classes (max-width and centering)
-  const innerClasses = React.useMemo(() => [
-    (section.type === "background" || section.type === "footer" || isPreview) ? "w-full" : "mx-auto px-4",
-    styles.maxWidth || ((section.type === "background" || section.type === "footer" || isPreview) ? "max-w-full" : "max-w-8xl"),
-    styles.borderRadius || "",
-  ].filter(Boolean).join(" "), [styles.maxWidth, styles.borderRadius, isPreview, section.type]);
+  const innerClasses = React.useMemo(
+    () =>
+      [
+        section.type === "background" || section.type === "footer" || isPreview
+          ? "w-full"
+          : "mx-auto px-4",
+        styles.maxWidth ||
+          (section.type === "background" ||
+          section.type === "footer" ||
+          isPreview
+            ? "max-w-full"
+            : "max-w-8xl"),
+        styles.borderRadius || "",
+      ]
+        .filter(Boolean)
+        .join(" "),
+    [styles.maxWidth, styles.borderRadius, isPreview, section.type],
+  );
 
   return Component ? (
-    <div
-      id={section.props?.anchorId}
-      className={containerClasses}
-    >
+    <div id={section.props?.anchorId} className={containerClasses}>
       <div className={innerClasses}>
-        <React.Suspense fallback={<div className="p-12 text-center text-gray-400 text-sm font-mono animate-pulse">Loading component...</div>}>
+        <React.Suspense
+          fallback={
+            <div className="p-12 text-center text-gray-400 text-sm font-mono animate-pulse">
+              Loading component...
+            </div>
+          }
+        >
           <Component {...section.props} {...extraProps} styles={styles} />
         </React.Suspense>
       </div>
     </div>
   ) : (
     /* Error fallback for missing or corrupted module types */
-    <div
-      className="p-24 bg-[#0a0a0c] text-indigo-400 m-10 rounded-[40px] border-4 border-dashed border-indigo-500/20 text-center animate-pulse shadow-inner relative overflow-hidden"
-    >
+    <div className="p-24 bg-[#0a0a0c] text-indigo-400 m-10 rounded-[40px] border-4 border-dashed border-indigo-500/20 text-center animate-pulse shadow-inner relative overflow-hidden">
       <div className="text-4xl font-black italic tracking-tighter uppercase mb-2">
         RENDER_FAULT
       </div>
@@ -152,11 +190,22 @@ const SectionComponent: React.FC<SectionComponentProps> = ({ section, index: _in
 };
 
 /**
- * Utility to render a section component. 
+ * Utility to render a section component.
  * Exported so it can be used recursively within nested components.
  */
-export const renderSection = (section: any, index: number, isPreview?: boolean) => {
-  return <SectionComponent key={section.id || index} section={section} index={index} isPreview={isPreview} />;
+export const renderSection = (
+  section: any,
+  index: number,
+  isPreview?: boolean,
+) => {
+  return (
+    <SectionComponent
+      key={section.id || index}
+      section={section}
+      index={index}
+      isPreview={isPreview}
+    />
+  );
 };
 
 /**
@@ -164,11 +213,16 @@ export const renderSection = (section: any, index: number, isPreview?: boolean) 
  * Optimizes performance by preventing re-renders if the section data hasn't changed.
  * Deep comparison via JSON.stringify is used for nested section properties.
  */
-const MemoizedSection = React.memo(({ section, index }: { section: any; index: number }) => {
-  return renderSection(section, index);
-}, (prevProps, nextProps) => {
-  return JSON.stringify(prevProps.section) === JSON.stringify(nextProps.section);
-});
+const MemoizedSection = React.memo(
+  ({ section, index }: { section: any; index: number }) => {
+    return renderSection(section, index);
+  },
+  (prevProps, nextProps) => {
+    return (
+      JSON.stringify(prevProps.section) === JSON.stringify(nextProps.section)
+    );
+  },
+);
 
 /**
  * SectionRenderer
@@ -179,11 +233,14 @@ const SectionRenderer: React.FC<SectionRendererProps> = ({ sections }) => {
   return (
     <div className="bg-transparent text-slate-950 dark:text-white min-h-full mx-auto w-full">
       {sections?.filter(Boolean).map((section, idx) => (
-        <MemoizedSection key={section.id || idx} section={section} index={idx} />
+        <MemoizedSection
+          key={section.id || idx}
+          section={section}
+          index={idx}
+        />
       ))}
     </div>
   );
 };
 
 export default React.memo(SectionRenderer);
-

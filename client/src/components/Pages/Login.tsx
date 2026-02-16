@@ -21,6 +21,7 @@ const Login: React.FC = () => {
   const loginAction = useAction(api.auth.login);
   const { signIn } = useAuthActions();
 
+  // check if user already logged in
   React.useEffect(() => {
     if (isAuthenticated && !isAuthLoading) {
       navigate("/dashboard");
@@ -32,6 +33,7 @@ const Login: React.FC = () => {
     return emailRegex.test(email);
   };
 
+  // handle user login
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
